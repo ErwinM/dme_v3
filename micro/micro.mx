@@ -1,0 +1,3 @@
+0x0, ldw s7(r5) tgt, decode, imm[imm7], MDRS[imm], mdr_load
+0x0, ldw s7(r5) tgt, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+0x0, ldw s7(r5) tgt, exec, regr1s[reg0], op0s[mdr], regws[tgt2], mdrs[ram], mdr_load, reg_load

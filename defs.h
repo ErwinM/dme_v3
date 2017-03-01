@@ -1,0 +1,34 @@
+#include "types.h"
+#include "arch.h"
+char *dec2bin(int n, int sz);
+void loadmicrocode(void);
+int getbit(char *bitstring, int bitnr);
+int bin2dec(char *bin, int size);
+int sbin2dec(char *bin, int size);
+int bin2_to_dec(char *bin);
+int bin3_to_dec(char *bin);
+int bin7_to_dec(char *bin);
+int bin10_to_dec(char *bin);
+int bin13_to_dec(char *bin);
+int getbit6(char *bitstring, int bitnr);
+int getbit16(char *bitstring, int bitnr);
+void init(void);
+void readram(void);
+int readramdump(int addr);
+void writeram(void);
+void update_csig(enum csig signame, enum signalstate state);
+void update_bsig(int signame, ushort *value);
+void update_bussel(enum bussel, ushort value);
+void update_regsel(enum regsel signame, ushort value);
+void dosignals(void);
+void latch(enum phase);
+void writeregfile(void);
+void ALU();
+void clearsig(void);
+void fetchsigs(void);
+void decodesigs(void);
+void readsigs(void);
+void execsigs(void);
+void resolvemux(void);
+void chkskip(void);
+void dump(void);
