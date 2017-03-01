@@ -7,3 +7,9 @@
 4, ldw s7(r5) tgt, decode, imms[imm7], MDRS[imm], mdr_load
 4, ldw s7(r5) tgt, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
 4, ldw s7(r5) tgt, exec, regr1s[reg0], op0s[mdr], regws[tgt2], mdrs[ram], mdr_load, reg_load
+5,
+6,
+7, stw src sw7(r5), decode, imms[imm7], mdr_load, mdrs[imm]
+7, stw src sw7(r5), read, regr0s[arg1], op0s[mdr], op1s[regr0], mar_load
+7, stw src sw7(r5), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+

@@ -128,8 +128,8 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x88c9;
-  ram[2]=0x025a;
+  ram[0]=0x025a;
+  ram[2]=0x8eca;
   ram[5]=0xdead;
   ram[25]=0xbeef;
   // ram[1]=0x4c81;
@@ -207,7 +207,7 @@ decodesigs() {
 
   memcpy(imm10_b, instr_b+3, 10);
   imm10= sbin2dec(imm10_b, 10);
-  printf("imm10: %s(%d) ", imm10_b, imm10);
+  //printf("imm10: %s(%d) ", imm10_b, imm10);
 
 //   memcpy(imm13_b, instr_b+3, 13);
 //   imm13 = sbin2dec(imm13_b, 13);
@@ -232,7 +232,7 @@ decodesigs() {
 
   memcpy(tgt2_b, instr_b+14, 2);
   tgt2 = bin2dec(tgt2_b, 2);
-  printf("tgt2: %s(%d)", tgt2_b,tgt2);
+  //printf("tgt2: %s(%d)", tgt2_b,tgt2);
 
 
   // is this a micro op (first bit)?
@@ -261,7 +261,7 @@ decodesigs() {
   microinstr = micro[idx];
 
   micro_b = dec2bin(microinstr, 32);
-  //printf("Micro: %s", micro_b);
+  printf("Micro(%d): %s", idx, micro_b);
 
   // generate signals
   if (micro_b[0] == '1') { update_csig(MAR_LOAD, HI);}
@@ -347,7 +347,7 @@ resolvemux(void) {
   }
 
   // grab selector from instruction
-  switch(regsel[REGR0S]) {
+  switch(regsel[REGR1S]) {
     case ARG0:
       regr1s_temp  = arg0;
       break;
