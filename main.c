@@ -82,11 +82,11 @@ int main(int argc,char *argv[])
           }
           sigupd = 0;
           vcycle++;
-          if(clk.icycle == FETCH) {
-            fetchsigs();
-          } else {
-            decodesigs();
-          }
+          // if(clk.icycle == FETCH) {
+//             fetchsigs();
+//           } else {
+          decodesigs();
+
           ALU();
           resolvemux();
           printf("\n");
@@ -142,19 +142,6 @@ init(void) {
   printf("Init done..\n");
 }
 
-void fetchsigs()
-{
-  // FETCH LOGIC
-  // defaults: OP1 defaults to reg0(0) and ALUopc to 0(add)
-  update_regsel(REGR0S, PC);
-  update_bussel(OP0S, REGR0);
-  update_csig(MAR_LOAD, HI);
-  update_csig(INCR_PC, HI);
-  update_csig(IR_LOAD, HI);
-
-  //printf("MDRS: %d", bussel[MDRS]);
-}
-
 void
 decodesigs() {
 
@@ -182,7 +169,7 @@ decodesigs() {
   // parse instruction
   instr_b = dec2bin(sysreg[IR], 16);
 
-  if(sysreg[IR] == 0) {
+  if(sysreg[IR] == 0 && clk.icycle != FETCH) {
     printf("\nHALT: no instruction in IR\n");
     dump();
     exit(1);
@@ -245,7 +232,11 @@ decodesigs() {
   // calculate microcode idx
   int idx;
 
+  printf("icycle: %d", clk.icycle);
   switch(clk.icycle) {
+  case FETCH:
+    idx = 2;
+    break;
   case DECODE:
     idx = opcode;
     break;
@@ -668,7 +659,7 @@ loadmicrocode(void)
       i++;
     }
     for(i=0;i<130;i++) {
-      printf("RAM[%d]: %s\n", i, dec2bin(micro[i], 32));
+      printf("micro[%d]: %s\n", i, dec2bin(micro[i], 32));
     }
 
     fclose(fp);
