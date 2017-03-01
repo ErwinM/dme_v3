@@ -46,7 +46,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if (["mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "regr0sfrom", "regr1sfrom", "regwsfrom"]).include?(word.downcase) then
+    if (["mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s"]).include?(word.downcase) then
       puts "ERROR: unknown signal: #{word}\m"
       exit
     end
@@ -91,7 +91,9 @@ class Coder
   }
 
   IMMS_MUX = {
-    "IMM7" => "000"
+    "IMM7" => "000",
+    "IMM10" => "001",
+    "IMM13" => "010"
   }
 
   CYCLE= {
@@ -139,7 +141,7 @@ class Coder
         instr["MDRS"] ? microcode += MDRS_MUX[instr["MDRS"]] : microcode +="00"
         instr["IMMS"] ? microcode += IMMS_MUX[instr["IMMS"]] : microcode +="000"
         instr["OP0S"] ? microcode += OPS_MUX[instr["OP0S"]] : microcode +="00"
-        #puts "OP0S: #{instr["OP0S"]}"
+        puts "IMMS: #{instr["IMMS".to_sym]}"
         instr["OP1S"] ? microcode += OPS_MUX[instr["OP1S"]] : microcode +="00"
 
         microcode +="000" #padding

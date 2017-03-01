@@ -129,6 +129,7 @@ init(void) {
   loadmicrocode();
 
   ram[0]=0x88c9;
+  ram[2]=0x025a;
   ram[5]=0xdead;
   ram[25]=0xbeef;
   // ram[1]=0x4c81;
@@ -145,13 +146,13 @@ void fetchsigs()
 {
   // FETCH LOGIC
   // defaults: OP1 defaults to reg0(0) and ALUopc to 0(add)
-  update_regsel(REGR1S, PC);
-  update_bussel(OP0S, REGR1);
+  update_regsel(REGR0S, PC);
+  update_bussel(OP0S, REGR0);
   update_csig(MAR_LOAD, HI);
   update_csig(INCR_PC, HI);
   update_csig(IR_LOAD, HI);
 
-  printf("MDRS: %d", bussel[MDRS]);
+  //printf("MDRS: %d", bussel[MDRS]);
 }
 
 void
@@ -190,9 +191,9 @@ decodesigs() {
   printf("(%s), ", instr_b);
 
 
-  precode_b = instr_b[0];
+  codetype_b = instr_b[0];
   //printf("i/r: %c", ir_b);
-  precode = precode_b - '0';
+  codetype = codetype_b - '0';
 
 
   memcpy(opcodeshort_b, instr_b+1, 2);
@@ -202,11 +203,12 @@ decodesigs() {
   // parse arguments - immediates
   memcpy(imm7_b, instr_b+7, 7);
   imm7= sbin2dec(imm7_b, 7);
-  printf("imm7: %s(%d) ", imm7_b, imm7);
+  //printf("imm7: %s(%d) ", imm7_b, imm7);
 
   memcpy(imm10_b, instr_b+3, 10);
   imm10= sbin2dec(imm10_b, 10);
-//
+  printf("imm10: %s(%d) ", imm10_b, imm10);
+
 //   memcpy(imm13_b, instr_b+3, 13);
 //   imm13 = sbin2dec(imm13_b, 13);
   //printf("imm2: %s", imm2_b);
@@ -234,7 +236,7 @@ decodesigs() {
 
 
   // is this a micro op (first bit)?
-  if(!precode) {
+  if(!codetype) {
     opcode = bin2dec(opcodeshort_b, 2);
   } else {
     opcode = bin2dec(opcode_b, 6);
@@ -293,7 +295,7 @@ decodesigs() {
   memcpy(mdrs_b, micro_b+20, 2);
   update_bussel(MDRS, bin2dec(mdrs_b, 2));
 
-  //printf("MDRS: %s()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", mdrs_b);
+  //printf("MDRS: %d()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", bin2dec(mdrs_b, 2));
 
   memcpy(op0s_b, micro_b+25, 2);
   update_bussel(OP0S, bin2dec(op0s_b, 2));
@@ -307,9 +309,13 @@ decodesigs() {
   update_bussel(IMMS, bin2dec(imms_b, 3));
 
   // IRimm MUX - which bits from IR should feed IRimm
-  switch(imms) {
-  case IMM7:
+  switch(bussel[IMMS]) {
+  case 0:
     update_bsig(IRimm, &imm7);
+    break;
+  case 1:
+    update_bsig(IRimm, &imm10);
+    //printf("Irimm value: %d", imm10);
     break;
   }
 }
@@ -321,59 +327,59 @@ resolvemux(void) {
 
   readram();
 
-  if(regsel[REGR0S] > 7) {
-    // grab selector from instruction
-    switch(regsel[REGR0S]) {
-      case ARG0:
-        regr0s_temp = arg0;
-        break;
-      case ARG1:
-        regr0s_temp  = arg1;
-        break;
-      case TGT:
-        regr0s_temp  = tgt;
-        break;
-      case TGT2:
-        regr0s_temp  = tgt2;
-        break;
-    }
-  }
-  if(regsel[REGR1S] > 7) {
-    // grab selector from instruction
-    switch(regsel[REGR0S]) {
-      case ARG0:
-        regr1s_temp  = arg0;
-        break;
-      case ARG1:
-        regr1s_temp = arg1;
-        break;
-      case TGT:
-        regr1s_temp = tgt;
-        break;
-      case TGT2:
-        regr1s_temp = tgt2;
-        break;
 
-    }
+  // grab selector from instruction
+  switch(regsel[REGR0S]) {
+    case ARG0:
+      regr0s_temp = arg0;
+      break;
+    case ARG1:
+      regr0s_temp  = arg1;
+      break;
+    case TGT:
+      regr0s_temp  = tgt;
+      break;
+    case TGT2:
+      regr0s_temp  = tgt2;
+      break;
+    default:
+      regr0s_temp = regsel[REGR0S];
   }
-  printf("REGWS: %d", regsel[REGWS]);
-  if(regsel[REGWS] > 7) {
-    // grab selector from instruction
-    switch(regsel[REGWS]) {
-      case ARG0:
-        regws_temp = arg0;
-        break;
-      case ARG1:
-        regws_temp = arg1;
-        break;
-      case TGT:
-        regws_temp = tgt;
-        break;
-      case TGT2:
-        regws_temp = tgt2;
-        printf("regws_temp: %d", regws_temp);
-        break;
-    }
+
+  // grab selector from instruction
+  switch(regsel[REGR0S]) {
+    case ARG0:
+      regr1s_temp  = arg0;
+      break;
+    case ARG1:
+      regr1s_temp = arg1;
+      break;
+    case TGT:
+      regr1s_temp = tgt;
+      break;
+    case TGT2:
+      regr1s_temp = tgt2;
+      break;
+    default:
+      regr1s_temp = regsel[REGR1S];
+  }
+
+  // grab selector from instruction
+  switch(regsel[REGWS]) {
+    case ARG0:
+      regws_temp = arg0;
+      break;
+    case ARG1:
+      regws_temp = arg1;
+      break;
+    case TGT:
+      regws_temp = tgt;
+      break;
+    case TGT2:
+      regws_temp = tgt2;
+      break;
+    default:
+      regws_temp = regsel[REGWS];
   }
 
 
@@ -381,10 +387,13 @@ resolvemux(void) {
   update_bsig(REGR0, &regfile[regr0s_temp]);
   update_bsig(REGR1, &regfile[regr1s_temp]);
 
+  printf("OP: %d", bussel[OP0S]);
+
   update_bsig(OP0, &bsig[bussel[OP0S]]);
   update_bsig(OP1, &bsig[bussel[OP1S]]);
 
   update_bsig(MDRin, &bsig[bussel[MDRS]+3]); // translate to keep handling of busses on simulator simple
+  //printf("MDRin being updated: bsig[%d]", bussel[MDRS]+3);
   update_bsig(MDRout, &sysreg[MDR]);  // programming crutch: MDRout == MDR
 }
 
@@ -558,8 +567,6 @@ void update_bsig(int signame, ushort *value) {
   if (bsig[signame] != *value) {
     sigupd = 1;
     printf("%s(%d) ", BSIG_STR[signame], *value);
-    //if (signame == AIN)
-      //printf("v: %x", *value);
   }
   bsig[signame] = *value;
 }
