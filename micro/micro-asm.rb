@@ -103,19 +103,25 @@ class Coder
     "EXEC"   => "110"
   }
 
-  def self.encode(output)
+  def self.encode(output, intelhex)
     ["DECODE", "READ", "EXEC"].each do |cycle|
       case cycle
       when "DECODE"
         entries = 64
+        addr_offset = 64
       when "READ"
         entries = 64
+        addr_offset = 128
       when "EXEC"
         entries = 0
+        addr_offset = 192
       end
       $instructions.each do |line, instr|
+        addr = addr_offset - entries
+
         if instr[:dummy] then
           output.write("0x0\n")
+          writehex(addr, 0, 0, 0, 0, intelhex)
           entries -= 1;
           next
         end
@@ -152,23 +158,50 @@ class Coder
         b2 = microcode[16..23]
         b3 = microcode[24..31]
         #puts b0
+
+
+        h0 = b0.to_i(2)
+        h1 = b1.to_i(2)
+        h2 = b2.to_i(2)
+        h3 = b3.to_i(2)
+
+
         hex = "0x"
-        hex += (b0.to_i == 0) ? "00" : "%02x" % b0.to_i(2).to_s
-        hex += (b1.to_i == 0) ? "00" : "%02x" % b1.to_i(2).to_s
+        hex += (h0.to_i == 0) ? "00" : "%02x" % h0
+        hex += (h1.to_i == 0) ? "00" : "%02x" % h1
         hex += " 0x"
-        hex += (b2.to_i == 0) ? "00" : "%02x" % b2.to_i(2).to_s
-        hex += (b3.to_i == 0) ? "00" : "%02x" % b3.to_i(2).to_s
-        hex += " "
+        hex += (h2.to_i == 0) ? "00" : "%02x" % h2
+        hex += (h3.to_i == 0) ? "00" : "%02x" % h3
+
         puts hex
+        # write the sim init file
         output.write(hex)
         output.write("\n")
+        Coder.writehex(addr, h0, h1, h2, h3, intelhex)
         entries -= 1;
       end
       while(entries>0)
-        entries -= 1
+        addr = addr_offset - entries
         output.write("0x0\n")
+        writehex(addr, 0, 0, 0, 0, intelhex)
+        entries -= 1
       end
     end
+  end
+
+  def self.writehex(addr, d0,d1,d2,d3, intelhex)
+    addrstr = "%04x" % addr
+    lsbsum = (04 + addr + d0 + d1 + d2 + d3) & 0xff
+    checksum = ( -lsbsum & 0xff)
+    puts "lsbsum: #{lsbsum}"
+    puts "chk: #{checksum}"
+
+    intelhex.write(":04#{addrstr}00")
+    intelhex.write( "%02x" % d0)
+    intelhex.write( "%02x" % d1)
+    intelhex.write( "%02x" % d2)
+    intelhex.write( "%02x" % d3)
+    intelhex.write("#{checksum.to_s(16)}\n")
   end
 
 end
@@ -177,12 +210,13 @@ args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
 file_name = args["f"]
 file = File.open(file_name, "r")
 output = File.open("micro.hexish", "w+")
+intelhex = File.open("micro.hex", "w+")
 
 $instructions = {}
 $nr = 0;
 
 puts "Opening: #{file_name}\n"
 Parser.parse(file)
-Coder.encode(output)
+Coder.encode(output, intelhex)
 # SymbolTable.resolve($symbols)
 # Coder.encode(output)

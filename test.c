@@ -10,7 +10,7 @@
 
 uint micro[256];
 
-int loadmicro(void)
+int main(void)
 {
     FILE * fp;
     char * line = NULL;
@@ -38,7 +38,7 @@ int loadmicro(void)
         int number = (int)strtol(pch, NULL, 0);
         switch(c){
           case 1:
-            microcode = number << 16;
+            microcode = number << 18;
             break;
           case 2:
             microcode = microcode | number;
@@ -52,8 +52,10 @@ int loadmicro(void)
       i++;
     }
     for(i=0;i<130;i++) {
-      printf("RAM[%d]: %s\n", i, dec2bin(micro[i], 32));
+      printf("RAM[%d]: %s\n", i, dec2bin(micro[i], 34));
     }
+
+
 
     fclose(fp);
     if (line)
