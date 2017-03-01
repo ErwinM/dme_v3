@@ -24,7 +24,11 @@ class Parser
     end
     words = line.split(",")
     m = {}
-    m[:opcode] = words[0].strip
+    m[:opcode] = words[0].strip.to_i
+    if words.length == 1 then
+      m[:dummy] = 1;
+      return m
+    end
     m[:descr] = words[1].strip
     m[:cycle] = words[2].strip.upcase
     words[3..(words.length)].each do |word|
@@ -108,6 +112,11 @@ class Coder
         entries = 0
       end
       $instructions.each do |line, instr|
+        if instr[:dummy] then
+          output.write("0x0\n")
+          entries -= 1;
+          next
+        end
         if instr[:cycle]!=cycle then
           next
         end

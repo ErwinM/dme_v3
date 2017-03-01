@@ -35,7 +35,7 @@ int sigupd;
 char ALUopc[4];
 
 ushort instr;
-ushort precode;
+ushort codetype;
 ushort opcode;
 ushort opc2;
 ushort opc3;
@@ -128,7 +128,7 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x80c9;
+  ram[0]=0x88c9;
   ram[5]=0xdead;
   ram[25]=0xbeef;
   // ram[1]=0x4c81;
@@ -158,7 +158,8 @@ void
 decodesigs() {
 
   char *instr_b;
-  char precode_b;
+  char codetype_b;
+  char opcodeshort_b[2];
   char opcode_b[6];
   char *micro_b;
 
@@ -193,16 +194,18 @@ decodesigs() {
   //printf("i/r: %c", ir_b);
   precode = precode_b - '0';
 
+
+  memcpy(opcodeshort_b, instr_b+1, 2);
   memcpy(opcode_b, instr_b+1, 6);
-  opcode = bin2dec(opcode_b, 6);
+
 
   // parse arguments - immediates
   memcpy(imm7_b, instr_b+7, 7);
   imm7= sbin2dec(imm7_b, 7);
   printf("imm7: %s(%d) ", imm7_b, imm7);
 
-  // memcpy(imm10_b, instr_b+3, 10);
-//   imm10 = sbin2dec(imm10_b, 10);
+  memcpy(imm10_b, instr_b+3, 10);
+  imm10= sbin2dec(imm10_b, 10);
 //
 //   memcpy(imm13_b, instr_b+3, 13);
 //   imm13 = sbin2dec(imm13_b, 13);
@@ -228,8 +231,15 @@ decodesigs() {
   memcpy(tgt2_b, instr_b+14, 2);
   tgt2 = bin2dec(tgt2_b, 2);
   printf("tgt2: %s(%d)", tgt2_b,tgt2);
-  // Micro code decoder - start
 
+
+  // is this a micro op (first bit)?
+  if(!precode) {
+    opcode = bin2dec(opcodeshort_b, 2);
+  } else {
+    opcode = bin2dec(opcode_b, 6);
+  }
+  // Micro op code
   // calculate microcode idx
   int idx;
 
@@ -247,6 +257,7 @@ decodesigs() {
 
   // fetch microcode str
   microinstr = micro[idx];
+
   micro_b = dec2bin(microinstr, 32);
   //printf("Micro: %s", micro_b);
 
