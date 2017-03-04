@@ -30,7 +30,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 1;
+int maxinstr = 2;
 int sigupd;
 char ALUopc[4];
 
@@ -129,7 +129,7 @@ init(void) {
   loadmicrocode();
 
   ram[0]=0x025a;
-  ram[2]=0x8eca;
+  ram[1]=0x8eca;
   ram[5]=0xdead;
   ram[25]=0xbeef;
   // ram[1]=0x4c81;
@@ -523,7 +523,7 @@ writeram() {
 
 void
 writeregfile(void) {
-  printf("writeregfile: regws_temp: %d", regws_temp);
+  //printf("writeregfile: regws_temp: %d", regws_temp);
   if(regws_temp == REG0) {
     printf("\nwriteregfile: error trying to write to REG0!!\n");
     dump();

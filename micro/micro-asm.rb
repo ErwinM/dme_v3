@@ -103,7 +103,7 @@ class Coder
     "EXEC"   => "110"
   }
 
-  def self.encode(output, intelhex)
+  def self.encode(output, intelhex, memlist)
     ["DECODE", "READ", "EXEC"].each do |cycle|
       case cycle
       when "DECODE"
@@ -122,6 +122,7 @@ class Coder
         if instr[:dummy] then
           output.write("0x0\n")
           writehex(addr, 0, 0, 0, 0, intelhex)
+          memlist.write("00000000000000000000000000000000\n")
           entries -= 1;
           next
         end
@@ -178,12 +179,14 @@ class Coder
         output.write(hex)
         output.write("\n")
         Coder.writehex(addr, h0, h1, h2, h3, intelhex)
+        memlist.write("#{microcode}\n")
         entries -= 1;
       end
       while(entries>0)
         addr = addr_offset - entries
         output.write("0x0\n")
         writehex(addr, 0, 0, 0, 0, intelhex)
+        memlist.write("00000000000000000000000000000000\n")
         entries -= 1
       end
     end
@@ -204,6 +207,7 @@ class Coder
     intelhex.write("#{checksum.to_s(16)}\n")
   end
 
+
 end
 # main
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
@@ -211,12 +215,12 @@ file_name = args["f"]
 file = File.open(file_name, "r")
 output = File.open("micro.hexish", "w+")
 intelhex = File.open("micro.hex", "w+")
-
+memlist = File.open("micro.list", "w+")
 $instructions = {}
 $nr = 0;
 
 puts "Opening: #{file_name}\n"
 Parser.parse(file)
-Coder.encode(output, intelhex)
+Coder.encode(output, intelhex, memlist)
 # SymbolTable.resolve($symbols)
 # Coder.encode(output)
