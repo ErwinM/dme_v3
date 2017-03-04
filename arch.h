@@ -14,10 +14,15 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(clk_FE)
 
 #define ICYCLE \
+      X(ZERO_STATE) \
       X(FETCH) \
+      X(FETCHM) \
       X(DECODE) \
+      X(DECODEM) \
       X(READ) \
-      X(EXECUTE)
+      X(READM) \
+      X(EXECUTE) \
+      X(EXECUTEM)
 
 #define CSIGS \
        X(MAR_LOAD  ) \

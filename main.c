@@ -65,7 +65,7 @@ int main(int argc,char *argv[])
 
   // Main execution loop
   while(clk.instr <= maxinstr) {
-    for(clk.icycle = FETCH; clk.icycle <= EXECUTE; clk.icycle++) {
+    for(clk.icycle = FETCH; clk.icycle <= EXECUTEM; clk.icycle++) {
       clearsig();
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
@@ -163,13 +163,15 @@ decodesigs() {
   char tgt_b[3];
   char tgt2_b[2];
 
+  int loadpos, loadneg;
+
   int skipcond = 0;
 
   printf("IR: %x ", sysreg[IR]);
   // parse instruction
   instr_b = dec2bin(sysreg[IR], 16);
 
-  if(sysreg[IR] == 0 && clk.icycle != FETCH) {
+  if(sysreg[IR] == 0 && clk.icycle != FETCH && clk.icycle !=FETCHM ) {
     printf("\nHALT: no instruction in IR\n");
     dump();
     exit(1);
@@ -235,15 +237,22 @@ decodesigs() {
   printf("icycle: %d", clk.icycle);
   switch(clk.icycle) {
   case FETCH:
+    update_csig(INCR_PC, HI);
+    idx = 2;
+    break;
+  case FETCHM:
     idx = 2;
     break;
   case DECODE:
+  case DECODEM:
     idx = opcode;
     break;
   case READ:
+  case READM:
     idx = 64 + opcode;
     break;
   case EXECUTE:
+  case EXECUTEM:
     idx = 128 + opcode;
     break;
   }
@@ -254,15 +263,23 @@ decodesigs() {
   micro_b = dec2bin(microinstr, 32);
   printf("Micro(%d): %s", idx, micro_b);
 
+  // adjustments to deal with RAM latency
+  if (clk.icycle % 2) {// odd
+    loadpos = 1;
+    loadneg = 0;
+  } else {
+    loadpos = 0;
+    loadneg = 1;
+  }
   // generate signals
-  if (micro_b[0] == '1') { update_csig(MAR_LOAD, HI);}
-  if (micro_b[1] == '1') { update_csig(IR_LOAD, HI);}
-  if (micro_b[2] == '1') { update_csig(MDR_LOAD, HI);}
-  if (micro_b[3] == '1') { update_csig(REG_LOAD, HI);}
-  if (micro_b[4] == '1') { update_csig(RAM_LOAD, HI);}
-  if (micro_b[5] == '1') { update_csig(INCR_PC, HI);}
-  if (micro_b[6] == '1') { update_csig(SKIP, HI);}
-  if (micro_b[7] == '1') { update_csig(BE, HI);}
+  if (micro_b[0] == '1' && loadpos) { update_csig(MAR_LOAD, HI);}
+  if (micro_b[1] == '1' && loadneg) { update_csig(IR_LOAD, HI);}
+  if (micro_b[2] == '1' && loadpos) { update_csig(MDR_LOAD, HI);}
+  if (micro_b[3] == '1' && loadneg) { update_csig(REG_LOAD, HI);}
+  if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
+  //if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
+  if (micro_b[6] == '1' && loadneg) { update_csig(SKIP, HI);}
+  if (micro_b[7] == '1' && loadneg) { update_csig(BE, HI);}
 
   // parse muxes
   char regr0s_b[4];
@@ -393,18 +410,12 @@ latch(enum phase clk_phase) {
 
   // RISING EDGE LATCHES
   if(clk_phase == clk_RE) {
-    if(csig[MAR_LOAD]==HI) {
-      sysreg[MAR] = bsig[ALUout];
-      printf("MAR <- %x\n", sysreg[MAR]);
-    }
-    if(csig[MDR_LOAD]==HI) {
-      sysreg[MDR] = bsig[MDRin];
-      printf("MDR <- %x\n", sysreg[MDR]);
-      bsig[MDRout] = sysreg[MDR]; // programming crutch
-    }
     if(csig[SKIP]==HI) {
       regfile[PC] +=2;
       printf("PC++");
+    }
+    if(csig[RAM_LOAD]==HI) {
+      writeram();
     }
   }
 
@@ -420,8 +431,14 @@ latch(enum phase clk_phase) {
       sysreg[IR] = bsig[RAMout];
       printf("IR <- %x\n", sysreg[IR]);
     }
-    if(csig[RAM_LOAD]==HI) {
-      writeram();
+    if(csig[MAR_LOAD]==HI) {
+      sysreg[MAR] = bsig[ALUout];
+      printf("MAR <- %x\n", sysreg[MAR]);
+    }
+    if(csig[MDR_LOAD]==HI) {
+      sysreg[MDR] = bsig[MDRin];
+      printf("MDR <- %x\n", sysreg[MDR]);
+      bsig[MDRout] = sysreg[MDR]; // programming crutch
     }
   }
 }
