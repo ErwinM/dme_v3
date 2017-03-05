@@ -28,22 +28,21 @@ class Parser
       if instr[:mem] then
         instr[:instr_nr] = $instr_nr
         $instr_nr += 1
-        $instructions << instr
+        $mem_instructions << instr
         next
       end
       if instr[:label] then
         instr[:ptr] = $instr_nr+1
         instr[:instr_nr] = $instr_nr
-        instr[:addr] = -999
         $instr_nr += 1
-        $instructions << instr
+        $labels << instr
         next
       end
       instr[:addr] = $instr_addr
-      $instr_addr += 1
       instr[:instr_nr] = $instr_nr
       $instr_nr += 1
-      $instructions << instr
+      $instructions[$instr_addr] = instr
+      $instr_addr += 1
     end
   end
 
@@ -89,12 +88,11 @@ class SymbolTable
   # only label symbols for now
 
   def self.idsymbols()
-    $instructions.each do |instr|
+    $labels.each do |label|
+      SymbolTable.push(label[:ptr], label[:name], :label)
+    end
+    $instructions.each do |addr, instr|
       # is it a symbol
-      if instr[:label] then
-        SymbolTable.push(instr[:ptr], instr[:name], :label)
-        next
-      end
       instr[:args].each do |arg|
         #if instr[:command] == "ldi" then binding.pry end
         if SymbolTable.issym?(arg) then
@@ -117,11 +115,9 @@ class SymbolTable
   end
 
   def self.placemem()
-    $instructions.each do |instr|
-      if !instr[:mem] then
-        next
-      end
+    $mem_instructions.each do |instr|
       instr[:addr] = $instr_addr
+      $instructions[$instr_addr] = instr
       $instr_addr += 1
     end
   end
@@ -129,10 +125,21 @@ class SymbolTable
   def self.resolveptrs()
     $symbols.each do |nr, sym|
       if sym[:ptr] then
-        sym[:addr] = $instructions[sym[:ptr]][:addr]
-        puts "\n"
+        sym[:addr] = find_instr_nr(sym[:ptr])
+        puts "resolve: ptr(#{sym[:ptr]} => #{$instructions[sym[:ptr]][:addr]})\n"
       end
     end
+  end
+
+  def self.find_instr_nr(nr)
+    # for performance we could build a seperate ordered hash of linenr => addr
+    # lets deal with that later
+    $instructions.each do |lnr, instr|
+      #binding.pry
+      return instr[:addr] if instr[:instr_nr] == nr
+    end
+    puts "Error: cannot resolve ptr: #{nr}\n"
+    exit
   end
 
   def self.resolvesym(name)
@@ -194,9 +201,7 @@ end
 class Coder
 
   def self.build(out_hex)
-
-    sorted = $instructions.sort_by { |k| k[:addr] }
-    sorted.each do |instr|
+    $instructions.each do |addr, instr|
       if instr[:label] then next end
       code = encode(instr)
       if code.length != 16 then
@@ -317,7 +322,9 @@ file_name = args["f"]
 input = File.open(file_name, "r")
 out_hex = File.open("A.hex", "w+")
 
-$instructions = []
+$instructions = {}
+$mem_instructions =[]
+$labels = []
 $symbols = {}
 $instr_nr = 0
 $instr_addr = 0
@@ -334,6 +341,6 @@ Coder.build(out_hex)
 SymbolTable.dump()
 
 puts "\n------ Instruction tokens -----------\n"
-$instructions.each do |instr|
-  puts "#{instr}\n"
+$instructions.each do |nr, instr|
+  puts "#{nr} => #{instr}\n"
 end
