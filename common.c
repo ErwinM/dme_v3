@@ -101,6 +101,22 @@ int bin2dec(char *bin, int size) {
   return result;
 }
 
+uint64_t bin2dec64(char *bin, int size) {
+  uint64_t result;
+  int i, c;
+
+  result=0;
+  i=0;
+  for(c=size-1;c>=0;c--) {
+    if(bin[c] == '1') {
+      result +=pow(2,i);
+    }
+    i++;
+  }
+  //printf("bin2dec: %s(%d)\n", bin, result);
+  return result;
+}
+
 int sbin2dec(char *bin, int size) {
   int result, i, c;
 

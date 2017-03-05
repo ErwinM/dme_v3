@@ -47,7 +47,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s"]).include?(word.strip.downcase) then
+    if !(["alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -101,7 +101,8 @@ class Coder
   IMMS_MUX = {
     "IMM7" => "000",
     "IMM10" => "001",
-    "IMM13" => "010"
+    "IMM13" => "010",
+    "IMMIR"  => "011"
   }
 
   CYCLE= {
@@ -109,6 +110,17 @@ class Coder
     "DECODE" => "011",
     "READ"   => "100",
     "EXEC"   => "110"
+  }
+
+  SKIPC_MUX= {
+    "ZR"  => "001",
+    "NZR" => "011",
+    "COND"   => "101"
+  }
+
+  ALU= {
+    "ADD"  => "000",
+    "SUB" => "001"
   }
 
   def self.encode(output, intelhex, memlist)
@@ -160,7 +172,10 @@ class Coder
         puts "OP0S: #{instr["OP0S"]}"
         instr["OP1S"] ? microcode += OPS_MUX[instr["OP1S"]] : microcode +="00"
 
-        microcode +="00000000000" #padding
+        instr["SKIPC"] ? microcode += SKIPC_MUX[instr["SKIPC"]] : microcode +="000"
+        instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
+
+        microcode +="00000" #padding
 
         puts microcode
         b0 = microcode[0..7]
@@ -185,8 +200,10 @@ class Coder
         hex += (h2.to_i == 0) ? "00" : "%02x" % h2
         hex += (h3.to_i == 0) ? "00" : "%02x" % h3
         hex += " 0x"
-        hex += (h4.to_i == 0) ? "0000" : "%02x00" % h3
+        hex += (h4.to_i == 0) ? "0000" : "%02x" % h4
+        hex += "00"
         puts hex
+        #if addr = 149 then binding.pry end
         # write the sim init file
         output.write(hex)
         output.write("\n")
@@ -206,17 +223,18 @@ class Coder
 
   def self.writehex(addr, d0,d1,d2,d3, d4, intelhex)
     addrstr = "%04x" % addr
-    lsbsum = (04 + addr + d0 + d1 + d2 + d3) & 0xff
+    lsbsum = (04 + addr + d0 + d1 + d2 + d3 + d4) & 0xff
     checksum = ( -lsbsum & 0xff)
-    puts "lsbsum: #{lsbsum}"
-    puts "chk: #{checksum}"
+    #puts "lsbsum: #{lsbsum}"
+    #puts "chk: #{checksum}"
 
     intelhex.write(":04#{addrstr}00")
     intelhex.write( "%02x" % d0)
     intelhex.write( "%02x" % d1)
     intelhex.write( "%02x" % d2)
     intelhex.write( "%02x" % d3)
-    intelhex.write("#{checksum.to_s(16)}\n")
+    intelhex.write( "%04x" % d4)
+    intelhex.write("%02x\n" % checksum)
   end
 
 

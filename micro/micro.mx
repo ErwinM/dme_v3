@@ -28,7 +28,7 @@
 17,
 18,
 19,
-20, addskip.z imm op2 res, decode,
-20, addskip.z imm op2 res, read
-20, addskip.z imm op2 res, exec
-
+20,
+21, addskip.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
+21, addskip.z imm op2 res, read,
+21, addskip.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub]

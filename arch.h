@@ -5,7 +5,11 @@
 
 enum signalstate { ZZ, RE, HI, FE, LO };
 
-const short immtable[8] = { 1,2,4,8,-8,-4,-2,-1 };
+const short IRtable[8] = { 1,2,4,8,-8,-4,-2,-1 };
+
+enum flags { ZR, NG};
+static const char *FLAGS_STRING[] = { "ZR", "NG"};
+
 static const char *COND_STR[] = { "EQ", "NEQ", "SLT", "SLTEQ", "SGT", "SGTEQ", "LT", "LTEQ" };
 static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
 
@@ -62,8 +66,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
 #define IMMSEL \
       X(IMM7) \
       X(IMM10) \
-      X(IMM13)
-
+      X(IMM13) \
+      X(IMMIR)
 
 // Bussel can only select from busses never from registers
 // thus, their value indexes the BSIG array, except MDRS
@@ -89,10 +93,10 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(OP1   ) \
       X(MDRin   )
 
-
-enum flags { ZR, NG};
-static const char *FLAGS_STRING[] = { "ZR", "NG"};
-
+#define SKIPC \
+      X(ZERO  ) \
+      X(NOTZERO  ) \
+      X(CHECKCOND  )
 
 
 
@@ -207,6 +211,18 @@ enum immsel {
 static char *IMMSEL_STR[] = {
 #define X(String) MACROSTR(String),
     IMMSEL
+#undef X
+};
+
+enum skipc {
+#define X(Enum)       Enum,
+    SKIPC
+#undef X
+};
+
+static char *SKIPC_STR[] = {
+#define X(String) MACROSTR(String),
+  SKIPC
 #undef X
 };
 

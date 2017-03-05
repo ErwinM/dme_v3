@@ -10,14 +10,19 @@
 
 uint64_t micro[256];
 
-int mainn(void) {
+int main(void) {
   uint64_t num;
-  num = 0xffffcccc00000000;
+  // char * str = "0000000000001001000000000100100100100000";
+  //
+  // printf("%llx", bin2dec64(str, 64));
+
+
+  num = 0x0009004920;
   printf("size: %d\n", (int)sizeof(num));
-  printf("%s", dec2bin(num, 64));
+  printf("%s\n", dec2bin(num, 64));
 }
 
-int main(void)
+int mainn(void)
 {
     FILE * fp;
     char * line = NULL;

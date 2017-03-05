@@ -46,7 +46,7 @@ ushort imm10;
 ushort imm13;
 ushort imm3;
 ushort arg0;
-ushort arg0imm;
+ushort immIR;
 ushort arg1;
 ushort imms;
 
@@ -129,7 +129,8 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x200a;
+  ram[0]=0x8041;
+  ram[1]=0xaaca;
   //ram[1]=0x8eca;
   //ram[5]=0xdead;
   //ram[25]=0xbeef;
@@ -168,6 +169,7 @@ decodesigs() {
   int loadpos, loadneg;
 
   int skipcond = 0;
+  int skiptype;
 
   printf("IR: %x ", sysreg[IR]);
   // parse instruction
@@ -210,9 +212,7 @@ decodesigs() {
   // parse arguments - operands
   memcpy(arg0_b, instr_b+7, 3);
   arg0 = bin3_to_dec(arg0_b);
-
-  // this imm has a bespoke encoding
-  //arg0imm = immtable[arg0];
+  immIR = IRtable[arg0];
 
   memcpy(arg1_b, instr_b+10, 3);
   arg1 = bin3_to_dec(arg1_b);
@@ -296,6 +296,8 @@ decodesigs() {
   char imms_b[3];
   char op0s_b[2];
   char op1s_b[2];
+  char skipc_b[2];
+  char ALUfunc_b[3];
 
   memcpy(regr0s_b, micro_b+8, 4);
   update_regsel(REGR0S, bin2dec(regr0s_b, 4));
@@ -310,11 +312,9 @@ decodesigs() {
   memcpy(mdrs_b, micro_b+20, 2);
   update_bussel(MDRS, bin2dec(mdrs_b, 2));
 
-  //printf("MDRS: %d()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", bin2dec(mdrs_b, 2));
-
   memcpy(op0s_b, micro_b+25, 2);
   update_bussel(OP0S, bin2dec(op0s_b, 2));
-  int temp = bin2dec(op0s_b, 2);
+  //int temp = bin2dec(op0s_b, 2);
   //printf("op0s: %s(%d)<<", op0s_b, temp);
 
   memcpy(op1s_b, micro_b+27, 2);
@@ -323,7 +323,11 @@ decodesigs() {
   memcpy(imms_b, micro_b+22, 3);
   update_bussel(IMMS, bin2dec(imms_b, 3));
 
+  memcpy(ALUfunc_b, micro_b+32, 3);
+  update_bussel(ALUS, bin2dec(ALUfunc_b, 3));
+
   // IRimm MUX - which bits from IR should feed IRimm
+  //printf("bussel-imms: %d", bussel[imms]);
   switch(bussel[IMMS]) {
   case 0:
     update_bsig(IRimm, &imm7);
@@ -336,6 +340,28 @@ decodesigs() {
     update_bsig(IRimm, &imm13);
     //printf("Irimm value: %d", imm10);
     break;
+  case 3:
+    update_bsig(IRimm, &immIR);
+    //printf("Irimm value: %d", imm10);
+    break;
+  }
+
+  // parse the branch conditions
+  if(micro_b[31]=='1') {
+    // skip condition to check
+    memcpy(skipc_b, micro_b+29, 2);
+    skiptype = bin2dec(skipc_b,2);
+    switch(skiptype){
+      case 0:
+        // ALU = zero
+        if(bsig[ALUout]==0) { goto skip;}
+        break;
+
+    }
+    update_csig(SKIP, LO);
+    return;
+skip:
+    update_csig(SKIP, HI);
   }
   free(micro_b);
 }
@@ -402,12 +428,10 @@ resolvemux(void) {
       regws_temp = regsel[REGWS];
   }
 
-
-
   update_bsig(REGR0, &regfile[regr0s_temp]);
   update_bsig(REGR1, &regfile[regr1s_temp]);
 
-  printf("OP: %d", bussel[OP0S]);
+  //printf("OP: %d", bussel[OP0S]);
 
   update_bsig(OP0, &bsig[bussel[OP0S]]);
   update_bsig(OP1, &bsig[bussel[OP1S]]);
@@ -458,7 +482,7 @@ latch(enum phase clk_phase) {
 void
 ALU(void) {
   ushort result;
-
+  printf("ALUS: %d", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
     result = bsig[OP0] + bsig[OP1];
@@ -467,6 +491,7 @@ ALU(void) {
     result = bsig[OP0] - bsig[OP1];
     break;
   }
+  printf("ALU result: %d", result);
   update_bsig(ALUout, &result);
 }
 
@@ -692,7 +717,7 @@ loadmicrocode(void)
       micro[i] = microcode;
       i++;
     }
-    for(i=0;i<130;i++) {
+    for(i=0;i<192;i++) {
       printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
     }
 
