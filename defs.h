@@ -3,6 +3,7 @@
 #include "arch.h"
 char *dec2bin(uint64_t n, int sz);
 void loadmicrocode(void);
+void loadbios(void);
 int getbit(char *bitstring, int bitnr);
 int bin2dec(char *bin, int size);
 uint64_t bin2dec64(char *bin, int size);

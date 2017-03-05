@@ -65,6 +65,11 @@ class Parser
       puts "Found mem instr: #{command}\n"
       instr[:mem] = true
     end
+    if argstr.nil? then
+      # instr without args
+      instr[:no_args] = true
+      return instr
+    end
     args = argstr.split(",")
     i = 0;
     args_array = []
@@ -93,6 +98,7 @@ class SymbolTable
     end
     $instructions.each do |addr, instr|
       # is it a symbol
+      if instr[:no_args] then next end
       instr[:args].each do |arg|
         #if instr[:command] == "ldi" then binding.pry end
         if SymbolTable.issym?(arg) then
@@ -200,7 +206,7 @@ end
 
 class Coder
 
-  def self.build(out_hex)
+  def self.build(out_hex, out_mif)
     $instructions.each do |addr, instr|
       if instr[:label] then next end
       code = encode(instr)
@@ -208,6 +214,8 @@ class Coder
         puts "Coder::build: code malformed (not 16b)\n"
         exit
       end
+      Writer.hex(out_hex, code)
+      Writer.mif(out_mif, instr[:addr], code)
     end
   end
 
@@ -229,6 +237,10 @@ class Coder
       code += "1"
       code += "%06b" % instr[:opcode]
     end
+    if instr[:no_args] then
+      code += "000000000"
+      return code
+    end
     i = 0
     instr[:args].each do |arg|
       if SymbolTable.issym?(arg) then
@@ -240,8 +252,13 @@ class Coder
         code += "%016b" % arg
       when :imm10
         code += "%010b" % arg
-      when :imm13
-        code += "%013b" % arg
+      when :imm13br
+        # we need to calculate the relative offset
+        # instructions are +2
+        # and we need to account for the extra increment the CPU does
+        loc = (arg - (instr[:addr] + 1)) * 2
+        puts "BR: calculated offset #{loc}\n"
+        code += "%013b" % loc
       when :imm7
         code += "%07b" % arg
       when :immir
@@ -265,22 +282,61 @@ class Coder
   end
 end
 
+class Writer
+  def self.hex(output, code)
+    b0 = code[0..7]
+    b1 = code[8..15]
+
+    h0 = b0.to_i(2)
+    h1 = b1.to_i(2)
+
+    hex = (h0.to_i == 0) ? "00" : "%02x" % h0
+    hex += (h1.to_i == 0) ? "00" : "%02x" % h1
+    output.write(hex)
+    output.write("\n")
+  end
+
+  def self.mifinit(output)
+    output.write("DEPTH = 256;\n")
+    output.write("WIDTH = 16;\n")
+    output.write("ADDRESS_RADIX = HEX;\n")
+    output.write("DATA_RADIX = BIN;\n")
+    output.write("CONTENT\n")
+    output.write("BEGIN\n")
+    output.write("\n")
+  end
+
+  def self.mif(output, addr, code)
+    output.write("%02x" % addr)
+    output.write(" : ")
+    output.write(code)
+    output.write(";\n")
+  end
+
+  def self.mifclose(output)
+    output.write("\n")
+    output.write("END;")
+  end
+end
+
 class ISA
   OPCODES= {
     "ldi"   => 0,
     "br"   => 1,
     "stw"  => 7,
     "addr" => 10,
-    "addskpi.z" => 23,
-    "addskpi.nz" => 24,
-    "defw" => :mem
+    "addskpi.z" => 22,
+    "addskpi.nz" => 23,
+    "defw" => :mem,
+    "hlt" => 63
   }.freeze
 
   ARGS= {
     "ldi" => [:imm10, :reg],
-    "br" => [:imm13],
+    "br" => [:imm13br],
     "stw" => [:imm7, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
+    "addskpi.nz" => [:immir, :reg, :reg],
     "defw" => [:imm16]
   }.freeze
 
@@ -321,6 +377,7 @@ args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
 file_name = args["f"]
 input = File.open(file_name, "r")
 out_hex = File.open("A.hex", "w+")
+out_mif = File.open("A.mif", "w+")
 
 $instructions = {}
 $mem_instructions =[]
@@ -337,7 +394,9 @@ Parser.parse(input)
 SymbolTable.idsymbols()
 SymbolTable.placemem()
 SymbolTable.resolveptrs()
-Coder.build(out_hex)
+Writer.mifinit(out_mif)
+Coder.build(out_hex, out_mif)
+Writer.mifclose(out_mif)
 SymbolTable.dump()
 
 puts "\n------ Instruction tokens -----------\n"

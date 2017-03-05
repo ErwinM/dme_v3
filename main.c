@@ -31,7 +31,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 2;
+int maxinstr = 99;
 int sigupd;
 char ALUopc[4];
 
@@ -130,16 +130,8 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x8039;
-  ram[1]=0x9442;
-  //ram[1]=0x8eca;
-  //ram[5]=0xdead;
-  //ram[25]=0xbeef;
-  // ram[1]=0x4c81;
-//   ram[2]=0x0c82;
-////ram[1]=0xa5da;
-  //ram[2]=0x6101;
-  //ram[50]=0xbeef;
+  // load program from bios.hex
+  loadbios();
 
 
   printf("Init done..\n");
@@ -732,6 +724,43 @@ loadmicrocode(void)
     if (line)
         free(line);
 }
+
+void
+loadbios(void)
+{
+    FILE * fp;
+    char * line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    ushort instr, num;
+    int i = 0;
+    char * pch;
+
+    fp = fopen("asm/A.hex", "r");
+    if (fp == NULL) {
+      printf("FAILURE opening asm/a.hex\n");
+      exit(EXIT_FAILURE);
+    }
+    while ((read = getline(&line, &len, fp)) != -1) {
+      //printf("Retrieved line of length %zu :\n", read);
+      //printf("%s", line);
+
+      //printf ("Splitting string \"%s\" into tokens:\n",str);
+      instr = (ushort)strtol(line, NULL, 16);
+      ram[i] = instr;
+      printf("%x: %x\n", i, instr);
+      i++;
+    }
+    // for(i=0;i<192;i++) {
+    //   printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
+    // }
+
+    fclose(fp);
+    if (line)
+        free(line);
+}
+
+
 //
 // void setconsole(enum clkstate phase, int vflag) {
 //   if (vflag)

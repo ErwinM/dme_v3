@@ -133,7 +133,7 @@ class Coder
         entries = 64
         addr_offset = 128
       when "EXEC"
-        entries = 0
+        entries = 64
         addr_offset = 192
       end
       $instructions.each do |line, instr|

@@ -34,7 +34,7 @@
 21,
 22, addskip.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
 22, addskip.z imm op2 res, read,
-22, addskip.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub]
+22, addskip.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub], regws[tgt], reg_load
 23, addskip.nz imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
 23, addskip.nz imm op2 res, read,
-23, addskip.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub]
+23, addskip.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub], regws[tgt], reg_load
