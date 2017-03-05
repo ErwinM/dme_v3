@@ -1,6 +1,7 @@
 //C hello world example
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -15,8 +16,8 @@ struct {
   enum phase phase;
 } clk;
 
-uint micro[256];
-uint microinstr;
+uint64_t micro[256];
+uint64_t microinstr;
 
 enum signalstate csig[16] = {0};
 ushort bsig[20] = {0};
@@ -70,7 +71,7 @@ int main(int argc,char *argv[])
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
         printf("------------------------------------------------------\n");
-        printf("cycle: %d.%d, phase: %d, PC: %x, MAR: %x(%x), MDR: %x\n", clk.instr, clk.icycle, clk.phase, regfile[PC], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
+        printf("cycle: %d.%s, phase: %d, PC: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle], clk.phase, regfile[PC], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
 
         // signal generation phase
         sigupd=1;
@@ -128,10 +129,10 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x025a;
-  ram[1]=0x8eca;
-  ram[5]=0xdead;
-  ram[25]=0xbeef;
+  ram[0]=0x200a;
+  //ram[1]=0x8eca;
+  //ram[5]=0xdead;
+  //ram[25]=0xbeef;
   // ram[1]=0x4c81;
 //   ram[2]=0x0c82;
 ////ram[1]=0xa5da;
@@ -150,6 +151,7 @@ decodesigs() {
   char opcodeshort_b[2];
   char opcode_b[6];
   char *micro_b;
+  char *micro_b64;
 
   char opc2_b[3];
   //char opc3_b[2];
@@ -198,9 +200,9 @@ decodesigs() {
   imm10= sbin2dec(imm10_b, 10);
   //printf("imm10: %s(%d) ", imm10_b, imm10);
 
-//   memcpy(imm13_b, instr_b+3, 13);
-//   imm13 = sbin2dec(imm13_b, 13);
-  //printf("imm2: %s", imm2_b);
+  memcpy(imm13_b, instr_b+3, 13);
+  imm13 = sbin2dec(imm13_b, 13);
+  printf("imm13: %d", imm13);
 
   memcpy(imm3_b, instr_b+7, 3);
   imm3 = bin3_to_dec(imm3_b);
@@ -260,7 +262,12 @@ decodesigs() {
   // fetch microcode str
   microinstr = micro[idx];
 
-  micro_b = dec2bin(microinstr, 32);
+  micro_b = (char*)malloc(40+1);
+
+  micro_b64 = dec2bin(microinstr, 64);
+  memcpy(micro_b, &micro_b64[0], 40);
+  micro_b[40] = '\0';
+
   printf("Micro(%d): %s", idx, micro_b);
 
   // adjustments to deal with RAM latency
@@ -325,7 +332,12 @@ decodesigs() {
     update_bsig(IRimm, &imm10);
     //printf("Irimm value: %d", imm10);
     break;
+  case 2:
+    update_bsig(IRimm, &imm13);
+    //printf("Irimm value: %d", imm10);
+    break;
   }
+  free(micro_b);
 }
 
 void
@@ -639,7 +651,7 @@ loadmicrocode(void)
     char * line = NULL;
     size_t len = 0;
     ssize_t read;
-    uint microcode;
+    uint64_t microcode;
     int i = 0;
     char * pch;
 
@@ -659,24 +671,29 @@ loadmicrocode(void)
       while (pch != NULL)
       {
         c++;
-        int number = (int)strtol(pch, NULL, 0);
+        uint64_t number = (int)strtol(pch, NULL, 0);
         switch(c){
           case 1:
-            microcode = number << 16;
+            microcode = number << 48;
+            //printf("%llx\n", microcode);
             break;
           case 2:
-            microcode = microcode | number;
+            microcode = microcode | (number << 32);
+            break;
+          case 3:
+            microcode = microcode | (number << 16);
             break;
         }
 
-        //printf ("%x\n",microcode);
         pch = strtok (NULL, " ");
       }
+      //printf ("%llx\n",microcode);
+      //printf ("%s\n",dec2bin(microcode, 64));
       micro[i] = microcode;
       i++;
     }
     for(i=0;i<130;i++) {
-      printf("micro[%d]: %s\n", i, dec2bin(micro[i], 32));
+      printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
     }
 
     fclose(fp);

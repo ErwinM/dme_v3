@@ -31,6 +31,7 @@ class Parser
     end
     m[:descr] = words[1].strip
     m[:cycle] = words[2].strip.upcase
+    Parser.checkcycle(m[:cycle])
     words[3..(words.length)].each do |word|
       if word.include?("[") then
         mux, tgt = word.split("[")
@@ -46,8 +47,15 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if (["mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s"]).include?(word.downcase) then
-      puts "ERROR: unknown signal: #{word}\m"
+    if !(["mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s"]).include?(word.strip.downcase) then
+      puts "ERROR: unknown signal: >>#{word}<<\n"
+      exit
+    end
+  end
+
+  def Parser.checkcycle(cycle)
+    if !(["DECODE", "READ", "EXEC"]).include?(cycle.upcase) then
+      puts "ERROR: unknown cycle: #{cycle}\n"
       exit
     end
   end
@@ -121,12 +129,13 @@ class Coder
 
         if instr[:dummy] then
           output.write("0x0\n")
-          writehex(addr, 0, 0, 0, 0, intelhex)
-          memlist.write("00000000000000000000000000000000\n")
+          writehex(addr, 0, 0, 0, 0, 0, intelhex)
+          memlist.write("0000000000000000000000000000000000000000\n")
           entries -= 1;
           next
         end
         if instr[:cycle]!=cycle then
+          puts "SKIP: cycle mismatch (#{instr[:cycle]} != #{cycle})"
           next
         end
         puts line, instr
@@ -148,16 +157,17 @@ class Coder
         instr["MDRS"] ? microcode += MDRS_MUX[instr["MDRS"]] : microcode +="00"
         instr["IMMS"] ? microcode += IMMS_MUX[instr["IMMS"]] : microcode +="000"
         instr["OP0S"] ? microcode += OPS_MUX[instr["OP0S"]] : microcode +="00"
-        puts "IMMS: #{instr["IMMS".to_sym]}"
+        puts "OP0S: #{instr["OP0S"]}"
         instr["OP1S"] ? microcode += OPS_MUX[instr["OP1S"]] : microcode +="00"
 
-        microcode +="000" #padding
+        microcode +="00000000000" #padding
 
         puts microcode
         b0 = microcode[0..7]
         b1 = microcode[8..15]
         b2 = microcode[16..23]
         b3 = microcode[24..31]
+        b4 = microcode[32..39]
         #puts b0
 
 
@@ -165,6 +175,7 @@ class Coder
         h1 = b1.to_i(2)
         h2 = b2.to_i(2)
         h3 = b3.to_i(2)
+        h4 = b4.to_i(2)
 
 
         hex = "0x"
@@ -173,26 +184,27 @@ class Coder
         hex += " 0x"
         hex += (h2.to_i == 0) ? "00" : "%02x" % h2
         hex += (h3.to_i == 0) ? "00" : "%02x" % h3
-
+        hex += " 0x"
+        hex += (h4.to_i == 0) ? "0000" : "%02x00" % h3
         puts hex
         # write the sim init file
         output.write(hex)
         output.write("\n")
-        Coder.writehex(addr, h0, h1, h2, h3, intelhex)
+        Coder.writehex(addr, h0, h1, h2, h3, h4, intelhex)
         memlist.write("#{microcode}\n")
         entries -= 1;
       end
       while(entries>0)
         addr = addr_offset - entries
         output.write("0x0\n")
-        writehex(addr, 0, 0, 0, 0, intelhex)
-        memlist.write("00000000000000000000000000000000\n")
+        writehex(addr, 0, 0, 0, 0, 0, intelhex)
+        memlist.write("0000000000000000000000000000000000000000\n")
         entries -= 1
       end
     end
   end
 
-  def self.writehex(addr, d0,d1,d2,d3, intelhex)
+  def self.writehex(addr, d0,d1,d2,d3, d4, intelhex)
     addrstr = "%04x" % addr
     lsbsum = (04 + addr + d0 + d1 + d2 + d3) & 0xff
     checksum = ( -lsbsum & 0xff)

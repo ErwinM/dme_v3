@@ -1,6 +1,7 @@
+#include <stdint.h>
 #include "types.h"
 #include "arch.h"
-char *dec2bin(int n, int sz);
+char *dec2bin(uint64_t n, int sz);
 void loadmicrocode(void);
 int getbit(char *bitstring, int bitnr);
 int bin2dec(char *bin, int size);

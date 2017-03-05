@@ -1,7 +1,9 @@
 0, ldi s10(tgt), decode, imms[imm10], MDRS[imm], mdr_load, op0s[mdr]
 0, ldi s10(tgt), read,
 0, ldi s10(tgt), exec, op0s[mdr], reg_load, regws[tgt]
-1,
+1, br s13 offset, decode, imms[imm13], MDRS[imm], mdr_load
+1, br s13 offset, read,
+1, br s13 offset, exec, op0s[mdr], regr0S[PC], op1s[regr0], regws[PC], reg_load
 2, fetch, decode, regr1s[pc], op0s[regr1], mar_load, incr_pc, ir_load
 2, fetch, read,
 2, fetch, exec,
@@ -14,4 +16,19 @@
 7, stw src sw7(r5), decode, imms[imm7], mdr_load, mdrs[imm]
 7, stw src sw7(r5), read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
 7, stw src sw7(r5), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+8,
+9,
+10,
+11,
+12,
+13,
+14,
+15,
+16,
+17,
+18,
+19,
+20, addskip.z imm op2 res, decode,
+20, addskip.z imm op2 res, read
+20, addskip.z imm op2 res, exec
 

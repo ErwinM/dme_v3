@@ -8,16 +8,27 @@
 #include "arch.h"
 #include "types.h"
 
-uint micro[256];
+uint64_t micro[256];
+
+int mainn(void) {
+  uint64_t num;
+  num = 0xffffcccc00000000;
+  printf("size: %d\n", (int)sizeof(num));
+  printf("%s", dec2bin(num, 64));
+}
 
 int main(void)
 {
     FILE * fp;
     char * line = NULL;
+    char *microb, *temp;
     size_t len = 0;
     ssize_t read;
-    uint microcode, i = 0;
+    uint64_t microcode;
+    int i = 0;
     char * pch;
+
+    microb = (char*)malloc(40+1);
 
     fp = fopen("micro/micro.hexish", "r");
     if (fp == NULL) {
@@ -35,24 +46,35 @@ int main(void)
       while (pch != NULL)
       {
         c++;
-        int number = (int)strtol(pch, NULL, 0);
+        uint64_t number = (int)strtol(pch, NULL, 0);
         switch(c){
           case 1:
-            microcode = number << 18;
+            microcode = number << 48;
+            printf("%llx\n", microcode);
             break;
           case 2:
-            microcode = microcode | number;
+            microcode = microcode | (number << 32);
+            break;
+          case 3:
+            microcode = microcode | (number << 16);
             break;
         }
 
         //printf ("%x\n",microcode);
         pch = strtok (NULL, " ");
       }
+      //microcode = microcode >>24;
       micro[i] = microcode;
       i++;
     }
-    for(i=0;i<130;i++) {
-      printf("RAM[%d]: %s\n", i, dec2bin(micro[i], 34));
+    for(i=128;i<130;i++) {
+      temp = dec2bin(micro[i], 64);
+      memcpy(microb, &temp[0], 40);
+      microb[40] = '\0';
+
+      printf("RAM[%d]: %s ", i, microb);
+      printf("(1st 40b of: %llx)\n", micro[i]);
+      //printf("len: %d", strlen(microb));
     }
 
 

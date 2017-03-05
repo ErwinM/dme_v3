@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <math.h>
@@ -185,10 +186,10 @@ int bin13_to_dec(char *bin) {
 
 
 
-char *dec2bin(int n, int sz) {
+char *dec2bin(uint64_t n, int sz) {
    int c, d, count;
    char *pointer;
-
+   //printf("sz: %d\n", sz);
    count = 0;
    pointer = (char*)malloc(sz+1);
 
@@ -198,7 +199,7 @@ char *dec2bin(int n, int sz) {
    for ( c = (sz-1) ; c >= 0 ; c-- )
    {
       d = n >> c;
-
+      //printf("%d = %d >> %d",d, n, c);
       if ( d & 1 )
          *(pointer+count) = 1 + '0';
       else
