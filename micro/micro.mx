@@ -18,7 +18,9 @@
 7, stw src sw7(r5), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
 8,
 9,
-10,
+10, add op1 op2 res, decode,
+10, add op1 op2 res, read,
+10, add op1 op2 res, exec, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], regws[tgt], reg_load
 11,
 12,
 13,
@@ -29,6 +31,10 @@
 18,
 19,
 20,
-21, addskip.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
-21, addskip.z imm op2 res, read,
-21, addskip.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub]
+21,
+22, addskip.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
+22, addskip.z imm op2 res, read,
+22, addskip.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub]
+23, addskip.nz imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm]
+23, addskip.nz imm op2 res, read,
+23, addskip.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub]

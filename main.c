@@ -94,6 +94,7 @@ int main(int argc,char *argv[])
         }
         printf("Stable after %d vcycles.\n", vcycle);
         printf("regfile: r0:%s, r1:%s, w:%s\n", REGFILE_STR[regsel[REGR0S]], REGFILE_STR[regsel[REGR1S]],REGFILE_STR[regsel[REGWS]]);
+        printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
         printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
       // Latch pass - single pass!
       latch(clk.phase);
@@ -129,8 +130,8 @@ init(void) {
   // load microcode
   loadmicrocode();
 
-  ram[0]=0x8041;
-  ram[1]=0xaaca;
+  ram[0]=0x8039;
+  ram[1]=0x9442;
   //ram[1]=0x8eca;
   //ram[5]=0xdead;
   //ram[25]=0xbeef;
@@ -353,8 +354,12 @@ decodesigs() {
     skiptype = bin2dec(skipc_b,2);
     switch(skiptype){
       case 0:
-        // ALU = zero
+        // ALU == zero
         if(bsig[ALUout]==0) { goto skip;}
+        break;
+      case 1:
+        // ALU != zero
+        if(bsig[ALUout]!=0) { goto skip;}
         break;
 
     }
@@ -373,6 +378,8 @@ resolvemux(void) {
 
   readram();
 
+  printf("arg0: %d ", arg0);
+  printf("arg1: %d ", arg1);
 
   // grab selector from instruction
   switch(regsel[REGR0S]) {
