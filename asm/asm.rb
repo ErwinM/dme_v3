@@ -325,6 +325,8 @@ class ISA
     "br"   => 1,
     "stw"  => 7,
     "addr" => 10,
+    "addskp.z" => 15,
+    "addskp.nz" => 16,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "defw" => :mem,
@@ -335,6 +337,8 @@ class ISA
     "ldi" => [:imm10, :reg],
     "br" => [:imm13br],
     "stw" => [:imm7, :reg, :reg],
+    "addskp.z" => [:reg, :reg, :reg],
+    "addskp.nz" => [:reg, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
     "defw" => [:imm16]

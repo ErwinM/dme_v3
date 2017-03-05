@@ -47,7 +47,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["next","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -123,6 +123,13 @@ class Coder
     "SUB" => "001"
   }
 
+  NEXT= {
+    "FETCH" => "00",
+    "DECODE" => "01",
+    "READ" => "10",
+    "EXEC" => "11"
+  }
+
   def self.encode(output, intelhex, memlist)
     ["DECODE", "READ", "EXEC"].each do |cycle|
       case cycle
@@ -169,13 +176,15 @@ class Coder
         instr["MDRS"] ? microcode += MDRS_MUX[instr["MDRS"]] : microcode +="00"
         instr["IMMS"] ? microcode += IMMS_MUX[instr["IMMS"]] : microcode +="000"
         instr["OP0S"] ? microcode += OPS_MUX[instr["OP0S"]] : microcode +="00"
-        puts "OP0S: #{instr["OP0S"]}"
+        #puts "OP0S: #{instr["OP0S"]}"
         instr["OP1S"] ? microcode += OPS_MUX[instr["OP1S"]] : microcode +="00"
 
         instr["SKIPC"] ? microcode += SKIPC_MUX[instr["SKIPC"]] : microcode +="000"
         instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
+        instr["NEXT"] ? microcode += NEXT[instr["NEXT"]] : microcode +="00"
 
-        microcode +="00000" #padding
+
+        microcode +="000" #padding
 
         puts microcode
         b0 = microcode[0..7]
