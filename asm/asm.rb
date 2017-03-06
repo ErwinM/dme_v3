@@ -137,6 +137,7 @@ class SymbolTable
         #puts "resolve: ptr(#{sym[:ptr]} => #{$instructions[sym[:ptr]][:addr]})\n"
       end
     end
+    dump()
   end
 
   def self.find_instr_nr(nr)
@@ -145,7 +146,7 @@ class SymbolTable
     $instructions.each do |lnr, instr|
       #binding.pry
       return instr[:addr] if instr[:instr_nr] == nr
-      puts "found: #{instr[:addr]}\n"
+      #puts "found: #{instr[:addr]}\n"
     end
     puts "Error: cannot resolve ptr: #{nr}\n"
     exit
@@ -153,6 +154,7 @@ class SymbolTable
 
   def self.resolvesym(name)
     $symbols.each do |nr, symbol|
+      #binding.pry
       return symbol[:addr] if symbol[:name] == name
     end
     return false
@@ -243,10 +245,11 @@ class Coder
     end
     i = 0
     instr[:args].reverse_each do |arg|
-      #binding.pry
       if SymbolTable.issym?(arg) then
-        argr = SymbolTable.resolvesym(arg)
-        puts "Resolved: #{arg} into #{SymbolTable.resolvesym(argr)}\n"
+        argr = arg
+        arg = SymbolTable.resolvesym(arg)
+        puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
+        #binding.pry
       end
 
       case ISA::ARGS[instr[:command]][i]
@@ -258,6 +261,7 @@ class Coder
         # we need to calculate the relative offset
         # instructions are +2
         # and we need to account for the extra increment the CPU does
+        #binding.pry
         loc = (arg - (instr[:addr] + 1)) * 2
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
@@ -429,6 +433,7 @@ class Error
     exit
   end
 end
+
 
 # main
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]

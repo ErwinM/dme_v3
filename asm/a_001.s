@@ -1,12 +1,6 @@
-fail:
-  defw 0xdead
-
-pass:
-  defw 0xbabe
-
   ; convention is:
   ; - test group in R3
-  ; - test num in R5
+  ; - test num in R4
 
 
   ; lets see if we can branch
@@ -18,6 +12,7 @@ _start:
 
   ; perform immediate tests
 next1:
+  ldi r4, 1
 
   ldi r1, 2
   addskpi.z r3, r1, 2   ; equal so skip next instr
@@ -28,8 +23,9 @@ next1:
   hlt
   hlt
 
-  ; lets try register move and compares
+  ; lets try register move(copies) and compares
 next2:
+  ldi r4, 2
 
   ldi r1, 3
   add r2, r1, r0        ; move r1 to r2
@@ -39,12 +35,28 @@ next2:
   br next3
   br fail
   hlt
+
+
+  ; Check 16b immediate loads
+next3:
+  ldi r4, 3
+
+  ldi r1, 0x1ff         ; max value for s10
+  addhi r1, 0x7f        ; together should make 0xffff
+  ldi r2, 1
+  add r3, r1, r2        ; r1 (0xffff) and r2 (0x1) should add to 0
+  addskp.z r3, r0, r3   ; 0 -> skip!
+  br fail
+  br next4
   hlt
 
+
   ; Check register copies
-next3:
-  ldi r1, 0x8080
-  ldi r2, 0x0808
+next4:
+  ldi r4, 4
+
+  ldi r1, 0x0080
+  ldi r2, 0x0008
   addskp.nz r3, r1, r2    ; should  skip next instruction
   br fail
   add r2, r1, r0          ; copy r1 to r2
@@ -52,12 +64,16 @@ next3:
   br fail
   addskp.z r3, r3, r0     ; r3 holds 0 from last compare - should skip
   br fail
-  ldi r4, 0x8888
+  ldi r4, 0x0088
   addskp.nz r3, r1, r4    ; should skip next instruction
   br fail
   add r4, r1, r0
-  addskip.z r3, r4, r1    ; equal - should skip
+  addskp.z r3, r4, r1    ; equal - should skip
   br fail
 
   ; tests complete
-  br pass
+  ldi r5, 0xAA
+  hlt
+
+fail:
+  ldi r5, 0xFF

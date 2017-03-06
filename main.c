@@ -120,10 +120,10 @@ halt:
 
 void dump() {
   // Dump lower part of RAM and regs
-  printf("-----CODE------------------DATA-----------\n");
+  printf("-------RAM---------\n");
   int i;
-  for(i=0; i<11; i+=2){
-    printf("0x%03x: %02x               0x%03x: %02x\n", i, readramdump(i), i+50, readramdump(i+50));
+  for(i=0; i<100; i+=2){
+    printf("0x%03x: %02x \n", i, readramdump(i));
   }
   printf("----------------------------REGISTERS-----------------------\n");
   for(i=0; i<8; i++){
@@ -288,6 +288,7 @@ decodesigs() {
     loadpos = 0;
     loadneg = 1;
   }
+  printf("icycle: %d loadneg: %d", clk.icycle, loadneg);
   // generate signals
   if (micro_b[0] == '1' && loadpos) { update_csig(MAR_LOAD, HI);}
   if (micro_b[1] == '1' && loadneg) { update_csig(IR_LOAD, HI);}
@@ -295,7 +296,7 @@ decodesigs() {
   if (micro_b[3] == '1' && loadneg) { update_csig(REG_LOAD, HI);}
   if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
   //if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
-  if (micro_b[6] == '1' && loadneg) { update_csig(SKIP, HI);}
+  //if (micro_b[6] == '1' && loadneg) { update_csig(SKIP, HI);}
   if (micro_b[7] == '1' && loadneg) { update_csig(BE, HI);}
 
   // parse muxes
@@ -385,8 +386,11 @@ decodesigs() {
     update_csig(SKIP, LO);
     return;
 skip:
-    update_csig(SKIP, HI);
+    if(loadneg) {
+      update_csig(SKIP, HI);
+    }
   }
+
   free(micro_b);
 }
 
@@ -474,7 +478,7 @@ latch(enum phase clk_phase) {
   if(clk_phase == clk_RE) {
     if(csig[SKIP]==HI) {
       regfile[PC] +=2;
-      printf("PC++");
+      printf("PC++ (SKIP)\n");
     }
     if(csig[RAM_LOAD]==HI) {
       writeram();
