@@ -47,7 +47,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["next","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -102,7 +102,8 @@ class Coder
     "IMM7" => "000",
     "IMM10" => "001",
     "IMM13" => "010",
-    "IMMIR"  => "011"
+    "IMMIR"  => "011",
+    "IMM6" => "100"
   }
 
   CYCLE= {
@@ -123,11 +124,9 @@ class Coder
     "SUB" => "001"
   }
 
-  NEXT= {
-    "FETCH" => "00",
-    "DECODE" => "01",
-    "READ" => "10",
-    "EXEC" => "11"
+  SKIPSTATE= {
+    "1" => "01",
+    "2" => "10"
   }
 
   def self.encode(output, intelhex, memlist)
@@ -181,7 +180,7 @@ class Coder
 
         instr["SKIPC"] ? microcode += SKIPC_MUX[instr["SKIPC"]] : microcode +="000"
         instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
-        instr["NEXT"] ? microcode += NEXT[instr["NEXT"]] : microcode +="00"
+        instr["SKIPSTATE"] ? microcode += SKIPSTATE[instr["SKIPSTATE"]] : microcode +="00"
 
 
         microcode +="000" #padding

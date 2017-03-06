@@ -41,6 +41,7 @@ ushort opcode;
 ushort opc2;
 ushort opc3;
 ushort opc4;
+ushort imm7u;
 ushort imm7;
 ushort imm10;
 ushort imm13;
@@ -49,6 +50,8 @@ ushort arg0;
 ushort immIR;
 ushort arg1;
 ushort imms;
+ushort nextstate;
+ushort skipcycle;
 
 ushort ALUresult;
 ushort tgt;
@@ -67,6 +70,10 @@ int main(int argc,char *argv[])
   // Main execution loop
   while(clk.instr <= maxinstr) {
     for(clk.icycle = FETCH; clk.icycle <= EXECUTEM; clk.icycle++) {
+      if(skipcycle > 0) {
+        skipcycle--;
+        continue;
+      }
       clearsig();
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
@@ -98,11 +105,17 @@ int main(int argc,char *argv[])
         printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
       // Latch pass - single pass!
       latch(clk.phase);
+      if(sysreg[IR] == 0xfe00) {
+        printf("HALT: encountered halt instruction.\n\n");
+        goto halt;
+      }
       }
     }
     clk.instr++;
   }
+halt:
   dump();
+  exit(1);
 }
 
 void dump() {
@@ -150,6 +163,7 @@ decodesigs() {
   char opc2_b[3];
   //char opc3_b[2];
   //char opc4_b[3];
+  char imm7u_b[7];
   char imm7_b[7];
   char imm10_b[10];
   char imm13_b[13];
@@ -185,8 +199,11 @@ decodesigs() {
   memcpy(opcodeshort_b, instr_b+1, 2);
   memcpy(opcode_b, instr_b+1, 6);
 
-
   // parse arguments - immediates
+  memcpy(imm7u_b, instr_b+7, 7);
+  imm7u= bin2dec(imm7u_b, 7);
+  //printf("imm6: %x ", imm6);
+
   memcpy(imm7_b, instr_b+7, 7);
   imm7= sbin2dec(imm7_b, 7);
   //printf("imm7: %s(%d) ", imm7_b, imm7);
@@ -215,7 +232,7 @@ decodesigs() {
   tgt = bin3_to_dec(tgt_b);
 
   memcpy(tgt2_b, instr_b+14, 2);
-  tgt2 = bin2dec(tgt2_b, 2);
+  tgt2 = bin2dec(tgt2_b, 2) + 1;
   //printf("tgt2: %s(%d)", tgt2_b,tgt2);
 
 
@@ -291,6 +308,7 @@ decodesigs() {
   char op1s_b[2];
   char skipc_b[2];
   char ALUfunc_b[3];
+  char nextstate_b[2];
 
   memcpy(regr0s_b, micro_b+8, 4);
   update_regsel(REGR0S, bin2dec(regr0s_b, 4));
@@ -319,6 +337,11 @@ decodesigs() {
   memcpy(ALUfunc_b, micro_b+32, 3);
   update_bussel(ALUS, bin2dec(ALUfunc_b, 3));
 
+  nextstate = -1;
+  memcpy(nextstate_b, micro_b+35, 2);
+  nextstate = bin2dec(nextstate_b, 2);
+  printf(" next: %d", nextstate);
+
   // IRimm MUX - which bits from IR should feed IRimm
   //printf("bussel-imms: %d", bussel[imms]);
   switch(bussel[IMMS]) {
@@ -335,6 +358,10 @@ decodesigs() {
     break;
   case 3:
     update_bsig(IRimm, &immIR);
+    //printf("Irimm value: %d", imm10);
+    break;
+  case 4:
+    update_bsig(IRimm, &imm7u);
     //printf("Irimm value: %d", imm10);
     break;
   }
@@ -475,6 +502,11 @@ latch(enum phase clk_phase) {
       printf("MDR <- %x\n", sysreg[MDR]);
       bsig[MDRout] = sysreg[MDR]; // programming crutch
     }
+    if(clk.icycle == DECODEM ) { // never going to skip from anything else than decode
+      if(nextstate > 0) {
+        skipcycle = 2 * nextstate;
+      }
+    }
   }
 }
 
@@ -582,8 +614,13 @@ writeregfile(void) {
     dump();
     exit(1);
   }
-  regfile[regws_temp] = bsig[ALUout];
-  printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);
+  if(csig[BE]) {
+    regfile[regws_temp] = regfile[regws_temp] | bsig[ALUout] << 9;
+    printf("%s <- %x\n", REGFILE_STR[regws_temp], (bsig[ALUout] << 9));
+  } else {
+    regfile[regws_temp] = bsig[ALUout];
+    printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);
+  }
 }
 
 

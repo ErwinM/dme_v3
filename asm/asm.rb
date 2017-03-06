@@ -6,7 +6,7 @@ class String
   end
 
   def ishex?
-    self[/\H/].nil?
+    self.gsub(/0x/, "")[/\H/]
   end
 end
 
@@ -75,11 +75,12 @@ class Parser
     args_array = []
     args[0..(args.length)].each do |arg|
       a = arg.strip.tr(",", "")
-      a = a.tr("0x", "")
-      if a.ishex? then
-        args_array << a.to_i(16)
+      if a.include?("0x") then
+        args_array << a.to_i(16) #hex
+      elsif a.isnum? then
+        args_array << a.to_i(10) #dec
       else
-        args_array << a.downcase
+        args_array << a.downcase #label or variable
       end
       i += 1
     end
@@ -130,9 +131,10 @@ class SymbolTable
 
   def self.resolveptrs()
     $symbols.each do |nr, sym|
+      #binding.pry
       if sym[:ptr] then
         sym[:addr] = find_instr_nr(sym[:ptr])
-        puts "resolve: ptr(#{sym[:ptr]} => #{$instructions[sym[:ptr]][:addr]})\n"
+        #puts "resolve: ptr(#{sym[:ptr]} => #{$instructions[sym[:ptr]][:addr]})\n"
       end
     end
   end
@@ -143,6 +145,7 @@ class SymbolTable
     $instructions.each do |lnr, instr|
       #binding.pry
       return instr[:addr] if instr[:instr_nr] == nr
+      puts "found: #{instr[:addr]}\n"
     end
     puts "Error: cannot resolve ptr: #{nr}\n"
     exit
@@ -211,16 +214,13 @@ class Coder
       if instr[:label] then next end
       code = encode(instr)
       if code.length != 16 then
-        puts "Coder::build: code malformed (not 16b)\n"
+        binding.pry
+        puts "Coder::build: code malformed (#{code.length} instead of 16b)\n"
         exit
       end
       Writer.hex(out_hex, code)
       Writer.mif(out_mif, instr[:addr], code)
     end
-  end
-
-  def self.sortaddr()
-
   end
 
   def self.encode(instr)
@@ -242,25 +242,29 @@ class Coder
       return code
     end
     i = 0
-    instr[:args].each do |arg|
+    instr[:args].reverse_each do |arg|
+      #binding.pry
       if SymbolTable.issym?(arg) then
-        arg = SymbolTable.resolvesym(arg)
+        argr = SymbolTable.resolvesym(arg)
+        puts "Resolved: #{arg} into #{SymbolTable.resolvesym(argr)}\n"
       end
 
       case ISA::ARGS[instr[:command]][i]
       when :imm16
-        code += "%016b" % arg
+        code += bitsfromint(arg, 16, false)
       when :imm10
-        code += "%010b" % arg
+        code += bitsfromint(arg, 10, true)
       when :imm13br
         # we need to calculate the relative offset
         # instructions are +2
         # and we need to account for the extra increment the CPU does
         loc = (arg - (instr[:addr] + 1)) * 2
         puts "BR: calculated offset #{loc}\n"
-        code += "%013b" % loc
+        code += bitsfromint(loc, 13, true)
       when :imm7
-        code += "%07b" % arg
+        code += bitsfromint(arg, 7, true)
+      when :imm7u
+        code += bitsfromint(arg, 7, false)
       when :immir
         if ISA::IRIMM[arg.to_i].nil? then
           puts "Encode: no encoding available for immidiate: #{arg}\n"
@@ -270,6 +274,9 @@ class Coder
       when :reg
         #binding.pry
         code += "%03b" % ISA::REGS[arg]
+      when :reg2
+        #binding.pry
+        code += "%02b" % ISA::REGS2[arg]
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
@@ -279,6 +286,37 @@ class Coder
     end
     puts code
     return code
+  end
+
+  def self.bitsfromint(int, bitnr, sext)
+    if sext then
+      # MSB reserved for sign
+      # 13bits -> 12 bits signed -> max 0xfff
+      # 10bits -> 9 bits signed -> max 0x1FF
+      # 7 bits -> 6 bits signed -> max 0x3f
+      if int.abs > ((2**(bitnr-1))-1) then
+        Error.exit("Bitsfromint: signed int #{int} cannot fit in #{bitnr} bits!")
+      end
+      if int < 0 then
+        bin = (int & 0xffff).to_s(2)
+        # bin will always be 16b long
+        offset = 15 - bitnr
+        bin.slice!(0..offset)
+        return bin
+      else
+        return "%0#{bitnr}b" % int
+      end
+    else
+      # we can use all the bits
+      if int < 0 then
+        puts "Bitsfromint: unsigned number cannot be negative! (#{int})\n"
+        exit
+      end
+      if int > ((2**bitnr)-1) then
+        Error.exit("Bitsfromint: unsigned int #{int} cannot fit in #{bitnr} bits!")
+      end
+      return "%0#{bitnr}b" % int
+    end
   end
 end
 
@@ -324,11 +362,12 @@ class ISA
     "ldi"   => 0,
     "br"   => 1,
     "stw"  => 7,
-    "addr" => 10,
+    "add" => 10,
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
+    "addhi" => 30,
     "defw" => :mem,
     "hlt" => 63
   }.freeze
@@ -337,10 +376,12 @@ class ISA
     "ldi" => [:imm10, :reg],
     "br" => [:imm13br],
     "stw" => [:imm7, :reg, :reg],
+    "add" => [:reg, :reg, :reg],
     "addskp.z" => [:reg, :reg, :reg],
     "addskp.nz" => [:reg, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
+    "addhi" => [:imm7u, :reg2],
     "defw" => [:imm16]
   }.freeze
 
@@ -357,6 +398,14 @@ class ISA
     "PC" => 7
   }.freeze
 
+  REGS2= {
+    "r1" => 0,
+    "r2" => 1,
+    "r3" => 2,
+    "r4" => 3
+  }.freeze
+
+
   IRIMM= {
     #{ 1,2,4,8,-8,-4,-2,-1 }
     1 => 0,
@@ -372,9 +421,14 @@ class ISA
   MEMINSTR= {
     "defw" => 1
   }
-
 end
 
+class Error
+  def self.exit(msg)
+    puts "#{msg}\n\n"
+    exit
+  end
+end
 
 # main
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]

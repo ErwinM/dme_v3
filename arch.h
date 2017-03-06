@@ -67,7 +67,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(IMM7) \
       X(IMM10) \
       X(IMM13) \
-      X(IMMIR)
+      X(IMMIR) \
+      X(IMM6)
 
 // Bussel can only select from busses never from registers
 // thus, their value indexes the BSIG array, except MDRS
@@ -91,7 +92,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(RAMin) \
       X(OP0   ) \
       X(OP1   ) \
-      X(MDRin   )
+      X(MDRin   ) \
+      X(NEXTSTATE)
 
 #define SKIPC \
       X(ZERO  ) \

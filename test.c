@@ -11,6 +11,18 @@
 uint64_t micro[256];
 
 int main(void) {
+  int i;
+
+  for (i=0;i<=8;i++) {
+    printf("%d", i);
+    if(i==3){
+      i=4;
+    }
+  }
+}
+
+
+int mainnn(void) {
   uint64_t num;
   // char * str = "0000000000001001000000000100100100100000";
   //
