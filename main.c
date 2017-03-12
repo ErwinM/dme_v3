@@ -78,7 +78,7 @@ int main(int argc,char *argv[])
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
         printf("------------------------------------------------------\n");
-        printf("cycle: %d.%s, phase: %d, PC: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle], clk.phase, regfile[PC], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
+        printf("cycle: %d.%s, phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle], clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
 
         // signal generation phase
         sigupd=1;
@@ -122,7 +122,7 @@ void dump() {
   // Dump lower part of RAM and regs
   printf("-------RAM---------\n");
   int i;
-  for(i=0; i<100; i+=2){
+  for(i=100; i>50; i-=2){
     printf("0x%03x: %02x \n", i, readramdump(i));
   }
   printf("----------------------------REGISTERS-----------------------\n");
@@ -214,7 +214,7 @@ decodesigs() {
 
   memcpy(imm13_b, instr_b+3, 13);
   imm13 = sbin2dec(imm13_b, 13);
-  printf("imm13: %d", imm13);
+  //printf("imm13: %d", imm13);
 
   memcpy(imm3_b, instr_b+7, 3);
   imm3 = bin3_to_dec(imm3_b);
@@ -246,7 +246,7 @@ decodesigs() {
   // calculate microcode idx
   int idx;
 
-  printf("icycle: %d", clk.icycle);
+  //printf("icycle: %d", clk.icycle);
   switch(clk.icycle) {
   case FETCH:
     update_csig(INCR_PC, HI);
@@ -278,7 +278,7 @@ decodesigs() {
   memcpy(micro_b, &micro_b64[0], 40);
   micro_b[40] = '\0';
 
-  printf("Micro(%d): %s", idx, micro_b);
+  printf("Micro(%d): %s ", idx, micro_b);
 
   // adjustments to deal with RAM latency
   if (clk.icycle % 2) {// odd
@@ -288,7 +288,7 @@ decodesigs() {
     loadpos = 0;
     loadneg = 1;
   }
-  printf("icycle: %d loadneg: %d", clk.icycle, loadneg);
+  //printf("icycle: %d loadneg: %d", clk.icycle, loadneg);
   // generate signals
   if (micro_b[0] == '1' && loadpos) { update_csig(MAR_LOAD, HI);}
   if (micro_b[1] == '1' && loadneg) { update_csig(IR_LOAD, HI);}
@@ -296,8 +296,9 @@ decodesigs() {
   if (micro_b[3] == '1' && loadneg) { update_csig(REG_LOAD, HI);}
   if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
   //if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
-  //if (micro_b[6] == '1' && loadneg) { update_csig(SKIP, HI);}
+  if (micro_b[6] == '1' && loadneg) { update_csig(DECR_SP, HI);}
   if (micro_b[7] == '1' && loadneg) { update_csig(BE, HI);}
+  if (micro_b[37] == '1' && loadneg) { update_csig(INCR_SP, HI);}
 
   // parse muxes
   char regr0s_b[4];
@@ -341,7 +342,7 @@ decodesigs() {
   nextstate = -1;
   memcpy(nextstate_b, micro_b+35, 2);
   nextstate = bin2dec(nextstate_b, 2);
-  printf(" next: %d", nextstate);
+  //printf(" next: %d", nextstate);
 
   // IRimm MUX - which bits from IR should feed IRimm
   //printf("bussel-imms: %d", bussel[imms]);
@@ -401,8 +402,8 @@ resolvemux(void) {
 
   readram();
 
-  printf("arg0: %d ", arg0);
-  printf("arg1: %d ", arg1);
+  //printf("arg0: %d ", arg0);
+  //printf("arg1: %d ", arg1);
 
   // grab selector from instruction
   switch(regsel[REGR0S]) {
@@ -492,6 +493,15 @@ latch(enum phase clk_phase) {
     }
     if(csig[INCR_PC]==HI) {
       regfile[PC]+=2; // PC acts as counter
+      printf("PC++\n");
+    }
+    if(csig[DECR_SP]==HI) {
+      regfile[SP]-=2; // SP acts as counter
+      printf("SP--\n");
+    }
+    if(csig[INCR_SP]==HI) {
+      regfile[SP]+=2; // SP acts as counter
+      printf("SP++\n");
     }
     if(csig[IR_LOAD]==HI) {
       sysreg[IR] = bsig[RAMout];
@@ -517,16 +527,16 @@ latch(enum phase clk_phase) {
 void
 ALU(void) {
   ushort result;
-  printf("ALUS: %d", bussel[ALUS]);
+  printf("ALUS(%d) ", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
     result = bsig[OP0] + bsig[OP1];
     break;
   case 1:
-    result = bsig[OP0] - bsig[OP1];
+    result = bsig[OP1] - bsig[OP0];
     break;
   }
-  printf("ALU result: %d", result);
+  //printf("ALU result: %d", result);
   update_bsig(ALUout, &result);
 }
 

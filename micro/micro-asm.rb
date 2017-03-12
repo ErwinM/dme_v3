@@ -35,19 +35,20 @@ class Parser
     words[3..(words.length)].each do |word|
       if word.include?("[") then
         mux, tgt = word.split("[")
+        mux.strip!
         tgt.chop!
-        m[mux.strip.upcase] = tgt.upcase
+        m[mux.upcase] = tgt.upcase
         Parser.checkword(mux)
       else
         m[word.strip.upcase] = 1
-        Parser.checkword(word)
+        Parser.checkword(word.strip)
       end
     end
     return m
   end
 
   def Parser.checkword(word)
-    if !(["skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "skip", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -72,6 +73,7 @@ class Coder
     "REG4"   => "0100",
     "REG5"   => "0101",
     "REG6"   => "0110",
+    "SP"      => "0110",
     "PC"   => "0111",
     "ARG0"   => "1000",
     "ARG1"   => "1001",
@@ -166,7 +168,7 @@ class Coder
         instr["REG_LOAD"] ?  microcode += "1" : microcode +="0"
         instr["RAM_LOAD"] ?  microcode += "1" : microcode +="0"
         instr["INCR_PC"] ?  microcode += "1" : microcode +="0"
-        instr["SKIP"] ?  microcode += "1" : microcode +="0"
+        instr["DECR_SP"] ?  microcode += "1" : microcode +="0"
         instr["BE"] ?  microcode += "1" : microcode +="0"
 
         instr["REGR0S"] ? microcode += REGS_MUX[instr["REGR0S"]] : microcode +="0000"
@@ -181,9 +183,15 @@ class Coder
         instr["SKIPC"] ? microcode += SKIPC_MUX[instr["SKIPC"]] : microcode +="000"
         instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
         instr["SKIPSTATE"] ? microcode += SKIPSTATE[instr["SKIPSTATE"]] : microcode +="00"
+        instr["INCR_SP"] ?  microcode += "1" : microcode +="0"
 
 
-        microcode +="000" #padding
+        microcode +="00" #padding
+
+        if microcode.length != 40
+          puts "Invalid microword length (#{microcode.length})\n"
+          exit(1)
+        end
 
         puts microcode
         b0 = microcode[0..7]

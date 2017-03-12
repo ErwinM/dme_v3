@@ -37,6 +37,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
        X(INCR_PC) \
        X(SKIP   ) \
        X(BE   ) \
+       X(DECR_SP) \
+       X(INCR_SP)
 
 #define REGFILE \
       X(REG0  ) \

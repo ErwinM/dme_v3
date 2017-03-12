@@ -51,6 +51,7 @@ class Parser
     instr = {}
     commands, comment = line.split(";")
     if commands.length == 0 then return end
+    if commands[0] == '.' then return end
     # is it a label?
     if commands.include?(":") then
       # it is a label
@@ -75,12 +76,13 @@ class Parser
     args_array = []
     args[0..(args.length)].each do |arg|
       a = arg.strip.tr(",", "")
-      if a.include?("0x") then
-        args_array << a.to_i(16) #hex
-      elsif a.isnum? then
-        args_array << a.to_i(10) #dec
+      if a.include?("(") then
+        offset, base = a.split("(")
+        base.chop!
+        args_array << number(base) #order matters!
+        args_array << number(offset)
       else
-        args_array << a.downcase #label or variable
+        args_array << number(a)
       end
       i += 1
     end
@@ -88,6 +90,17 @@ class Parser
     puts instr
     return instr
   end
+
+  def self.number(nr)
+    if nr.include?("0x") then
+      return nr.to_i(16) #hex
+    elsif nr.isnum? then
+      return nr.to_i(10) #dec
+    else
+      return nr.downcase #label or variable
+    end
+  end
+
 end
 
 class SymbolTable
@@ -238,6 +251,10 @@ class Coder
     else
       code += "1"
       code += "%06b" % instr[:opcode]
+      if [31,32].include?(instr[:opcode]) then
+        # padd instructions
+        code += "000000"
+      end
     end
     if instr[:no_args] then
       code += "000000000"
@@ -266,6 +283,7 @@ class Coder
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
       when :imm7
+        #binding.pry
         code += bitsfromint(arg, 7, true)
       when :imm7u
         code += bitsfromint(arg, 7, false)
@@ -281,6 +299,12 @@ class Coder
       when :reg2
         #binding.pry
         code += "%02b" % ISA::REGS2[arg]
+      when :r0
+        code += "000"
+      when :DPreg
+        if arg.upcase != "DP" && arg.upcase != "R5" then
+          Error.exit("Encode: base must be dp/r5")
+        end
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
@@ -364,28 +388,36 @@ end
 class ISA
   OPCODES= {
     "ldi"   => 0,
+    "lda"   => 0,
     "br"   => 1,
     "stw"  => 7,
     "add" => 10,
+    "mov" => 10,
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "addhi" => 30,
+    "push" => 31,
+    "pop" => 32,
     "defw" => :mem,
     "hlt" => 63
   }.freeze
 
   ARGS= {
     "ldi" => [:imm10, :reg],
+    "lda" => [:imm10, :reg],
     "br" => [:imm13br],
-    "stw" => [:imm7, :reg, :reg],
+    "stw" => [:imm7, :DPreg, :reg2],
     "add" => [:reg, :reg, :reg],
+    "mov" => [:reg, :r0, :reg],
     "addskp.z" => [:reg, :reg, :reg],
     "addskp.nz" => [:reg, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
     "addhi" => [:imm7u, :reg2],
+    "push" => [:reg],
+    "pop" => [:reg],
     "defw" => [:imm16]
   }.freeze
 
@@ -396,10 +428,10 @@ class ISA
     "r3" => 3,
     "r4" => 4,
     "r5" => 5,
-    "SP" => 6,
+    "dp" => 5,
+    "sp" => 6,
     "r6" => 6,
-    "r7" => 7,
-    "PC" => 7
+    "pc" => 7
   }.freeze
 
   REGS2= {
@@ -430,7 +462,7 @@ end
 class Error
   def self.exit(msg)
     puts "#{msg}\n\n"
-    exit
+    exit(1)
   end
 end
 

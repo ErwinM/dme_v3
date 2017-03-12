@@ -1,12 +1,8 @@
-fail:
-  defw 0xdead
-
-pass:
-  defw 0xbabe
-
 _start_tests:
-  ldi r1, 0x1ff
-  addhi r1, 0x7f
-  ldi r2, 1
-  add r3, r2, r1
-  hlt
+ldi sp, 0x64
+ldi r1, 0xaa
+push r1
+ldi r1, 0xbb
+push r1
+pop r2
+pop r3
