@@ -16,6 +16,8 @@ struct {
   enum phase phase;
 } clk;
 
+int vcycle;     //virtual cycle to allow signals to settle
+
 uint64_t micro[256];
 uint64_t microinstr;
 
@@ -31,7 +33,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 99;
+int maxinstr = 8;
 int sigupd;
 char ALUopc[4];
 
@@ -61,11 +63,15 @@ ushort regr0s_temp;
 ushort regr1s_temp;
 ushort regws_temp;
 
+int stdoutBackupFd;
+FILE *nullOut;
+int vflag;
 
 int main(int argc,char *argv[])
 {
-  int vcycle;     //virtual cycle to allow signals to settle
   init();
+  stdoutBackupFd = dup(1);
+  vflag = 0;
 
   // Main execution loop
   while(clk.instr <= maxinstr) {
@@ -77,6 +83,7 @@ int main(int argc,char *argv[])
       clearsig();
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
+        hideconsole(clk.icycle, vflag);
         printf("------------------------------------------------------\n");
         printf("cycle: %d.%s, phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle], clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
 
@@ -104,6 +111,7 @@ int main(int argc,char *argv[])
         printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
         printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
       // Latch pass - single pass!
+        restoreconsole();
       latch(clk.phase);
       if(sysreg[IR] == 0xfe00) {
         printf("HALT: encountered halt instruction.\n\n");
@@ -178,7 +186,6 @@ decodesigs() {
   int skipcond = 0;
   int skiptype;
 
-  printf("IR: %x ", sysreg[IR]);
   // parse instruction
   instr_b = dec2bin(sysreg[IR], 16);
 
@@ -188,7 +195,10 @@ decodesigs() {
     exit(1);
   }
 
-  printf("(%s), ", instr_b);
+  if (vcycle==1) {
+    printf("IR: %x ", sysreg[IR]);
+    printf("(%s), ", instr_b);
+  }
 
 
   codetype_b = instr_b[0];
@@ -278,8 +288,9 @@ decodesigs() {
   memcpy(micro_b, &micro_b64[0], 40);
   micro_b[40] = '\0';
 
-  printf("Micro(%d): %s ", idx, micro_b);
-
+  if (vcycle==1) {
+    printf("Micro(%d): %s\n", idx, micro_b);
+  }
   // adjustments to deal with RAM latency
   if (clk.icycle % 2) {// odd
     loadpos = 1;
@@ -812,20 +823,28 @@ loadbios(void)
 }
 
 
-//
-// void setconsole(enum clkstate phase, int vflag) {
-//   if (vflag)
-//     return;
-//
-//   if (phase != clk_RE ) {
-//     fflush(stdout);
-//     nullOut = fopen("/dev/null", "w");
-//     dup2(fileno(nullOut), 1);
-//   } else {
-//     fflush(stdout);
-//     fclose(nullOut);
-//     // Restore stdout
-//     dup2(stdoutBackupFd, 1);
-//     //close(stdoutBackupFd);
-//   }
-// }
+
+void hideconsole(int ic, int vflag) {
+  if (vflag)
+    return;
+
+  if (ic % 2) {
+    // icycle = odd, is main phase, thus show output
+    fflush(stdout);
+    fclose(nullOut);
+    // Restore stdout
+    dup2(stdoutBackupFd, 1);
+  } else {
+    // icycle = even, is M phase, thus supress output
+    fflush(stdout);
+    nullOut = fopen("/dev/null", "w");
+    dup2(fileno(nullOut), 1);
+  }
+}
+
+void restoreconsole(void) {
+    fflush(stdout);
+    fclose(nullOut);
+    // Restore stdout
+    dup2(stdoutBackupFd, 1);
+}

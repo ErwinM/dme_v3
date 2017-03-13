@@ -46,7 +46,7 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(REG2   ) \
       X(REG3 ) \
       X(REG4  ) \
-      X(REG5  ) \
+      X(BP  ) \
       X(SP  ) \
       X(PC  ) \
       X(ARG0) \

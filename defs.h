@@ -35,3 +35,5 @@ void execsigs(void);
 void resolvemux(void);
 void chkskip(void);
 void dump(void);
+void hideconsole(int ic, int vflag);
+void restoreconsole(void);

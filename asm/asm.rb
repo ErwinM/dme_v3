@@ -131,6 +131,9 @@ class SymbolTable
     if ISA::REGS.include?(token) then
       return false
     end
+    if token == 'NO ARG TEMPLATE' then
+      return false
+    end
     return true
   end
 
@@ -243,6 +246,10 @@ class Coder
     puts "Encoding: #{instr}\n"
     #binding.pry
     instr[:opcode] = ISA::OPCODES[instr[:command]]
+    if instr[:opcode].nil? then
+      puts "Unknown instruction: #{instr[:command]}\n"
+      exit
+    end
     if instr[:opcode] == :mem then
       code = ""
     elsif instr[:opcode] <= 3 then
@@ -260,16 +267,25 @@ class Coder
       code += "000000000"
       return code
     end
-    i = 0
-    instr[:args].reverse_each do |arg|
+    i = instr[:args].length - 1
+    ISA::ARGS[instr[:command]].each do |argtemplate|
+      # get the right arg
+      if argtemplate[0] == 'x' then
+        # template does not consume an arg
+        arg = 'NO ARG TEMPLATE'
+      else
+        arg = instr[:args][i]
+        i -= 1
+      end
+      #binding.pry
       if SymbolTable.issym?(arg) then
         argr = arg
         arg = SymbolTable.resolvesym(arg)
-        puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
+        puts "Resolved: (#{i})#{argr} into #{SymbolTable.resolvesym(argr)}\n"
         #binding.pry
       end
 
-      case ISA::ARGS[instr[:command]][i]
+      case argtemplate
       when :imm16
         code += bitsfromint(arg, 16, false)
       when :imm10
@@ -299,18 +315,18 @@ class Coder
       when :reg2
         #binding.pry
         code += "%02b" % ISA::REGS2[arg]
-      when :r0
+      when :xr0
         code += "000"
-      when :DPreg
-        if arg.upcase != "DP" && arg.upcase != "R5" then
-          Error.exit("Encode: base must be dp/r5")
+      when :BPreg
+        if arg.upcase != "BP" && arg.upcase != "R5" then
+          puts "Encode: base must be bp/r5"
+          exit(1)
         end
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
         exit
       end
-      i +=1
     end
     puts code
     return code
@@ -390,11 +406,14 @@ class ISA
     "ldi"   => 0,
     "lda"   => 0,
     "br"   => 1,
+    "ldw"  => 4,
     "stw"  => 7,
     "add" => 10,
     "mov" => 10,
+    "sub" => 11,
     "addskp.z" => 15,
     "addskp.nz" => 16,
+    "addi" => 17,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "addhi" => 30,
@@ -408,11 +427,14 @@ class ISA
     "ldi" => [:imm10, :reg],
     "lda" => [:imm10, :reg],
     "br" => [:imm13br],
-    "stw" => [:imm7, :DPreg, :reg2],
+    "ldw" => [:imm7, :BPreg, :reg2],
+    "stw" => [:imm7, :BPreg, :reg2],
     "add" => [:reg, :reg, :reg],
-    "mov" => [:reg, :r0, :reg],
+    "mov" => [:reg, :xr0, :reg],
+    "sub" => [:reg, :reg, :reg],
     "addskp.z" => [:reg, :reg, :reg],
     "addskp.nz" => [:reg, :reg, :reg],
+    "addi" => [:immir, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
     "addhi" => [:imm7u, :reg2],
@@ -428,7 +450,7 @@ class ISA
     "r3" => 3,
     "r4" => 4,
     "r5" => 5,
-    "dp" => 5,
+    "bp" => 5,
     "sp" => 6,
     "r6" => 6,
     "pc" => 7
