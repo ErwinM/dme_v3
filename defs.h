@@ -37,3 +37,4 @@ void chkskip(void);
 void dump(void);
 void hideconsole(int ic, int vflag);
 void restoreconsole(void);
+int parseopts(int argc,char *argv[]);

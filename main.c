@@ -7,6 +7,7 @@
 
 #include "defs.h"
 #include "arch.h"
+#include "opcodes.h"
 #include "types.h"
 
 
@@ -33,7 +34,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 8;
+int maxinstr = 1;
 int sigupd;
 char ALUopc[4];
 
@@ -69,9 +70,10 @@ int vflag;
 
 int main(int argc,char *argv[])
 {
+  vflag = 0;
+  parseopts(argc, argv);
   init();
   stdoutBackupFd = dup(1);
-  vflag = 0;
 
   // Main execution loop
   while(clk.instr <= maxinstr) {
@@ -128,10 +130,10 @@ halt:
 
 void dump() {
   // Dump lower part of RAM and regs
-  printf("-------RAM---------\n");
+  printf("-------RAM---------DATA--------\n");
   int i;
   for(i=100; i>50; i-=2){
-    printf("0x%03x: %02x \n", i, readramdump(i));
+    printf("0x%03x: %02x         0x%03x: %02x\n", i, readramdump(i), (100-i), readramdump(100-i));
   }
   printf("----------------------------REGISTERS-----------------------\n");
   for(i=0; i<8; i++){
@@ -196,7 +198,8 @@ decodesigs() {
   }
 
   if (vcycle==1) {
-    printf("IR: %x ", sysreg[IR]);
+    //printf("IR: %x ", sysreg[IR]);
+    printf("IR: %s - ", OPCODES_STRING[opcode]);
     printf("(%s), ", instr_b);
   }
 
@@ -778,10 +781,11 @@ loadmicrocode(void)
       micro[i] = microcode;
       i++;
     }
-    for(i=0;i<192;i++) {
-      printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
+    if (vflag == 1) {
+      for(i=0;i<192;i++) {
+        printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
+      }
     }
-
     fclose(fp);
     if (line)
         free(line);
@@ -810,7 +814,9 @@ loadbios(void)
       //printf ("Splitting string \"%s\" into tokens:\n",str);
       instr = (ushort)strtol(line, NULL, 16);
       ram[i] = instr;
-      printf("%x: %x\n", i, instr);
+      if (vflag == 1){
+        printf("%x: %x\n", i, instr);
+      }
       i++;
     }
     // for(i=0;i<192;i++) {
@@ -825,10 +831,7 @@ loadbios(void)
 
 
 void hideconsole(int ic, int vflag) {
-  if (vflag)
-    return;
-
-  if (ic % 2) {
+  if (ic % 2 || vflag == 1) {
     // icycle = odd, is main phase, thus show output
     fflush(stdout);
     fclose(nullOut);
@@ -847,4 +850,36 @@ void restoreconsole(void) {
     fclose(nullOut);
     // Restore stdout
     dup2(stdoutBackupFd, 1);
+}
+
+int parseopts(int argc,char *argv[]) {
+  opterr = 0;
+  int c;
+  while ((c = getopt(argc, argv, "vf:t:")) != -1) {
+    printf("opt: %d\n", c);
+    switch (c) {
+    case 'v':
+      printf("vflag!");
+      vflag = 1;
+      break;
+    // case 'f':
+//         filename = optarg;
+//         break;
+    case 't':
+      maxinstr = atoi(optarg);
+      break;
+    case '?':
+      if (optopt == 'f' || optopt == 't')
+        fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+      else
+        fprintf (stderr,
+                 "Unknown option character `\\x%x'.\n",
+                 optopt);
+      return 1;
+    default:
+      printf("Aborting..");
+      abort();
+    }
+  }
+  return 0;
 }
