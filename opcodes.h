@@ -25,7 +25,7 @@ static const char
                       "addskpi.nz",
                       "nocode",
                       "nocode",       // 25
-                      "nocode",
+                      "stwb",
                       "nocode",
                       "nocode",
                       "nocode",

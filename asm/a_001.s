@@ -77,3 +77,4 @@ next4:
 
 fail:
   ldi r5, 0xFF
+  hlt

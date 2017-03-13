@@ -34,7 +34,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 1;
+int maxinstr = 100;
 int sigupd;
 char ALUopc[4];
 
@@ -112,6 +112,12 @@ int main(int argc,char *argv[])
         printf("regfile: r0:%s, r1:%s, w:%s\n", REGFILE_STR[regsel[REGR0S]], REGFILE_STR[regsel[REGR1S]],REGFILE_STR[regsel[REGWS]]);
         printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
         printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
+        printf("STACK: ");
+        int sdump;
+        for(sdump=100; sdump>74; sdump -=2) {
+          printf("%x ", readramdump(sdump));
+        }
+        printf("\n");
       // Latch pass - single pass!
         restoreconsole();
       latch(clk.phase);
@@ -132,7 +138,7 @@ void dump() {
   // Dump lower part of RAM and regs
   printf("-------RAM---------DATA--------\n");
   int i;
-  for(i=100; i>50; i-=2){
+  for(i=100; i>48; i-=2){
     printf("0x%03x: %02x         0x%03x: %02x\n", i, readramdump(i), (100-i), readramdump(100-i));
   }
   printf("----------------------------REGISTERS-----------------------\n");
@@ -199,8 +205,12 @@ decodesigs() {
 
   if (vcycle==1) {
     //printf("IR: %x ", sysreg[IR]);
-    printf("IR: %s - ", OPCODES_STRING[opcode]);
-    printf("(%s), ", instr_b);
+    if (clk.icycle < 3 || (clk.icycle == 3 && clk.phase == 0)) {
+      printf("IR: DECODING (%x) ", sysreg[IR]);
+    } else {
+      printf("IR: %s (%x) - ", OPCODES_STRING[opcode], sysreg[IR]);
+      printf("(%s), ", instr_b);
+    }
   }
 
 
@@ -262,7 +272,7 @@ decodesigs() {
   //printf("icycle: %d", clk.icycle);
   switch(clk.icycle) {
   case FETCH:
-    update_csig(INCR_PC, HI);
+    //update_csig(INCR_PC, HI);
     idx = 2;
     break;
   case FETCHM:
@@ -309,7 +319,7 @@ decodesigs() {
   if (micro_b[2] == '1' && loadpos) { update_csig(MDR_LOAD, HI);}
   if (micro_b[3] == '1' && loadneg) { update_csig(REG_LOAD, HI);}
   if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
-  //if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
+  if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
   if (micro_b[6] == '1' && loadneg) { update_csig(DECR_SP, HI);}
   if (micro_b[7] == '1' && loadneg) { update_csig(BE, HI);}
   if (micro_b[37] == '1' && loadneg) { update_csig(INCR_SP, HI);}
@@ -620,16 +630,16 @@ writeram() {
       // MAR is odd thus we need to write the low byte
       tmp = ram[ramaddr] & 0xff00; // clear the low byte
       ram[ramaddr] = tmp | MDRlowb;
-      printf("RAM[%xL] <- %x\n", ramaddr, MDRlowb);
+      printf("RAM[%xL] <- %x\n", ramaddr*2, MDRlowb);
     } else {
       // MAR is even thus we need to write the high byte
       tmp = ram[ramaddr] & 0xff;
       ram[ramaddr] = tmp | MDRlowb << 8;
-      printf("RAM[%xH] <- %x\n", ramaddr, MDRlowb);
+      printf("RAM[%xH] <- %x\n", ramaddr*2, MDRlowb);
     }
   } else {
     ram[ramaddr] = bsig[MDRout];
-    printf("RAM[%x] <- %x\n", ramaddr, bsig[MDRout]);
+    printf("RAM[%x] <- %x\n", ramaddr*2, bsig[MDRout]);
   }
 }
 
@@ -831,8 +841,8 @@ loadbios(void)
 
 
 void hideconsole(int ic, int vflag) {
-  if (ic % 2 || vflag == 1) {
-    // icycle = odd, is main phase, thus show output
+  if ((ic % 2 && ic != 1) || vflag == 1) {
+    // icycle = odd and not fetch, is main phase, thus show output
     fflush(stdout);
     fclose(nullOut);
     // Restore stdout

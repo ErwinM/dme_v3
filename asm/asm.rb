@@ -220,7 +220,7 @@ class SymbolTable
   def self.dump()
     puts "- SYMBOL TABLE -----"
     $symbols.each do |nr, symbol|
-      puts "#{nr} => #{symbol}\n"
+      puts "#{nr} => #{symbol} (#{(symbol[:addr]*2).to_s(16)})\n"
     end
   end
 end
@@ -236,6 +236,15 @@ class Coder
         puts "Coder::build: code malformed (#{code.length} instead of 16b)\n"
         exit
       end
+      b0 = code[0..7]
+      b1 = code[8..15]
+
+      h0 = b0.to_i(2)
+      h1 = b1.to_i(2)
+
+      hex = (h0.to_i == 0) ? "00" : "%02x" % h0
+      hex += (h1.to_i == 0) ? "00" : "%02x" % h1
+      instr[:encoding] = hex;
       Writer.hex(out_hex, code)
       Writer.mif(out_mif, instr[:addr], code)
     end
@@ -284,7 +293,6 @@ class Coder
         puts "Resolved: (#{i})#{argr} into #{SymbolTable.resolvesym(argr)}\n"
         #binding.pry
       end
-
       case argtemplate
       when :imm16
         code += bitsfromint(arg, 16, false)
@@ -299,7 +307,6 @@ class Coder
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
       when :imm7
-        #binding.pry
         code += bitsfromint(arg, 7, true)
       when :imm7u
         code += bitsfromint(arg, 7, false)
@@ -322,6 +329,8 @@ class Coder
           puts "Encode: base must be bp/r5"
           exit(1)
         end
+      when :lda
+        code += bitsfromint(arg*2, 10, true)
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
@@ -416,6 +425,7 @@ class ISA
     "addi" => 17,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
+    "stwb" => 26,
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
@@ -425,7 +435,7 @@ class ISA
 
   ARGS= {
     "ldi" => [:imm10, :reg],
-    "lda" => [:imm10, :reg],
+    "lda" => [:lda, :reg],
     "br" => [:imm13br],
     "ldw" => [:imm7, :BPreg, :reg2],
     "stw" => [:imm7, :BPreg, :reg2],
@@ -437,6 +447,7 @@ class ISA
     "addi" => [:immir, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
+    "stwb" => [:reg, :reg, :reg],
     "addhi" => [:imm7u, :reg2],
     "push" => [:reg],
     "pop" => [:reg],
@@ -518,5 +529,5 @@ SymbolTable.dump()
 
 puts "\n------ Instruction tokens -----------\n"
 $instructions.each do |nr, instr|
-  puts "#{nr} => #{instr}\n"
+  puts "#{(2*nr).to_s(16)} => #{instr}\n"
 end
