@@ -11,7 +11,6 @@ class String
 end
 
 
-
 class Parser
   def self.parse(file)
     file.readlines.each do |line|
@@ -22,6 +21,11 @@ class Parser
         next
       end
       instr = parseline(line)
+
+      # if instr[:command] == "ld16" then
+#         instr_a = parseld16(instr);
+#       end
+
       if instr.nil? then
         next
       end
@@ -47,9 +51,11 @@ class Parser
   end
 
   def self.parseline(line)
-    puts "Parsing: #{line}"
+    puts "PreParsing: #{line}"
     instr = {}
     commands, comment = line.split(";")
+    #binding.pry
+    if commands.nil? then return end
     if commands.length == 0 then return end
     if commands[0] == '.' then return end
     # is it a label?
@@ -99,6 +105,19 @@ class Parser
     else
       return nr.downcase #label or variable
     end
+  end
+
+  def parseld16(instr)
+    # ld16 allows the compiler to load an arbitrary length (up to 16b) imm in a reg
+    # here we check its length and see if we need 1 or 2 instructions
+
+    if instr[:args][1] < 512 then
+      # imm is small enough to load with ldi
+      return ["ldi\t#{instr[:args][0]}, #{instr[:args][1]}"]
+    else
+      # imm requires two instructions to load: ldi followed by addhi
+    end
+
   end
 
 end
@@ -218,7 +237,8 @@ class SymbolTable
   end
 
   def self.dump()
-    puts "- SYMBOL TABLE -----"
+    puts "- SYMBOL TABLE ----- (#{$symbols.length})"
+    #binding.pry
     $symbols.each do |nr, symbol|
       puts "#{nr} => #{symbol} (#{(symbol[:addr]*2).to_s(16)})\n"
     end
@@ -348,7 +368,7 @@ class Coder
       # 10bits -> 9 bits signed -> max 0x1FF
       # 7 bits -> 6 bits signed -> max 0x3f
       if int.abs > ((2**(bitnr-1))-1) then
-        Error.exit("Bitsfromint: signed int #{int} cannot fit in #{bitnr} bits!")
+        Error.mexit("Bitsfromint: signed int #{int} cannot fit in #{bitnr} bits!")
       end
       if int < 0 then
         bin = (int & 0xffff).to_s(2)
@@ -366,7 +386,7 @@ class Coder
         exit
       end
       if int > ((2**bitnr)-1) then
-        Error.exit("Bitsfromint: unsigned int #{int} cannot fit in #{bitnr} bits!")
+        Error.mexit("Bitsfromint: unsigned int #{int} cannot fit in #{bitnr} bits!")
       end
       return "%0#{bitnr}b" % int
     end
@@ -493,7 +513,7 @@ class ISA
 end
 
 class Error
-  def self.exit(msg)
+  def self.mexit(msg)
     puts "#{msg}\n\n"
     exit(1)
   end
@@ -504,6 +524,7 @@ end
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
 file_name = args["f"]
 input = File.open(file_name, "r")
+
 out_hex = File.open("A.hex", "w+")
 out_mif = File.open("A.mif", "w+")
 

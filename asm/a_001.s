@@ -1,4 +1,5 @@
-  ; convention is:
+  ; This test group tests if the basics are in place that allow all the other tests to function
+	; convention is:
   ; - test group in R3
   ; - test num in R4
 

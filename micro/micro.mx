@@ -54,7 +54,7 @@
 27,
 28,
 29,
-30, addhi imm7 reg, decode, imms[imm7], mdrs[imm], mdr_load, skipstate[1]
+30, addhi imm7 reg, decode, imms[imm7u], mdrs[imm], mdr_load, skipstate[1]
 30, addhi imm7 reg, read,
 30, addhi imm7 reg, exec, op0s[mdr], regr1s[REG0], op1s[regr1], regws[tgt2], be, reg_load
 31, push reg, decode, decr_sp,

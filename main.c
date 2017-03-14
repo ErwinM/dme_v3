@@ -23,11 +23,11 @@ uint64_t micro[256];
 uint64_t microinstr;
 
 enum signalstate csig[16] = {0};
-ushort bsig[20] = {0};
-ushort ram[1024] = {0};
-ushort regfile[16] = {0};
-ushort sysreg[3] = {0};
-ushort regsel[3] = {0};
+uint16_t bsig[20] = {0};
+uint16_t ram[1024] = {0};
+uint16_t regfile[16] = {0};
+uint16_t sysreg[3] = {0};
+uint16_t regsel[3] = {0};
 ushort bussel[10] = {0};
 // ushort regselsrcmux[3] = {0};
 
@@ -359,6 +359,7 @@ decodesigs() {
 
   memcpy(imms_b, micro_b+22, 3);
   update_bussel(IMMS, bin2dec(imms_b, 3));
+	printf("%s(%d)", imms_b, bussel[IMMS]);
 
   memcpy(ALUfunc_b, micro_b+32, 3);
   update_bussel(ALUS, bin2dec(ALUfunc_b, 3));
@@ -369,7 +370,7 @@ decodesigs() {
   //printf(" next: %d", nextstate);
 
   // IRimm MUX - which bits from IR should feed IRimm
-  //printf("bussel-imms: %d", bussel[imms]);
+  printf("bussel-imms: %d", bussel[imms]);
   switch(bussel[IMMS]) {
   case 0:
     update_bsig(IRimm, &imm7);
@@ -388,7 +389,7 @@ decodesigs() {
     break;
   case 4:
     update_bsig(IRimm, &imm7u);
-    //printf("Irimm value: %d", imm10);
+    printf("Irimm value: %d", imm10);
     break;
   }
 
@@ -537,7 +538,7 @@ latch(enum phase clk_phase) {
     }
     if(csig[MDR_LOAD]==HI) {
       sysreg[MDR] = bsig[MDRin];
-      printf("MDR <- %x\n", sysreg[MDR]);
+      printf("MDR <- %04x\n", sysreg[MDR]);
       bsig[MDRout] = sysreg[MDR]; // programming crutch
     }
     if(clk.icycle == DECODEM ) { // never going to skip from anything else than decode
@@ -683,11 +684,11 @@ void update_csig(enum csig signame, enum signalstate state) {
 
 void update_bsig(int signame, ushort *value) {
   //printf("signame: %d", signame);
-  if (bsig[signame] != *value) {
+  if (bsig[signame] != (*value & 0xffff)) {
     sigupd = 1;
     printf("%s(%d) ", BSIG_STR[signame], *value);
   }
-  bsig[signame] = *value;
+  bsig[signame] = *value & 0xffff;
 }
 
 void update_bussel(enum bussel signame, ushort value) {

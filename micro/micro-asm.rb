@@ -105,7 +105,7 @@ class Coder
     "IMM10" => "001",
     "IMM13" => "010",
     "IMMIR"  => "011",
-    "IMM4" => "100"
+    "IMM7U" => "100"
   }
 
   CYCLE= {
