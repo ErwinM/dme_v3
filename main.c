@@ -805,6 +805,76 @@ loadmicrocode(void)
 void
 loadbios(void)
 {
+  FILE * fp;
+  char * line = NULL;
+  size_t len = 0;
+  ssize_t read;
+	uint16_t addr;
+	uint16_t opcode;
+	char opcode_b[16]; //including ;
+  char * pch, * colon;
+
+  fp = fopen("asm/A.mif", "r");
+  if (fp == NULL) {
+    printf("FAILURE opening asm/A.mif\n");
+    exit(EXIT_FAILURE);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    //printf("Retrieved line of length %zu :\n", read);
+    //printf("%s", line);
+
+    //printf ("Splitting string \"%s\" into tokens:\n",str);
+    colon = strchr(line, ':');
+		if (!colon) {
+			printf("Found colon - skip: %x", (int)colon);
+			continue;
+		}
+			//}
+		pch = strtok (line," ");
+
+		int c = 0;
+    addr = 0;
+		opcode = 0;
+
+
+    while (pch != NULL)
+    {
+      c++;
+      switch(c){
+        case 1:
+					// address
+					addr = (int)strtol(pch, NULL, 16);
+          //printf("%llx\n", microcode);
+          break;
+        case 2:
+				  // colon ignore
+        case 3:
+					// opcode in binary + ;
+				memcpy(opcode_b, pch, 16); // cut off ;
+					opcode = bin2dec(opcode_b, 16);
+          break;
+      }
+
+      pch = strtok (NULL, " ");
+    }
+
+    ram[(addr >> 1)] = opcode;
+	  if (vflag == 1){
+	  	printf("%x: %x\n", addr, opcode);
+	  }
+	}
+  fclose(fp);
+  if (line)
+    free(line);
+}
+
+
+
+
+
+void
+loadbiosold(void)
+{
     FILE * fp;
     char * line = NULL;
     size_t len = 0;

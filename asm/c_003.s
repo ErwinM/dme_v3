@@ -19,6 +19,39 @@
 
 ; Now, put actual test code here....
 
-    ; zero extended to r1
-    ldi   r1, 0x1ff
-    addhi r1 ,0x07f
+		; zero extended to reg
+   	ld16  r1 ,0x1234
+   	ld16  r1 ,0x34
+		ld16	r2, 0x0034
+   	addskp.z	r4, r1, r2
+   	br fail
+		br next1
+		hlt
+
+		; 1 extended to reg
+next1:
+    ld16  r1,0x1284
+    ld16  r1, -1
+		ld16	r2, -1
+   	addskp.z	r4, r1, r2
+   	br fail
+		br pass
+		hlt
+
+		; sign extension copied correctly
+next3:
+    ld16  r3 ,0x1
+    mov   r1, r3
+   	addskp.z	r4, r1, r3
+   	br fail
+		br pass
+		hlt
+
+fail:
+	ldi r5, 0xff
+	hlt
+	hlt
+
+pass:
+	ldi r5, 0xaa
+	hlt

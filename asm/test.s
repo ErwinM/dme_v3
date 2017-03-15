@@ -1,2 +1,1 @@
-_start_tests:
-mov bp, sp
+ld16 r1, 0xbabe

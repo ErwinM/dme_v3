@@ -46,7 +46,9 @@
 23, addskpi.nz imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 23, addskpi.nz imm op2 res, read,
 23, addskpi.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub], regws[tgt], reg_load
-24,
+24, ldwb tgt (idx base), decode,
+24, ldwb tgt (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
+24, ldwb tgt (idx base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load
 25,
 26, stwb src (idx base), decode,
 26, stwb src (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load

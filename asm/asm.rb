@@ -20,15 +20,51 @@ class Parser
         # skip empty lines
         next
       end
-      instr = parseline(line)
-
-      # if instr[:command] == "ld16" then
-#         instr_a = parseld16(instr);
-#       end
-
-      if instr.nil? then
+      parsed_instr = parseline(line)
+      if parsed_instr.nil? then
         next
       end
+
+      if parsed_instr[:command] == ".code" then
+        if $instr_nr != 0 then
+          Error.mexit("ERROR: .code needs to be the first declaration (is: #{$instr_nr})")
+        end
+        if parsed_instr[:no_args] then next end
+        # we need to relocate code and add a little trampoline to it at the start
+        # load addr, branch to it
+        trampoline = parsela16({:args => ["r1", parsed_instr[:args][0]]})
+        trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
+        appendinstr(trampoline)
+        $instr_addr = parsed_instr[:args][0]
+        next
+      end
+      if parsed_instr[:command] == ".data" then
+        if $mem_ptr != 0 then
+          Error.mexit("ERROR: .data can only be declared once")
+        end
+        if parsed_instr[:no_args] then next end
+        $mem_ptr = parsed_instr[:args][0]
+        next
+      end
+      if parsed_instr[:command] == "ld16" then
+        instructions = parseld16(parsed_instr)
+      elsif parsed_instr[:command] == "la16" then
+        # this will often be a symbol which we haven't resolved at this point
+        # we take a conservative approach and insert 2 instructions to be adjusted after symbols
+        # have been resolved
+        instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
+        instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
+        instructions = [instr_lo, instr_hi]
+      else
+        instructions = [parsed_instr]
+      end
+
+      appendinstr(instructions)
+    end
+  end
+
+  def self.appendinstr(instructions)
+    instructions.each do |instr|
       if instr[:mem] then
         instr[:instr_nr] = $instr_nr
         $instr_nr += 1
@@ -46,7 +82,7 @@ class Parser
       instr[:instr_nr] = $instr_nr
       $instr_nr += 1
       $instructions[$instr_addr] = instr
-      $instr_addr += 1
+      $instr_addr += 2
     end
   end
 
@@ -57,7 +93,7 @@ class Parser
     #binding.pry
     if commands.nil? then return end
     if commands.length == 0 then return end
-    if commands[0] == '.' then return end
+    if commands[0] == '.' && commands[0..4] != '.code' && commands[0..4] != '.data' then return end
     # is it a label?
     if commands.include?(":") then
       # it is a label
@@ -107,17 +143,45 @@ class Parser
     end
   end
 
-  def parseld16(instr)
+  def self.parseld16(instr)
     # ld16 allows the compiler to load an arbitrary length (up to 16b) imm in a reg
     # here we check its length and see if we need 1 or 2 instructions
 
-    if instr[:args][1] < 512 then
+    if instr[:args][1] <= 511 then
       # imm is small enough to load with ldi
-      return ["ldi\t#{instr[:args][0]}, #{instr[:args][1]}"]
+      return [{:command => "ldi", :args => instr[:args]}]
     else
       # imm requires two instructions to load: ldi followed by addhi
+      lo = instr[:args][1] & 0x1ff
+      hi = (instr[:args][1] & 0xfe00) >> 9
+      instr_lo = {:command => "ldi", :args => [instr[:args][0], lo] }
+      instr_hi = {:command => "addhi", :args => [instr[:args][0], hi]}
+      return [instr_lo, instr_hi]
     end
+  end
 
+  def self.parsela16(instr, addr)
+    # la16 allows the compiler to load an arbitrary length (up to 16b) address in a reg
+    # here we check its length and see if we need 1 or 2 instructions
+    #binding.pry
+
+    if addr <= 511 then
+      if instr[:command] == "lda" then
+        # addr is small enough to load with lda
+        return addr
+      else
+        # commmand == addhi which is not needed
+        instr[:nop] = true
+        return :nop
+      end
+    else
+      # addr requires two instructions to load
+      if instr[:command] == "lda" then
+        return (addr & 0x1ff)
+      else
+        return (addr & 0xfe00) >> 9
+      end
+    end
   end
 
 end
@@ -157,10 +221,13 @@ class SymbolTable
   end
 
   def self.placemem()
+    if $mem_ptr == 0 then
+      $mem_ptr = $instr_addr
+    end
     $mem_instructions.each do |instr|
-      instr[:addr] = $instr_addr
-      $instructions[$instr_addr] = instr
-      $instr_addr += 1
+      instr[:addr] = $mem_ptr
+      $instructions[$mem_ptr] = instr
+      $mem_ptr += 1
     end
   end
 
@@ -240,7 +307,7 @@ class SymbolTable
     puts "- SYMBOL TABLE ----- (#{$symbols.length})"
     #binding.pry
     $symbols.each do |nr, symbol|
-      puts "#{nr} => #{symbol} (#{(symbol[:addr]*2).to_s(16)})\n"
+      puts "#{nr} => #{symbol} (#{(symbol[:addr]).to_s(16)})\n"
     end
   end
 end
@@ -251,6 +318,10 @@ class Coder
     $instructions.each do |addr, instr|
       if instr[:label] then next end
       code = encode(instr)
+      if code == :nop then
+        $addr_offset += 2
+        next
+      end
       if code.length != 16 then
         binding.pry
         puts "Coder::build: code malformed (#{code.length} instead of 16b)\n"
@@ -266,7 +337,7 @@ class Coder
       hex += (h1.to_i == 0) ? "00" : "%02x" % h1
       instr[:encoding] = hex;
       Writer.hex(out_hex, code)
-      Writer.mif(out_mif, instr[:addr], code)
+      Writer.mif(out_mif, instr[:addr]-$addr_offset, code)
     end
   end
 
@@ -313,6 +384,15 @@ class Coder
         puts "Resolved: (#{i})#{argr} into #{SymbolTable.resolvesym(argr)}\n"
         #binding.pry
       end
+
+      if instr[:adjust] && (argtemplate == :imm10 || argtemplate == :imm7u) then
+        arg = Parser.parsela16(instr, arg)
+        #binding.pry
+        if arg == :nop then
+          return :nop
+        end
+      end
+
       case argtemplate
       when :imm16
         code += bitsfromint(arg, 16, false)
@@ -323,7 +403,7 @@ class Coder
         # instructions are +2
         # and we need to account for the extra increment the CPU does
         #binding.pry
-        loc = (arg - (instr[:addr] + 1)) * 2
+        loc = (arg - (instr[:addr] + 1))
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
       when :imm7
@@ -349,8 +429,6 @@ class Coder
           puts "Encode: base must be bp/r5"
           exit(1)
         end
-      when :lda
-        code += bitsfromint(arg*2, 10, true)
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
@@ -445,6 +523,7 @@ class ISA
     "addi" => 17,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
+    "ldwb" => 24,
     "stwb" => 26,
     "addhi" => 30,
     "push" => 31,
@@ -455,7 +534,7 @@ class ISA
 
   ARGS= {
     "ldi" => [:imm10, :reg],
-    "lda" => [:lda, :reg],
+    "lda" => [:imm10, :reg],
     "br" => [:imm13br],
     "ldw" => [:imm7, :BPreg, :reg2],
     "stw" => [:imm7, :BPreg, :reg2],
@@ -467,6 +546,7 @@ class ISA
     "addi" => [:immir, :reg, :reg],
     "addskpi.z" => [:immir, :reg, :reg],
     "addskpi.nz" => [:immir, :reg, :reg],
+    "ldwb" => [:reg, :reg, :reg],
     "stwb" => [:reg, :reg, :reg],
     "addhi" => [:imm7u, :reg2],
     "push" => [:reg],
@@ -534,7 +614,9 @@ $labels = []
 $symbols = {}
 $instr_nr = 0
 $instr_addr = 0
+$mem_ptr = 0
 $symnr = 0
+$addr_offset = 0
 #$memptr = 16
 
 
@@ -550,5 +632,5 @@ SymbolTable.dump()
 
 puts "\n------ Instruction tokens -----------\n"
 $instructions.each do |nr, instr|
-  puts "#{(2*nr).to_s(16)} => #{instr}\n"
+  puts "0x#{(nr).to_s(16)} => #{instr}\n"
 end
