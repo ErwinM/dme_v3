@@ -242,7 +242,7 @@ class SymbolTable
     idx = 0
     $instructions.each do |instr|
       if instr[:no_reloc] then next end
-      if ["lda", "addhi"].include?(instr[:command]) then
+      if ["lda", "addhi"].include?(instr[:command]) && instr[:adjust] then
         arg = instr[:args][1]
         if SymbolTable.issym?(arg) then
           argr = arg
@@ -437,7 +437,11 @@ class Coder
         # instructions are +2
         # and we need to account for the extra increment the CPU does
         #binding.pry
-        loc = (arg - (instr[:addr] + 1))
+        if arg > instr[:addr] then
+          loc = (arg - (instr[:addr] + 2))
+        else
+          loc = (instr[:addr] + 2) - arg
+        end
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
       when :imm7
@@ -655,17 +659,10 @@ $last_addr = 0
 
 
 # problem is i have 1 uncertain instruction: addhi which might not be needed:
-# => easy solution is to replace it with a nop instruction
-# I am not sure how to solve this better. Lets consider a bit:
-# pass 1 could link all symbols to their labels through instruction ptrs
-# but to decide if something is one or two instructions we need to calculate the address
-# we could then eliminate unneeded addhi instructions and would have to do another
-# pass to recalculate addresses (based on instruction ptrs)
-# we then might have a few more unneeded addhi, but those are probably not worth eliminating
 
-# we could do this:
+# we do this:
 # 1. resolve symbols -> first addresses
-# 2. process ld16s and identify unneeded addhi's - we could stop at like 2x 0x3ff probably
+# 2. process la16s and identify unneeded addhi's - we could stop at like 2x 0x3ff probably
 # 3. update addresses and resolve symbols again
 
 

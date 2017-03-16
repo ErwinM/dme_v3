@@ -359,7 +359,7 @@ decodesigs() {
 
   memcpy(imms_b, micro_b+22, 3);
   update_bussel(IMMS, bin2dec(imms_b, 3));
-	printf("%s(%d)", imms_b, bussel[IMMS]);
+	//printf("%s(%d)", imms_b, bussel[IMMS]);
 
   memcpy(ALUfunc_b, micro_b+32, 3);
   update_bussel(ALUS, bin2dec(ALUfunc_b, 3));
@@ -370,7 +370,7 @@ decodesigs() {
   //printf(" next: %d", nextstate);
 
   // IRimm MUX - which bits from IR should feed IRimm
-  printf("bussel-imms: %d", bussel[imms]);
+  //printf("bussel-imms: %d", bussel[imms]);
   switch(bussel[IMMS]) {
   case 0:
     update_bsig(IRimm, &imm7);
