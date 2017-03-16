@@ -34,7 +34,7 @@ class Parser
         # load addr, branch to it
         trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]]})
         trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
-        binding.pry
+        #binding.pry
         noreloc = 0
         trampoline.each do |tr|
           tr[:no_reloc] = noreloc
@@ -308,6 +308,7 @@ class SymbolTable
   end
 
   def self.push(ptr, name, type)
+    #binding.pry
     s = { name: name, type: type}
     #does the symbol already exist?
     #if name == "r1" then binding.pry end
@@ -350,7 +351,7 @@ class SymbolTable
 
   def self.dump()
     puts "- SYMBOL TABLE ----- (#{$symbols.length})"
-    #binding.pry
+    binding.pry
     $symbols.each do |nr, symbol|
       puts "#{nr} => #{symbol} (#{(symbol[:addr]).to_s(16)})\n"
     end
@@ -438,9 +439,9 @@ class Coder
         # and we need to account for the extra increment the CPU does
         #binding.pry
         if arg > instr[:addr] then
-          loc = (arg - (instr[:addr] + 2))
+          loc = arg - (instr[:addr] + 2)
         else
-          loc = (instr[:addr] + 2) - arg
+          loc = arg - (instr[:addr] + 2)
         end
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)

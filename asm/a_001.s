@@ -13,7 +13,6 @@ _start:
   ; perform immediate tests
 next2:
   ldi r4, 2
-
   ldi r1, 2
   addskpi.z r3, r1, 2   ; equal so skip next instr
   br fail
