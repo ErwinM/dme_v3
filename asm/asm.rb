@@ -113,7 +113,8 @@ class Parser
       puts "Found mem instr: #{command}\n"
       instr[:mem] = true
     end
-    if argstr.nil? then
+    #binding.pry
+    if argstr.nil? || argstr == "" then
       # instr without args
       instr[:no_args] = true
       return instr
@@ -133,9 +134,22 @@ class Parser
       end
       i += 1
     end
-    instr[:args] = args_array
+    instr[:args] = parseargs(args_array)
+
     puts instr
     return instr
+  end
+
+  def self.parseargs(args)
+    #binding.pry
+    # check if we are loading a char
+    if args[1].is_a? String then
+      if args[1][0..3] == "char" then
+        x, char = args[1].split("'")
+        args[1] = char.ord
+      end
+    end
+    return args
   end
 
   def self.number(nr)
@@ -144,7 +158,7 @@ class Parser
     elsif nr.isnum? then
       return nr.to_i(10) #dec
     else
-      return nr.downcase #label or variable
+      return nr #label or variable
     end
   end
 
@@ -170,20 +184,34 @@ class SymbolTable
   # only label symbols for now
 
   def self.idsymbols()
+    puts "ID SYM\n"
     $labels.each do |label|
       SymbolTable.push(label[:ptr], label[:name], :label)
     end
     $instructions.each do |instr|
       # is it a symbol
       if instr[:no_args] then next end
+      new_args = []
+      idx = 0
       instr[:args].each do |arg|
         #if instr[:command] == "ldi" then binding.pry end
+        # id calculations
+        if arg.is_a?(String) && ( arg.include?("+") || arg.include?("-")) then
+          arg, calc = arg.split(/(?=[+|-])\s*/)
+          new_args << arg
+          instr[:calc] = calc
+          #binding.pry
+        else
+          new_args << arg
+        end
         if SymbolTable.issym?(arg) then
           #binding.pry
           SymbolTable.push(999, arg, :var)
           next
         end
+        idx += 1
       end
+      instr[:args] = new_args
     end
   end
 
@@ -360,7 +388,7 @@ end
 
 class Coder
 
-  def self.build(out_hex, out_mif)
+  def self.build(file, target)
     #binding.pry
     $instructions.each do |instr|
       if instr[:label] then next end
@@ -379,8 +407,15 @@ class Coder
       hex = (h0.to_i == 0) ? "00" : "%02x" % h0
       hex += (h1.to_i == 0) ? "00" : "%02x" % h1
       instr[:encoding] = hex;
-      Writer.hex(out_hex, code)
-      Writer.mif(out_mif, instr[:addr], code)
+
+      case target
+      when :hex
+        Writer.hex(file, code)
+      when :ram
+        Writer.mif(file, (instr[:addr]/2), code)
+      when :sim
+        Writer.mif(file, instr[:addr], code)
+      end
     end
   end
 
@@ -401,16 +436,13 @@ class Coder
     else
       code += "1"
       code += "%06b" % instr[:opcode]
-      if [31,32].include?(instr[:opcode]) then
-        # padd instructions
-        code += "000000"
-      end
     end
     if instr[:no_args] then
       code += "000000000"
       return code
     end
     i = instr[:args].length - 1
+    #binding.pry
     ISA::ARGS[instr[:command]].each do |argtemplate|
       # get the right arg
       if argtemplate[0] == 'x' then
@@ -425,7 +457,12 @@ class Coder
         argr = arg
         arg = SymbolTable.resolvesym(arg)
         puts "Resolved: (#{i})#{argr} into #{SymbolTable.resolvesym(argr)}\n"
-        #binding.pry
+
+        # we are assuming that the calc belongs to the (single) symbol FIXME
+        if instr[:calc] then
+          argstr = arg.to_s+instr[:calc]
+          arg = eval(argstr)
+        end
       end
 
       case argtemplate
@@ -460,6 +497,9 @@ class Coder
         code += "%03b" % ISA::REGS[arg]
       when :reg2
         #binding.pry
+        if ISA::REGS2[arg].nil? then
+          Error.mexit("Encode: instruction can only target R1-R4")
+        end
         code += "%02b" % ISA::REGS2[arg]
       when :xr0
         code += "000"
@@ -468,6 +508,8 @@ class Coder
           puts "Encode: base must be bp/r5"
           exit(1)
         end
+      when :pad6
+        code += "000000"
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}\n"
@@ -567,6 +609,7 @@ class ISA
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
+    "br.r" => 33,
     "defw" => :mem,
     "hlt" => 63,
     "nop" => 200
@@ -589,8 +632,9 @@ class ISA
     "ldwb" => [:reg, :reg, :reg],
     "stwb" => [:reg, :reg, :reg],
     "addhi" => [:imm7u, :reg2],
-    "push" => [:reg],
-    "pop" => [:reg],
+    "push" => [:pad6, :reg],
+    "pop" => [:pad6, :reg],
+    "br.r" => [:pad6, :reg],
     "defw" => [:imm16]
   }.freeze
 
@@ -625,7 +669,7 @@ class ISA
     -4 => 5,
     -2 => 6,
     -1 => 7
-  }
+  }.freeze
 
   MEMINSTR= {
     "defw" => 1
@@ -646,7 +690,8 @@ file_name = args["f"]
 input = File.open(file_name, "r")
 
 out_hex = File.open("A.hex", "w+")
-out_mif = File.open("A.mif", "w+")
+sim_mif = File.open("A_sim.mif", "w+")
+ram_mif = File.open("A_ram.mif", "w+")
 
 $instructions = []
 $mem_instructions =[]
@@ -682,9 +727,14 @@ SymbolTable.adjustla16()
 SymbolTable.placeinstr()
 SymbolTable.resolveptrs()
 
-Writer.mifinit(out_mif)
-Coder.build(out_hex, out_mif)
-Writer.mifclose(out_mif)
+
+Writer.mifinit(sim_mif)
+Writer.mifinit(ram_mif)
+Coder.build(out_hex, :hex)
+Coder.build(ram_mif, :ram)
+Coder.build(sim_mif, :sim)
+Writer.mifclose(ram_mif)
+Writer.mifclose(sim_mif)
 SymbolTable.dump()
 
 puts "\n------ Instruction tokens -----------\n"

@@ -65,3 +65,6 @@
 32, pop reg, decode,
 32, pop reg, read, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
 32, pop reg, exec, regr1s[reg0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, incr_sp
+33, br.r reg, decode, regr0s[tgt], regr1s[reg0], regws[pc], op0s[regr0], op1s[regr1], reg_load, skipstate[2]
+33, br.r reg, read,
+33, br.r reg, exec,

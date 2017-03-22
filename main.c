@@ -814,9 +814,9 @@ loadbios(void)
 	char opcode_b[16]; //including ;
   char * pch, * colon;
 
-  fp = fopen("asm/A.mif", "r");
+  fp = fopen("asm/A_sim.mif", "r");
   if (fp == NULL) {
-    printf("FAILURE opening asm/A.mif\n");
+    printf("FAILURE opening asm/A_sim.mif\n");
     exit(EXIT_FAILURE);
   }
   while ((read = getline(&line, &len, fp)) != -1) {

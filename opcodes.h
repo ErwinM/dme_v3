@@ -32,7 +32,7 @@ static const char
                       "addhi",        // 30
                       "push",
                       "pop",
-                      "NG",
+                      "br.r",
                       "NG",
                       "NG",
                       "NG",

@@ -41,7 +41,7 @@ next5:
 	; use variable
 next4:
 	ldi r4, 4
-	la16 r1, _variable
+	la16 r1, _variable ; this loads 0x2000 in l1 NOT 0xbabe!!
 	br next5
 	br fail
 	hlt
