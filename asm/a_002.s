@@ -33,12 +33,13 @@ next2:
 	br fail
 	hlt
 
+	; now load the value of _variable
 next5:
 	ldi r4, 5
 	br success
 	hlt
 
-	; use variable
+	; load address of _variable
 next4:
 	ldi r4, 4
 	la16 r1, _variable ; this loads 0x2000 in l1 NOT 0xbabe!!

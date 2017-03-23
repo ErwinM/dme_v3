@@ -615,6 +615,7 @@ class ISA
     "nop" => 200
   }.freeze
 
+  # these templates reflect the order in which they should end up in the encoding
   ARGS= {
     "ldi" => [:imm10, :reg],
     "lda" => [:imm10, :reg],

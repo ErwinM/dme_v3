@@ -21,11 +21,10 @@ _foo:
 	mov	bp, sp
 	ldi	r4, 2
 	sub	sp, r4, sp
-	lda	r4,_array
-	ldwb	r4,r4,r0
-	lda	r3,_array+4
-	ldwb	r3,r3,r0
-	add	r4,r4,r3
+	ldw	r4,4(bp)
+shl r4, 1, r4
+	lda	r3,_array
+ldwb r4, r4, r3
 	stw	r4,-2(bp)
 	ldw	r1,-2(bp)
 L1:
@@ -46,13 +45,13 @@ _main:
 	br	_foo
 	stw	r1,-2(bp)
 	ldw	r4,-2(bp)
-	addi	r4,r4,1
+	addi	r4,r4,2
 	stw	r4,-2(bp)
 	ldw	r4,-2(bp)
 	lda	r3,_result
 	stwb	r4,r3,r0
 	mov	r1,r4
-L3:
+L2:
 	mov	sp, bp
 	pop	bp
 	pop	pc
