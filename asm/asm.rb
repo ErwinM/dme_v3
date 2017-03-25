@@ -61,6 +61,7 @@ class Parser
         instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instructions = [instr_lo, instr_hi]
+        #binding.pry
       else
         instructions = [parsed_instr]
       end
@@ -71,6 +72,8 @@ class Parser
 
   def self.appendinstr(instructions)
     instructions.each do |instr|
+      valid_instr?(instr)
+      puts "adding: #{instr} - #{$instr_nr}\n"
       if instr[:mem] then
         instr[:instr_nr] = $instr_nr
         $instr_nr += 1
@@ -89,6 +92,18 @@ class Parser
       $instr_nr += 1
       $instructions << instr
     end
+  end
+
+  def self.valid_instr?(instr)
+    if instr[:label] then return end
+    if ISA::OPCODES[instr[:command]].nil?
+      Error.mexit("Unknown command: #{instr[:command]}\n")
+    end
+    #binding.pry
+    if !instr[:no_args] && (ISA::ARGS[instr[:command]].length != instr[:args].length)
+      Error.mexit("Argument error: #{instr[:command]}, #{ISA::ARGS[instr[:command]].length} got #{instr[:args].length}")
+    end
+    return
   end
 
   def self.parseline(line)
@@ -156,7 +171,8 @@ class Parser
   end
 
   def self.number(nr)
-    if nr.include?("0x") then
+    #binding.pry
+    if nr.to_s[0..1] == "0x" then
       return nr.to_i(16) #hex
     elsif nr.isnum? then
       return nr.to_i(10) #dec
@@ -279,7 +295,7 @@ class SymbolTable
         i += 1
       end
     end
-    binding.pry
+    #binding.pry
   end
 
   def self.resolveptrs()
@@ -309,10 +325,11 @@ class SymbolTable
         adjarg = parsela16(instr[:command], arg)
         if adjarg == :nop then
           $instructions.delete_at(idx)
-        else
-          instr[:args][1] = adjarg
-          #binding.pry
         end
+          # SHOULD NOT RESOLVE HERE JUST REMOVE THE UNNEEDED INSTR - address is not final yet
+          #instr[:args][1] = adjarg
+          #binding.pry
+          #end
       end
       idx += 1
     end
@@ -639,8 +656,8 @@ class ISA
     "addi" => 17,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
-    "ldwb" => 24,
-    "stwb" => 26,
+    "ldw.b" => 24,
+    "stw.b" => 26,
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
@@ -667,8 +684,8 @@ class ISA
     "addi" => {:immir => 1, :reg =>2, :reg2 => 0},
     "addskpi.z" => {:immir => 1, :reg => 2, :reg1 => 0},
     "addskpi.nz" => {:immir => 1, :reg => 2, :reg1 => 0},
-    "ldwb" => {:reg => 1, :reg1 => 2, :reg2 => 0},
-    "stwb" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "ldw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "stw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addhi" => {:imm7u => 1, :tgt2 => 0},
     "push" => {:pad6 => :x, :reg => 0},
     "pop" => {:pad6 => :x, :reg => 0},
@@ -679,6 +696,7 @@ class ISA
 
   REGS= {
     "r0" => 0,
+    0 => 0,
     "r1" => 1,
     "r2" => 2,
     "r3" => 3,

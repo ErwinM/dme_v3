@@ -3,7 +3,7 @@
 
 _main:
   la16 r1, _memdata
-	ldwb r2, r0, r1
+	ldw.b r2, r0, r1
 
 
 

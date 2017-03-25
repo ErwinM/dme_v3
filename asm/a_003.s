@@ -71,105 +71,118 @@ _start_tests:
     ; Be a bit redundant to make sure the sign extension
     ; circuitry isn't turning on when inappropriate.
 
-next0:
-    ld.16   b,MEM0x00_8
-    ld.8    a,0(B)
-    cmpb.ne.8	a,0x00,fail
-    cmpb.eq.8	a,0x00,next1
-    br	fail
-next1:
-    ld.8    b,0x00
-    cmpb.ne.8	a,b,fail
-    cmpb.eq.8	a,b,next2
-    br	fail
+    ; Run though some combos for word loads and compares.
+		la16	r1, MEM0x8000_16 ; we are loading an address, which from the cpu will be a constant
+		ldw.b	r2, 0(r1)
+		ld16 r3, 0x8000
+		addskp.z r1, r2, r3
+		br fail
+    br success
+    hlt
 
-next2:
-    ld.16   b,MEM0x7F_8
-    ld.8    a,0(B)
-    cmpb.ne.8	a,0x7F,fail
-    cmpb.eq.8	a,0x7F,next3
-    br	fail
-next3:
-    ld.8    b,0x7F
-    cmpb.ne.8	a,b,fail
-    cmpb.eq.8	a,b,next4
-    br	fail
+;next7:
+;    ld.16    b,0x0000
+;    cmpb.ne.16	a,b,fail
+;    cmpb.eq.16	a,b,next8
+;    br	fail
+;    br	next8
+;
+;ldw
+;		ld.16   b,MEM0x00_8
+;    ld.8    a,0(B)
+;    cmpb.ne.8	a,0x00,fail
+;    cmpb.eq.8	a,0x00,next1
+;    br	fail
+;next1:
+;    ld.8    b,0x00
+;    cmpb.ne.8	a,b,fail
+;    cmpb.eq.8	a,b,next2
+;    br	fail
+;
+;next2:
+;    ld.16   b,MEM0x7F_8
+;    ld.8    a,0(B)
+;    cmpb.ne.8	a,0x7F,fail
+;    cmpb.eq.8	a,0x7F,next3
+;    br	fail
+;next3:
+;    ld.8    b,0x7F
+;    cmpb.ne.8	a,b,fail
+;    cmpb.eq.8	a,b,next4
+;    br	fail
+;
+;next4:
+;    ld.16   b,MEM0x80_8
+;    ld.8    a,0(B)
+;    cmpb.ne.8	a,0x80,fail
+;    cmpb.eq.8	a,0x80,next5
+;    br	fail
+;next5:
+;    ld.8    b,0x80
+;    cmpb.ne.8	a,b,fail
+;    cmpb.eq.8	a,b,next6
+;    br	fail
+;
+;
+;pass:
+;	ld.16	c,0xbd10
+;fail:
+;	halt
+;
+;next8:
+;    ld.16   b,MEM0x7FFF_16
+;    ld.16    a,0(B)
+;    cmpb.ne.16	a,0x7FFF,fail
+;    cmpb.eq.16	a,0x7FFF,next9
+;    br	fail
+;next9:
+;    ld.16    b,0x7FFF
+;    cmpb.ne.16	a,b,fail
+;    cmpb.eq.16	a,b,next10
+;    br	fail
+;
+;next10:
+;    ld.16   b,MEM0x8000_16
+;    ld.16    a,0(B)
+;    cmpb.ne.16	a,0x8000,fail
+;    cmpb.eq.16	a,0x8000,next11
+;    br	fail
+;next11:
+;    ld.16    b,0x8000
+;    cmpb.ne.16	a,b,fail
+;    cmpb.eq.16	a,b,next12
+;    br	fail
+;
+;
+;    ; Try a couple of simple stores
+;next12:
+;    ld.16   b,b1
+;    ld.8    a,12
+;    st.8    0(B),a
+;    ld.16   a,0xfdca
+;    cmpb.eq.8	a,12,fail
+;    ld.8    a,0(B)
+;    cmpb.ne.8	a,12,fail
+;
+;    ; And again with a word
+;next13:
+;    ld.16   b,w1
+;    ld.16   a,0x4321
+;    st.16   0(B),a
+;    ld.16   a,0x3333
+;    cmpb.ne.16	a,0x3333,fail
+;    ld.16   a,0(B)
+;    cmpb.ne.16	a,0x4321,fail
+;
+;    ; That's enough for now.
+;    br	pass
+;
 
-next4:
-    ld.16   b,MEM0x80_8
-    ld.8    a,0(B)
-    cmpb.ne.8	a,0x80,fail
-    cmpb.eq.8	a,0x80,next5
-    br	fail
-next5:
-    ld.8    b,0x80
-    cmpb.ne.8	a,b,fail
-    cmpb.eq.8	a,b,next6
-    br	fail
+  ; tests complete
+success:
+	ldi r5, 0xAA
+  hlt
 
-    ; Same for word loads and compares
-next6:
-    ld.16   b,MEM0x0000_16
-    ld.16    a,0(B)
-    cmpb.ne.16	a,0x0000,fail
-    cmpb.eq.16	a,0x0000,next7
-    br	fail
-next7:
-    ld.16    b,0x0000
-    cmpb.ne.16	a,b,fail
-    cmpb.eq.16	a,b,next8
-    br	fail
-    br	next8
-
-pass:
-	ld.16	c,0xbd10
 fail:
-	halt
-
-next8:
-    ld.16   b,MEM0x7FFF_16
-    ld.16    a,0(B)
-    cmpb.ne.16	a,0x7FFF,fail
-    cmpb.eq.16	a,0x7FFF,next9
-    br	fail
-next9:
-    ld.16    b,0x7FFF
-    cmpb.ne.16	a,b,fail
-    cmpb.eq.16	a,b,next10
-    br	fail
-
-next10:
-    ld.16   b,MEM0x8000_16
-    ld.16    a,0(B)
-    cmpb.ne.16	a,0x8000,fail
-    cmpb.eq.16	a,0x8000,next11
-    br	fail
-next11:
-    ld.16    b,0x8000
-    cmpb.ne.16	a,b,fail
-    cmpb.eq.16	a,b,next12
-    br	fail
-
-
-    ; Try a couple of simple stores
-next12:
-    ld.16   b,b1
-    ld.8    a,12
-    st.8    0(B),a
-    ld.16   a,0xfdca
-    cmpb.eq.8	a,12,fail
-    ld.8    a,0(B)
-    cmpb.ne.8	a,12,fail
-
-    ; And again with a word
-next13:
-    ld.16   b,w1
-    ld.16   a,0x4321
-    st.16   0(B),a
-    ld.16   a,0x3333
-    cmpb.ne.16	a,0x3333,fail
-    ld.16   a,0(B)
-    cmpb.ne.16	a,0x4321,fail
-
-    ; That's enough for now.
-    br	pass
+  ldi r5, 0xFF
+  hlt
