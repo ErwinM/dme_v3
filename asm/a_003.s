@@ -1,5 +1,5 @@
 ;
-; group_a, test 2
+; group_a, test 3
 ;
 ; Basic coverage for test boilerplate.  Because this test is designed
 ; to validate enough capabilities to run boilerplate code, it does not
@@ -7,12 +7,12 @@
 ;
 ; Covers:
 ;
-;	ld.8	a,0(B)
-;	ld.16	a,0(B)
-;	st.8	0(B),a
-;	st.16	0(B),a
-;	cmpb.eq.16  a,imm,tgt
-;	cmpb.ne.16  a,imm,tgt
+;	>>ld.8	a,0(B)
+;	ldw	a,0(B)
+;	>>st.8	0(B),a
+;	stw	0(B), a
+;	addskp.z tgt, r1, r2
+;	addskp.
 ;	cmpb.eq.8  a,imm,tgt
 ;	cmpb.ne.8  a,imm,tgt
 ;

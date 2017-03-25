@@ -24,7 +24,7 @@ class Parser
       if parsed_instr.nil? then
         next
       end
-
+      #binding.pry
       if parsed_instr[:command] == ".code" then
         if $instr_nr != 0 then
           Error.mexit("ERROR: .code needs to be the first declaration (is: #{$instr_nr})")
@@ -112,6 +112,9 @@ class Parser
     if ISA::MEMINSTR.include?(instr[:command])
       puts "Found mem instr: #{command}\n"
       instr[:mem] = true
+      if instr[:command] == 'defb' then
+        instr[:byte_enable] = true
+      end
     end
     #binding.pry
     if argstr.nil? || argstr == "" then
@@ -127,8 +130,8 @@ class Parser
       if a.include?("(") then
         offset, base = a.split("(")
         base.chop!
-        args_array << number(base) #order matters!
         args_array << number(offset)
+        args_array << number(base)
       else
         args_array << number(a)
       end
@@ -234,8 +237,12 @@ class SymbolTable
       if instr[:no_reloc] then
         instr[:addr] = instr[:no_reloc]
       else
-        instr[:addr] = $last_addr
-        $last_addr += 2
+        if instr[:byte2] then
+          instr[:addr] = $last_addr - 1
+        else
+          instr[:addr] = $last_addr
+          $last_addr += 2
+        end
       end
     end
   end
@@ -248,11 +255,31 @@ class SymbolTable
     else
       $data_ptr = $last_addr
     end
-    $mem_instructions.each do |instr|
-      instr[:addr] = $data_ptr
-      $instructions << instr
-      $data_ptr += 2
+    i = 0
+    while(i <= $mem_instructions.length - 1) do
+      instr = $mem_instructions[i]
+      # for byte loads: check if next is also a byte then merge and skip one; other wise proceed as normal
+      # we cannot fully skip the 2nd byte since we need to leave a breadcrumb to resolve the address
+      if instr[:byte_enable] && $mem_instructions[i+1] && $mem_instructions[i+1][:byte_enable] then
+        # byte_1
+        instr[:args][0] = instr[:args][0] << 8 |  $mem_instructions[i+1][:args][0]
+        instr[:addr] = $data_ptr
+        $instructions << instr
+        # byte_2
+        $mem_instructions[i+1][:byte2] = true
+        $mem_instructions[i+1][:addr] = $data_ptr + 1
+        $instructions << $mem_instructions[i+1]
+        $data_ptr += 2
+        i += 2 # skip the 2nd byte since we already added it
+      else
+
+        instr[:addr] = $data_ptr
+        $instructions << instr
+        $data_ptr += 2
+        i += 1
+      end
     end
+    binding.pry
   end
 
   def self.resolveptrs()
@@ -317,6 +344,7 @@ class SymbolTable
   def self.find_instr_nr(nr)
     # for performance we could build a seperate ordered hash of linenr => addr
     # lets deal with that later
+    #binding.pry
     $instructions.each do |instr|
       #binding.pry
       return instr[:addr] if instr[:instr_nr] == nr
@@ -379,7 +407,7 @@ class SymbolTable
 
   def self.dump()
     puts "- SYMBOL TABLE ----- (#{$symbols.length})"
-    binding.pry
+    #binding.pry
     $symbols.each do |nr, symbol|
       puts "#{nr} => #{symbol} (#{(symbol[:addr]).to_s(16)})\n"
     end
@@ -388,34 +416,18 @@ end
 
 class Coder
 
-  def self.build(file, target)
-    #binding.pry
+  def self.build()
+    #
     $instructions.each do |instr|
-      if instr[:label] then next end
+      #binding.pry
+      if instr[:label] || instr[:byte2] then next end
       code = encode(instr)
       if code.length != 16 then
         binding.pry
         puts "Coder::build: code malformed (#{code.length} instead of 16b)\n"
         exit
       end
-      b0 = code[0..7]
-      b1 = code[8..15]
-
-      h0 = b0.to_i(2)
-      h1 = b1.to_i(2)
-
-      hex = (h0.to_i == 0) ? "00" : "%02x" % h0
-      hex += (h1.to_i == 0) ? "00" : "%02x" % h1
-      instr[:encoding] = hex;
-
-      case target
-      when :hex
-        Writer.hex(file, code)
-      when :ram
-        Writer.mif(file, (instr[:addr]/2), code)
-      when :sim
-        Writer.mif(file, instr[:addr], code)
-      end
+      instr[:code] = code
     end
   end
 
@@ -441,22 +453,19 @@ class Coder
       code += "000000000"
       return code
     end
-    i = instr[:args].length - 1
+    #i = 0
     #binding.pry
-    ISA::ARGS[instr[:command]].each do |argtemplate|
-      # get the right arg
-      if argtemplate[0] == 'x' then
-        # template does not consume an arg
-        arg = 'NO ARG TEMPLATE'
-      else
-        arg = instr[:args][i]
-        i -= 1
-      end
+    ISA::ARGS[instr[:command]].each do |template, argnr|
+      # get the right arg from argtemplate
+      #binding.pry
+      #template = argtemplate.keys[i]
+      arg = instr[:args][argnr] unless argnr == :x
+      #i += 1
       #binding.pry
       if SymbolTable.issym?(arg) then
         argr = arg
         arg = SymbolTable.resolvesym(arg)
-        puts "Resolved: (#{i})#{argr} into #{SymbolTable.resolvesym(argr)}\n"
+        puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
 
         # we are assuming that the calc belongs to the (single) symbol FIXME
         if instr[:calc] then
@@ -465,7 +474,7 @@ class Coder
         end
       end
 
-      case argtemplate
+      case template
       when :imm16
         code += bitsfromint(arg, 16, false)
       when :imm10
@@ -492,10 +501,10 @@ class Coder
           exit
         end
         code += "%03b" % ISA::IRIMM[arg.to_i]
-      when :reg
+      when :reg, :reg1, :reg2
         #binding.pry
         code += "%03b" % ISA::REGS[arg]
-      when :reg2
+      when :tgt2
         #binding.pry
         if ISA::REGS2[arg].nil? then
           Error.mexit("Encode: instruction can only target R1-R4")
@@ -512,7 +521,7 @@ class Coder
         code += "000000"
       else
         #binding.pry
-        puts "Encode: cannot resolve argument: #{arg}\n"
+        puts "Encode: cannot resolve argument: #{arg}(:#{template})\n"
         exit
       end
     end
@@ -553,6 +562,32 @@ class Coder
 end
 
 class Writer
+
+  def self.write(file, target)
+    $instructions.each do |instr|
+      next if instr[:byte2]
+      code = instr[:code]
+      b0 = code[0..7]
+      b1 = code[8..15]
+
+      h0 = b0.to_i(2)
+      h1 = b1.to_i(2)
+
+      hex = (h0.to_i == 0) ? "00" : "%02x" % h0
+      hex += (h1.to_i == 0) ? "00" : "%02x" % h1
+      instr[:encoding] = hex;
+
+      case target
+      when :hex
+        Writer.hex(file, code)
+      when :ram
+        Writer.mif(file, (instr[:addr]/2), code)
+      when :sim
+        Writer.mif(file, instr[:addr], code)
+      end
+    end
+  end
+
   def self.hex(output, code)
     b0 = code[0..7]
     b1 = code[8..15]
@@ -611,32 +646,35 @@ class ISA
     "pop" => 32,
     "br.r" => 33,
     "defw" => :mem,
+    "defb" => :mem,
     "hlt" => 63,
     "nop" => 200
   }.freeze
 
   # these templates reflect the order in which they should end up in the encoding
+  # template => arg number from parse (e.g. order in isa)
   ARGS= {
-    "ldi" => [:imm10, :reg],
-    "lda" => [:imm10, :reg],
-    "br" => [:imm13br],
-    "ldw" => [:imm7, :BPreg, :reg2],
-    "stw" => [:imm7, :BPreg, :reg2],
-    "add" => [:reg, :reg, :reg],
-    "mov" => [:reg, :xr0, :reg],
-    "sub" => [:reg, :reg, :reg],
-    "addskp.z" => [:reg, :reg, :reg],
-    "addskp.nz" => [:reg, :reg, :reg],
-    "addi" => [:immir, :reg, :reg],
-    "addskpi.z" => [:immir, :reg, :reg],
-    "addskpi.nz" => [:immir, :reg, :reg],
-    "ldwb" => [:reg, :reg, :reg],
-    "stwb" => [:reg, :reg, :reg],
-    "addhi" => [:imm7u, :reg2],
-    "push" => [:pad6, :reg],
-    "pop" => [:pad6, :reg],
-    "br.r" => [:pad6, :reg],
-    "defw" => [:imm16]
+    "ldi" => {:imm10 => 1, :reg => 0},
+    "lda" => {:imm10 => 1, :reg => 0},
+    "br" => {:imm13br => 0},
+    "ldw" => {:imm7 => 1, :BPreg => 2, :tgt2 => 0},
+    "stw" => {:imm7 => 0, :BPreg => 1, :tgt2 => 2},
+    "add" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "mov" => {:reg => 1, :noarg => :x, :reg1 => 0},
+    "sub" => {:reg =>1, :reg1 => 2, :reg2 => 0},
+    "addskp.z" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "addskp.nz" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "addi" => {:immir => 1, :reg =>2, :reg2 => 0},
+    "addskpi.z" => {:immir => 1, :reg => 2, :reg1 => 0},
+    "addskpi.nz" => {:immir => 1, :reg => 2, :reg1 => 0},
+    "ldwb" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "stwb" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "addhi" => {:imm7u => 1, :tgt2 => 0},
+    "push" => {:pad6 => :x, :reg => 0},
+    "pop" => {:pad6 => :x, :reg => 0},
+    "br.r" => {:pad6 => :x, :reg => 0},
+    "defw" => {:imm16 => 0},
+    "defb" => {:imm16 => 0}
   }.freeze
 
   REGS= {
@@ -673,7 +711,8 @@ class ISA
   }.freeze
 
   MEMINSTR= {
-    "defw" => 1
+    "defw" => 1,
+    "defb" => 2
   }
 end
 
@@ -731,9 +770,10 @@ SymbolTable.resolveptrs()
 
 Writer.mifinit(sim_mif)
 Writer.mifinit(ram_mif)
-Coder.build(out_hex, :hex)
-Coder.build(ram_mif, :ram)
-Coder.build(sim_mif, :sim)
+Coder.build()
+Writer.write(out_hex, :hex)
+Writer.write(ram_mif, :ram)
+Writer.write(sim_mif, :sim)
 Writer.mifclose(ram_mif)
 Writer.mifclose(sim_mif)
 SymbolTable.dump()
