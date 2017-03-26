@@ -1,0 +1,6 @@
+define(SYM,
+`define($1, $1_$2)')
+
+SYM(next1, a_001)
+next1
+

@@ -1,33 +1,33 @@
-	la16 r4, 0x0ff0
+	la16 r4, 0x0ff0	; uart offset
 	mov r5, r4
 	mov r1, r0
-	stw r1, 1(r5)   ; port + 1 0x00 - disable all interrupts
+	stw 1(r5), r1   ; port + 1 0x00 - disable all interrupts
 	ldi r1, 0x80
-	stw r1, 3(r5)   ; port + 3 0x80 enable dlab
+	stw 3(r5), r1   ; port + 3 0x80 enable dlab
 	ldi r1, 32
-	stw r1, 0(r5)		; port + 0 set divisor to 1 LSB
+	stw 0(r5), r1		; port + 0 set divisor to 1 LSB
 	ldi r1, 0
-	stw r1, 1(r5)		; port + 1 set divisor to 1 MSB
+	stw 1(r5), r1		; port + 1 set divisor to 1 MSB
 	ldi r1, 3
-	stw r1, 3(r5)		; port + 3 set LCR - validate
+	stw 3(r5), r1		; port + 3 set LCR - validate
 	ldi r1, char 'e'
-	stw r1, 0(r5)		; offset of LSR
+	stw 0(r5), r1		; offset of LSR
 	addi r4, pc, 2
 	br check_tx_free
 	ldi r1, char 'r'
-	stw r1, 0(r5)		; port set transport byte
+	stw 0(r5), r1		; port set transport byte
 	addi r4, pc, 2
 	br check_tx_free
 	ldi r1, char 'w'
-	stw r1, 0(r5)		; port set transport byte
+	stw 0(r5), r1		; port set transport byte
 	addi r4, pc, 2
 	br check_tx_free
 	ldi r1, char 'i'
-	stw r1, 0(r5)		; port set transport byte
+	stw 0(r5), r1		; port set transport byte
 	addi r4, pc, 2
 	br check_tx_free
 	ldi r1, char 'n'
-	stw r1, 0(r5)		; port set transport byte
+	stw 0(r5), r1		; port set transport byte
 	ldi r5, 0xaa
 	hlt
 	hlt

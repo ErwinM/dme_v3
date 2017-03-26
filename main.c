@@ -559,7 +559,10 @@ ALU(void) {
     result = bsig[OP0] + bsig[OP1];
     break;
   case 1:
-    result = bsig[OP1] - bsig[OP0];
+    result = bsig[OP0] - bsig[OP1];
+		break;
+	case 2:
+		result = bsig[OP0] & bsig[OP1];
     break;
 	case 6:
 		result = (bsig[OP0] << 9) | (bsig[OP1] & 0x1ff);

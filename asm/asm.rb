@@ -99,9 +99,13 @@ class Parser
     if ISA::OPCODES[instr[:command]].nil?
       Error.mexit("Unknown command: #{instr[:command]}\n")
     end
-    #binding.pry
-    if !instr[:no_args] && (ISA::ARGS[instr[:command]].length != instr[:args].length)
-      Error.mexit("Argument error: #{instr[:command]}, #{ISA::ARGS[instr[:command]].length} got #{instr[:args].length}")
+
+    unless instr[:no_args]
+      nr_of_args = ISA::ARGS[instr[:command]].values.select {|a| a != :x}.length
+      if nr_of_args != instr[:args].length then
+        binding.pry
+        Error.mexit("Argument error: #{instr[:command]}, #{ISA::ARGS[instr[:command]].length} got #{instr[:args].length}")
+      end
     end
     return
   end
@@ -423,8 +427,10 @@ class SymbolTable
 
   def self.dump()
     puts "- SYMBOL TABLE ----- (#{$symbols.length})"
-    #binding.pry
     $symbols.each do |nr, symbol|
+      if symbol[:addr].nil? then
+        Error.mexit("Encountered undefined symbol: '#{symbol[:name]}'")
+      end
       puts "#{nr} => #{symbol} (#{(symbol[:addr]).to_s(16)})\n"
     end
   end
@@ -596,7 +602,7 @@ class Writer
 
       case target
       when :hex
-        Writer.hex(file, code)
+        Writer.hex(file, hex)
       when :ram
         Writer.mif(file, (instr[:addr]/2), code)
       when :sim
@@ -605,17 +611,17 @@ class Writer
     end
   end
 
-  def self.hex(output, code)
-    b0 = code[0..7]
-    b1 = code[8..15]
+  def self.hex(output, hex)
 
-    h0 = b0.to_i(2)
-    h1 = b1.to_i(2)
 
-    hex = (h0.to_i == 0) ? "00" : "%02x" % h0
-    hex += (h1.to_i == 0) ? "00" : "%02x" % h1
-    output.write(hex)
-    output.write("\n")
+    if ($hex_addr % 16) > 0 then
+      output.write("#{hex} ")
+    else
+      output.write("\n")
+      output.write("%04x: " % $hex_addr)
+      output.write("#{hex} ")
+    end
+    $hex_addr += 2
   end
 
   def self.mifinit(output)
@@ -647,13 +653,17 @@ class ISA
     "lda"   => 0,
     "br"   => 1,
     "ldw"  => 4,
+    "ldb"  => 6,
     "stw"  => 7,
+    "stb"  => 9,
     "add" => 10,
     "mov" => 10,
     "sub" => 11,
+    "and" => 12,
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addi" => 17,
+    "andi" => 19,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "ldw.b" => 24,
@@ -677,15 +687,19 @@ class ISA
     "lda" => {:imm10 => 1, :reg => 0},
     "br" => {:imm13br => 0},
     "ldw" => {:imm7 => 1, :BPreg => 2, :tgt2 => 0},
+    "ldb" => {:imm7 => 1, :BPreg => 2, :tgt2 => 0},
     "stw" => {:imm7 => 0, :BPreg => 1, :tgt2 => 2},
+    "stb" => {:imm7 => 0, :BPreg => 1, :tgt2 => 2},
     "add" => {:reg => 1, :reg1 => 2, :reg2 => 0},
-    "mov" => {:reg => 1, :noarg => :x, :reg1 => 0},
+    "mov" => {:reg => 1, :xr0 => :x, :reg1 => 0},
     "sub" => {:reg =>1, :reg1 => 2, :reg2 => 0},
+    "and" => {:reg =>1, :reg1 => 2, :reg2 => 0},
     "addskp.z" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addskp.nz" => {:reg => 1, :reg1 => 2, :reg2 => 0},
-    "addi" => {:immir => 1, :reg =>2, :reg2 => 0},
-    "addskpi.z" => {:immir => 1, :reg => 2, :reg1 => 0},
-    "addskpi.nz" => {:immir => 1, :reg => 2, :reg1 => 0},
+    "addi" => {:immir => 2, :reg =>1, :reg2 => 0},
+    "andi" => {:immir => 2, :reg =>1, :reg2 => 0},
+    "addskpi.z" => {:immir => 2, :reg => 1, :reg1 => 0},
+    "addskpi.nz" => {:immir => 2, :reg => 1, :reg1 => 0},
     "ldw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "ldb.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "stw.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
@@ -764,6 +778,7 @@ $symnr = 0
 $code_ptr = 0
 $data_ptr = 0
 $last_addr = 0
+$hex_addr = 0
 
 
 # problem is i have 1 uncertain instruction: addhi which might not be needed:

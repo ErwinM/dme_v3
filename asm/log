@@ -1,0 +1,454 @@
+Parsing: ;
+Parsing: ; group_a, test 3
+Parsing: ;
+Parsing: ; Basic coverage for test boilerplate.  Because this test is designed
+Parsing: ; to validate enough capabilities to run boilerplate code, it does not
+Parsing: ; use the boilerplate as-is.
+Parsing: ;
+Parsing: ; Covers:
+Parsing: ;
+Parsing: ;	>>ld.8	a,0(B)
+Parsing: ;	ldw	a,0(B)
+Parsing: ;	>>st.8	0(B),a
+Parsing: ;	stw	0(B), a
+Parsing: ;	addskp.z tgt, r1, r2
+Parsing: ;	addskp.
+Parsing: ;	cmpb.eq.8  a,imm,tgt
+Parsing: ;	cmpb.ne.8  a,imm,tgt
+Parsing: ;
+Parsing: ; NOTE: subtest number is set statically (don't have stores yet)
+Parsing: ;	SP is not set
+Parsing: ;	calls not performed
+Parsing: ;
+Parsing: ; NOTE: This code should not be included in composed tests, as it doesn't
+Parsing: ;	follow normal conventions.
+Parsing: ;
+Parsing: _start:
+Found label: _start
+adding: {:label=>true, :name=>"_start"} - 0
+Parsing: br	_start_tests	; Go run stuff.
+{:command=>"br", :args=>["_start_tests"]}
+adding: {:command=>"br", :args=>["_start_tests"]} - 1
+skip
+Parsing: ; Data sections to report group, test and subtest number
+skip
+Parsing: test_group:
+Found label: test_group
+adding: {:label=>true, :name=>"test_group"} - 2
+Parsing: defb    0x61	; group 'a'
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[97]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[97]} - 3
+Parsing: test_num:
+Found label: test_num
+adding: {:label=>true, :name=>"test_num"} - 4
+Parsing: defb    0x02	; test 2
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[2]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[2]} - 5
+Parsing: subtest:
+Found label: subtest
+adding: {:label=>true, :name=>"subtest"} - 6
+Parsing: defb    0x01A ; subtest 1 (only 1 subtest here)
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[26]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[26]} - 7
+skip
+Parsing: ; Literal section for useful memory constants (should not be modified)
+Parsing: MEM0x00_8:
+Found label: MEM0x00_8
+adding: {:label=>true, :name=>"MEM0x00_8"} - 8
+Parsing: defb    0x00
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0]} - 9
+Parsing: MEM0x01_8:
+Found label: MEM0x01_8
+adding: {:label=>true, :name=>"MEM0x01_8"} - 10
+Parsing: defb    0x01
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[1]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[1]} - 11
+Parsing: MEM0xFF_8:
+Found label: MEM0xFF_8
+adding: {:label=>true, :name=>"MEM0xFF_8"} - 12
+Parsing: defb    0xff
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[255]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[255]} - 13
+Parsing: MEM0x0000_16:
+Found label: MEM0x0000_16
+adding: {:label=>true, :name=>"MEM0x0000_16"} - 14
+Parsing: defw    0x0000
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[0]}
+adding: {:command=>"defw", :mem=>true, :args=>[0]} - 15
+Parsing: MEM0x0001_16:
+Found label: MEM0x0001_16
+adding: {:label=>true, :name=>"MEM0x0001_16"} - 16
+Parsing: defw    0x0001
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[1]}
+adding: {:command=>"defw", :mem=>true, :args=>[1]} - 17
+Parsing: MEM0xFFFF_16:
+Found label: MEM0xFFFF_16
+adding: {:label=>true, :name=>"MEM0xFFFF_16"} - 18
+Parsing: defw    0xffff
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[65535]}
+adding: {:command=>"defw", :mem=>true, :args=>[65535]} - 19
+Parsing: MEM0x7F_8:
+Found label: MEM0x7F_8
+adding: {:label=>true, :name=>"MEM0x7F_8"} - 20
+Parsing: defb    0x7f
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[127]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[127]} - 21
+Parsing: MEM0x80_8:
+Found label: MEM0x80_8
+adding: {:label=>true, :name=>"MEM0x80_8"} - 22
+Parsing: defb    0x80
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[128]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[128]} - 23
+Parsing: MEM0x7FFF_16:
+Found label: MEM0x7FFF_16
+adding: {:label=>true, :name=>"MEM0x7FFF_16"} - 24
+Parsing: defw    0x7fff
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[32767]}
+adding: {:command=>"defw", :mem=>true, :args=>[32767]} - 25
+Parsing: MEM0x8000_16:
+Found label: MEM0x8000_16
+adding: {:label=>true, :name=>"MEM0x8000_16"} - 26
+Parsing: defw    0x8000
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[32768]}
+adding: {:command=>"defw", :mem=>true, :args=>[32768]} - 27
+skip
+Parsing: b1:
+Found label: b1
+adding: {:label=>true, :name=>"b1"} - 28
+Parsing: defb    0x00
+Found mem instr: defb
+{:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0]}
+adding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0]} - 29
+Parsing: w1:
+Found label: w1
+adding: {:label=>true, :name=>"w1"} - 30
+Parsing: defw    0x0000
+Found mem instr: defw
+{:command=>"defw", :mem=>true, :args=>[0]}
+adding: {:command=>"defw", :mem=>true, :args=>[0]} - 31
+skip
+skip
+Parsing: _start_tests:
+Found label: _start_tests
+adding: {:label=>true, :name=>"_start_tests"} - 32
+skip
+Parsing: ; Begin test here
+skip
+Parsing: ; Run though some combos for byte loads and compares.
+Parsing: ; Be a bit redundant to make sure the sign extension
+Parsing: ; circuitry isn't turning on when inappropriate.
+skip
+Parsing: ; Run though some combos for word loads and compares.
+Parsing: la16	r1, MEM0x8000_16 ; we are loading an address, which from the cpu will be a constant
+{:command=>"la16", :args=>["r1", 0]}
+adding: {:command=>"lda", :args=>["r1", 0], :adjust=>true} - 33
+adding: {:command=>"addhi", :args=>["r1", 0], :adjust=>true} - 34
+Parsing: ldw.b	r2, 0(r1)
+{:command=>"ldw.b", :args=>["r2", 0, "r1"]}
+adding: {:command=>"ldw.b", :args=>["r2", 0, "r1"]} - 35
+Parsing: ld16 r3, 0x8000
+{:command=>"ld16", :args=>["r3", 32768]}
+adding: {:command=>"ldi", :args=>["r3", 0]} - 36
+adding: {:command=>"addhi", :args=>["r3", 64]} - 37
+Parsing: addskp.z r1, r2, r3
+{:command=>"addskp.z", :args=>["r1", "r2", "r3"]}
+adding: {:command=>"addskp.z", :args=>["r1", "r2", "r3"]} - 38
+Parsing: br fail
+{:command=>"br", :args=>["fail"]}
+adding: {:command=>"br", :args=>["fail"]} - 39
+Parsing: br success
+{:command=>"br", :args=>["success"]}
+adding: {:command=>"br", :args=>["success"]} - 40
+Parsing: hlt
+adding: {:command=>"hlt", :no_args=>true} - 41
+skip
+Parsing: ;next7:
+Parsing: ;    ld.16    b,0x0000
+Parsing: ;    cmpb.ne.16	a,b,fail
+Parsing: ;    cmpb.eq.16	a,b,next8
+Parsing: ;    br	fail
+Parsing: ;    br	next8
+Parsing: ;
+Parsing: ;ldw
+Parsing: ;		ld.16   b,MEM0x00_8
+Parsing: ;    ld.8    a,0(B)
+Parsing: ;    cmpb.ne.8	a,0x00,fail
+Parsing: ;    cmpb.eq.8	a,0x00,next1
+Parsing: ;    br	fail
+Parsing: ;next1:
+Parsing: ;    ld.8    b,0x00
+Parsing: ;    cmpb.ne.8	a,b,fail
+Parsing: ;    cmpb.eq.8	a,b,next2
+Parsing: ;    br	fail
+Parsing: ;
+Parsing: ;next2:
+Parsing: ;    ld.16   b,MEM0x7F_8
+Parsing: ;    ld.8    a,0(B)
+Parsing: ;    cmpb.ne.8	a,0x7F,fail
+Parsing: ;    cmpb.eq.8	a,0x7F,next3
+Parsing: ;    br	fail
+Parsing: ;next3:
+Parsing: ;    ld.8    b,0x7F
+Parsing: ;    cmpb.ne.8	a,b,fail
+Parsing: ;    cmpb.eq.8	a,b,next4
+Parsing: ;    br	fail
+Parsing: ;
+Parsing: ;next4:
+Parsing: ;    ld.16   b,MEM0x80_8
+Parsing: ;    ld.8    a,0(B)
+Parsing: ;    cmpb.ne.8	a,0x80,fail
+Parsing: ;    cmpb.eq.8	a,0x80,next5
+Parsing: ;    br	fail
+Parsing: ;next5:
+Parsing: ;    ld.8    b,0x80
+Parsing: ;    cmpb.ne.8	a,b,fail
+Parsing: ;    cmpb.eq.8	a,b,next6
+Parsing: ;    br	fail
+Parsing: ;
+Parsing: ;
+Parsing: ;pass:
+Parsing: ;	ld.16	c,0xbd10
+Parsing: ;fail:
+Parsing: ;	halt
+Parsing: ;
+Parsing: ;next8:
+Parsing: ;    ld.16   b,MEM0x7FFF_16
+Parsing: ;    ld.16    a,0(B)
+Parsing: ;    cmpb.ne.16	a,0x7FFF,fail
+Parsing: ;    cmpb.eq.16	a,0x7FFF,next9
+Parsing: ;    br	fail
+Parsing: ;next9:
+Parsing: ;    ld.16    b,0x7FFF
+Parsing: ;    cmpb.ne.16	a,b,fail
+Parsing: ;    cmpb.eq.16	a,b,next10
+Parsing: ;    br	fail
+Parsing: ;
+Parsing: ;next10:
+Parsing: ;    ld.16   b,MEM0x8000_16
+Parsing: ;    ld.16    a,0(B)
+Parsing: ;    cmpb.ne.16	a,0x8000,fail
+Parsing: ;    cmpb.eq.16	a,0x8000,next11
+Parsing: ;    br	fail
+Parsing: ;next11:
+Parsing: ;    ld.16    b,0x8000
+Parsing: ;    cmpb.ne.16	a,b,fail
+Parsing: ;    cmpb.eq.16	a,b,next12
+Parsing: ;    br	fail
+Parsing: ;
+Parsing: ;
+Parsing: ;    ; Try a couple of simple stores
+Parsing: ;next12:
+Parsing: ;    ld.16   b,b1
+Parsing: ;    ld.8    a,12
+Parsing: ;    st.8    0(B),a
+Parsing: ;    ld.16   a,0xfdca
+Parsing: ;    cmpb.eq.8	a,12,fail
+Parsing: ;    ld.8    a,0(B)
+Parsing: ;    cmpb.ne.8	a,12,fail
+Parsing: ;
+Parsing: ;    ; And again with a word
+Parsing: ;next13:
+Parsing: ;    ld.16   b,w1
+Parsing: ;    ld.16   a,0x4321
+Parsing: ;    st.16   0(B),a
+Parsing: ;    ld.16   a,0x3333
+Parsing: ;    cmpb.ne.16	a,0x3333,fail
+Parsing: ;    ld.16   a,0(B)
+Parsing: ;    cmpb.ne.16	a,0x4321,fail
+Parsing: ;
+Parsing: ;    ; That's enough for now.
+Parsing: ;    br	pass
+Parsing: ;
+skip
+Parsing: ; tests complete
+Parsing: success:
+Found label: success
+adding: {:label=>true, :name=>"success"} - 42
+Parsing: ldi r5, 0xAA
+{:command=>"ldi", :args=>["r5", 170]}
+adding: {:command=>"ldi", :args=>["r5", 170]} - 43
+Parsing: hlt
+adding: {:command=>"hlt", :no_args=>true} - 44
+skip
+Parsing: fail:
+Found label: fail
+adding: {:label=>true, :name=>"fail"} - 45
+Parsing: ldi r5, 0xFF
+{:command=>"ldi", :args=>["r5", 255]}
+adding: {:command=>"ldi", :args=>["r5", 255]} - 46
+Parsing: hlt
+adding: {:command=>"hlt", :no_args=>true} - 47
+ID SYM
+ - exists
+ - exists
+ - exists
+[?1034h[1] pry(SymbolTable)> 
+[1mFrom:[0m /Users/erwinmatthijssen/code/dme_v3/asm/asm.rb @ line 283 SymbolTable.placemem:
+
+    [1;34m278[0m:         [1;32m$instructions[0m << instr
+    [1;34m279[0m:         [1;32m$data_ptr[0m += [1;34m2[0m
+    [1;34m280[0m:         i += [1;34m1[0m
+    [1;34m281[0m:       [32mend[0m
+    [1;34m282[0m:     [32mend[0m
+ => [1;34m283[0m:     binding.pry
+    [1;34m284[0m:   [32mend[0m
+    [1;34m285[0m: 
+    [1;34m286[0m:   [32mdef[0m [1;36mself[0m.[1;34mresolveptrs[0m()
+    [1;34m287[0m:     [1;32m$symbols[0m.each [32mdo[0m |nr, sym|
+    [1;34m288[0m:       [1;34m#binding.pry[0m
+
+[0G- SYMBOL TABLE ----- (19)
+0 => {:name=>"_start", :type=>:label, :ptr=>1, :addr=>0} (0)
+1 => {:name=>"test_group", :type=>:label, :ptr=>3, :addr=>28} (1c)
+2 => {:name=>"test_num", :type=>:label, :ptr=>5, :addr=>29} (1d)
+3 => {:name=>"subtest", :type=>:label, :ptr=>7, :addr=>30} (1e)
+4 => {:name=>"MEM0x00_8", :type=>:label, :ptr=>9, :addr=>31} (1f)
+5 => {:name=>"MEM0x01_8", :type=>:label, :ptr=>11, :addr=>32} (20)
+6 => {:name=>"MEM0xFF_8", :type=>:label, :ptr=>13, :addr=>33} (21)
+7 => {:name=>"MEM0x0000_16", :type=>:label, :ptr=>15, :addr=>34} (22)
+8 => {:name=>"MEM0x0001_16", :type=>:label, :ptr=>17, :addr=>36} (24)
+9 => {:name=>"MEM0xFFFF_16", :type=>:label, :ptr=>19, :addr=>38} (26)
+10 => {:name=>"MEM0x7F_8", :type=>:label, :ptr=>21, :addr=>40} (28)
+11 => {:name=>"MEM0x80_8", :type=>:label, :ptr=>23, :addr=>41} (29)
+12 => {:name=>"MEM0x7FFF_16", :type=>:label, :ptr=>25, :addr=>42} (2a)
+13 => {:name=>"MEM0x8000_16", :type=>:label, :ptr=>27, :addr=>44} (2c)
+14 => {:name=>"b1", :type=>:label, :ptr=>29, :addr=>46} (2e)
+15 => {:name=>"w1", :type=>:label, :ptr=>31, :addr=>48} (30)
+16 => {:name=>"_start_tests", :type=>:label, :ptr=>33, :addr=>2} (2)
+17 => {:name=>"success", :type=>:label, :ptr=>43, :addr=>20} (14)
+18 => {:name=>"fail", :type=>:label, :ptr=>46, :addr=>24} (18)
+- SYMBOL TABLE ----- (19)
+0 => {:name=>"_start", :type=>:label, :ptr=>1, :addr=>0} (0)
+1 => {:name=>"test_group", :type=>:label, :ptr=>3, :addr=>26} (1a)
+2 => {:name=>"test_num", :type=>:label, :ptr=>5, :addr=>27} (1b)
+3 => {:name=>"subtest", :type=>:label, :ptr=>7, :addr=>28} (1c)
+4 => {:name=>"MEM0x00_8", :type=>:label, :ptr=>9, :addr=>29} (1d)
+5 => {:name=>"MEM0x01_8", :type=>:label, :ptr=>11, :addr=>30} (1e)
+6 => {:name=>"MEM0xFF_8", :type=>:label, :ptr=>13, :addr=>31} (1f)
+7 => {:name=>"MEM0x0000_16", :type=>:label, :ptr=>15, :addr=>32} (20)
+8 => {:name=>"MEM0x0001_16", :type=>:label, :ptr=>17, :addr=>34} (22)
+9 => {:name=>"MEM0xFFFF_16", :type=>:label, :ptr=>19, :addr=>36} (24)
+10 => {:name=>"MEM0x7F_8", :type=>:label, :ptr=>21, :addr=>38} (26)
+11 => {:name=>"MEM0x80_8", :type=>:label, :ptr=>23, :addr=>39} (27)
+12 => {:name=>"MEM0x7FFF_16", :type=>:label, :ptr=>25, :addr=>40} (28)
+13 => {:name=>"MEM0x8000_16", :type=>:label, :ptr=>27, :addr=>42} (2a)
+14 => {:name=>"b1", :type=>:label, :ptr=>29, :addr=>44} (2c)
+15 => {:name=>"w1", :type=>:label, :ptr=>31, :addr=>46} (2e)
+16 => {:name=>"_start_tests", :type=>:label, :ptr=>33, :addr=>2} (2)
+17 => {:name=>"success", :type=>:label, :ptr=>43, :addr=>18} (12)
+18 => {:name=>"fail", :type=>:label, :ptr=>46, :addr=>22} (16)
+Encoding: {:command=>"br", :args=>["_start_tests"], :addr=>0, :instr_nr=>1}
+Resolved: _start_tests into 2
+BR: calculated offset 0
+0010000000000000
+Encoding: {:command=>"lda", :args=>["r1", 0], :adjust=>true, :addr=>2, :instr_nr=>33}
+0000000000000001
+Encoding: {:command=>"ldw.b", :args=>["r2", 0, "r1"], :addr=>4, :instr_nr=>35}
+1011000000001010
+Encoding: {:command=>"ldi", :args=>["r3", 0], :addr=>6, :instr_nr=>36}
+0000000000000011
+Encoding: {:command=>"addhi", :args=>["r3", 64], :addr=>8, :instr_nr=>37}
+1011110100000010
+Encoding: {:command=>"addskp.z", :args=>["r1", "r2", "r3"], :addr=>10, :instr_nr=>38}
+1001111010011001
+Encoding: {:command=>"br", :args=>["fail"], :addr=>12, :instr_nr=>39}
+Resolved: fail into 22
+BR: calculated offset 8
+0010000000001000
+Encoding: {:command=>"br", :args=>["success"], :addr=>14, :instr_nr=>40}
+Resolved: success into 18
+BR: calculated offset 2
+0010000000000010
+Encoding: {:command=>"hlt", :no_args=>true, :addr=>16, :instr_nr=>41}
+Encoding: {:command=>"ldi", :args=>["r5", 170], :addr=>18, :instr_nr=>43}
+0000010101010101
+Encoding: {:command=>"hlt", :no_args=>true, :addr=>20, :instr_nr=>44}
+Encoding: {:command=>"ldi", :args=>["r5", 255], :addr=>22, :instr_nr=>46}
+0000011111111101
+Encoding: {:command=>"hlt", :no_args=>true, :addr=>24, :instr_nr=>47}
+Encoding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[24834], :instr_nr=>3, :addr=>26}
+0110000100000010
+Encoding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[6656], :instr_nr=>7, :addr=>28}
+0001101000000000
+Encoding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[511], :instr_nr=>11, :addr=>30}
+0000000111111111
+Encoding: {:command=>"defw", :mem=>true, :args=>[0], :instr_nr=>15, :addr=>32}
+0000000000000000
+Encoding: {:command=>"defw", :mem=>true, :args=>[1], :instr_nr=>17, :addr=>34}
+0000000000000001
+Encoding: {:command=>"defw", :mem=>true, :args=>[65535], :instr_nr=>19, :addr=>36}
+1111111111111111
+Encoding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[32640], :instr_nr=>21, :addr=>38}
+0111111110000000
+Encoding: {:command=>"defw", :mem=>true, :args=>[32767], :instr_nr=>25, :addr=>40}
+0111111111111111
+Encoding: {:command=>"defw", :mem=>true, :args=>[32768], :instr_nr=>27, :addr=>42}
+1000000000000000
+Encoding: {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0], :instr_nr=>29, :addr=>44}
+0000000000000000
+Encoding: {:command=>"defw", :mem=>true, :args=>[0], :instr_nr=>31, :addr=>46}
+0000000000000000
+- SYMBOL TABLE ----- (19)
+0 => {:name=>"_start", :type=>:label, :ptr=>1, :addr=>0} (0)
+1 => {:name=>"test_group", :type=>:label, :ptr=>3, :addr=>26} (1a)
+2 => {:name=>"test_num", :type=>:label, :ptr=>5, :addr=>27} (1b)
+3 => {:name=>"subtest", :type=>:label, :ptr=>7, :addr=>28} (1c)
+4 => {:name=>"MEM0x00_8", :type=>:label, :ptr=>9, :addr=>29} (1d)
+5 => {:name=>"MEM0x01_8", :type=>:label, :ptr=>11, :addr=>30} (1e)
+6 => {:name=>"MEM0xFF_8", :type=>:label, :ptr=>13, :addr=>31} (1f)
+7 => {:name=>"MEM0x0000_16", :type=>:label, :ptr=>15, :addr=>32} (20)
+8 => {:name=>"MEM0x0001_16", :type=>:label, :ptr=>17, :addr=>34} (22)
+9 => {:name=>"MEM0xFFFF_16", :type=>:label, :ptr=>19, :addr=>36} (24)
+10 => {:name=>"MEM0x7F_8", :type=>:label, :ptr=>21, :addr=>38} (26)
+11 => {:name=>"MEM0x80_8", :type=>:label, :ptr=>23, :addr=>39} (27)
+12 => {:name=>"MEM0x7FFF_16", :type=>:label, :ptr=>25, :addr=>40} (28)
+13 => {:name=>"MEM0x8000_16", :type=>:label, :ptr=>27, :addr=>42} (2a)
+14 => {:name=>"b1", :type=>:label, :ptr=>29, :addr=>44} (2c)
+15 => {:name=>"w1", :type=>:label, :ptr=>31, :addr=>46} (2e)
+16 => {:name=>"_start_tests", :type=>:label, :ptr=>33, :addr=>2} (2)
+17 => {:name=>"success", :type=>:label, :ptr=>43, :addr=>18} (12)
+18 => {:name=>"fail", :type=>:label, :ptr=>46, :addr=>22} (16)
+
+------ Instruction tokens -----------
+0x0 => {:command=>"br", :args=>["_start_tests"], :addr=>0, :instr_nr=>1, :opcode=>1, :code=>"0010000000000000", :encoding=>"2000"}
+0x2 => {:command=>"lda", :args=>["r1", 0], :adjust=>true, :addr=>2, :instr_nr=>33, :opcode=>0, :code=>"0000000000000001", :encoding=>"0001"}
+0x4 => {:command=>"ldw.b", :args=>["r2", 0, "r1"], :addr=>4, :instr_nr=>35, :opcode=>24, :code=>"1011000000001010", :encoding=>"b00a"}
+0x6 => {:command=>"ldi", :args=>["r3", 0], :addr=>6, :instr_nr=>36, :opcode=>0, :code=>"0000000000000011", :encoding=>"0003"}
+0x8 => {:command=>"addhi", :args=>["r3", 64], :addr=>8, :instr_nr=>37, :opcode=>30, :code=>"1011110100000010", :encoding=>"bd02"}
+0xa => {:command=>"addskp.z", :args=>["r1", "r2", "r3"], :addr=>10, :instr_nr=>38, :opcode=>15, :code=>"1001111010011001", :encoding=>"9e99"}
+0xc => {:command=>"br", :args=>["fail"], :addr=>12, :instr_nr=>39, :opcode=>1, :code=>"0010000000001000", :encoding=>"2008"}
+0xe => {:command=>"br", :args=>["success"], :addr=>14, :instr_nr=>40, :opcode=>1, :code=>"0010000000000010", :encoding=>"2002"}
+0x10 => {:command=>"hlt", :no_args=>true, :addr=>16, :instr_nr=>41, :opcode=>63, :code=>"1111111000000000", :encoding=>"fe00"}
+0x12 => {:command=>"ldi", :args=>["r5", 170], :addr=>18, :instr_nr=>43, :opcode=>0, :code=>"0000010101010101", :encoding=>"0555"}
+0x14 => {:command=>"hlt", :no_args=>true, :addr=>20, :instr_nr=>44, :opcode=>63, :code=>"1111111000000000", :encoding=>"fe00"}
+0x16 => {:command=>"ldi", :args=>["r5", 255], :addr=>22, :instr_nr=>46, :opcode=>0, :code=>"0000011111111101", :encoding=>"07fd"}
+0x18 => {:command=>"hlt", :no_args=>true, :addr=>24, :instr_nr=>47, :opcode=>63, :code=>"1111111000000000", :encoding=>"fe00"}
+0x1a => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[24834], :instr_nr=>3, :addr=>26, :opcode=>:mem, :code=>"0110000100000010", :encoding=>"6102"}
+0x1b => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[2], :instr_nr=>5, :byte2=>true, :addr=>27}
+0x1c => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[6656], :instr_nr=>7, :addr=>28, :opcode=>:mem, :code=>"0001101000000000", :encoding=>"1a00"}
+0x1d => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0], :instr_nr=>9, :byte2=>true, :addr=>29}
+0x1e => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[511], :instr_nr=>11, :addr=>30, :opcode=>:mem, :code=>"0000000111111111", :encoding=>"01ff"}
+0x1f => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[255], :instr_nr=>13, :byte2=>true, :addr=>31}
+0x20 => {:command=>"defw", :mem=>true, :args=>[0], :instr_nr=>15, :addr=>32, :opcode=>:mem, :code=>"0000000000000000", :encoding=>"0000"}
+0x22 => {:command=>"defw", :mem=>true, :args=>[1], :instr_nr=>17, :addr=>34, :opcode=>:mem, :code=>"0000000000000001", :encoding=>"0001"}
+0x24 => {:command=>"defw", :mem=>true, :args=>[65535], :instr_nr=>19, :addr=>36, :opcode=>:mem, :code=>"1111111111111111", :encoding=>"ffff"}
+0x26 => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[32640], :instr_nr=>21, :addr=>38, :opcode=>:mem, :code=>"0111111110000000", :encoding=>"7f80"}
+0x27 => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[128], :instr_nr=>23, :byte2=>true, :addr=>39}
+0x28 => {:command=>"defw", :mem=>true, :args=>[32767], :instr_nr=>25, :addr=>40, :opcode=>:mem, :code=>"0111111111111111", :encoding=>"7fff"}
+0x2a => {:command=>"defw", :mem=>true, :args=>[32768], :instr_nr=>27, :addr=>42, :opcode=>:mem, :code=>"1000000000000000", :encoding=>"8000"}
+0x2c => {:command=>"defb", :mem=>true, :byte_enable=>true, :args=>[0], :instr_nr=>29, :addr=>44, :opcode=>:mem, :code=>"0000000000000000", :encoding=>"0000"}
+0x2e => {:command=>"defw", :mem=>true, :args=>[0], :instr_nr=>31, :addr=>46, :opcode=>:mem, :code=>"0000000000000000", :encoding=>"0000"}
