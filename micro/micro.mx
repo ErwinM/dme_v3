@@ -52,10 +52,12 @@
 25, ldb.b tgt idx(base), decode,
 25, ldb.b tgt idx(base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
 25, ldb.b tgt idx(base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, be
-26, stwb src (idx base), decode,
-26, stwb src (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
-26, stwb src (idx base), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
-27,
+26, stw.b src (idx base), decode,
+26, stw.b src (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
+26, stw.b src (idx base), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+27, stb.b idx(base) src, decode,
+27, stb.b idx(base) src, read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
+27, stb.b idx(base) src, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
 28,
 29,
 30, addhi imm7 reg, decode, imms[imm7u], mdrs[imm], mdr_load, skipstate[1]

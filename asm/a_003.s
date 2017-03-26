@@ -105,69 +105,36 @@ next3:
 		ldi 	r3, 0x7f
     addskp.z r3, r1, r3
 		br	fail
- 	 	br success
+ 	 	br next4
  	 	hlt
-;next4:
-;    ld.8    b,0x7F
-;    cmpb.ne.8	a,b,fail
-;    cmpb.eq.8	a,b,next4
-;    br	fail
-; 	 	br success
-; 	 	hlt
-;
-;next4:
-;    ld.16   b,MEM0x80_8
-;    ld.8    a,0(B)
-;    cmpb.ne.8	a,0x80,fail
-;    cmpb.eq.8	a,0x80,next5
-;    br	fail
-;next5:
-;    ld.8    b,0x80
-;    cmpb.ne.8	a,b,fail
-;    cmpb.eq.8	a,b,next6
-;    br	fail
-;
-;
-;pass:
-;	ld.16	c,0xbd10
-;fail:
-;	halt
-;
-;next8:
-;    ld.16   b,MEM0x7FFF_16
-;    ld.16    a,0(B)
-;    cmpb.ne.16	a,0x7FFF,fail
-;    cmpb.eq.16	a,0x7FFF,next9
-;    br	fail
-;next9:
-;    ld.16    b,0x7FFF
-;    cmpb.ne.16	a,b,fail
-;    cmpb.eq.16	a,b,next10
-;    br	fail
-;
-;next10:
-;    ld.16   b,MEM0x8000_16
-;    ld.16    a,0(B)
-;    cmpb.ne.16	a,0x8000,fail
-;    cmpb.eq.16	a,0x8000,next11
-;    br	fail
-;next11:
-;    ld.16    b,0x8000
-;    cmpb.ne.16	a,b,fail
-;    cmpb.eq.16	a,b,next12
-;    br	fail
-;
-;
-;    ; Try a couple of simple stores
-;next12:
-;    ld.16   b,b1
-;    ld.8    a,12
-;    st.8    0(B),a
-;    ld.16   a,0xfdca
-;    cmpb.eq.8	a,12,fail
-;    ld.8    a,0(B)
-;    cmpb.ne.8	a,12,fail
-;
+
+next4:
+		ldi r4, 4
+		la16   r1, MEM0x7FFF_16
+    ldw.b  r2, 0(r1)
+  	ld16 r3, 0x7fff
+    addskp.z r3, r2, r3
+    br	fail
+		br next5
+		hlt
+
+
+    ; Try a couple of simple stores
+next5:
+		ldi r4, 5
+		la16   	r2, b1
+    ldi	    r1, 12
+    stb.b   0(r2), r1
+    ld16   	r1, 0xfdca
+		ldi			r3, 12
+		addskp.nz r5, r1, r3
+		br fail
+		ldb.b		r1, 0(r2)
+    addskp.z r5, r1, r3
+		br fail
+		br success
+		hlt
+
 ;    ; And again with a word
 ;next13:
 ;    ld.16   b,w1

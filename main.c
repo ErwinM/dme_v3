@@ -617,9 +617,10 @@ readram() {
       // MAR is odd thus we need to return the low byte
       bsig[RAMout] = ram[ramaddr] & 0xff;
     } else {
+			//printf("RAM 16b: %x, RAMout: %x", ram[ramaddr], (ram[ramaddr]>>8));
       // MAR is even thus we need to return the high byte
       bsig[RAMout] = ram[ramaddr] >> 8;
-			printf("ram: %x -> RAMout: %x", ram[ramaddr], bsig[RAMout]);
+			//printf("ram: %x -> RAMout: %x", ram[ramaddr], bsig[RAMout]);
     }
   } else {
     bsig[RAMout] = ram[ramaddr];
@@ -631,7 +632,7 @@ writeram() {
   int ramaddr, MDRlowb, tmp;
 
   ramaddr = sysreg[MAR] >> 1;
-  if(bussel[BYTE_ENABLE] == 1) {
+  if(csig[BE] == HI) {
     MDRlowb = bsig[MDRout] & 0x00ff; // low byte from MDR
     if(sysreg[MAR] % 2) {
       // MAR is odd thus we need to write the low byte
@@ -659,13 +660,8 @@ writeregfile(void) {
     dump();
     exit(1);
   }
-  if(csig[BE]) {
-    regfile[regws_temp] = regfile[regws_temp] | (bsig[ALUout] & 0xff);
-    printf("%s <- %x\n", REGFILE_STR[regws_temp], (bsig[ALUout] & 0xff));
-  } else {
-    regfile[regws_temp] = bsig[ALUout];
-    printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);
-  }
+  regfile[regws_temp] = bsig[ALUout];
+  printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);
 }
 
 
