@@ -46,10 +46,12 @@
 23, addskpi.nz imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 23, addskpi.nz imm op2 res, read,
 23, addskpi.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub], regws[tgt], reg_load
-24, ldwb tgt (idx base), decode,
-24, ldwb tgt (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
-24, ldwb tgt (idx base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load
-25,
+24, ldw.b tgt (idx base), decode,
+24, ldw.b tgt (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
+24, ldw.b tgt (idx base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load
+25, ldb.b tgt idx(base), decode,
+25, ldb.b tgt idx(base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
+25, ldb.b tgt idx(base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, be
 26, stwb src (idx base), decode,
 26, stwb src (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
 26, stwb src (idx base), exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
@@ -58,7 +60,7 @@
 29,
 30, addhi imm7 reg, decode, imms[imm7u], mdrs[imm], mdr_load, skipstate[1]
 30, addhi imm7 reg, read,
-30, addhi imm7 reg, exec, op0s[mdr], regr1s[REG0], op1s[regr1], regws[tgt2], be, reg_load
+30, addhi imm7 reg, exec, op0s[mdr], regr1s[tgt2], op1s[regr1], regws[tgt2], ALU[addhi], reg_load
 31, push reg, decode, decr_sp,
 31, push reg, read, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
 31, push reg, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load

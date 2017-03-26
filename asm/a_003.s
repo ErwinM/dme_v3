@@ -72,44 +72,48 @@ _start_tests:
     ; circuitry isn't turning on when inappropriate.
 
     ; Run though some combos for word loads and compares.
-		la16	r1, MEM0x8000_16 ; we are loading an address, which from the cpu will be a constant
+		la16	r1, MEM0x8000_16 ; we are loading an address, which for the cpu will be a constant
 		ldw.b	r2, 0(r1)
 		ld16 r3, 0x8000
 		addskp.z r1, r2, r3
 		br fail
-    br success
+    br next1
     hlt
 
-;next7:
-;    ld.16    b,0x0000
-;    cmpb.ne.16	a,b,fail
-;    cmpb.eq.16	a,b,next8
-;    br	fail
-;    br	next8
-;
-;ldw
-;		ld.16   b,MEM0x00_8
-;    ld.8    a,0(B)
-;    cmpb.ne.8	a,0x00,fail
-;    cmpb.eq.8	a,0x00,next1
-;    br	fail
-;next1:
-;    ld.8    b,0x00
-;    cmpb.ne.8	a,b,fail
-;    cmpb.eq.8	a,b,next2
-;    br	fail
-;
-;next2:
-;    ld.16   b,MEM0x7F_8
-;    ld.8    a,0(B)
-;    cmpb.ne.8	a,0x7F,fail
-;    cmpb.eq.8	a,0x7F,next3
-;    br	fail
-;next3:
+next1:
+		ldi r4, 1
+    ld16    r2,0x0000
+		addskp.z r2, r2, r0
+		br fail
+		br next2
+		hlt
+
+next2:
+	 ldi r4, 2
+
+	 la16	  r2,MEM0x00_8
+   ldb.b 	r1,0(r2)
+	 addskp.z r2, r1, r0
+   br	fail
+	 br next3
+	 hlt
+
+next3:
+    ldi r4, 3
+		la16   r2,MEM0x7F_8
+    ldb.b    r1,0(r2)
+		ldi 	r3, 0x7f
+    addskp.z r3, r1, r3
+		br	fail
+ 	 	br success
+ 	 	hlt
+;next4:
 ;    ld.8    b,0x7F
 ;    cmpb.ne.8	a,b,fail
 ;    cmpb.eq.8	a,b,next4
 ;    br	fail
+; 	 	br success
+; 	 	hlt
 ;
 ;next4:
 ;    ld.16   b,MEM0x80_8

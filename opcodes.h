@@ -23,8 +23,8 @@ static const char
                       "nocode",
                       "addskpi.z",
                       "addskpi.nz",
-                      "nocode",
-                      "nocode",       // 25
+                      "ldw.b",
+                      "ldb.b",       // 25
                       "stwb",
                       "nocode",
                       "nocode",

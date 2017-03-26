@@ -309,9 +309,9 @@ class SymbolTable
     dump()
   end
 
-  def self.adjustla16()
-    idx = 0
-    $instructions.each do |instr|
+  def self.adjustla16(resolve)
+    to_delete = []
+    $instructions.each_with_index do |instr, idx|
       if instr[:no_reloc] then next end
       if ["lda", "addhi"].include?(instr[:command]) && instr[:adjust] then
         arg = instr[:args][1]
@@ -326,12 +326,11 @@ class SymbolTable
         if adjarg == :nop then
           $instructions.delete_at(idx)
         end
-          # SHOULD NOT RESOLVE HERE JUST REMOVE THE UNNEEDED INSTR - address is not final yet
-          #instr[:args][1] = adjarg
+        if resolve then
+          instr[:args][1] = adjarg
           #binding.pry
-          #end
+        end
       end
-      idx += 1
     end
   end
 
@@ -547,6 +546,7 @@ class Coder
   end
 
   def self.bitsfromint(int, bitnr, sext)
+    binding.pry if int == false
     if sext then
       # MSB reserved for sign
       # 13bits -> 12 bits signed -> max 0xfff
@@ -657,6 +657,7 @@ class ISA
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "ldw.b" => 24,
+    "ldb.b" => 25,
     "stw.b" => 26,
     "addhi" => 30,
     "push" => 31,
@@ -685,6 +686,7 @@ class ISA
     "addskpi.z" => {:immir => 1, :reg => 2, :reg1 => 0},
     "addskpi.nz" => {:immir => 1, :reg => 2, :reg1 => 0},
     "ldw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "ldb.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "stw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addhi" => {:imm7u => 1, :tgt2 => 0},
     "push" => {:pad6 => :x, :reg => 0},
@@ -736,7 +738,7 @@ end
 
 class Error
   def self.mexit(msg)
-    puts "#{msg}\n\n"
+    puts "\n#{msg}\n\n"
     exit(1)
   end
 end
@@ -781,9 +783,10 @@ SymbolTable.idsymbols()
 SymbolTable.placeinstr()
 SymbolTable.placemem()
 SymbolTable.resolveptrs()
-SymbolTable.adjustla16()
+SymbolTable.adjustla16(false)
 SymbolTable.placeinstr()
 SymbolTable.resolveptrs()
+SymbolTable.adjustla16(true)
 
 
 Writer.mifinit(sim_mif)

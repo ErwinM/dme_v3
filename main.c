@@ -77,8 +77,9 @@ int main(int argc,char *argv[])
 
   // Main execution loop
   while(clk.instr <= maxinstr) {
+		skipcycle = 0;
     for(clk.icycle = FETCH; clk.icycle <= EXECUTEM; clk.icycle++) {
-      if(skipcycle > 0) {
+			if(skipcycle > 0) {
         skipcycle--;
         continue;
       }
@@ -87,7 +88,7 @@ int main(int argc,char *argv[])
         readram();
         hideconsole(clk.icycle, vflag);
         printf("------------------------------------------------------\n");
-        printf("cycle: %d.%s, phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle], clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
+        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
 
         // signal generation phase
         sigupd=1;
@@ -321,7 +322,7 @@ decodesigs() {
   if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
   if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
   if (micro_b[6] == '1' && loadneg) { update_csig(DECR_SP, HI);}
-  if (micro_b[7] == '1' && loadneg) { update_csig(BE, HI);}
+  if (micro_b[7] == '1') { update_csig(BE, HI);}
   if (micro_b[37] == '1' && loadneg) { update_csig(INCR_SP, HI);}
 
   // parse muxes
@@ -560,8 +561,11 @@ ALU(void) {
   case 1:
     result = bsig[OP1] - bsig[OP0];
     break;
-  }
+	case 6:
+		result = (bsig[OP0] << 9) | (bsig[OP1] & 0x1ff);
+		break;
   //printf("ALU result: %d", result);
+	}
   update_bsig(ALUout, &result);
 }
 
@@ -607,13 +611,15 @@ readram() {
   int ramaddr;
 
   ramaddr = sysreg[MAR] >> 1;
-  if(bussel[BYTE_ENABLE] == 1) {
-    if(sysreg[MAR] % 2) {
+	if(csig[BE] == HI) {
+
+		if(sysreg[MAR] % 2) {
       // MAR is odd thus we need to return the low byte
       bsig[RAMout] = ram[ramaddr] & 0xff;
     } else {
       // MAR is even thus we need to return the high byte
       bsig[RAMout] = ram[ramaddr] >> 8;
+			printf("ram: %x -> RAMout: %x", ram[ramaddr], bsig[RAMout]);
     }
   } else {
     bsig[RAMout] = ram[ramaddr];
@@ -654,8 +660,8 @@ writeregfile(void) {
     exit(1);
   }
   if(csig[BE]) {
-    regfile[regws_temp] = regfile[regws_temp] | bsig[ALUout] << 9;
-    printf("%s <- %x\n", REGFILE_STR[regws_temp], (bsig[ALUout] << 9));
+    regfile[regws_temp] = regfile[regws_temp] | (bsig[ALUout] & 0xff);
+    printf("%s <- %x\n", REGFILE_STR[regws_temp], (bsig[ALUout] & 0xff));
   } else {
     regfile[regws_temp] = bsig[ALUout];
     printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);

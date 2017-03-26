@@ -123,7 +123,8 @@ class Coder
 
   ALU= {
     "ADD"  => "000",
-    "SUB" => "001"
+    "SUB" => "001",
+    "ADDHI" => "110"
   }
 
   SKIPSTATE= {
