@@ -14,6 +14,8 @@ INIT_MEM
 SYM(next0, d_001)
 SYM(next1, d_001)
 SYM(next2, d_001)
+SYM(next3, d_001)
+SYM(next4, d_001)
 
 
 ; Begin test here
