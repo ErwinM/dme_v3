@@ -11,17 +11,17 @@
 4, ldw s7(r5) tgt, decode, imms[imm7], MDRS[imm], mdr_load
 4, ldw s7(r5) tgt, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
 4, ldw s7(r5) tgt, exec, regr1s[reg0], op0s[mdr], regws[tgt2], mdrs[ram], mdr_load, reg_load
-5,
-6, ldb tgt s7(r5), decode, imms[imm7], MDRS[imm], mdr_load
-6, ldb tgt s7(r5), read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
-6, ldb tgt s7(r5), exec, regr1s[reg0], op0s[mdr], regws[tgt2], mdrs[ram], mdr_load, reg_load, be
-7, stw src sw7(r5), decode, imms[imm7], mdr_load, mdrs[imm]
-7, stw src sw7(r5), read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
-7, stw src sw7(r5), exec, mdrs[alu], regr0s[tgt2], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+5, ldb tgt s7(r5), decode, imms[imm7], MDRS[imm], mdr_load
+5, ldb tgt s7(r5), read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+5, ldb tgt s7(r5), exec, regr1s[reg0], op0s[mdr], regws[tgt2], mdrs[ram], mdr_load, reg_load, be
+6, stw src sw7(r5), decode, imms[imm7], mdr_load, mdrs[imm]
+6, stw src sw7(r5), read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+6, stw src sw7(r5), exec, mdrs[alu], regr0s[tgt2], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+7, stb sw7(r5) src, decode, imms[imm7], mdr_load, mdrs[imm]
+7, stb sw7(r5) src, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+7, stb sw7(r5) src, exec, mdrs[alu], regr0s[tgt2], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
 8,
-9, stb sw7(r5) src, decode, imms[imm7], mdr_load, mdrs[imm]
-9, stb sw7(r5) src, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
-9, stb sw7(r5) src, exec, mdrs[alu], regr0s[tgt2], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
+9,
 10, add op1 op2 res, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], regws[tgt], reg_load, skipstate[2]
 10, add op1 op2 res, read,
 10, add op1 op2 res, exec,
@@ -42,7 +42,9 @@
 17, addi IRimm r1 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 17, addi IRimm r1 res, read,
 17, addi IRimm r1 res, exec, op1s[mdr], regr1s[arg1], op0s[regr1], ALU[add], regws[tgt], reg_load
-18,
+18, addi IRimm r1 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
+18, addi IRimm r1 res, read,
+18, addi IRimm r1 res, exec, op1s[mdr], regr1s[arg1], op0s[regr1], ALU[sub], regws[tgt], reg_load
 19, andi Irimm r1 tgt, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 19, andi Irimm r1 tgt, read,
 19, andi Irimm r1 tgt, exec, op1s[mdr], regr0s[arg1], op0s[regr0], ALU[and], regws[tgt], reg_load

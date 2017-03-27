@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'pry'
 
 class String
@@ -38,7 +40,7 @@ class Parser
         noreloc = 0
         trampoline.each do |tr|
           tr[:no_reloc] = noreloc
-          noreloc +=1
+          noreloc +=2
         end
         appendinstr(trampoline)
         $code_ptr = parsed_instr[:args][0]
@@ -167,7 +169,12 @@ class Parser
     # check if we are loading a char
     if args[1].is_a? String then
       if args[1][0..3] == "char" then
-        x, char = args[1].split("'")
+        if args[1].include?("@") then
+          x, char = args[1].split("@")
+        else
+          x, char = args[1].split("'")
+        end
+        #binding.pry
         args[1] = char.ord
       end
     end
@@ -462,6 +469,24 @@ class Coder
       puts "Unknown instruction: #{instr[:command]}\n"
       exit
     end
+
+    # some code to allow me to use ldw, ldb, stw and stb for 2 opcodes
+    if [4,5,6,7].include?(instr[:opcode]) then
+      # command is ldw, ldb, stw, stb
+      # find out if its idx/base or imm/bp
+      if instr[:command][0] == 'l' then
+        unless instr[:args][1].is_a?(Integer) && instr[:args][2] == 'bp' then
+          instr[:opcode] += 20
+          instr[:command] = ISA::OPCODES.key(instr[:opcode])
+        end
+      else
+        unless instr[:args][0].is_a?(Integer) && instr[:args][1] == 'bp' then
+          instr[:opcode] += 20
+          instr[:command] = ISA::OPCODES.key(instr[:opcode])
+        end
+      end
+    end
+
     if instr[:opcode] == :mem then
       code = ""
     elsif instr[:opcode] <= 3 then
@@ -511,6 +536,7 @@ class Coder
         else
           loc = arg - (instr[:addr] + 2)
         end
+        #binding.pry
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
       when :imm7
@@ -612,8 +638,6 @@ class Writer
   end
 
   def self.hex(output, hex)
-
-
     if ($hex_addr % 16) > 0 then
       output.write("#{hex} ")
     else
@@ -635,7 +659,7 @@ class Writer
   end
 
   def self.mif(output, addr, code)
-    output.write("%02x" % addr)
+    output.write("%04x" % addr)
     output.write(" : ")
     output.write(code)
     output.write(";\n")
@@ -653,9 +677,9 @@ class ISA
     "lda"   => 0,
     "br"   => 1,
     "ldw"  => 4,
-    "ldb"  => 6,
-    "stw"  => 7,
-    "stb"  => 9,
+    "ldb"  => 5,
+    "stw"  => 6,
+    "stb"  => 7,
     "add" => 10,
     "mov" => 10,
     "sub" => 11,
@@ -663,6 +687,7 @@ class ISA
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addi" => 17,
+    "subi" => 18,
     "andi" => 19,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
@@ -698,6 +723,7 @@ class ISA
     "addskp.nz" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addi" => {:immir => 2, :reg =>1, :reg2 => 0},
     "andi" => {:immir => 2, :reg =>1, :reg2 => 0},
+    "subi" => {:immir => 2, :reg =>1, :reg2 => 0},
     "addskpi.z" => {:immir => 2, :reg => 1, :reg1 => 0},
     "addskpi.nz" => {:immir => 2, :reg => 1, :reg1 => 0},
     "ldw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
@@ -763,6 +789,9 @@ end
 # main
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
 file_name = args["f"]
+if file_name.nil? then
+  Error.mexit("ERROR: no filename given\n")
+end
 input = File.open(file_name, "r")
 
 out_hex = File.open("A.hex", "w+")

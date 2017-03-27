@@ -1,3 +1,4 @@
+
 divert(-1)
 #
 # Test conventions:
@@ -19,10 +20,20 @@ divert(-1)
 define(SYM,
 `define($1, $1_$2)')
 
-SYM(next1, a_001)
-
 # literal constant used for all tests
-define(TEST_INIT,
+define(INIT_TEST,
+`
+.code 0x100
+ldi r2, 0x10
+ldi r1, char @$1
+stb.b 0(r2), r1
+ldi r2, 0x12
+ldi r1, $2
+stb.b 0(r2), r1
+')
+
+# mem stubs
+define(INIT_MEM,
 `
 MEM0x00_8:
 	defb    0x00
@@ -49,50 +60,43 @@ b1:
   defb    0x00
 w1:
   defw    0x0000
-
-.code 0x100
-ldi r2, 0x10
-ldi r1, char $1
-stb.b 0(r2), r1
-ldi r2, 0x12
-ldi r1, char $2
-stb.b 0(r2), r1
 ')
 
 # set subtest and reinit regs
-define(SUB,
-`
+define(SUBTEST,
+`; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, $1
 stb.b 0(r2), r4
-mv r1, r0
-mv r2, r0
-mv r3, r0
-mv r5, r0
-mv r6, r0
+mov r1, r0
+mov r2, r0
+mov r3, r0
+mov r5, r0
+mov r6, r0
 ')
 
-# set test/fail code that ends most tests
-define(FAIL,
-`br fail
-br $1
-hlt'
-)
 
 # end of test
-define(`END_TEST',
-`success:
-	ldi r2, 0x20
+define(END_TEST,
+`pass:
+	ldi r3, 0x20
 	ldi r5, 0xAA
-	stw.b 0(r2), r5
+	stw.b 0(r3), r5
   hlt
 
 fail:
-	ldi r2, 0x20
+	ldi r3, 0x20
 	ldi r5, 0xFF
-	stw.b 0(r2), r5
-  hlt'
-)
+	stw.b 0(r3), r5
+  hlt
+')
 
+
+# set test/fail code that ends most tests
+define(PASS,
+`br fail
+br $1
+hlt
+')
 
 divert

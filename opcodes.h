@@ -17,7 +17,7 @@ static const char
                       "addskp.z",     // 15
                       "addskp.nz",
                       "addi",
-                      "nocode",
+                      "subi",
                       "nocode",
                       "nocode",       // 20
                       "nocode",

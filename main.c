@@ -35,6 +35,7 @@ ushort program[64] = {0};
 ushort data[64] = {0};
 
 int maxinstr = 100;
+int asm_dir = 0;
 int sigupd;
 char ALUopc[4];
 
@@ -819,11 +820,22 @@ loadbios(void)
 	char opcode_b[16]; //including ;
   char * pch, * colon;
 
-  fp = fopen("asm/A_sim.mif", "r");
-  if (fp == NULL) {
-    printf("FAILURE opening asm/A_sim.mif\n");
-    exit(EXIT_FAILURE);
-  }
+	if(asm_dir == 1){
+    fp = fopen("asm/A_sim.mif", "r");
+    if (fp == NULL) {
+      printf("FAILURE opening asm/A_sim.mif\n");
+      exit(EXIT_FAILURE);
+    }
+	} else {
+    fp = fopen("validation/A_sim.mif", "r");
+    if (fp == NULL) {
+      printf("FAILURE opening validation/A_sim.mif\n");
+      exit(EXIT_FAILURE);
+    } else {
+    	printf("Opening: validation/A_sim.mif");
+    }
+	}
+
   while ((read = getline(&line, &len, fp)) != -1) {
     //printf("Retrieved line of length %zu :\n", read);
     //printf("%s", line);
@@ -874,48 +886,6 @@ loadbios(void)
 }
 
 
-
-
-
-void
-loadbiosold(void)
-{
-    FILE * fp;
-    char * line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    ushort instr, num;
-    int i = 0;
-    char * pch;
-
-    fp = fopen("asm/A.hex", "r");
-    if (fp == NULL) {
-      printf("FAILURE opening asm/a.hex\n");
-      exit(EXIT_FAILURE);
-    }
-    while ((read = getline(&line, &len, fp)) != -1) {
-      //printf("Retrieved line of length %zu :\n", read);
-      //printf("%s", line);
-
-      //printf ("Splitting string \"%s\" into tokens:\n",str);
-      instr = (ushort)strtol(line, NULL, 16);
-      ram[i] = instr;
-      if (vflag == 1){
-        printf("%x: %x\n", i, instr);
-      }
-      i++;
-    }
-    // for(i=0;i<192;i++) {
-    //   printf("micro[%d]: %s\n", i, dec2bin(micro[i], 64));
-    // }
-
-    fclose(fp);
-    if (line)
-        free(line);
-}
-
-
-
 void hideconsole(int ic, int vflag) {
   if ((ic % 2 && ic != 1) || vflag == 1) {
     // icycle = odd and not fetch, is main phase, thus show output
@@ -941,10 +911,13 @@ void restoreconsole(void) {
 int parseopts(int argc,char *argv[]) {
   opterr = 0;
   int c;
-  while ((c = getopt(argc, argv, "vf:t:")) != -1) {
+  while ((c = getopt(argc, argv, "vaf:t:")) != -1) {
     printf("opt: %d\n", c);
     switch (c) {
-    case 'v':
+		case 'a':
+			asm_dir = 1;
+			break;
+		case 'v':
       printf("vflag!");
       vflag = 1;
       break;
