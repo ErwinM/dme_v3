@@ -53,6 +53,7 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(ARG1) \
       X(TGT) \
       X(TGT2) \
+			X(ARG2) \
       X(FLAGS)
 
 #define SYSREG \
@@ -70,7 +71,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(IMM10) \
       X(IMM13) \
       X(IMMIR) \
-      X(IMM6)
+      X(IMM7u) \
+			X(IMM4)
 
 // Bussel can only select from busses never from registers
 // thus, their value indexes the BSIG array, except MDRS

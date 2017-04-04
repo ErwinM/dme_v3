@@ -57,7 +57,7 @@ fail:
   ldi r5, 0xFF
   hlt
 
-.data 0x2000
+.data 0x1100
 
 _variable:
 	defw 0xbabe

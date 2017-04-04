@@ -52,6 +52,7 @@ class Parser
         end
         if parsed_instr[:no_args] then next end
         $data_ptr = parsed_instr[:args][0]
+        puts "data pointer #{$data_ptr}\n"
         next
       end
       if parsed_instr[:command] == "ld16" then
@@ -63,6 +64,24 @@ class Parser
         instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instructions = [instr_lo, instr_hi]
+        #binding.pry
+      elsif parsed_instr[:command] == "defs" then
+        # expand the string into individual chars and add NULL
+        instructions = []
+        for i in 0..(parsed_instr[:string].length)
+          instr ={}
+          instr[:command] = "defb"
+          instr[:mem] = true
+          instr[:byte_enable] = true
+          if i == parsed_instr[:string].length
+            instr[:args] = [0] # null terminator
+          else
+            instr[:args] = [parsed_instr[:string][i].ord]
+          end
+          #binding.pry
+          instructions << instr
+        end
+
         #binding.pry
       else
         instructions = [parsed_instr]
@@ -133,11 +152,27 @@ class Parser
     if ISA::MEMINSTR.include?(instr[:command])
       puts "Found mem instr: #{command}\n"
       instr[:mem] = true
-      if instr[:command] == 'defb' then
-        instr[:byte_enable] = true
+      if instr[:command] == 'defb' || instr[:command] == 'defw' then
+        args = argstr.split("'")
+        if args.length == 1 then
+          arg = number(args[0])
+        else
+          arg = args[1].ord
+        end
+        instr[:args]=[arg]
       end
+      if instr[:command] == 'defb' then
+         instr[:byte_enable] = true
+      end
+      if instr[:command] == 'defs' then
+        if argstr.scan(/["]/).nil?
+          Error.mexit("ERROR: defs expects a quoted string.(#{argstr})")
+        end
+        instr[:string] = argstr[1..-2]
+        #binding.pry
+      end
+      return instr
     end
-    #binding.pry
     if argstr.nil? || argstr == "" then
       # instr without args
       instr[:no_args] = true
@@ -170,6 +205,7 @@ class Parser
     if args[1].is_a? String then
       if args[1][0..3] == "char" then
         if args[1].include?("@") then
+          # extra signal char for use with m4 macros
           x, char = args[1].split("@")
         else
           x, char = args[1].split("'")
@@ -178,6 +214,7 @@ class Parser
         args[1] = char.ord
       end
     end
+    #binding.pry
     return args
   end
 
@@ -261,6 +298,9 @@ class SymbolTable
   def self.placeinstr()
     $last_addr = $code_ptr
     $instructions.each do |instr|
+      # if instr[:mem] then
+#         next
+#       end
       if instr[:no_reloc] then
         instr[:addr] = instr[:no_reloc]
       else
@@ -272,6 +312,7 @@ class SymbolTable
         end
       end
     end
+    #binding.pry
   end
 
   def self.placemem()
@@ -279,8 +320,10 @@ class SymbolTable
       if $last_addr > $data_ptr then
         Error.mexit("ERROR: .code and .data sections overlap")
       end
+      ptr = $data_ptr
+      lock_loc = 1;
     else
-      $data_ptr = $last_addr
+      ptr = $last_addr
     end
     i = 0
     while(i <= $mem_instructions.length - 1) do
@@ -289,21 +332,24 @@ class SymbolTable
       # we cannot fully skip the 2nd byte since we need to leave a breadcrumb to resolve the address
       if instr[:byte_enable] && $mem_instructions[i+1] && $mem_instructions[i+1][:byte_enable] then
         # byte_1
+        #binding.pry
         instr[:args][0] = instr[:args][0] << 8 |  $mem_instructions[i+1][:args][0]
-        instr[:addr] = $data_ptr
+        instr[:addr] = ptr
         $instructions << instr
         # byte_2
         $mem_instructions[i+1][:byte2] = true
-        $mem_instructions[i+1][:addr] = $data_ptr + 1
+        $mem_instructions[i+1][:addr] = ptr + 1
         $instructions << $mem_instructions[i+1]
-        $data_ptr += 2
+        ptr += 2
         i += 2 # skip the 2nd byte since we already added it
       else
-
-        instr[:addr] = $data_ptr
+        instr[:addr] = ptr
         $instructions << instr
-        $data_ptr += 2
+        ptr += 2
         i += 1
+      end
+      if lock_loc == 1 then
+        instr[:no_reloc] = instr[:addr]
       end
     end
     #binding.pry
@@ -541,6 +587,12 @@ class Coder
         code += bitsfromint(loc, 13, true)
       when :imm7
         code += bitsfromint(arg, 7, true)
+      when :imm4
+        if arg == 0 then
+          Error.mexit("shift amount cannot equal zero")
+        end
+        # sub 1 from immediate because shifting zero is nonsense and we need to be able to get to 16 in 4 bits
+        code += bitsfromint((arg - 1), 4, false)
       when :imm7u
         code += bitsfromint(arg, 7, false)
       when :immir
@@ -550,7 +602,7 @@ class Coder
         end
         code += "%03b" % ISA::IRIMM[arg.to_i]
       when :reg, :reg1, :reg2
-        #binding.pry
+        #binding.pry if instr[:instr_nr] == 33
         code += "%03b" % ISA::REGS[arg]
       when :tgt2
         #binding.pry
@@ -567,6 +619,8 @@ class Coder
         end
       when :pad6
         code += "000000"
+      when :pad9
+        code += "000000000"
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}(:#{template})\n"
@@ -629,12 +683,32 @@ class Writer
       case target
       when :hex
         Writer.hex(file, hex)
+      when :simple_hex
+        if $code_ptr > 0 && instr[:addr] < 10 then
+          next
+        end
+        Writer.simplehex(file, hex)
       when :ram
         Writer.mif(file, (instr[:addr]/2), code)
       when :sim
         Writer.mif(file, instr[:addr], code)
+      when :bin
+        Writer.bin(file, h0, h1)
       end
     end
+  end
+
+  def self.bin(output, h0, h1)
+    h = [(h0<<8)|h1]
+    output.write(h.pack("n"))
+  end
+
+  def self.simplehex(output, hex)
+    # iverilog cannot load to address
+    # so we need to output two files: 1. code and 2. data
+    # since data is loaded not immediately after...
+    output.write(hex)
+    output.write("\n")
   end
 
   def self.hex(output, hex)
@@ -649,7 +723,7 @@ class Writer
   end
 
   def self.mifinit(output)
-    output.write("DEPTH = 256;\n")
+    output.write("DEPTH = 8192;\n")
     output.write("WIDTH = 16;\n")
     output.write("ADDRESS_RADIX = HEX;\n")
     output.write("DATA_RADIX = BIN;\n")
@@ -695,10 +769,14 @@ class ISA
     "ldb.b" => 25,
     "stw.b" => 26,
     "stb.b" => 27,
+    "shl" => 28,
+    "shr" => 29,
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
     "br.r" => 33,
+    "syscall" => 34,
+    "reti" => 35,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -730,10 +808,14 @@ class ISA
     "ldb.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "stw.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
     "stb.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
+    "shl" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
+    "shr" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
     "addhi" => {:imm7u => 1, :tgt2 => 0},
     "push" => {:pad6 => :x, :reg => 0},
     "pop" => {:pad6 => :x, :reg => 0},
     "br.r" => {:pad6 => :x, :reg => 0},
+    "syscall" =>{:pad9 => :x},
+    "reti" =>{:pad9 => :x},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze
@@ -773,8 +855,9 @@ class ISA
   }.freeze
 
   MEMINSTR= {
-    "defw" => 1,
-    "defb" => 2
+    "defw" => 1,   # define word
+    "defb" => 2,   # define byte
+    "defs" => 3    # define string
   }
 end
 
@@ -794,9 +877,11 @@ if file_name.nil? then
 end
 input = File.open(file_name, "r")
 
-out_hex = File.open("A.hex", "w+")
+#out_hex = File.open("A.hex", "w+")
+out_bin = File.open("A.bin", "w+")
 sim_mif = File.open("A_sim.mif", "w+")
 ram_mif = File.open("A_ram.mif", "w+")
+simple_hex = File.open("A_simple.hex", "w+")
 
 $instructions = []
 $mem_instructions =[]
@@ -838,9 +923,10 @@ SymbolTable.adjustla16(true)
 Writer.mifinit(sim_mif)
 Writer.mifinit(ram_mif)
 Coder.build()
-Writer.write(out_hex, :hex)
+Writer.write(out_bin, :bin)
 Writer.write(ram_mif, :ram)
 Writer.write(sim_mif, :sim)
+Writer.write(simple_hex, :simple_hex)
 Writer.mifclose(ram_mif)
 Writer.mifclose(sim_mif)
 SymbolTable.dump()

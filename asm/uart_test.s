@@ -1,4 +1,4 @@
-	la16 r4, 0x0ff0
+	la16 r4, 0xff90
 	mov r5, r4
 	mov r1, r0
 	stw r1, 1(r5)   ; port + 1 0x00 - disable all interrupts

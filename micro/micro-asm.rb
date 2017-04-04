@@ -48,7 +48,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["reti", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -79,6 +79,7 @@ class Coder
     "ARG1"   => "1001",
     "TGT"   => "1010",
     "TGT2"   => "1011",
+    "ARG2"   => "1100",
     "FLAGS"   => "1111"
   }
 
@@ -105,7 +106,8 @@ class Coder
     "IMM10" => "001",
     "IMM13" => "010",
     "IMMIR"  => "011",
-    "IMM7U" => "100"
+    "IMM7U" => "100",
+    "IMM4" => "101"
   }
 
   CYCLE= {
@@ -115,6 +117,7 @@ class Coder
     "EXEC"   => "110"
   }
 
+  # this includes the 3rd bit which is 'check cond'
   SKIPC_MUX= {
     "ZR"  => "001",
     "NZR" => "011",
@@ -126,6 +129,8 @@ class Coder
     "SUB" => "001",
     "AND" => "010",
     "OR"  => "011",
+    "SHL"  => "100",
+    "SHR"  => "101",
     "ADDHI" => "110"
   }
 
@@ -153,7 +158,7 @@ class Coder
         if instr[:dummy] then
           output.write("0x0\n")
           writehex(addr, 0, 0, 0, 0, 0, intelhex)
-          memlist.write("0000000000000000000000000000000000000000\n")
+          memlist.write("000000000000000000000000000000000000000000000000\n")
           entries -= 1;
           next
         end
@@ -187,11 +192,13 @@ class Coder
         instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
         instr["SKIPSTATE"] ? microcode += SKIPSTATE[instr["SKIPSTATE"]] : microcode +="00"
         instr["INCR_SP"] ?  microcode += "1" : microcode +="0"
+        instr["TRAP"] ?  microcode += "1" : microcode +="0"
+        instr["RETI"] ?  microcode += "1" : microcode +="0"
 
 
-        microcode +="00" #padding
+        microcode +="00000000" # PADDING
 
-        if microcode.length != 40
+        if microcode.length != 48
           puts "Invalid microword length (#{microcode.length})\n"
           exit(1)
         end
@@ -202,6 +209,7 @@ class Coder
         b2 = microcode[16..23]
         b3 = microcode[24..31]
         b4 = microcode[32..39]
+        b5 = microcode[40..47]
         #puts b0
 
 
@@ -210,6 +218,7 @@ class Coder
         h2 = b2.to_i(2)
         h3 = b3.to_i(2)
         h4 = b4.to_i(2)
+        h5 = b5.to_i(2)
 
 
         hex = "0x"
@@ -219,8 +228,8 @@ class Coder
         hex += (h2.to_i == 0) ? "00" : "%02x" % h2
         hex += (h3.to_i == 0) ? "00" : "%02x" % h3
         hex += " 0x"
-        hex += (h4.to_i == 0) ? "0000" : "%02x" % h4
-        hex += "00"
+        hex += (h4.to_i == 0) ? "00" : "%02x" % h4
+        hex += (h5.to_i == 0) ? "00" : "%02x" % h4
         puts hex
         #if addr = 149 then binding.pry end
         # write the sim init file
@@ -234,7 +243,7 @@ class Coder
         addr = addr_offset - entries
         output.write("0x0\n")
         writehex(addr, 0, 0, 0, 0, 0, intelhex)
-        memlist.write("0000000000000000000000000000000000000000\n")
+        memlist.write("000000000000000000000000000000000000000000000000\n")
         entries -= 1
       end
     end

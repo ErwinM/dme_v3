@@ -1,21 +1,21 @@
 ; init
-	la16 r4, 0x0ff0	; uart offset
+	la16 r4, 0xff90	; uart offset
 	mov r5, r4
 	mov r1, r0
-	stw 1(r5), r1   ; port + 1 0x00 - disable all interrupts
+	stw 1(bp), r1   ; port + 1 0x00 - disable all interrupts
 	ldi r1, 0x80
-	stw 3(r5), r1   ; port + 3 0x80 enable dlab
+	stw 3(bp), r1   ; port + 3 0x80 enable dlab
 	ldi r1, 32
-	stw 0(r5), r1		; port + 0 set divisor to 1 LSB
+	stw 0(bp), r1		; port + 0 set divisor to 1 LSB
 	ldi r1, 0
-	stw 1(r5), r1		; port + 1 set divisor to 1 MSB
+	stw 1(bp), r1		; port + 1 set divisor to 1 MSB
 	ldi r1, 3
-	stw 3(r5), r1		; port + 3 set LCR - validate
+	stw 3(bp), r1		; port + 3 set LCR - validate
 
 	ldi r3, 0x64		; set mem ptr for read
 
 wait_for_byte:
-	ldb r1, 5(r5)		; read LSR
+	ldb r1, 5(bp)		; read LSR
 	andi r2, r1, 1	; check for bit 0: Data Ready
 	addskpi.z r2, r2, 1
 	br wait_for_byte

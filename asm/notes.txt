@@ -1,0 +1,6 @@
+
+
+xxd can convert hex dump to binary format
+
+in ruby:
+array.pack("n") will convert an integer into a binary value

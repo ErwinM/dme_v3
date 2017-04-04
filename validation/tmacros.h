@@ -24,10 +24,10 @@ define(SYM,
 define(INIT_TEST,
 `
 .code 0x100
-ldi r2, 0x10
+ldi r2, 0x11
 ldi r1, char @$1
 stb.b 0(r2), r1
-ldi r2, 0x12
+ldi r2, 0x13
 ldi r1, $2
 stb.b 0(r2), r1
 ')
@@ -72,22 +72,21 @@ mov r1, r0
 mov r2, r0
 mov r3, r0
 mov r5, r0
-mov r6, r0
 ')
 
 
 # end of test
 define(END_TEST,
 `pass:
-	ldi r3, 0x20
+	ld16 r3, 0xff80
 	ldi r5, 0xAA
-	stw.b 0(r3), r5
+	stw 0(r3), r5
   hlt
 
 fail:
-	ldi r3, 0x20
+	ld16 r3, 0xff80
 	ldi r5, 0xFF
-	stw.b 0(r3), r5
+	stw 0(r3), r5
   hlt
 ')
 

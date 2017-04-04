@@ -24,6 +24,7 @@
 ;	follow normal conventions.
 ;
 _start:
+		mov r1, r0
     br	_start_tests	; Go run stuff.
 
     ; Data sections to report group, test and subtest number

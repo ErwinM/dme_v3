@@ -68,8 +68,12 @@
 27, stb.b idx(base) src, decode,
 27, stb.b idx(base) src, read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
 27, stb.b idx(base) src, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
-28,
-29,
+28, shl imm4 src tgt2, decode, imms[IMM4], mdr_load, MDRS[imm]
+28, shl imm4 src tgt2, read,
+28, shl imm4 src tgt2, exec, op1s[mdr], regr0s[arg2], op0s[regr0], ALU[shl], regws[tgt2], reg_load
+29, shr imm4 src tgt2, decode, imms[IMM4], mdr_load, MDRS[imm]
+29, shr imm4 src tgt2, read,
+29, shr imm4 src tgt2, exec, op1s[mdr], regr0s[arg2], op0s[regr0], ALU[shr], regws[tgt2], reg_load
 30, addhi imm7 reg, decode, imms[imm7u], mdrs[imm], mdr_load, skipstate[1]
 30, addhi imm7 reg, read,
 30, addhi imm7 reg, exec, op0s[mdr], regr1s[tgt2], op1s[regr1], regws[tgt2], ALU[addhi], reg_load
@@ -82,3 +86,7 @@
 33, br.r reg, decode, regr0s[tgt], regr1s[reg0], regws[pc], op0s[regr0], op1s[regr1], reg_load, skipstate[2]
 33, br.r reg, read,
 33, br.r reg, exec,
+34,
+35, reti, decode, reti, skipstate[2]
+35, reti, read,
+35, reti, exec,

@@ -24,7 +24,7 @@ uint64_t microinstr;
 
 enum signalstate csig[16] = {0};
 uint16_t bsig[20] = {0};
-uint16_t ram[1024] = {0};
+uint16_t ram[8192] = {0};
 uint16_t regfile[16] = {0};
 uint16_t sysreg[3] = {0};
 uint16_t regsel[3] = {0};
@@ -34,7 +34,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 100;
+int maxinstr = 250;
 int asm_dir = 0;
 int sigupd;
 char ALUopc[4];
@@ -50,9 +50,11 @@ ushort imm7;
 ushort imm10;
 ushort imm13;
 ushort imm3;
+ushort imm4;
 ushort arg0;
 ushort immIR;
 ushort arg1;
+ushort arg2;
 ushort imms;
 ushort nextstate;
 ushort skipcycle;
@@ -186,8 +188,10 @@ decodesigs() {
   char imm10_b[10];
   char imm13_b[13];
   char imm3_b[3];
+  char imm4_b[4];
   char arg0_b[3];
   char arg1_b[3];
+  char arg2_b[3];
   char tgt_b[3];
   char tgt2_b[2];
 
@@ -244,6 +248,9 @@ decodesigs() {
   memcpy(imm3_b, instr_b+7, 3);
   imm3 = bin3_to_dec(imm3_b);
 
+  memcpy(imm4_b, instr_b+7, 4);
+  imm4 = bin2dec(imm4_b, 4);
+
   // parse arguments - operands
   memcpy(arg0_b, instr_b+7, 3);
   arg0 = bin3_to_dec(arg0_b);
@@ -252,6 +259,10 @@ decodesigs() {
   memcpy(arg1_b, instr_b+10, 3);
   arg1 = bin3_to_dec(arg1_b);
   //printf(">>%s<<", arg1_b);
+
+  memcpy(arg2_b, instr_b+11, 3);
+  arg2 = bin3_to_dec(arg2_b);
+	//printf("arg2: %d", arg2);
 
   memcpy(tgt_b, instr_b+13, 3);
   tgt = bin3_to_dec(tgt_b);
@@ -391,7 +402,11 @@ decodesigs() {
     break;
   case 4:
     update_bsig(IRimm, &imm7u);
-    printf("Irimm value: %d", imm10);
+    //printf("Irimm value: %d", irmm);
+    break;
+  case 5:
+    update_bsig(IRimm, &imm4);
+    //printf("Irimm value: %d", irmm);
     break;
   }
 
@@ -440,6 +455,9 @@ resolvemux(void) {
     case ARG1:
       regr0s_temp  = arg1;
       break;
+    case ARG2:
+      regr0s_temp  = arg2;
+      break;
     case TGT:
       regr0s_temp  = tgt;
       break;
@@ -457,6 +475,9 @@ resolvemux(void) {
       break;
     case ARG1:
       regr1s_temp = arg1;
+      break;
+    case ARG2:
+      regr0s_temp  = arg2;
       break;
     case TGT:
       regr1s_temp = tgt;
@@ -485,6 +506,8 @@ resolvemux(void) {
     default:
       regws_temp = regsel[REGWS];
   }
+
+	//printf("REG0 contents: %x ", regfile[0]);
 
   update_bsig(REGR0, &regfile[regr0s_temp]);
   update_bsig(REGR1, &regfile[regr1s_temp]);
@@ -565,6 +588,15 @@ ALU(void) {
 	case 2:
 		result = bsig[OP0] & bsig[OP1];
     break;
+	case 3:
+		result = bsig[OP0] | bsig[OP1];
+    break;
+	case 4:
+		result = bsig[OP0] << (bsig[OP1] + 1);
+    break;
+	case 5:
+		result = bsig[OP0] >> (bsig[OP1] + 1);
+    break;
 	case 6:
 		result = (bsig[OP0] << 9) | (bsig[OP1] & 0x1ff);
 		break;
@@ -642,12 +674,12 @@ writeram() {
       // MAR is odd thus we need to write the low byte
       tmp = ram[ramaddr] & 0xff00; // clear the low byte
       ram[ramaddr] = tmp | MDRlowb;
-      printf("RAM[%xL] <- %x\n", ramaddr*2, MDRlowb);
+      printf("RAM[%xL] <- %x (%x)\n", ramaddr*2, MDRlowb, ram[ramaddr]);
     } else {
       // MAR is even thus we need to write the high byte
       tmp = ram[ramaddr] & 0xff;
       ram[ramaddr] = tmp | MDRlowb << 8;
-      printf("RAM[%xH] <- %x\n", ramaddr*2, MDRlowb);
+      printf("RAM[%xH] <- %x (%x)\n", ramaddr*2, MDRlowb, ram[ramaddr]);
     }
   } else {
     ram[ramaddr] = bsig[MDRout];

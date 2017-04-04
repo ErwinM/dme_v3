@@ -3,10 +3,10 @@ static const char
                       "br",
                       "fetch",
                       "nocode",
-                      "ldw s7(r5)",
-                      "nocode",     // 5
-                      "nocode",
-                      "stw s7(r5)",
+                      "ldw s7",
+                      "ldb s7",     // 5
+                      "stw s7",
+                      "stb s7",
                       "nocode",
                       "nocode",
                       "add",        // 10
@@ -27,8 +27,8 @@ static const char
                       "ldb.b",       // 25
                       "stw.b",
                       "stb.b",
-                      "nocode",
-                      "nocode",
+                      "shl",
+                      "shr",
                       "addhi",        // 30
                       "push",
                       "pop",
