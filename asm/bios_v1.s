@@ -47,10 +47,10 @@ _exit:
 
 wait_for_byte:
 	ldb r1, 5(bp)		; read LSR
-	ldi r4, 0x10
-	and r2, r1, r4	; check if break received
-	addskp.z r2, r2, r4
-	br _exit_wait_for_byte
+	;ldi r4, 0x10
+	;and r2, r1, r4	; check if break received
+	;addskp.z r2, r2, r4
+	;br _exit_wait_for_byte
 	andi r2, r1, 1	; check for bit 0: Data Ready
 	addskpi.z r2, r2, 1
 	br wait_for_byte

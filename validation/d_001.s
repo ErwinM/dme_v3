@@ -11,7 +11,7 @@ INIT_TEST(d,0x01)
 ; set up data
 
 MEM_0xAA_8:
-	defw 0xaa00
+	defw 0xaaff
 
 MEM_0xABCD_16:
 	defw 0xabcd

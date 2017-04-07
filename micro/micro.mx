@@ -90,3 +90,7 @@
 35, reti, decode, reti, skipstate[2]
 35, reti, read,
 35, reti, exec,
+36,
+37, brk, decode, brk
+37, brk, read,
+37, brk, exec, brk

@@ -777,6 +777,7 @@ class ISA
     "br.r" => 33,
     "syscall" => 34,
     "reti" => 35,
+    "brk" => 37,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -816,6 +817,7 @@ class ISA
     "br.r" => {:pad6 => :x, :reg => 0},
     "syscall" =>{:pad9 => :x},
     "reti" =>{:pad9 => :x},
+    "brk" =>{:pad9 => :x},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze

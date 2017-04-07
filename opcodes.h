@@ -34,9 +34,9 @@ static const char
                       "pop",
                       "br.r",
                       "NG",
+                      "NG",						// 35
                       "NG",
-                      "NG",
-                      "NG",
+                      "brk",
                       "NG",
                       "NG",
                       "NG",

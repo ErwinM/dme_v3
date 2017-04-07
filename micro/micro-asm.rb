@@ -48,7 +48,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["reti", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["brk", "ureg", "reti", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -194,9 +194,11 @@ class Coder
         instr["INCR_SP"] ?  microcode += "1" : microcode +="0"
         instr["TRAP"] ?  microcode += "1" : microcode +="0"
         instr["RETI"] ?  microcode += "1" : microcode +="0"
+        instr["UREG"] ?  microcode += "1" : microcode +="0"
+        instr["BRK"] ?  microcode += "1" : microcode +="0"
 
 
-        microcode +="00000000" # PADDING
+        microcode +="000000" # PADDING
 
         if microcode.length != 48
           puts "Invalid microword length (#{microcode.length})\n"
@@ -229,7 +231,7 @@ class Coder
         hex += (h3.to_i == 0) ? "00" : "%02x" % h3
         hex += " 0x"
         hex += (h4.to_i == 0) ? "00" : "%02x" % h4
-        hex += (h5.to_i == 0) ? "00" : "%02x" % h4
+        hex += (h5.to_i == 0) ? "00" : "%02x" % h5
         puts hex
         #if addr = 149 then binding.pry end
         # write the sim init file

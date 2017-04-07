@@ -1,63 +1,19 @@
-; bootloader version 0.1
+; brk test program
+; simple counter
 
-; setup stack
-	la16 r1, 0x1000
-	mov r6, r1
-
-init_uart:
-	la16 r1, 0xff90
-	mov r5, r1
 	mov r1, r0
-	stw 1(bp), r1   ; port + 1 0x00 - disable all interrupts
-	ldi r1, 0x80
-	stw 3(bp), r1   ; port + 3 0x80 enable dlab
-	ldi r1, 32
-	stw 0(bp), r1		; port + 0 set divisor to 1 LSB
-	ldi r1, 0
-	stw 1(bp), r1		; port + 1 set divisor to 1 MSB
-	ldi r1, 3
-	stw 3(bp), r1		; port + 3 set LCR - validate
+	ldi r1, 1
+	ldi r2, 0x10
+loop:
+	addi r1, r1, 1
+	addskp.z r3, r1, r2
+	br loop
 
-_main:
-	la16 r4, welcome
-	addi r1, pc, 4	; setup return addr
-	push r1
-	br wr_string
-	la16 r1, 0xff80
-	ldi r2, 0xaa
-	stw 0(r1), r2
+	brk
+	ldi r2, 0x12
+
+loop2:
+	addi r1, r1, 1
+	addskp.z r3, r1, r2
+	br loop2
 	hlt
-
-wr_string:
-	; pointer to str in r5
-	mov r3, r0
-
-wr_string_loop:
-	addi r1, pc, 4
-	push r1
-	br check_tx_free
-
-	ldb r2, r3(r4)				; load the char
-	addskp.nz r1, r2, r0 	; check for null terminator
-	br wr_string_return
-	stb 0(r5), r2					; write the char
-	addi r3, r3, 1
-	br wr_string_loop
-
-wr_string_return:
-	pop r1
-	br.r r1
-
-check_tx_free:
-	ldw r1, 5(bp)
-	ldi r2, 0x60
-	addskp.z r2, r2, r1
-	br check_tx_free
-	pop r1
-	br.r r1
-	ldi r5, 0xff
-	hlt
-
-
-welcome:
-	defs "Welcome to DME Bootloader."

@@ -311,8 +311,8 @@ decodesigs() {
   micro_b = (char*)malloc(40+1);
 
   micro_b64 = dec2bin(microinstr, 64);
-  memcpy(micro_b, &micro_b64[0], 40);
-  micro_b[40] = '\0';
+  memcpy(micro_b, &micro_b64[0], 48);
+  micro_b[48] = '\0';
 
   if (vcycle==1) {
     printf("Micro(%d): %s\n", idx, micro_b);

@@ -21,7 +21,7 @@ stb.b 0(r2), r1
 ; set up data
 
 MEM_0xAA_8:
-	defw 0xaa00
+	defw 0xaaff
 
 MEM_0xABCD_16:
 	defw 0xabcd
