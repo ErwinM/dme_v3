@@ -173,6 +173,13 @@ class Parser
       end
       return instr
     end
+    if instr[:command].length > 4 && instr[:command][0..3] == "skip" then
+      # split condition from command and add it to the argstr
+      skip, cond = instr[:command].split(".")
+      instr[:command] = skip
+      argstr += "," + cond
+      #binding.pry
+    end
     if argstr.nil? || argstr == "" then
       # instr without args
       instr[:no_args] = true
@@ -287,6 +294,9 @@ class SymbolTable
       return false
     end
     if ISA::REGS.include?(token) then
+      return false
+    end
+    if ISA::COND.include?(token) then
       return false
     end
     if token == 'NO ARG TEMPLATE' then
@@ -621,6 +631,8 @@ class Coder
         code += "000000"
       when :pad9
         code += "000000000"
+      when :cond
+        code += "%03b" % ISA::COND[arg]
       else
         #binding.pry
         puts "Encode: cannot resolve argument: #{arg}(:#{template})\n"
@@ -758,6 +770,7 @@ class ISA
     "mov" => 10,
     "sub" => 11,
     "and" => 12,
+    "skip" => 14,
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addi" => 17,
@@ -784,7 +797,7 @@ class ISA
     "nop" => 200
   }.freeze
 
-  # these templates reflect the order in which they should end up in the encoding
+  # these templates reflect the order in which args should end up in the encoding
   # template => arg number from parse (e.g. order in isa)
   ARGS= {
     "ldi" => {:imm10 => 1, :reg => 0},
@@ -798,6 +811,7 @@ class ISA
     "mov" => {:reg => 1, :xr0 => :x, :reg1 => 0},
     "sub" => {:reg =>1, :reg1 => 2, :reg2 => 0},
     "and" => {:reg =>1, :reg1 => 2, :reg2 => 0},
+    "skip" => {:reg => 0, :reg1 => 1, :cond => 2},
     "addskp.z" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addskp.nz" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addi" => {:immir => 2, :reg =>1, :reg2 => 0},
@@ -861,6 +875,18 @@ class ISA
     "defb" => 2,   # define byte
     "defs" => 3    # define string
   }
+
+  COND= {
+   "eq" => 0,
+   "ne" => 1,
+   "lt" => 2,
+   "lte" => 3,
+   "gt" => 4,
+   "gte" => 5,
+   "ult" => 6,
+   "ulte" => 7
+  }
+
 end
 
 class Error

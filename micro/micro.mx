@@ -32,7 +32,9 @@
 12, and tgt op1 op2, read
 12, and tgt op1 op2, exec
 13,
-14,
+14, skip.c r1 r2, decode, skipstate[1]
+14, skip.c r1 r2, read,
+14, skip.c r1 r2, exec, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[cond], ALU[sub]
 15, addskp.z r1 r2 r3, decode, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub], regws[tgt], reg_load, skipstate[2]
 15, addskp.z r1 r2 r3, read,
 15, addskp.z r1 r2 r3, exec,

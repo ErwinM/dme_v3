@@ -29,12 +29,15 @@ uint16_t regfile[16] = {0};
 uint16_t sysreg[3] = {0};
 uint16_t regsel[3] = {0};
 ushort bussel[10] = {0};
+uint8_t CR = 0;
+uint8_t CRmask;
+
 // ushort regselsrcmux[3] = {0};
 
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 250;
+int maxinstr = 1000;
 int asm_dir = 0;
 int sigupd;
 char ALUopc[4];
@@ -62,6 +65,8 @@ ushort skipcycle;
 ushort ALUresult;
 ushort tgt;
 ushort tgt2;
+ushort breakp;
+ushort carry_reset;
 
 ushort regr0s_temp;
 ushort regr1s_temp;
@@ -86,12 +91,14 @@ int main(int argc,char *argv[])
         skipcycle--;
         continue;
       }
+			bsig[CRin]=0;
+			CRmask = 0;
       clearsig();
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
         hideconsole(clk.icycle, vflag);
         printf("------------------------------------------------------\n");
-        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR]);
+        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(CR, 8));
 
         // signal generation phase
         sigupd=1;
@@ -122,15 +129,20 @@ int main(int argc,char *argv[])
           printf("%x ", readramdump(sdump));
         }
         printf("\n");
-      // Latch pass - single pass!
+      	// Latch pass - single pass!
         restoreconsole();
-      latch(clk.phase);
-      if(sysreg[IR] == 0xfe00) {
-        printf("HALT: encountered halt instruction.\n\n");
-        goto halt;
+	      latch(clk.phase);
+	      if(sysreg[IR] == 0xfe00) {
+	        printf("HALT: encountered halt instruction.\n\n");
+	        goto halt;
+	      }
       }
-      }
-    }
+			if (clk.instr == FETCHM && clk.phase == clk_FE && breakp == 1) {
+				printf("\n BREAK encountered. Press ENTER to continue\n");
+				getchar();
+				breakp = 0;
+			}
+		}
     clk.instr++;
   }
 halt:
@@ -149,6 +161,7 @@ void dump() {
   for(i=0; i<8; i++){
     printf("R%d: %04x\n", i, regfile[i]);
   }
+	printf("CR: %s\n", dec2bin(CR, 8));
   printf("----------------------------SYSREGS-----------------------\n");
   for(i=0; i<3; i++){
     printf("%s: %04x\n", SYSREG_STR[i], sysreg[i]);
@@ -271,7 +284,6 @@ decodesigs() {
   tgt2 = bin2dec(tgt2_b, 2) + 1;
   //printf("tgt2: %s(%d)", tgt2_b,tgt2);
 
-
   // is this a micro op (first bit)?
   if(!codetype) {
     opcode = bin2dec(opcodeshort_b, 2);
@@ -382,6 +394,10 @@ decodesigs() {
   nextstate = bin2dec(nextstate_b, 2);
   //printf(" next: %d", nextstate);
 
+	// break
+	if (micro_b[41] == '1') { breakp = 1;}
+
+
   // IRimm MUX - which bits from IR should feed IRimm
   //printf("bussel-imms: %d", bussel[imms]);
   switch(bussel[IMMS]) {
@@ -417,15 +433,15 @@ decodesigs() {
     skiptype = bin2dec(skipc_b,2);
     switch(skiptype){
       case 0:
+			case 1:
         // ALU == zero
-        if(bsig[ALUout]==0) { goto skip;}
+				update_bussel(COND,skiptype);
         break;
-      case 1:
-        // ALU != zero
-        if(bsig[ALUout]!=0) { goto skip;}
-        break;
-
+      case 2:
+				update_bussel(COND, tgt);
+				break;
     }
+		if(chkskip() == 1) { goto skip; }
     update_csig(SKIP, LO);
     return;
 skip:
@@ -433,7 +449,6 @@ skip:
       update_csig(SKIP, HI);
     }
   }
-
   free(micro_b);
 }
 
@@ -534,6 +549,7 @@ latch(enum phase clk_phase) {
     if(csig[RAM_LOAD]==HI) {
       writeram();
     }
+		writeCR();
   }
 
   // FALLING EDGE LATCHES
@@ -577,13 +593,18 @@ latch(enum phase clk_phase) {
 void
 ALU(void) {
   ushort result;
+	int32_t fullresult;
+	char *fullresult_b;
+
   printf("ALUS(%d) ", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
     result = bsig[OP0] + bsig[OP1];
+    fullresult = bsig[OP0] + bsig[OP1];
     break;
   case 1:
     result = bsig[OP0] - bsig[OP1];
+    fullresult = bsig[OP0] - bsig[OP1];
 		break;
 	case 2:
 		result = bsig[OP0] & bsig[OP1];
@@ -602,10 +623,31 @@ ALU(void) {
 		break;
   //printf("ALU result: %d", result);
 	}
+	// set carry/borrow flag in CR
+	// flag only set/reset during exec cycle
+	// and only on add / sub
+	int carry_should_be_set = 0;
+	int carry_flag = CR & 0x2;
+
+	if (bussel[ALUS] == 0 || bussel[ALUS] == 1) {
+		fullresult_b = dec2bin(fullresult, 32);
+		if (fullresult_b[15] == '1') { carry_should_be_set = 1;}
+	}
+
+	printf("cfsbs: %d, cf: %d ", carry_should_be_set, carry_flag);
+
+	if (clk.icycle == EXECUTE) {
+		// should the flag be set based on the last calc?
+		if (carry_should_be_set == 1) {
+			setCR(1, 1);
+		} else if (carry_flag == 2) {
+			setCR(1, 0);
+		}
+	}
   update_bsig(ALUout, &result);
 }
 
-void
+int
 chkskip(void){
 // condS  cond  0  neg  pos
 // SLTEQ    3   1  1    0
@@ -617,8 +659,8 @@ chkskip(void){
 // LT       6   0  1    0 (unsigned)
 // LTEQ     7   1  1    0 (unsigned)
   char *aluout = dec2bin(bsig[ALUout], 16);
-
-  //printf("COND(%d) ALUout(%s) ", bussel[COND], aluout);
+	char *CR_tmp = dec2bin(CR, 8);
+	printf("ALUout: %s ", aluout);
   // if its 0
   if(bsig[ALUout] == 0 && bussel[COND] == 3) { goto skip; }
   if(bsig[ALUout] == 0 && bussel[COND] == 0) { goto skip; }
@@ -629,18 +671,32 @@ chkskip(void){
   if(aluout[0] == '1' && bussel[COND] == 2) { goto skip; }
   // if its pos - in HDL need to check most significant bit[0]
   if(aluout[0] == '0' && bussel[COND] == 5) { goto skip; }
-  if(aluout[0] == '0' && bussel[COND] == 1) { goto skip; }
+  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { goto skip; }
   if(aluout[0] == '0' && bussel[COND] == 4) { goto skip; }
   // unsigned conditions (NOT 100% sure this is how it should work...)
-  if(bsig[ALUout] < 0 && bussel[COND] == 6) { goto skip; }
-  if(bsig[ALUout] < 0 && bussel[COND] == 7) { goto skip; }
+	// now uses the carry/borrow flag
+  if(CR_tmp[6] == '1' && bussel[COND] == 6) { goto skip; }
+  if(CR_tmp[6] == '1' && bussel[COND] == 7) { goto skip; }
   if(bsig[ALUout] == 0 && bussel[COND] == 7) { goto skip; }
-  update_csig(SKIP, LO);
-  return;
+  return 0;
 skip:
-  update_csig(SKIP, HI);
+	return 1;
 }
 
+void
+writeCR() {
+	uint8_t CRin_tmp;
+	uint8_t oldCR;
+
+	if (CRmask > 0) {
+		oldCR = CR;
+		CR = (CR & (~CRmask)); 					// bits to be set are now 0 in CR
+		CRin_tmp = (bsig[CRin] & CRmask);		// opposite for CRin
+		CR = (CR | CRin_tmp);
+		if (oldCR != CR)
+			printf("CR <- %x\n", CR);
+	}
+}
 
 void
 readram() {
@@ -703,6 +759,21 @@ writeregfile(void) {
 
 // SIMULATOR ROUTINES
 //
+
+void
+setCR(int bit, int value) {
+	ushort tmp_crin;
+	CRmask = CRmask | (1<<bit);
+
+	if (value) {
+		// set to 1
+		tmp_crin = bsig[CRin] | (value << bit);
+	} else {
+		// set to 0
+		tmp_crin = bsig[CRin] & ~(1 << bit);
+	}
+	update_bsig(CRin, &tmp_crin);
+}
 
 int
 readramdump(int addr) {
@@ -775,11 +846,6 @@ clearsig(){
   memset(csig, 0, sizeof(csig));
   memset(bussel, 0, sizeof(bussel));
   memset(regsel, 0, sizeof(regsel));
-}
-
-int
-grabmicrocode(addr){
-  return 0xc4e00000;
 }
 
 void

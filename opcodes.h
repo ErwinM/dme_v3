@@ -13,7 +13,7 @@ static const char
                       "sub",
                       "nocode",
                       "nocode",
-                      "nocode",
+                      "skip.c",
                       "addskp.z",     // 15
                       "addskp.nz",
                       "addi",

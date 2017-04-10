@@ -1,19 +1,21 @@
-; brk test program
-; simple counter
+; lets test a signed less than
 
-	mov r1, r0
-	ldi r1, 1
-	ldi r2, 0x10
-loop:
-	addi r1, r1, 1
-	addskp.z r3, r1, r2
-	br loop
+.code 0x100
 
-	brk
-	ldi r2, 0x12
+d1:
+defw    0x7000
+defw    0x8400
 
-loop2:
-	addi r1, r1, 1
-	addskp.z r3, r1, r2
-	br loop2
+	la16	r4, d1
+	mov r5,r4
+	ldw r1, 0(bp)
+	ldw r2, 2(bp)
+	skip.ult r1, r2
+	br onwaar
+	ldi r5, 0xaa
+	hlt
+
+
+onwaar:
+	ldi r5, 0xff
 	hlt

@@ -9,16 +9,16 @@ include(tmacros.h)
 INIT_TEST(e,0x01)
 
 ; declare symbols here
-SYM(next0, e_001)
-SYM(next1, e_001)
-SYM(next2, e_001)
-SYM(next3, e_001)
-SYM(next4, e_001)
-SYM(next5, e_001)
-SYM(next6, e_001)
-SYM(next7, e_001)
-SYM(next8, e_001)
-SYM(next9, e_001)
+SYM(next0)
+SYM(next1)
+SYM(next2)
+SYM(next3)
+SYM(next4)
+SYM(next5)
+SYM(next6)
+SYM(next7)
+SYM(next8)
+SYM(next9)
 
 ; set up data
 

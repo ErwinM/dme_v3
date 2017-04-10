@@ -26,10 +26,10 @@ _main:
 	addi r1, pc, 4	; setup return addr
 	push r1
 	br wr_string
-	la16 r4, loading_msg
-	addi r1, pc, 4	; setup return addr
-	push r1
-	br wr_string
+	;la16 r4, loading_msg
+	;addi r1, pc, 4	; setup return addr
+	;push r1
+	;br wr_string
 
 	;mov r3, r0
 	;addi r1, pc, 4

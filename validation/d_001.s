@@ -8,6 +8,18 @@ include(tmacros.h)
 
 INIT_TEST(d,0x01)
 
+; declare labels here
+SYM(next0)
+SYM(next1)
+SYM(next2)
+SYM(next3)
+SYM(next4)
+SYM(next5)
+SYM(next6)
+SYM(next7)
+SYM(next8)
+SYM(MEM_0xAA_8)
+SYM(MEM_0xABCD_16)
 ; set up data
 
 MEM_0xAA_8:
@@ -15,14 +27,6 @@ MEM_0xAA_8:
 
 MEM_0xABCD_16:
 	defw 0xabcd
-
-; declare labels here
-SYM(next0, d_001)
-SYM(next1, d_001)
-SYM(next2, d_001)
-SYM(next3, d_001)
-SYM(next4, d_001)
-
 
 ; Begin test here
 
