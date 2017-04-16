@@ -1,23 +1,27 @@
 ;
-; group s, test 2
+; group s, test 3
 ;
 ; skip.c - ult, ulte
 
 include(tmacros.h)
 
+.code 0x100
+
 INIT_TEST(s,0x03)
 
 ; declare symbols here
-SYM(hop, s_003)
-SYM(d1, s_003)
-SYM(d2, s_003)
-SYM(d3, s_003)
-SYM(next0, s_003)
-SYM(next1, s_003)
-SYM(next2, s_003)
-SYM(next3, s_003)
-SYM(next4, s_003)
-SYM(next5, s_003)
+;SYM(hop)
+;SYM(d1)
+;SYM(d2)
+;SYM(d3)
+;SYM(next0)
+;SYM(next1)
+;SYM(next2)
+;SYM(next3)
+;SYM(next4)
+;SYM(next5)
+;SYM(next6)
+;SYM(next7)
 
 		br hop
 

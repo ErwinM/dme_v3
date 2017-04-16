@@ -80,7 +80,7 @@ class Coder
     "TGT"   => "1010",
     "TGT2"   => "1011",
     "ARG2"   => "1100",
-    "FLAGS"   => "1111"
+    "CR"   => "1111"
   }
 
   # parameter REG0 = 3'b000, REG1 = 3'b001, REG2 = 3'b010, REG3 = 3'b011, REG4 = 3'b100, REG5 = 3'b101, REG6 = 3'b110, PC = 4'b111;

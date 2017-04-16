@@ -96,3 +96,9 @@
 37, brk, decode, brk
 37, brk, read,
 37, brk, exec, brk
+38, lcr tgt, decode, regr0s[cr], op0s[regr0], op1s[regr1], regws[tgt], reg_load, skipstate[2]
+38, lcr tgt, read
+38, lcr tgt, exec
+39, scr src, decode, regr0s[arg0], op0s[regr0], op1s[regr1], regws[cr], reg_load, skipstate[2]
+39, src sec, read
+39, src sec, exec

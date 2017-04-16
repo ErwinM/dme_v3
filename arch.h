@@ -11,7 +11,7 @@ enum flags { ZR, NG};
 static const char *FLAGS_STRING[] = { "ZR", "NG"};
 
 static const char *COND_STR[] = { "EQ", "NEQ", "LT", "LTEQ", "GT", "GTEQ", "ULT", "ULTEQ" };
-static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
+static const char *ALUFUNC_STR[] = { "ADD", "SUB", "AND", "OR" };
 
 #define PHASE \
       X(clk_RE) \
@@ -53,7 +53,10 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(ARG1) \
       X(TGT) \
       X(TGT2) \
-			X(ARG2)
+			X(ARG2) \
+			X(R13) \
+			X(R14) \
+			X(FLAGS)
 
 #define SYSREG \
       X(MAR) \
@@ -96,8 +99,7 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB" };
       X(OP0   ) \
       X(OP1   ) \
       X(MDRin   ) \
-      X(NEXTSTATE) \
-			X(CRin)
+      X(NEXTSTATE)
 
 #define SKIPC \
       X(ZERO  ) \

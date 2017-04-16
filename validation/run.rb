@@ -17,10 +17,9 @@ all_tests.each do |name|
 end
 
 init_mem = 0
+code_reloc = 0
 testnr = 0
 last_test = in_files.length
-
-output.write(".code 0x100\n\n")
 
 in_files.each do |test_name|
   testnr +=1;
@@ -45,7 +44,7 @@ in_files.each do |test_name|
       handled = 1
     end
 
-    if line.strip[0..2] == "SYM" then
+    if line.strip[0..3] == ";SYM" then
       l, symbol = line.strip.split("(")
       symbol.chop!
       syms << symbol
@@ -60,9 +59,21 @@ in_files.each do |test_name|
       handled = 1
     end
 
-    if init_mem == 0 && line.strip == "INIT_MEM" then
-      output.write("INIT_MEM\n")
-      init_mem = 1
+    if line.strip == ".code 0x100" then
+      if code_reloc == 0 then
+        output.write(line)
+        code_reloc = 1
+      end
+      handled = 1
+    end
+
+
+
+    if line.strip == "INIT_MEM" then
+      if init_mem == 0 then
+        output.write("INIT_MEM\n")
+        init_mem = 1
+      end
       handled = 1
     end
 

@@ -37,7 +37,7 @@ static const char
                       "NG",						// 35
                       "NG",
                       "brk",
-                      "NG",
+                      "lcr",
                       "NG",
                       "NG",
                   };

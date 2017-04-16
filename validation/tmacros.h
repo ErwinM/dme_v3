@@ -16,13 +16,6 @@ divert(-1)
 #
 
 
-# expand labels to include filename
-define(SYM,
-`define($1, $1_$2)')
-
-define(USYM,
-`undefine($1)')
-
 # literal constant used for all tests
 define(INIT_TEST,
 `

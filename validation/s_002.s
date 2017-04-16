@@ -5,19 +5,23 @@
 
 include(tmacros.h)
 
+.code 0x100
+
 INIT_TEST(s,0x02)
 
 ; declare symbols here
-SYM(hop, s_002)
-SYM(d1, s_002)
-SYM(d2, s_002)
-SYM(d3, s_002)
-SYM(next0, s_002)
-SYM(next1, s_002)
-SYM(next2, s_002)
-SYM(next3, s_002)
-SYM(next4, s_002)
-SYM(next5, s_002)
+;SYM(hop)
+;SYM(d1)
+;SYM(d2)
+;SYM(d3)
+;SYM(next0)
+;SYM(next1)
+;SYM(next2)
+;SYM(next3)
+;SYM(next4)
+;SYM(next5)
+;SYM(next6)
+;SYM(next7)
 
 		br hop
 
@@ -51,7 +55,6 @@ SUBTEST(1)
 		PASS(next0)
 
 next0:
-		brk
 		skip.gt r2, r1
 		br next1
 		br fail
@@ -94,14 +97,14 @@ SUBTEST(4)
 		ldw			r1, 2(bp) ; -32k
 		ldw			r2, 4(bp) ; -4096
 		skip.gte r1, r1
-		PASS(next4)
+		PASS(next6)
 
-next4:
+next6:
 		skip.gte r2, r1
-		br pass
+		br next7
 		br fail
 
-next5:
+next7:
 		skip.gte r1, r2
 		PASS(pass)
 

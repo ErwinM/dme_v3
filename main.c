@@ -29,8 +29,6 @@ uint16_t regfile[16] = {0};
 uint16_t sysreg[3] = {0};
 uint16_t regsel[3] = {0};
 ushort bussel[10] = {0};
-uint8_t CR = 0;
-uint8_t CRmask;
 
 // ushort regselsrcmux[3] = {0};
 
@@ -61,6 +59,7 @@ ushort arg2;
 ushort imms;
 ushort nextstate;
 ushort skipcycle;
+ushort carry_should_be_set;
 
 ushort ALUresult;
 ushort tgt;
@@ -91,14 +90,12 @@ int main(int argc,char *argv[])
         skipcycle--;
         continue;
       }
-			bsig[CRin]=0;
-			CRmask = 0;
       clearsig();
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
         hideconsole(clk.icycle, vflag);
         printf("------------------------------------------------------\n");
-        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(CR, 8));
+        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(regfile[FLAGS], 8));
 
         // signal generation phase
         sigupd=1;
@@ -137,8 +134,8 @@ int main(int argc,char *argv[])
 	        goto halt;
 	      }
       }
-			if (clk.instr == FETCHM && clk.phase == clk_FE && breakp == 1) {
-				printf("\n BREAK encountered. Press ENTER to continue\n");
+			if (clk.icycle == EXECUTEM && breakp == 1) {
+				printf("\nBREAK encountered. Press ENTER to continue\n");
 				getchar();
 				breakp = 0;
 			}
@@ -161,7 +158,7 @@ void dump() {
   for(i=0; i<8; i++){
     printf("R%d: %04x\n", i, regfile[i]);
   }
-	printf("CR: %s\n", dec2bin(CR, 8));
+	printf("CR: %s (%x)\n", dec2bin(regfile[FLAGS], 16), regfile[FLAGS]);
   printf("----------------------------SYSREGS-----------------------\n");
   for(i=0; i<3; i++){
     printf("%s: %04x\n", SYSREG_STR[i], sysreg[i]);
@@ -172,6 +169,7 @@ void
 init(void) {
 
   bsig[PC] = 0;
+	regfile[FLAGS] = 8; // IRQ enabled (irqs not currently in simulator!)
 
   // load microcode
   loadmicrocode();
@@ -395,7 +393,10 @@ decodesigs() {
   //printf(" next: %d", nextstate);
 
 	// break
-	if (micro_b[41] == '1') { breakp = 1;}
+	if (micro_b[41] == '1') {
+		printf("BRK ");
+		breakp = 1;
+	}
 
 
   // IRimm MUX - which bits from IR should feed IRimm
@@ -524,6 +525,7 @@ resolvemux(void) {
 
 	//printf("REG0 contents: %x ", regfile[0]);
 
+
   update_bsig(REGR0, &regfile[regr0s_temp]);
   update_bsig(REGR1, &regfile[regr1s_temp]);
 
@@ -549,7 +551,6 @@ latch(enum phase clk_phase) {
     if(csig[RAM_LOAD]==HI) {
       writeram();
     }
-		writeCR();
   }
 
   // FALLING EDGE LATCHES
@@ -587,6 +588,7 @@ latch(enum phase clk_phase) {
         skipcycle = 2 * nextstate;
       }
     }
+		writeCR();
   }
 }
 
@@ -623,27 +625,19 @@ ALU(void) {
 		break;
   //printf("ALU result: %d", result);
 	}
-	// set carry/borrow flag in CR
-	// flag only set/reset during exec cycle
-	// and only on add / sub
-	int carry_should_be_set = 0;
-	int carry_flag = CR & 0x2;
 
+	// set carry/borrow flag in CR
 	if (bussel[ALUS] == 0 || bussel[ALUS] == 1) {
 		fullresult_b = dec2bin(fullresult, 32);
-		if (fullresult_b[15] == '1') { carry_should_be_set = 1;}
-	}
-
-	printf("cfsbs: %d, cf: %d ", carry_should_be_set, carry_flag);
-
-	if (clk.icycle == EXECUTE) {
-		// should the flag be set based on the last calc?
-		if (carry_should_be_set == 1) {
-			setCR(1, 1);
-		} else if (carry_flag == 2) {
-			setCR(1, 0);
+		if (fullresult_b[15] == '1') {
+			carry_should_be_set = 1;
+		} else {
+			carry_should_be_set = 0;
 		}
 	}
+
+	printf("cfsbs: %d ", carry_should_be_set);
+
   update_bsig(ALUout, &result);
 }
 
@@ -659,7 +653,7 @@ chkskip(void){
 // LT       6   0  1    0 (unsigned)
 // LTEQ     7   1  1    0 (unsigned)
   char *aluout = dec2bin(bsig[ALUout], 16);
-	char *CR_tmp = dec2bin(CR, 8);
+	char *CR_tmp = dec2bin(regfile[FLAGS], 16);
 	printf("ALUout: %s ", aluout);
   // if its 0
   if(bsig[ALUout] == 0 && bussel[COND] == 3) { goto skip; }
@@ -675,8 +669,8 @@ chkskip(void){
   if(aluout[0] == '0' && bussel[COND] == 4) { goto skip; }
   // unsigned conditions (NOT 100% sure this is how it should work...)
 	// now uses the carry/borrow flag
-  if(CR_tmp[6] == '1' && bussel[COND] == 6) { goto skip; }
-  if(CR_tmp[6] == '1' && bussel[COND] == 7) { goto skip; }
+  if(CR_tmp[15] == '1' && bussel[COND] == 6) { goto skip; }
+  if(CR_tmp[15] == '1' && bussel[COND] == 7) { goto skip; }
   if(bsig[ALUout] == 0 && bussel[COND] == 7) { goto skip; }
   return 0;
 skip:
@@ -688,13 +682,16 @@ writeCR() {
 	uint8_t CRin_tmp;
 	uint8_t oldCR;
 
-	if (CRmask > 0) {
-		oldCR = CR;
-		CR = (CR & (~CRmask)); 					// bits to be set are now 0 in CR
-		CRin_tmp = (bsig[CRin] & CRmask);		// opposite for CRin
-		CR = (CR | CRin_tmp);
-		if (oldCR != CR)
-			printf("CR <- %x\n", CR);
+	if (regsel[REGWS] == FLAGS && csig[REG_LOAD] == HI) {
+		regfile[FLAGS] = bsig[ALUout];
+		printf("CR <- %x\n", regfile[FLAGS]);
+	} else if (clk.icycle == EXECUTE){ 		// via setCRY in verilog
+		oldCR = regfile[FLAGS] & 0xfffd;	// clear carry bit
+		regfile[FLAGS] = oldCR | carry_should_be_set;
+		// generate debugging info
+		if (oldCR != regfile[FLAGS]) {
+			printf("CR <- %x\n", regfile[FLAGS]);
+		}
 	}
 }
 
@@ -759,21 +756,6 @@ writeregfile(void) {
 
 // SIMULATOR ROUTINES
 //
-
-void
-setCR(int bit, int value) {
-	ushort tmp_crin;
-	CRmask = CRmask | (1<<bit);
-
-	if (value) {
-		// set to 1
-		tmp_crin = bsig[CRin] | (value << bit);
-	} else {
-		// set to 0
-		tmp_crin = bsig[CRin] & ~(1 << bit);
-	}
-	update_bsig(CRin, &tmp_crin);
-}
 
 int
 readramdump(int addr) {

@@ -612,7 +612,7 @@ class Coder
         end
         code += "%03b" % ISA::IRIMM[arg.to_i]
       when :reg, :reg1, :reg2
-        #binding.pry if instr[:instr_nr] == 33
+        #binding.pry if instr[:instr_nr] == 68
         code += "%03b" % ISA::REGS[arg]
       when :tgt2
         #binding.pry
@@ -791,6 +791,8 @@ class ISA
     "syscall" => 34,
     "reti" => 35,
     "brk" => 37,
+    "lcr" => 38,
+    "scr" => 39,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -832,6 +834,8 @@ class ISA
     "syscall" =>{:pad9 => :x},
     "reti" =>{:pad9 => :x},
     "brk" =>{:pad9 => :x},
+    "lcr" => {:pad6 => :x, :reg => 0},
+    "scr" => {:reg => 0, :pad6 => :x},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze

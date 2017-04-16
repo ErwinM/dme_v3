@@ -3,20 +3,11 @@
 ;
 ; lcr, scr
 
-
-
-
+include(tmacros.h)
 
 .code 0x100
 
-
-ldi r2, 0x11
-ldi r1, char @f
-stb.b 0(r2), r1
-ldi r2, 0x13
-ldi r1, 0x02
-stb.b 0(r2), r1
-
+INIT_TEST(f,0x02)
 
 ; declare symbols here
 
@@ -27,31 +18,14 @@ stb.b 0(r2), r1
 brk
 	lcr r1
 	addskpi.z r2, r1, 8
-	br fail
-br next1
-hlt
-
+	PASS(next1)
 
 next1:
 ; disable IRQ by loading a new value into CR
 	scr r0
 	lcr r1
 	addskp.z r2, r1, r0
-	br fail
-br pass
-hlt
-
+	PASS(pass)
 
 ;   Finally, when done branch to pass
-  pass:
-	ld16 r3, 0xff80
-	ldi r5, 0xAA
-	stw 0(r3), r5
-  hlt
-
-fail:
-	ld16 r3, 0xff80
-	ldi r5, 0xFF
-	stw 0(r3), r5
-  hlt
-
+  END_TEST
