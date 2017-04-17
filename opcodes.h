@@ -12,14 +12,14 @@ static const char
                       "add",        // 10
                       "sub",
                       "nocode",
-                      "nocode",
+                      "or",
                       "skip.c",
                       "addskp.z",     // 15
                       "addskp.nz",
                       "addi",
                       "subi",
                       "nocode",
-                      "nocode",       // 20
+                      "ori",       // 20
                       "nocode",
                       "addskpi.z",
                       "addskpi.nz",
@@ -38,6 +38,6 @@ static const char
                       "NG",
                       "brk",
                       "lcr",
-                      "NG",
+                      "scr",
                       "NG",
                   };

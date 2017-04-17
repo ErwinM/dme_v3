@@ -31,7 +31,9 @@
 12, and tgt op1 op2, decode, regr0s[arg1], regr1s[arg0], op0s[regr0], op1s[regr1], regws[tgt], reg_load, ALU[and], skipstate[2]
 12, and tgt op1 op2, read
 12, and tgt op1 op2, exec
-13,
+13, or op0 op1 tgt, decode, regr0s[arg1], regr1s[arg0], op0s[regr0], op1s[regr1], regws[tgt], reg_load, ALU[or], skipstate[2]
+13, or op0 op1 tgt, read,
+13, or op0 op1 tgt, exec,
 14, skip.c r1 r2, decode, skipstate[1]
 14, skip.c r1 r2, read,
 14, skip.c r1 r2, exec, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[cond], ALU[sub]
@@ -50,7 +52,9 @@
 19, andi Irimm r1 tgt, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 19, andi Irimm r1 tgt, read,
 19, andi Irimm r1 tgt, exec, op1s[mdr], regr0s[arg1], op0s[regr0], ALU[and], regws[tgt], reg_load
-20,
+20, ori IRimm r1 tgt, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
+20, ori IRimm r1 tgt, read,
+20, ori IRimm r1 tgt, exec, op1s[mdr], regr0s[arg1], op0s[regr0], ALU[or], regws[tgt], reg_load
 21,
 22, addskpi.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 22, addskpi.z imm op2 res, read,
@@ -88,7 +92,9 @@
 33, br.r reg, decode, regr0s[tgt], regr1s[reg0], regws[pc], op0s[regr0], op1s[regr1], reg_load, skipstate[2]
 33, br.r reg, read,
 33, br.r reg, exec,
-34,
+34, syscall src, decode,
+34, syscall src, read,
+34, syscall src, exec,
 35, reti, decode, reti, skipstate[2]
 35, reti, read,
 35, reti, exec,
@@ -102,3 +108,15 @@
 39, scr src, decode, regr0s[arg0], op0s[regr0], op1s[regr1], regws[cr], reg_load, skipstate[2]
 39, src sec, read
 39, src sec, exec
+40, wpte src tgt, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], wpte, skipstate[2]
+40, wpte src tgt, read,
+40, wpte src tgt, exec,
+41, lpte src tgt, decode, regr0s[arg0], op0s[regr0], op1s[regr1], MDRS[alu], mdr_load
+41, lpte src tgt, read,
+41, lpte src tgt, exec, op1s[pte], op0s[regr0], regws[tgt], reg_load
+42, wptb src, decode, regr0s[arg0], op0s[regr0], wptb, skipstate[2]
+42, wptb src, read
+42, wptb src, exec
+43, lptb tgt, decode, op0s[ptb], regws[tgt], op1s[regr1], reg_load, skipstate[2]
+43, lptb tgt, read,
+43, lptb tgt, exec,

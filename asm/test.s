@@ -1,7 +1,11 @@
-; lets test a signed less than
+; lets test paging (lol)
 
-ldi r1, 10
-scr r1
-ldi r2, 20
-mov r1, r2
+ldi r1, 1
+wptb r1
+ld16 r2, 0x800
+wpte r1, r2
+
+; turn on paging
+lcr r1
+ori r1, r1, 4
 scr r1

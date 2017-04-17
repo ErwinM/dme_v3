@@ -48,7 +48,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["brk", "ureg", "reti", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["wpte", "wptb", "brk", "ureg", "reti", "syscall", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -89,10 +89,18 @@ class Coder
 #   parameter FETCH = 3'b001, FETCHM = 3'b010, DECODE = 3'b011, READ = 3'b100, READM = 3'b101, EXEC = 3'b110, EXECM = 3'b111;
 #
 
-  OPS_MUX= {
+  OP0S_MUX= {
     "REGR0"   => "00",
     "REGR1"   => "01",
-    "MDR"  => "10"
+    "MDR"  => "10",
+    "PTB" => "11"
+  }
+
+  OP1S_MUX= {
+    "REGR0"   => "00",
+    "REGR1"   => "01",
+    "MDR"  => "10",
+    "PTE" => "11"
   }
 
   MDRS_MUX = {
@@ -184,21 +192,23 @@ class Coder
         instr["REGWS"] ? microcode += REGS_MUX[instr["REGWS"]] : microcode +="0000"
         instr["MDRS"] ? microcode += MDRS_MUX[instr["MDRS"]] : microcode +="00"
         instr["IMMS"] ? microcode += IMMS_MUX[instr["IMMS"]] : microcode +="000"
-        instr["OP0S"] ? microcode += OPS_MUX[instr["OP0S"]] : microcode +="00"
+        instr["OP0S"] ? microcode += OP0S_MUX[instr["OP0S"]] : microcode +="00"
         #puts "OP0S: #{instr["OP0S"]}"
-        instr["OP1S"] ? microcode += OPS_MUX[instr["OP1S"]] : microcode +="00"
+        instr["OP1S"] ? microcode += OP1S_MUX[instr["OP1S"]] : microcode +="00"
 
         instr["SKIPC"] ? microcode += SKIPC_MUX[instr["SKIPC"]] : microcode +="000"
         instr["ALU"] ? microcode += ALU[instr["ALU"]] : microcode +="000"
         instr["SKIPSTATE"] ? microcode += SKIPSTATE[instr["SKIPSTATE"]] : microcode +="00"
         instr["INCR_SP"] ?  microcode += "1" : microcode +="0"
-        instr["TRAP"] ?  microcode += "1" : microcode +="0"
+        instr["SYSCALL"] ?  microcode += "1" : microcode +="0"
         instr["RETI"] ?  microcode += "1" : microcode +="0"
         instr["UREG"] ?  microcode += "1" : microcode +="0"
         instr["BRK"] ?  microcode += "1" : microcode +="0"
+        instr["WPTB"] ?  microcode += "1" : microcode +="0"
+        instr["WPTE"] ?  microcode += "1" : microcode +="0"
 
 
-        microcode +="000000" # PADDING
+        microcode +="0000" # PADDING
 
         if microcode.length != 48
           puts "Invalid microword length (#{microcode.length})\n"

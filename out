@@ -41,13 +41,12 @@ regfile: r0:REG0, r1:REG0, w:TGT
 args: 0:0, 1:0, tgt:1
 ALU: 0:MDRout(100) 1:REGR0(0) func: out:100
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-CR <- 0
 REG1 <- 100
 MAR <- 2
 PC++
 IR <- 20fc
 ------------------------------------------------------
-cycle: 1.DECODE(3), phase: 0, PC: 4, SP: 0, MAR: 2(20fc), MDR: 100 CR: 00000000
+cycle: 1.DECODE(3), phase: 0, PC: 4, SP: 0, MAR: 2(20fc), MDR: 100 CR: 00001000
 IR: DECODING (20fc) Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) IRimm(252) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(252) 
 ALUS(0) cfsbs: 0 ALUout(0) 
@@ -58,7 +57,7 @@ args: 0:3, 1:7, tgt:4
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 1.DECODE(3), phase: 1, PC: 4, SP: 0, MAR: 2(20fc), MDR: 100 CR: 00000000
+cycle: 1.DECODE(3), phase: 1, PC: 4, SP: 0, MAR: 2(20fc), MDR: 100 CR: 00001000
 IR: br (20fc) - (0010000011111100), Micro(1): 001000000000000000000001000000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -68,7 +67,7 @@ ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 00fc
 ------------------------------------------------------
-cycle: 1.EXECUTE(7), phase: 0, PC: 4, SP: 0, MAR: 2(20fc), MDR: fc CR: 00000000
+cycle: 1.EXECUTE(7), phase: 0, PC: 4, SP: 0, MAR: 2(20fc), MDR: fc CR: 00001000
 IR: br (20fc) - (0010000011111100), Micro(129): 000100000111000001110000010000000000000000000000
 REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(63) ALUS(0) cfsbs: 0 REGR0(4) OP0(252) OP1(4) MDRin(63) 
 ALUS(0) cfsbs: 0 ALUout(256) 
@@ -79,7 +78,7 @@ args: 0:3, 1:7, tgt:4
 ALU: 0:MDRout(fc) 1:REGR0(4) func: out:100
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 1.EXECUTE(7), phase: 1, PC: 4, SP: 0, MAR: 2(20fc), MDR: fc CR: 00000000
+cycle: 1.EXECUTE(7), phase: 1, PC: 4, SP: 0, MAR: 2(20fc), MDR: fc CR: 00001000
 IR: br (20fc) - (0010000011111100), Micro(129): 000100000111000001110000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -92,7 +91,7 @@ MAR <- 100
 PC++
 IR <- 8a
 ------------------------------------------------------
-cycle: 2.DECODE(3), phase: 0, PC: 102, SP: 0, MAR: 100(8a), MDR: fc CR: 00000000
+cycle: 2.DECODE(3), phase: 0, PC: 102, SP: 0, MAR: 100(8a), MDR: fc CR: 00001000
 IR: DECODING (8a) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(17) ALUS(0) cfsbs: 0 REGR1(0) OP0(252) MDRin(17) 
 ALUS(0) cfsbs: 0 ALUout(252) 
@@ -103,7 +102,7 @@ args: 0:2, 1:1, tgt:2
 ALU: 0:MDRout(fc) 1:REGR0(0) func: out:fc
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 2.DECODE(3), phase: 1, PC: 102, SP: 0, MAR: 100(8a), MDR: fc CR: 00000000
+cycle: 2.DECODE(3), phase: 1, PC: 102, SP: 0, MAR: 100(8a), MDR: fc CR: 00001000
 IR: ldi (8a) - (0000000010001010), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -113,7 +112,7 @@ ALU: 0:MDRout(fc) 1:REGR0(0) func: out:fc
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 0011
 ------------------------------------------------------
-cycle: 2.EXECUTE(7), phase: 0, PC: 102, SP: 0, MAR: 100(8a), MDR: 11 CR: 00000000
+cycle: 2.EXECUTE(7), phase: 0, PC: 102, SP: 0, MAR: 100(8a), MDR: 11 CR: 00001000
 IR: ldi (8a) - (0000000010001010), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(34) ALUS(0) cfsbs: 0 MDRin(34) 
 ALUS(0) cfsbs: 0 
@@ -123,7 +122,7 @@ args: 0:2, 1:1, tgt:2
 ALU: 0:MDRout(11) 1:REGR0(0) func: out:11
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 2.EXECUTE(7), phase: 1, PC: 102, SP: 0, MAR: 100(8a), MDR: 11 CR: 00000000
+cycle: 2.EXECUTE(7), phase: 1, PC: 102, SP: 0, MAR: 100(8a), MDR: 11 CR: 00001000
 IR: ldi (8a) - (0000000010001010), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -134,53 +133,53 @@ STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0
 REG2 <- 11
 MAR <- 102
 PC++
-IR <- 331
+IR <- 351
 ------------------------------------------------------
-cycle: 3.DECODE(3), phase: 0, PC: 104, SP: 0, MAR: 102(331), MDR: 11 CR: 00000000
-IR: DECODING (331) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(102) ALUS(0) cfsbs: 0 REGR1(0) OP0(17) MDRin(102) 
+cycle: 3.DECODE(3), phase: 0, PC: 104, SP: 0, MAR: 102(351), MDR: 11 CR: 00001000
+IR: DECODING (351) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(106) ALUS(0) cfsbs: 0 REGR1(0) OP0(17) MDRin(106) 
 ALUS(0) cfsbs: 0 ALUout(17) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:4, 1:6, tgt:1
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(11) 1:REGR0(0) func: out:11
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 3.DECODE(3), phase: 1, PC: 104, SP: 0, MAR: 102(331), MDR: 11 CR: 00000000
-IR: ldi (331) - (0000001100110001), Micro(0): 001000000000000000000000110000000000100000000000
+cycle: 3.DECODE(3), phase: 1, PC: 104, SP: 0, MAR: 102(351), MDR: 11 CR: 00001000
+IR: ldi (351) - (0000001101010001), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:4, 1:6, tgt:1
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(11) 1:REGR0(0) func: out:11
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 0066
+MDR <- 006a
 ------------------------------------------------------
-cycle: 3.EXECUTE(7), phase: 0, PC: 104, SP: 0, MAR: 102(331), MDR: 66 CR: 00000000
-IR: ldi (331) - (0000001100110001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(65484) ALUS(0) cfsbs: 0 MDRin(65484) 
+cycle: 3.EXECUTE(7), phase: 0, PC: 104, SP: 0, MAR: 102(351), MDR: 6a CR: 00001000
+IR: ldi (351) - (0000001101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65492) ALUS(0) cfsbs: 0 MDRin(65492) 
 ALUS(0) cfsbs: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:4, 1:6, tgt:1
-ALU: 0:MDRout(66) 1:REGR0(0) func: out:66
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(6a) 1:REGR0(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 3.EXECUTE(7), phase: 1, PC: 104, SP: 0, MAR: 102(331), MDR: 66 CR: 00000000
-IR: ldi (331) - (0000001100110001), Micro(128): 000100000000000010100000010000000000000000000000
+cycle: 3.EXECUTE(7), phase: 1, PC: 104, SP: 0, MAR: 102(351), MDR: 6a CR: 00001000
+IR: ldi (351) - (0000001101010001), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:4, 1:6, tgt:1
-ALU: 0:MDRout(66) 1:REGR0(0) func: out:66
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(6a) 1:REGR0(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-REG1 <- 66
+REG1 <- 6a
 MAR <- 104
 PC++
 IR <- b611
 ------------------------------------------------------
-cycle: 4.DECODE(3), phase: 0, PC: 106, SP: 0, MAR: 104(b611), MDR: 66 CR: 00000000
+cycle: 4.DECODE(3), phase: 0, PC: 106, SP: 0, MAR: 104(b611), MDR: 6a CR: 00001000
 IR: DECODING (b611) Micro(27): 000000000000000000000000000000000000000000000000
 IRimm(4) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(4) 
 ALUS(0) cfsbs: 0 ALUout(0) 
@@ -191,7 +190,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 4.DECODE(3), phase: 1, PC: 106, SP: 0, MAR: 104(b611), MDR: 66 CR: 00000000
+cycle: 4.DECODE(3), phase: 1, PC: 106, SP: 0, MAR: 104(b611), MDR: 6a CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -200,7 +199,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 4.READ(5), phase: 0, PC: 106, SP: 0, MAR: 104(b611), MDR: 66 CR: 00000000
+cycle: 4.READ(5), phase: 0, PC: 106, SP: 0, MAR: 104(b611), MDR: 6a CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(17) OP1(17) 
 ALUS(0) cfsbs: 0 ALUout(17) 
@@ -211,7 +210,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR1(11) func: out:11
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 4.READ(5), phase: 1, PC: 106, SP: 0, MAR: 104(b611), MDR: 66 CR: 00000000
+cycle: 4.READ(5), phase: 1, PC: 106, SP: 0, MAR: 104(b611), MDR: 6a CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -221,53 +220,53 @@ ALU: 0:REGR0(0) 1:REGR1(11) func: out:11
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MAR <- 11
 ------------------------------------------------------
-cycle: 4.EXECUTE(7), phase: 0, PC: 106, SP: 0, MAR: 11(0), MDR: 66 CR: 00000000
+cycle: 4.EXECUTE(7), phase: 0, PC: 106, SP: 0, MAR: 11(0), MDR: 6a CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
-MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(102) REGR1(0) OP0(102) OP1(0) MDRin(17) 
-ALUS(0) cfsbs: 0 ALUout(102) MDRin(102) 
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(106) REGR1(0) OP0(106) OP1(0) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(106) MDRin(106) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(66) 1:REGR1(0) func: out:66
+ALU: 0:REGR0(6a) 1:REGR1(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 4.EXECUTE(7), phase: 1, PC: 106, SP: 0, MAR: 11(0), MDR: 66 CR: 00000000
+cycle: 4.EXECUTE(7), phase: 1, PC: 106, SP: 0, MAR: 11(0), MDR: 6a CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(66) 1:REGR1(0) func: out:66
+ALU: 0:REGR0(6a) 1:REGR1(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 0066
-RAM[10L] <- 66 (66)
+MDR <- 006a
+RAM[10L] <- 6a (6a)
 MAR <- 106
 PC++
 IR <- 9a
 ------------------------------------------------------
-cycle: 5.DECODE(3), phase: 0, PC: 108, SP: 0, MAR: 106(9a), MDR: 66 CR: 00000000
+cycle: 5.DECODE(3), phase: 0, PC: 108, SP: 0, MAR: 106(9a), MDR: 6a CR: 00001000
 IR: DECODING (9a) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(19) ALUS(0) cfsbs: 0 REGR1(0) OP0(102) MDRin(19) 
-ALUS(0) cfsbs: 0 ALUout(102) 
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(19) ALUS(0) cfsbs: 0 REGR1(0) OP0(106) MDRin(19) 
+ALUS(0) cfsbs: 0 ALUout(106) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:2, 1:3, tgt:2
-ALU: 0:MDRout(66) 1:REGR0(0) func: out:66
+ALU: 0:MDRout(6a) 1:REGR0(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 5.DECODE(3), phase: 1, PC: 108, SP: 0, MAR: 106(9a), MDR: 66 CR: 00000000
+cycle: 5.DECODE(3), phase: 1, PC: 108, SP: 0, MAR: 106(9a), MDR: 6a CR: 00001000
 IR: ldi (9a) - (0000000010011010), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:2, 1:3, tgt:2
-ALU: 0:MDRout(66) 1:REGR0(0) func: out:66
+ALU: 0:MDRout(6a) 1:REGR0(0) func: out:6a
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 0013
 ------------------------------------------------------
-cycle: 5.EXECUTE(7), phase: 0, PC: 108, SP: 0, MAR: 106(9a), MDR: 13 CR: 00000000
+cycle: 5.EXECUTE(7), phase: 0, PC: 108, SP: 0, MAR: 106(9a), MDR: 13 CR: 00001000
 IR: ldi (9a) - (0000000010011010), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(38) ALUS(0) cfsbs: 0 MDRin(38) 
 ALUS(0) cfsbs: 0 
@@ -277,7 +276,7 @@ args: 0:2, 1:3, tgt:2
 ALU: 0:MDRout(13) 1:REGR0(0) func: out:13
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 5.EXECUTE(7), phase: 1, PC: 108, SP: 0, MAR: 106(9a), MDR: 13 CR: 00000000
+cycle: 5.EXECUTE(7), phase: 1, PC: 108, SP: 0, MAR: 106(9a), MDR: 13 CR: 00001000
 IR: ldi (9a) - (0000000010011010), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -288,55 +287,55 @@ STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0
 REG2 <- 13
 MAR <- 108
 PC++
-IR <- 11
+IR <- 9
 ------------------------------------------------------
-cycle: 6.DECODE(3), phase: 0, PC: 10a, SP: 0, MAR: 108(11), MDR: 13 CR: 00000000
-IR: DECODING (11) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(19) MDRin(2) 
+cycle: 6.DECODE(3), phase: 0, PC: 10a, SP: 0, MAR: 108(9), MDR: 13 CR: 00001000
+IR: DECODING (9) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(19) MDRin(1) 
 ALUS(0) cfsbs: 0 ALUout(19) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:2, tgt:1
+args: 0:0, 1:1, tgt:1
 ALU: 0:MDRout(13) 1:REGR0(0) func: out:13
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 6.DECODE(3), phase: 1, PC: 10a, SP: 0, MAR: 108(11), MDR: 13 CR: 00000000
-IR: ldi (11) - (0000000000010001), Micro(0): 001000000000000000000000110000000000100000000000
+cycle: 6.DECODE(3), phase: 1, PC: 10a, SP: 0, MAR: 108(9), MDR: 13 CR: 00001000
+IR: ldi (9) - (0000000000001001), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:2, tgt:1
+args: 0:0, 1:1, tgt:1
 ALU: 0:MDRout(13) 1:REGR0(0) func: out:13
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 0002
+MDR <- 0001
 ------------------------------------------------------
-cycle: 6.EXECUTE(7), phase: 0, PC: 10a, SP: 0, MAR: 108(11), MDR: 2 CR: 00000000
-IR: ldi (11) - (0000000000010001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(4) ALUS(0) cfsbs: 0 MDRin(4) 
+cycle: 6.EXECUTE(7), phase: 0, PC: 10a, SP: 0, MAR: 108(9), MDR: 1 CR: 00001000
+IR: ldi (9) - (0000000000001001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(2) ALUS(0) cfsbs: 0 MDRin(2) 
 ALUS(0) cfsbs: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:0, 1:2, tgt:1
-ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+args: 0:0, 1:1, tgt:1
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 6.EXECUTE(7), phase: 1, PC: 10a, SP: 0, MAR: 108(11), MDR: 2 CR: 00000000
-IR: ldi (11) - (0000000000010001), Micro(128): 000100000000000010100000010000000000000000000000
+cycle: 6.EXECUTE(7), phase: 1, PC: 10a, SP: 0, MAR: 108(9), MDR: 1 CR: 00001000
+IR: ldi (9) - (0000000000001001), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:0, 1:2, tgt:1
-ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+args: 0:0, 1:1, tgt:1
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-REG1 <- 2
+REG1 <- 1
 MAR <- 10a
 PC++
 IR <- b611
 ------------------------------------------------------
-cycle: 7.DECODE(3), phase: 0, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 2 CR: 00000000
+cycle: 7.DECODE(3), phase: 0, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 1 CR: 00001000
 IR: DECODING (b611) Micro(27): 000000000000000000000000000000000000000000000000
-ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+IRimm(4) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(4) 
 ALUS(0) cfsbs: 0 ALUout(0) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
@@ -345,7 +344,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 7.DECODE(3), phase: 1, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 2 CR: 00000000
+cycle: 7.DECODE(3), phase: 1, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 1 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -354,7 +353,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 7.READ(5), phase: 0, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 2 CR: 00000000
+cycle: 7.READ(5), phase: 0, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 1 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(19) OP1(19) 
 ALUS(0) cfsbs: 0 ALUout(19) 
@@ -365,7 +364,7 @@ args: 0:0, 1:2, tgt:1
 ALU: 0:REGR0(0) 1:REGR1(13) func: out:13
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 7.READ(5), phase: 1, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 2 CR: 00000000
+cycle: 7.READ(5), phase: 1, PC: 10c, SP: 0, MAR: 10a(b611), MDR: 1 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -375,229 +374,3151 @@ ALU: 0:REGR0(0) 1:REGR1(13) func: out:13
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MAR <- 13
 ------------------------------------------------------
-cycle: 7.EXECUTE(7), phase: 0, PC: 10c, SP: 0, MAR: 13(0), MDR: 2 CR: 00000000
+cycle: 7.EXECUTE(7), phase: 0, PC: 10c, SP: 0, MAR: 13(0), MDR: 1 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
-MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(2) REGR1(0) OP0(2) OP1(0) MDRin(19) 
-ALUS(0) cfsbs: 0 ALUout(2) MDRin(2) 
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(1) REGR1(0) OP0(1) OP1(0) MDRin(19) 
+ALUS(0) cfsbs: 0 ALUout(1) MDRin(1) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(2) 1:REGR1(0) func: out:2
+ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 7.EXECUTE(7), phase: 1, PC: 10c, SP: 0, MAR: 13(0), MDR: 2 CR: 00000000
+cycle: 7.EXECUTE(7), phase: 1, PC: 10c, SP: 0, MAR: 13(0), MDR: 1 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(2) 1:REGR1(0) func: out:2
+ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 0002
-RAM[12L] <- 2 (2)
+MDR <- 0001
+RAM[12L] <- 1 (1)
 MAR <- 10c
 PC++
-IR <- ca00
+IR <- a2
 ------------------------------------------------------
-cycle: 8.DECODE(3), phase: 0, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: DECODING (ca00) Micro(37): 000000000000000000000000000000000000000001000000
-BRK IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
-BRK ALUS(0) cfsbs: 0 ALUout(0) 
-BRK ALUS(0) cfsbs: 0 
+cycle: 8.DECODE(3), phase: 0, PC: 10e, SP: 0, MAR: 10c(a2), MDR: 1 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) cfsbs: 0 REGR1(0) OP0(1) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 8.DECODE(3), phase: 1, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: brk (ca00) - (1100101000000000), Micro(37): 000000000000000000000000000000000000000001000000
-BRK ALUS(0) cfsbs: 0 
-Stable after 1 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-------------------------------------------------------
-cycle: 8.READ(5), phase: 0, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: brk (ca00) - (1100101000000000), Micro(101): 000000000000000000000000000000000000000000000000
+cycle: 8.DECODE(3), phase: 1, PC: 10e, SP: 0, MAR: 10c(a2), MDR: 1 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0014
+------------------------------------------------------
+cycle: 8.EXECUTE(7), phase: 0, PC: 10e, SP: 0, MAR: 10c(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) cfsbs: 0 MDRin(40) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 8.READ(5), phase: 1, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: brk (ca00) - (1100101000000000), Micro(101): 000000000000000000000000000000000000000000000000
+cycle: 8.EXECUTE(7), phase: 1, PC: 10e, SP: 0, MAR: 10c(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-------------------------------------------------------
-cycle: 8.EXECUTE(7), phase: 0, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: brk (ca00) - (1100101000000000), Micro(165): 000000000000000000000000000000000000000001000000
-BRK ALUS(0) cfsbs: 0 
-Stable after 1 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-------------------------------------------------------
-cycle: 8.EXECUTE(7), phase: 1, PC: 10e, SP: 0, MAR: 10c(ca00), MDR: 2 CR: 00000000
-IR: brk (ca00) - (1100101000000000), Micro(165): 000000000000000000000000000000000000000001000000
-BRK ALUS(0) cfsbs: 0 
-Stable after 1 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-
-BREAK encountered. Press ENTER to continue
+REG2 <- 14
 MAR <- 10e
 PC++
-IR <- cc01
+IR <- c
 ------------------------------------------------------
-cycle: 9.DECODE(3), phase: 0, PC: 110, SP: 0, MAR: 10e(cc01), MDR: 2 CR: 00000000
-IR: DECODING (cc01) Micro(38): 000100001111000010100000000010000001000000000000
-REGR0S(FLAGS) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+cycle: 9.DECODE(3), phase: 0, PC: 110, SP: 0, MAR: 10e(c), MDR: 14 CR: 00001000
+IR: DECODING (c) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(20) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 9.DECODE(3), phase: 1, PC: 110, SP: 0, MAR: 10e(c), MDR: 14 CR: 00001000
+IR: ldi (c) - (0000000000001100), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 9.EXECUTE(7), phase: 0, PC: 110, SP: 0, MAR: 10e(c), MDR: 1 CR: 00001000
+IR: ldi (c) - (0000000000001100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(3) ALUS(0) cfsbs: 0 MDRin(3) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:1, tgt:4
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 9.EXECUTE(7), phase: 1, PC: 110, SP: 0, MAR: 10e(c), MDR: 1 CR: 00001000
+IR: ldi (c) - (0000000000001100), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:1, tgt:4
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG4 <- 1
+MAR <- 110
+PC++
+IR <- b614
+------------------------------------------------------
+cycle: 10.DECODE(3), phase: 0, PC: 112, SP: 0, MAR: 110(b614), MDR: 1 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+IRimm(5) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(5) 
 ALUS(0) cfsbs: 0 ALUout(0) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
-regfile: r0:FLAGS, r1:REG0, w:TGT
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 10.DECODE(3), phase: 1, PC: 112, SP: 0, MAR: 110(b614), MDR: 1 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 10.READ(5), phase: 0, PC: 112, SP: 0, MAR: 110(b614), MDR: 1 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(20) OP1(20) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 10.READ(5), phase: 1, PC: 112, SP: 0, MAR: 110(b614), MDR: 1 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 14
+------------------------------------------------------
+cycle: 10.EXECUTE(7), phase: 0, PC: 112, SP: 0, MAR: 14(0), MDR: 1 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(1) REGR1(0) OP0(1) OP1(0) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(1) MDRin(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 10.EXECUTE(7), phase: 1, PC: 112, SP: 0, MAR: 14(0), MDR: 1 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+RAM[14H] <- 1 (100)
+MAR <- 112
+PC++
+IR <- 9401
+------------------------------------------------------
+cycle: 11.DECODE(3), phase: 0, PC: 114, SP: 0, MAR: 112(9401), MDR: 1 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
 args: 0:0, 1:0, tgt:1
 ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 9.DECODE(3), phase: 1, PC: 110, SP: 0, MAR: 10e(cc01), MDR: 2 CR: 00000000
-IR: lcr (cc01) - (1100110000000001), Micro(38): 000100001111000010100000000010000001000000000000
+cycle: 11.DECODE(3), phase: 1, PC: 114, SP: 0, MAR: 112(9401), MDR: 1 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
-regfile: r0:FLAGS, r1:REG0, w:TGT
+regfile: r0:ARG0, r1:ARG1, w:TGT
 args: 0:0, 1:0, tgt:1
 ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 REG1 <- 0
-MAR <- 110
+MAR <- 114
 PC++
-IR <- acca
+IR <- 9402
 ------------------------------------------------------
-cycle: 10.DECODE(3), phase: 0, PC: 112, SP: 0, MAR: 110(acca), MDR: 2 CR: 00000000
-IR: DECODING (acca) Micro(22): 001000000000000000000001100000000000100000000000
-MDR_LOAD IMMS(IMMIR) IRimm(8) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(8) 
+cycle: 12.DECODE(3), phase: 0, PC: 116, SP: 0, MAR: 114(9402), MDR: 1 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 12.DECODE(3), phase: 1, PC: 116, SP: 0, MAR: 114(9402), MDR: 1 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 0
+MAR <- 116
+PC++
+IR <- 9403
+------------------------------------------------------
+cycle: 13.DECODE(3), phase: 0, PC: 118, SP: 0, MAR: 116(9403), MDR: 1 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 13.DECODE(3), phase: 1, PC: 118, SP: 0, MAR: 116(9403), MDR: 1 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 0
+MAR <- 118
+PC++
+IR <- 9405
+------------------------------------------------------
+cycle: 14.DECODE(3), phase: 0, PC: 11a, SP: 0, MAR: 118(9405), MDR: 1 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 14.DECODE(3), phase: 1, PC: 11a, SP: 0, MAR: 118(9405), MDR: 1 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 0
+MAR <- 11a
+PC++
+IR <- 21
+------------------------------------------------------
+cycle: 15.DECODE(3), phase: 0, PC: 11c, SP: 0, MAR: 11a(21), MDR: 1 CR: 00001000
+IR: DECODING (21) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(4) ALUS(0) cfsbs: 0 REGR1(0) OP0(1) MDRin(4) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:1
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 15.DECODE(3), phase: 1, PC: 11c, SP: 0, MAR: 11a(21), MDR: 1 CR: 00001000
+IR: ldi (21) - (0000000000100001), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:1
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0004
+------------------------------------------------------
+cycle: 15.EXECUTE(7), phase: 0, PC: 11c, SP: 0, MAR: 11a(21), MDR: 4 CR: 00001000
+IR: ldi (21) - (0000000000100001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(8) ALUS(0) cfsbs: 0 MDRin(8) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:1
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 15.EXECUTE(7), phase: 1, PC: 11c, SP: 0, MAR: 11a(21), MDR: 4 CR: 00001000
+IR: ldi (21) - (0000000000100001), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:1
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 4
+MAR <- 11c
+PC++
+IR <- bc04
+------------------------------------------------------
+cycle: 16.DECODE(3), phase: 0, PC: 11e, SP: 0, MAR: 11c(bc04), MDR: 4 CR: 00001000
+IR: DECODING (bc04) Micro(30): 001000000000000000000010000000000000100000000000
+MDR_LOAD IMMS(IMM7u) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
 ALUS(0) cfsbs: 0 ALUout(0) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:3, 1:1, tgt:2
+args: 0:0, 1:0, tgt:4
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 10.DECODE(3), phase: 1, PC: 112, SP: 0, MAR: 110(acca), MDR: 2 CR: 00000000
-IR: addskpi.z (acca) - (1010110011001010), Micro(22): 001000000000000000000001100000000000100000000000
+cycle: 16.DECODE(3), phase: 1, PC: 11e, SP: 0, MAR: 11c(bc04), MDR: 4 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(30): 001000000000000000000010000000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:3, 1:1, tgt:2
+args: 0:0, 1:0, tgt:4
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 0008
+MDR <- 0001
 ------------------------------------------------------
-cycle: 10.EXECUTE(7), phase: 0, PC: 112, SP: 0, MAR: 110(acca), MDR: 8 CR: 00000000
-IR: addskpi.z (acca) - (1010110011001010), Micro(150): 000100000000100110100000010010010010000000000000
-REGR1S(ARG1) REGWS(TGT) OP0S(MDRout) OP1S(REGR1) ALUS(SUB) IRimm(50) ALUout: 0000000000000000 ALUS(1) cfsbs: 0 OP0(8) MDRin(50) 
-ALUout: 0000000000000000 ALUS(1) cfsbs: 0 ALUout(8) 
-ALUout: 0000000000001000 SKIP ALUS(1) cfsbs: 0 
-ALUout: 0000000000001000 ALUS(1) cfsbs: 0 
-Stable after 4 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:2
-ALU: 0:MDRout(8) 1:REGR1(0) func: out:8
+cycle: 16.EXECUTE(7), phase: 0, PC: 11e, SP: 0, MAR: 11c(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) cfsbs: 0 REGR1(4) OP0(1) OP1(4) 
+ALUS(6) cfsbs: 0 ALUout(516) 
+ALUS(6) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(4) func: out:204
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 10.EXECUTE(7), phase: 1, PC: 112, SP: 0, MAR: 110(acca), MDR: 8 CR: 00000000
-IR: addskpi.z (acca) - (1010110011001010), Micro(150): 000100000000100110100000010010010010000000000000
-ALUout: 0000000000001000 ALUS(1) cfsbs: 0 
+cycle: 16.EXECUTE(7), phase: 1, PC: 11e, SP: 0, MAR: 11c(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+ALUS(6) cfsbs: 0 
 Stable after 1 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:2
-ALU: 0:MDRout(8) 1:REGR1(0) func: out:8
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(4) func: out:204
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-REG2 <- 8
-MAR <- 112
+REG1 <- 204
+MAR <- 11e
 PC++
-IR <- 201a
+IR <- 9445
 ------------------------------------------------------
-cycle: 11.DECODE(3), phase: 0, PC: 114, SP: 0, MAR: 112(201a), MDR: 8 CR: 00000000
-IR: DECODING (201a) Micro(1): 001000000000000000000001000000000000100000000000
-MDR_LOAD IMMS(IMM13) IRimm(26) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(26) 
+cycle: 17.DECODE(3), phase: 0, PC: 120, SP: 0, MAR: 11e(9445), MDR: 1 CR: 00001000
+IR: DECODING (9445) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(17) ALUS(0) cfsbs: 0 REGR0(516) REGR1(0) OP0(516) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(516) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(204) 1:REGR1(0) func: out:204
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 17.DECODE(3), phase: 1, PC: 120, SP: 0, MAR: 11e(9445), MDR: 1 CR: 00001000
+IR: add (9445) - (1001010001000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(204) 1:REGR1(0) func: out:204
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 204
+MAR <- 120
+PC++
+IR <- 8a00
+------------------------------------------------------
+cycle: 18.DECODE(3), phase: 0, PC: 122, SP: 0, MAR: 120(8a00), MDR: 1 CR: 00001000
+IR: DECODING (8a00) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
 ALUS(0) cfsbs: 0 ALUout(0) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:3, tgt:2
+args: 0:0, 1:0, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 11.DECODE(3), phase: 1, PC: 114, SP: 0, MAR: 112(201a), MDR: 8 CR: 00000000
-IR: br (201a) - (0010000000011010), Micro(1): 001000000000000000000001000000000000100000000000
+cycle: 18.DECODE(3), phase: 1, PC: 122, SP: 0, MAR: 120(8a00), MDR: 1 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(5): 001000000000000000000000000000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:3, tgt:2
+args: 0:0, 1:0, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-MDR <- 001a
+MDR <- 0000
 ------------------------------------------------------
-cycle: 11.EXECUTE(7), phase: 0, PC: 114, SP: 0, MAR: 112(201a), MDR: 1a CR: 00000000
-IR: br (201a) - (0010000000011010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(6) ALUS(0) cfsbs: 0 REGR0(276) OP0(26) OP1(276) MDRin(6) 
-ALUS(0) cfsbs: 0 ALUout(302) 
+cycle: 18.READ(5), phase: 0, PC: 122, SP: 0, MAR: 120(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(516) OP1(516) 
+ALUS(0) cfsbs: 0 ALUout(516) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(204) func: out:204
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 18.READ(5), phase: 1, PC: 122, SP: 0, MAR: 120(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(204) func: out:204
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 204
+------------------------------------------------------
+cycle: 18.EXECUTE(7), phase: 0, PC: 122, SP: 0, MAR: 204(ff01), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(255) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 18.EXECUTE(7), phase: 1, PC: 122, SP: 0, MAR: 204(ff), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 00ff
+REG1 <- ff
+MAR <- 122
+PC++
+IR <- 8a05
+------------------------------------------------------
+cycle: 19.DECODE(3), phase: 0, PC: 124, SP: 0, MAR: 122(8a05), MDR: ff CR: 00001000
+IR: DECODING (8a05) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 19.DECODE(3), phase: 1, PC: 124, SP: 0, MAR: 122(8a05), MDR: ff CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 19.READ(5), phase: 0, PC: 124, SP: 0, MAR: 122(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(516) OP0(1) OP1(516) 
+ALUS(0) cfsbs: 0 ALUout(517) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(204) func: out:205
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 19.READ(5), phase: 1, PC: 124, SP: 0, MAR: 122(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(204) func: out:205
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 205
+------------------------------------------------------
+cycle: 19.EXECUTE(7), phase: 0, PC: 124, SP: 0, MAR: 205(ff01), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 19.EXECUTE(7), phase: 1, PC: 124, SP: 0, MAR: 205(1), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+REG2 <- 1
+MAR <- 124
+PC++
+IR <- 9a51
+------------------------------------------------------
+cycle: 20.DECODE(3), phase: 0, PC: 126, SP: 0, MAR: 124(9a51), MDR: 1 CR: 00001000
+IR: DECODING (9a51) Micro(13): 000100001001100010100000000010000111000000000000
+REGR0S(ARG1) REGR1S(ARG0) REGWS(TGT) OP1S(REGR1) ALUS(OR) IRimm(20) ALUS(3) cfsbs: 0 REGR0(1) REGR1(255) OP0(1) OP1(255) MDRin(20) 
+ALUS(3) cfsbs: 0 ALUout(255) 
+ALUS(3) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(1) 1:REGR1(ff) func: out:ff
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 20.DECODE(3), phase: 1, PC: 126, SP: 0, MAR: 124(9a51), MDR: 1 CR: 00001000
+IR: or (9a51) - (1001101001010001), Micro(13): 000100001001100010100000000010000111000000000000
+ALUS(3) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(1) 1:REGR1(ff) func: out:ff
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- ff
+MAR <- 126
+PC++
+IR <- 8a0a
+------------------------------------------------------
+cycle: 21.DECODE(3), phase: 0, PC: 128, SP: 0, MAR: 126(8a0a), MDR: 1 CR: 00001000
+IR: DECODING (8a0a) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 21.DECODE(3), phase: 1, PC: 128, SP: 0, MAR: 126(8a0a), MDR: 1 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 21.READ(5), phase: 0, PC: 128, SP: 0, MAR: 126(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(516) OP0(2) OP1(516) 
+ALUS(0) cfsbs: 0 ALUout(518) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(204) func: out:206
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 21.READ(5), phase: 1, PC: 128, SP: 0, MAR: 126(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(204) func: out:206
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 206
+------------------------------------------------------
+cycle: 21.EXECUTE(7), phase: 0, PC: 128, SP: 0, MAR: 206(ff00), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(255) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 21.EXECUTE(7), phase: 1, PC: 128, SP: 0, MAR: 206(ff), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 00ff
+REG3 <- ff
+MAR <- 128
+PC++
+IR <- 9e59
+------------------------------------------------------
+cycle: 22.DECODE(3), phase: 0, PC: 12a, SP: 0, MAR: 128(9e59), MDR: ff CR: 00001000
+IR: DECODING (9e59) Micro(15): 000100001000100110100000000010010011000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) IRimm(22) ALUout: 0000000100101000 SKIP ALUS(1) cfsbs: 0 REGR0(255) REGR1(255) OP0(255) OP1(255) MDRin(22) 
+ALUout: 0000000100101000 ALUS(1) cfsbs: 0 ALUout(0) 
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(ff) 1:REGR1(ff) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 22.DECODE(3), phase: 1, PC: 12a, SP: 0, MAR: 128(9e59), MDR: ff CR: 00001000
+IR: addskp.z (9e59) - (1001111001011001), Micro(15): 000100001000100110100000000010010011000000000000
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(ff) 1:REGR1(ff) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC++ (SKIP)
+REG1 <- 0
+MAR <- 12c
+PC++
+IR <- 2002
+------------------------------------------------------
+cycle: 23.DECODE(3), phase: 0, PC: 12e, SP: 0, MAR: 12c(2002), MDR: ff CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 23.DECODE(3), phase: 1, PC: 12e, SP: 0, MAR: 12c(2002), MDR: ff CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 23.EXECUTE(7), phase: 0, PC: 12e, SP: 0, MAR: 12c(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) cfsbs: 0 REGR0(302) OP0(2) OP1(302) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(304) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
-args: 0:0, 1:3, tgt:2
-ALU: 0:MDRout(1a) 1:REGR0(114) func: out:12e
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(12e) func: out:130
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 11.EXECUTE(7), phase: 1, PC: 114, SP: 0, MAR: 112(201a), MDR: 1a CR: 00000000
-IR: br (201a) - (0010000000011010), Micro(129): 000100000111000001110000010000000000000000000000
+cycle: 23.EXECUTE(7), phase: 1, PC: 12e, SP: 0, MAR: 12c(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
-args: 0:0, 1:3, tgt:2
-ALU: 0:MDRout(1a) 1:REGR0(114) func: out:12e
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(12e) func: out:130
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
-PC <- 12e
-MAR <- 12e
+PC <- 130
+MAR <- 130
+PC++
+IR <- a2
+------------------------------------------------------
+cycle: 24.DECODE(3), phase: 0, PC: 132, SP: 0, MAR: 130(a2), MDR: 2 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 24.DECODE(3), phase: 1, PC: 132, SP: 0, MAR: 130(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0014
+------------------------------------------------------
+cycle: 24.EXECUTE(7), phase: 0, PC: 132, SP: 0, MAR: 130(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) cfsbs: 0 MDRin(40) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 24.EXECUTE(7), phase: 1, PC: 132, SP: 0, MAR: 130(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 14
+MAR <- 132
+PC++
+IR <- 14
+------------------------------------------------------
+cycle: 25.DECODE(3), phase: 0, PC: 134, SP: 0, MAR: 132(14), MDR: 14 CR: 00001000
+IR: DECODING (14) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(20) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 25.DECODE(3), phase: 1, PC: 134, SP: 0, MAR: 132(14), MDR: 14 CR: 00001000
+IR: ldi (14) - (0000000000010100), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 25.EXECUTE(7), phase: 0, PC: 134, SP: 0, MAR: 132(14), MDR: 2 CR: 00001000
+IR: ldi (14) - (0000000000010100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(5) ALUS(0) cfsbs: 0 MDRin(5) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:2, tgt:4
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 25.EXECUTE(7), phase: 1, PC: 134, SP: 0, MAR: 132(14), MDR: 2 CR: 00001000
+IR: ldi (14) - (0000000000010100), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:2, tgt:4
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG4 <- 2
+MAR <- 134
+PC++
+IR <- b614
+------------------------------------------------------
+cycle: 26.DECODE(3), phase: 0, PC: 136, SP: 0, MAR: 134(b614), MDR: 2 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 26.DECODE(3), phase: 1, PC: 136, SP: 0, MAR: 134(b614), MDR: 2 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 26.READ(5), phase: 0, PC: 136, SP: 0, MAR: 134(b614), MDR: 2 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(20) OP1(20) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 26.READ(5), phase: 1, PC: 136, SP: 0, MAR: 134(b614), MDR: 2 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 14
+------------------------------------------------------
+cycle: 26.EXECUTE(7), phase: 0, PC: 136, SP: 0, MAR: 14(100), MDR: 2 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(2) REGR1(0) OP0(2) OP1(0) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(2) MDRin(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(2) 1:REGR1(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 26.EXECUTE(7), phase: 1, PC: 136, SP: 0, MAR: 14(1), MDR: 2 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(2) 1:REGR1(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+RAM[14H] <- 2 (200)
+MAR <- 136
+PC++
+IR <- 9401
+------------------------------------------------------
+cycle: 27.DECODE(3), phase: 0, PC: 138, SP: 0, MAR: 136(9401), MDR: 2 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 27.DECODE(3), phase: 1, PC: 138, SP: 0, MAR: 136(9401), MDR: 2 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 0
+MAR <- 138
+PC++
+IR <- 9402
+------------------------------------------------------
+cycle: 28.DECODE(3), phase: 0, PC: 13a, SP: 0, MAR: 138(9402), MDR: 2 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 28.DECODE(3), phase: 1, PC: 13a, SP: 0, MAR: 138(9402), MDR: 2 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 0
+MAR <- 13a
+PC++
+IR <- 9403
+------------------------------------------------------
+cycle: 29.DECODE(3), phase: 0, PC: 13c, SP: 0, MAR: 13a(9403), MDR: 2 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 29.DECODE(3), phase: 1, PC: 13c, SP: 0, MAR: 13a(9403), MDR: 2 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 0
+MAR <- 13c
+PC++
+IR <- 9405
+------------------------------------------------------
+cycle: 30.DECODE(3), phase: 0, PC: 13e, SP: 0, MAR: 13c(9405), MDR: 2 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 30.DECODE(3), phase: 1, PC: 13e, SP: 0, MAR: 13c(9405), MDR: 2 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 0
+MAR <- 13e
+PC++
+IR <- 39
+------------------------------------------------------
+cycle: 31.DECODE(3), phase: 0, PC: 140, SP: 0, MAR: 13e(39), MDR: 2 CR: 00001000
+IR: DECODING (39) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(7) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(7) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:7, tgt:1
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 31.DECODE(3), phase: 1, PC: 140, SP: 0, MAR: 13e(39), MDR: 2 CR: 00001000
+IR: ldi (39) - (0000000000111001), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:7, tgt:1
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0007
+------------------------------------------------------
+cycle: 31.EXECUTE(7), phase: 0, PC: 140, SP: 0, MAR: 13e(39), MDR: 7 CR: 00001000
+IR: ldi (39) - (0000000000111001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(14) ALUS(0) cfsbs: 0 MDRin(14) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:7, tgt:1
+ALU: 0:MDRout(7) 1:REGR0(0) func: out:7
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 31.EXECUTE(7), phase: 1, PC: 140, SP: 0, MAR: 13e(39), MDR: 7 CR: 00001000
+IR: ldi (39) - (0000000000111001), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:7, tgt:1
+ALU: 0:MDRout(7) 1:REGR0(0) func: out:7
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 7
+MAR <- 140
+PC++
+IR <- bc04
+------------------------------------------------------
+cycle: 32.DECODE(3), phase: 0, PC: 142, SP: 0, MAR: 140(bc04), MDR: 7 CR: 00001000
+IR: DECODING (bc04) Micro(30): 001000000000000000000010000000000000100000000000
+MDR_LOAD IMMS(IMM7u) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 32.DECODE(3), phase: 1, PC: 142, SP: 0, MAR: 140(bc04), MDR: 7 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(30): 001000000000000000000010000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 32.EXECUTE(7), phase: 0, PC: 142, SP: 0, MAR: 140(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) cfsbs: 0 REGR1(7) OP0(1) OP1(7) 
+ALUS(6) cfsbs: 0 ALUout(519) 
+ALUS(6) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(7) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 32.EXECUTE(7), phase: 1, PC: 142, SP: 0, MAR: 140(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+ALUS(6) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(7) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 207
+MAR <- 142
+PC++
+IR <- 9445
+------------------------------------------------------
+cycle: 33.DECODE(3), phase: 0, PC: 144, SP: 0, MAR: 142(9445), MDR: 1 CR: 00001000
+IR: DECODING (9445) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(17) ALUS(0) cfsbs: 0 REGR0(519) REGR1(0) OP0(519) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(519) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(207) 1:REGR1(0) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 33.DECODE(3), phase: 1, PC: 144, SP: 0, MAR: 142(9445), MDR: 1 CR: 00001000
+IR: add (9445) - (1001010001000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(207) 1:REGR1(0) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 207
+MAR <- 144
+PC++
+IR <- 8a00
+------------------------------------------------------
+cycle: 34.DECODE(3), phase: 0, PC: 146, SP: 0, MAR: 144(8a00), MDR: 1 CR: 00001000
+IR: DECODING (8a00) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 34.DECODE(3), phase: 1, PC: 146, SP: 0, MAR: 144(8a00), MDR: 1 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+------------------------------------------------------
+cycle: 34.READ(5), phase: 0, PC: 146, SP: 0, MAR: 144(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(519) OP1(519) 
+ALUS(0) cfsbs: 0 ALUout(519) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(207) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 34.READ(5), phase: 1, PC: 146, SP: 0, MAR: 144(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(207) func: out:207
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 207
+------------------------------------------------------
+cycle: 34.EXECUTE(7), phase: 0, PC: 146, SP: 0, MAR: 207(ff00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 34.EXECUTE(7), phase: 1, PC: 146, SP: 0, MAR: 207(0), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+REG1 <- 0
+MAR <- 146
+PC++
+IR <- 8a05
+------------------------------------------------------
+cycle: 35.DECODE(3), phase: 0, PC: 148, SP: 0, MAR: 146(8a05), MDR: 0 CR: 00001000
+IR: DECODING (8a05) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 35.DECODE(3), phase: 1, PC: 148, SP: 0, MAR: 146(8a05), MDR: 0 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 35.READ(5), phase: 0, PC: 148, SP: 0, MAR: 146(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(519) OP0(1) OP1(519) 
+ALUS(0) cfsbs: 0 ALUout(520) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(207) func: out:208
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 35.READ(5), phase: 1, PC: 148, SP: 0, MAR: 146(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(207) func: out:208
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 208
+------------------------------------------------------
+cycle: 35.EXECUTE(7), phase: 0, PC: 148, SP: 0, MAR: 208(0), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 35.EXECUTE(7), phase: 1, PC: 148, SP: 0, MAR: 208(0), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+REG2 <- 0
+MAR <- 148
+PC++
+IR <- 9a51
+------------------------------------------------------
+cycle: 36.DECODE(3), phase: 0, PC: 14a, SP: 0, MAR: 148(9a51), MDR: 0 CR: 00001000
+IR: DECODING (9a51) Micro(13): 000100001001100010100000000010000111000000000000
+REGR0S(ARG1) REGR1S(ARG0) REGWS(TGT) OP1S(REGR1) ALUS(OR) IRimm(20) ALUS(3) cfsbs: 0 REGR1(0) OP0(0) MDRin(20) 
+ALUS(3) cfsbs: 0 ALUout(0) 
+ALUS(3) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 36.DECODE(3), phase: 1, PC: 14a, SP: 0, MAR: 148(9a51), MDR: 0 CR: 00001000
+IR: or (9a51) - (1001101001010001), Micro(13): 000100001001100010100000000010000111000000000000
+ALUS(3) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 0
+MAR <- 14a
+PC++
+IR <- 8a0a
+------------------------------------------------------
+cycle: 37.DECODE(3), phase: 0, PC: 14c, SP: 0, MAR: 14a(8a0a), MDR: 0 CR: 00001000
+IR: DECODING (8a0a) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 37.DECODE(3), phase: 1, PC: 14c, SP: 0, MAR: 14a(8a0a), MDR: 0 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 37.READ(5), phase: 0, PC: 14c, SP: 0, MAR: 14a(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(519) OP0(2) OP1(519) 
+ALUS(0) cfsbs: 0 ALUout(521) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(207) func: out:209
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 37.READ(5), phase: 1, PC: 14c, SP: 0, MAR: 14a(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(207) func: out:209
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 209
+------------------------------------------------------
+cycle: 37.EXECUTE(7), phase: 0, PC: 14c, SP: 0, MAR: 209(0), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 37.EXECUTE(7), phase: 1, PC: 14c, SP: 0, MAR: 209(0), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+REG3 <- 0
+MAR <- 14c
+PC++
+IR <- 9e59
+------------------------------------------------------
+cycle: 38.DECODE(3), phase: 0, PC: 14e, SP: 0, MAR: 14c(9e59), MDR: 0 CR: 00001000
+IR: DECODING (9e59) Micro(15): 000100001000100110100000000010010011000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) IRimm(22) ALUout: 0000000101001100 SKIP ALUS(1) cfsbs: 0 REGR1(0) OP0(0) MDRin(22) 
+ALUout: 0000000101001100 ALUS(1) cfsbs: 0 ALUout(0) 
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 38.DECODE(3), phase: 1, PC: 14e, SP: 0, MAR: 14c(9e59), MDR: 0 CR: 00001000
+IR: addskp.z (9e59) - (1001111001011001), Micro(15): 000100001000100110100000000010010011000000000000
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC++ (SKIP)
+REG1 <- 0
+MAR <- 150
+PC++
+IR <- 2002
+------------------------------------------------------
+cycle: 39.DECODE(3), phase: 0, PC: 152, SP: 0, MAR: 150(2002), MDR: 0 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 39.DECODE(3), phase: 1, PC: 152, SP: 0, MAR: 150(2002), MDR: 0 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 39.EXECUTE(7), phase: 0, PC: 152, SP: 0, MAR: 150(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) cfsbs: 0 REGR0(338) OP0(2) OP1(338) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(340) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(152) func: out:154
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 39.EXECUTE(7), phase: 1, PC: 152, SP: 0, MAR: 150(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(152) func: out:154
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC <- 154
+MAR <- 154
+PC++
+IR <- a2
+------------------------------------------------------
+cycle: 40.DECODE(3), phase: 0, PC: 156, SP: 0, MAR: 154(a2), MDR: 2 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 40.DECODE(3), phase: 1, PC: 156, SP: 0, MAR: 154(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0014
+------------------------------------------------------
+cycle: 40.EXECUTE(7), phase: 0, PC: 156, SP: 0, MAR: 154(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) cfsbs: 0 MDRin(40) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 40.EXECUTE(7), phase: 1, PC: 156, SP: 0, MAR: 154(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 14
+MAR <- 156
+PC++
+IR <- 1c
+------------------------------------------------------
+cycle: 41.DECODE(3), phase: 0, PC: 158, SP: 0, MAR: 156(1c), MDR: 14 CR: 00001000
+IR: DECODING (1c) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(3) ALUS(0) cfsbs: 0 REGR1(0) OP0(20) MDRin(3) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 41.DECODE(3), phase: 1, PC: 158, SP: 0, MAR: 156(1c), MDR: 14 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0003
+------------------------------------------------------
+cycle: 41.EXECUTE(7), phase: 0, PC: 158, SP: 0, MAR: 156(1c), MDR: 3 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(7) ALUS(0) cfsbs: 0 MDRin(7) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 41.EXECUTE(7), phase: 1, PC: 158, SP: 0, MAR: 156(1c), MDR: 3 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG4 <- 3
+MAR <- 158
+PC++
+IR <- b614
+------------------------------------------------------
+cycle: 42.DECODE(3), phase: 0, PC: 15a, SP: 0, MAR: 158(b614), MDR: 3 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+IRimm(5) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(5) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 42.DECODE(3), phase: 1, PC: 15a, SP: 0, MAR: 158(b614), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 42.READ(5), phase: 0, PC: 15a, SP: 0, MAR: 158(b614), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(20) OP1(20) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 42.READ(5), phase: 1, PC: 15a, SP: 0, MAR: 158(b614), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 14
+------------------------------------------------------
+cycle: 42.EXECUTE(7), phase: 0, PC: 15a, SP: 0, MAR: 14(200), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(3) REGR1(0) OP0(3) OP1(0) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(3) MDRin(3) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(3) 1:REGR1(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 42.EXECUTE(7), phase: 1, PC: 15a, SP: 0, MAR: 14(2), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(3) 1:REGR1(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0003
+RAM[14H] <- 3 (300)
+MAR <- 15a
+PC++
+IR <- 9401
+------------------------------------------------------
+cycle: 43.DECODE(3), phase: 0, PC: 15c, SP: 0, MAR: 15a(9401), MDR: 3 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 43.DECODE(3), phase: 1, PC: 15c, SP: 0, MAR: 15a(9401), MDR: 3 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 0
+MAR <- 15c
+PC++
+IR <- 9402
+------------------------------------------------------
+cycle: 44.DECODE(3), phase: 0, PC: 15e, SP: 0, MAR: 15c(9402), MDR: 3 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 44.DECODE(3), phase: 1, PC: 15e, SP: 0, MAR: 15c(9402), MDR: 3 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 0
+MAR <- 15e
+PC++
+IR <- 9403
+------------------------------------------------------
+cycle: 45.DECODE(3), phase: 0, PC: 160, SP: 0, MAR: 15e(9403), MDR: 3 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 45.DECODE(3), phase: 1, PC: 160, SP: 0, MAR: 15e(9403), MDR: 3 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 0
+MAR <- 160
+PC++
+IR <- 9405
+------------------------------------------------------
+cycle: 46.DECODE(3), phase: 0, PC: 162, SP: 0, MAR: 160(9405), MDR: 3 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 46.DECODE(3), phase: 1, PC: 162, SP: 0, MAR: 160(9405), MDR: 3 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 0
+MAR <- 162
+PC++
+IR <- 51
+------------------------------------------------------
+cycle: 47.DECODE(3), phase: 0, PC: 164, SP: 0, MAR: 162(51), MDR: 3 CR: 00001000
+IR: DECODING (51) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(10) ALUS(0) cfsbs: 0 REGR1(0) OP0(3) MDRin(10) 
+ALUS(0) cfsbs: 0 ALUout(3) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 47.DECODE(3), phase: 1, PC: 164, SP: 0, MAR: 162(51), MDR: 3 CR: 00001000
+IR: ldi (51) - (0000000001010001), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 000a
+------------------------------------------------------
+cycle: 47.EXECUTE(7), phase: 0, PC: 164, SP: 0, MAR: 162(51), MDR: a CR: 00001000
+IR: ldi (51) - (0000000001010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(20) ALUS(0) cfsbs: 0 MDRin(20) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:MDRout(a) 1:REGR0(0) func: out:a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 47.EXECUTE(7), phase: 1, PC: 164, SP: 0, MAR: 162(51), MDR: a CR: 00001000
+IR: ldi (51) - (0000000001010001), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:MDRout(a) 1:REGR0(0) func: out:a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- a
+MAR <- 164
+PC++
+IR <- bc04
+------------------------------------------------------
+cycle: 48.DECODE(3), phase: 0, PC: 166, SP: 0, MAR: 164(bc04), MDR: a CR: 00001000
+IR: DECODING (bc04) Micro(30): 001000000000000000000010000000000000100000000000
+MDR_LOAD IMMS(IMM7u) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 48.DECODE(3), phase: 1, PC: 166, SP: 0, MAR: 164(bc04), MDR: a CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(30): 001000000000000000000010000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 48.EXECUTE(7), phase: 0, PC: 166, SP: 0, MAR: 164(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) cfsbs: 0 REGR1(10) OP0(1) OP1(10) 
+ALUS(6) cfsbs: 0 ALUout(522) 
+ALUS(6) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(a) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 48.EXECUTE(7), phase: 1, PC: 166, SP: 0, MAR: 164(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+ALUS(6) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(a) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 20a
+MAR <- 166
+PC++
+IR <- 9445
+------------------------------------------------------
+cycle: 49.DECODE(3), phase: 0, PC: 168, SP: 0, MAR: 166(9445), MDR: 1 CR: 00001000
+IR: DECODING (9445) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(17) ALUS(0) cfsbs: 0 REGR0(522) REGR1(0) OP0(522) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(522) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(20a) 1:REGR1(0) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 49.DECODE(3), phase: 1, PC: 168, SP: 0, MAR: 166(9445), MDR: 1 CR: 00001000
+IR: add (9445) - (1001010001000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(20a) 1:REGR1(0) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 20a
+MAR <- 168
+PC++
+IR <- 8a00
+------------------------------------------------------
+cycle: 50.DECODE(3), phase: 0, PC: 16a, SP: 0, MAR: 168(8a00), MDR: 1 CR: 00001000
+IR: DECODING (8a00) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 50.DECODE(3), phase: 1, PC: 16a, SP: 0, MAR: 168(8a00), MDR: 1 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+------------------------------------------------------
+cycle: 50.READ(5), phase: 0, PC: 16a, SP: 0, MAR: 168(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(522) OP1(522) 
+ALUS(0) cfsbs: 0 ALUout(522) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(20a) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 50.READ(5), phase: 1, PC: 16a, SP: 0, MAR: 168(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(20a) func: out:20a
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20a
+------------------------------------------------------
+cycle: 50.EXECUTE(7), phase: 0, PC: 16a, SP: 0, MAR: 20a(f00f), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(240) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 50.EXECUTE(7), phase: 1, PC: 16a, SP: 0, MAR: 20a(f0), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 00f0
+REG1 <- f0
+MAR <- 16a
+PC++
+IR <- 8a05
+------------------------------------------------------
+cycle: 51.DECODE(3), phase: 0, PC: 16c, SP: 0, MAR: 16a(8a05), MDR: f0 CR: 00001000
+IR: DECODING (8a05) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 51.DECODE(3), phase: 1, PC: 16c, SP: 0, MAR: 16a(8a05), MDR: f0 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 51.READ(5), phase: 0, PC: 16c, SP: 0, MAR: 16a(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(522) OP0(1) OP1(522) 
+ALUS(0) cfsbs: 0 ALUout(523) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(20a) func: out:20b
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 51.READ(5), phase: 1, PC: 16c, SP: 0, MAR: 16a(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(20a) func: out:20b
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20b
+------------------------------------------------------
+cycle: 51.EXECUTE(7), phase: 0, PC: 16c, SP: 0, MAR: 20b(f00f), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(15) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 51.EXECUTE(7), phase: 1, PC: 16c, SP: 0, MAR: 20b(f), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 000f
+REG2 <- f
+MAR <- 16c
+PC++
+IR <- 9a51
+------------------------------------------------------
+cycle: 52.DECODE(3), phase: 0, PC: 16e, SP: 0, MAR: 16c(9a51), MDR: f CR: 00001000
+IR: DECODING (9a51) Micro(13): 000100001001100010100000000010000111000000000000
+REGR0S(ARG1) REGR1S(ARG0) REGWS(TGT) OP1S(REGR1) ALUS(OR) IRimm(20) ALUS(3) cfsbs: 0 REGR0(15) REGR1(240) OP0(15) OP1(240) MDRin(20) 
+ALUS(3) cfsbs: 0 ALUout(255) 
+ALUS(3) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(f) 1:REGR1(f0) func: out:ff
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 52.DECODE(3), phase: 1, PC: 16e, SP: 0, MAR: 16c(9a51), MDR: f CR: 00001000
+IR: or (9a51) - (1001101001010001), Micro(13): 000100001001100010100000000010000111000000000000
+ALUS(3) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(f) 1:REGR1(f0) func: out:ff
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- ff
+MAR <- 16e
+PC++
+IR <- 8a0a
+------------------------------------------------------
+cycle: 53.DECODE(3), phase: 0, PC: 170, SP: 0, MAR: 16e(8a0a), MDR: f CR: 00001000
+IR: DECODING (8a0a) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 53.DECODE(3), phase: 1, PC: 170, SP: 0, MAR: 16e(8a0a), MDR: f CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 53.READ(5), phase: 0, PC: 170, SP: 0, MAR: 16e(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(522) OP0(2) OP1(522) 
+ALUS(0) cfsbs: 0 ALUout(524) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(20a) func: out:20c
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 53.READ(5), phase: 1, PC: 170, SP: 0, MAR: 16e(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(20a) func: out:20c
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20c
+------------------------------------------------------
+cycle: 53.EXECUTE(7), phase: 0, PC: 170, SP: 0, MAR: 20c(ff80), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(255) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 53.EXECUTE(7), phase: 1, PC: 170, SP: 0, MAR: 20c(ff), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 00ff
+REG3 <- ff
+MAR <- 170
+PC++
+IR <- 9e59
+------------------------------------------------------
+cycle: 54.DECODE(3), phase: 0, PC: 172, SP: 0, MAR: 170(9e59), MDR: ff CR: 00001000
+IR: DECODING (9e59) Micro(15): 000100001000100110100000000010010011000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) IRimm(22) ALUout: 0000000101110000 SKIP ALUS(1) cfsbs: 0 REGR0(255) REGR1(255) OP0(255) OP1(255) MDRin(22) 
+ALUout: 0000000101110000 ALUS(1) cfsbs: 0 ALUout(0) 
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(ff) 1:REGR1(ff) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 54.DECODE(3), phase: 1, PC: 172, SP: 0, MAR: 170(9e59), MDR: ff CR: 00001000
+IR: addskp.z (9e59) - (1001111001011001), Micro(15): 000100001000100110100000000010010011000000000000
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(ff) 1:REGR1(ff) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC++ (SKIP)
+REG1 <- 0
+MAR <- 174
+PC++
+IR <- 2002
+------------------------------------------------------
+cycle: 55.DECODE(3), phase: 0, PC: 176, SP: 0, MAR: 174(2002), MDR: ff CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 55.DECODE(3), phase: 1, PC: 176, SP: 0, MAR: 174(2002), MDR: ff CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 55.EXECUTE(7), phase: 0, PC: 176, SP: 0, MAR: 174(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) cfsbs: 0 REGR0(374) OP0(2) OP1(374) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(376) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(176) func: out:178
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 55.EXECUTE(7), phase: 1, PC: 176, SP: 0, MAR: 174(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(176) func: out:178
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC <- 178
+MAR <- 178
+PC++
+IR <- a2
+------------------------------------------------------
+cycle: 56.DECODE(3), phase: 0, PC: 17a, SP: 0, MAR: 178(a2), MDR: 2 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 56.DECODE(3), phase: 1, PC: 17a, SP: 0, MAR: 178(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0014
+------------------------------------------------------
+cycle: 56.EXECUTE(7), phase: 0, PC: 17a, SP: 0, MAR: 178(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) cfsbs: 0 MDRin(40) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 56.EXECUTE(7), phase: 1, PC: 17a, SP: 0, MAR: 178(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 14
+MAR <- 17a
+PC++
+IR <- 24
+------------------------------------------------------
+cycle: 57.DECODE(3), phase: 0, PC: 17c, SP: 0, MAR: 17a(24), MDR: 14 CR: 00001000
+IR: DECODING (24) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(4) ALUS(0) cfsbs: 0 REGR1(0) OP0(20) MDRin(4) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 57.DECODE(3), phase: 1, PC: 17c, SP: 0, MAR: 17a(24), MDR: 14 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0004
+------------------------------------------------------
+cycle: 57.EXECUTE(7), phase: 0, PC: 17c, SP: 0, MAR: 17a(24), MDR: 4 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(9) ALUS(0) cfsbs: 0 MDRin(9) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 57.EXECUTE(7), phase: 1, PC: 17c, SP: 0, MAR: 17a(24), MDR: 4 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG4 <- 4
+MAR <- 17c
+PC++
+IR <- b614
+------------------------------------------------------
+cycle: 58.DECODE(3), phase: 0, PC: 17e, SP: 0, MAR: 17c(b614), MDR: 4 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+IRimm(5) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(5) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 58.DECODE(3), phase: 1, PC: 17e, SP: 0, MAR: 17c(b614), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 58.READ(5), phase: 0, PC: 17e, SP: 0, MAR: 17c(b614), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(20) OP1(20) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 58.READ(5), phase: 1, PC: 17e, SP: 0, MAR: 17c(b614), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 14
+------------------------------------------------------
+cycle: 58.EXECUTE(7), phase: 0, PC: 17e, SP: 0, MAR: 14(300), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(4) REGR1(0) OP0(4) OP1(0) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(4) MDRin(4) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(4) 1:REGR1(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 58.EXECUTE(7), phase: 1, PC: 17e, SP: 0, MAR: 14(3), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(4) 1:REGR1(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0004
+RAM[14H] <- 4 (400)
+MAR <- 17e
+PC++
+IR <- 9401
+------------------------------------------------------
+cycle: 59.DECODE(3), phase: 0, PC: 180, SP: 0, MAR: 17e(9401), MDR: 4 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 59.DECODE(3), phase: 1, PC: 180, SP: 0, MAR: 17e(9401), MDR: 4 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 0
+MAR <- 180
+PC++
+IR <- 9402
+------------------------------------------------------
+cycle: 60.DECODE(3), phase: 0, PC: 182, SP: 0, MAR: 180(9402), MDR: 4 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 60.DECODE(3), phase: 1, PC: 182, SP: 0, MAR: 180(9402), MDR: 4 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 0
+MAR <- 182
+PC++
+IR <- 9403
+------------------------------------------------------
+cycle: 61.DECODE(3), phase: 0, PC: 184, SP: 0, MAR: 182(9403), MDR: 4 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 61.DECODE(3), phase: 1, PC: 184, SP: 0, MAR: 182(9403), MDR: 4 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 0
+MAR <- 184
+PC++
+IR <- 9405
+------------------------------------------------------
+cycle: 62.DECODE(3), phase: 0, PC: 186, SP: 0, MAR: 184(9405), MDR: 4 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 62.DECODE(3), phase: 1, PC: 186, SP: 0, MAR: 184(9405), MDR: 4 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 0
+MAR <- 186
+PC++
+IR <- 69
+------------------------------------------------------
+cycle: 63.DECODE(3), phase: 0, PC: 188, SP: 0, MAR: 186(69), MDR: 4 CR: 00001000
+IR: DECODING (69) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(13) ALUS(0) cfsbs: 0 REGR1(0) OP0(4) MDRin(13) 
+ALUS(0) cfsbs: 0 ALUout(4) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:5, tgt:1
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 63.DECODE(3), phase: 1, PC: 188, SP: 0, MAR: 186(69), MDR: 4 CR: 00001000
+IR: ldi (69) - (0000000001101001), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:5, tgt:1
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 000d
+------------------------------------------------------
+cycle: 63.EXECUTE(7), phase: 0, PC: 188, SP: 0, MAR: 186(69), MDR: d CR: 00001000
+IR: ldi (69) - (0000000001101001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(26) ALUS(0) cfsbs: 0 MDRin(26) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:1, 1:5, tgt:1
+ALU: 0:MDRout(d) 1:REGR0(0) func: out:d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 63.EXECUTE(7), phase: 1, PC: 188, SP: 0, MAR: 186(69), MDR: d CR: 00001000
+IR: ldi (69) - (0000000001101001), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:1, 1:5, tgt:1
+ALU: 0:MDRout(d) 1:REGR0(0) func: out:d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- d
+MAR <- 188
+PC++
+IR <- bc04
+------------------------------------------------------
+cycle: 64.DECODE(3), phase: 0, PC: 18a, SP: 0, MAR: 188(bc04), MDR: d CR: 00001000
+IR: DECODING (bc04) Micro(30): 001000000000000000000010000000000000100000000000
+MDR_LOAD IMMS(IMM7u) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 64.DECODE(3), phase: 1, PC: 18a, SP: 0, MAR: 188(bc04), MDR: d CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(30): 001000000000000000000010000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 64.EXECUTE(7), phase: 0, PC: 18a, SP: 0, MAR: 188(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) cfsbs: 0 REGR1(13) OP0(1) OP1(13) 
+ALUS(6) cfsbs: 0 ALUout(525) 
+ALUS(6) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(d) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 64.EXECUTE(7), phase: 1, PC: 18a, SP: 0, MAR: 188(bc04), MDR: 1 CR: 00001000
+IR: addhi (bc04) - (1011110000000100), Micro(158): 000100000000101110110000010010001100000000000000
+ALUS(6) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:TGT2, w:TGT2
+args: 0:0, 1:0, tgt:4
+ALU: 0:MDRout(1) 1:REGR1(d) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 20d
+MAR <- 18a
+PC++
+IR <- 9445
+------------------------------------------------------
+cycle: 65.DECODE(3), phase: 0, PC: 18c, SP: 0, MAR: 18a(9445), MDR: 1 CR: 00001000
+IR: DECODING (9445) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(17) ALUS(0) cfsbs: 0 REGR0(525) REGR1(0) OP0(525) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(525) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(20d) 1:REGR1(0) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 65.DECODE(3), phase: 1, PC: 18c, SP: 0, MAR: 18a(9445), MDR: 1 CR: 00001000
+IR: add (9445) - (1001010001000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:0, tgt:5
+ALU: 0:REGR0(20d) 1:REGR1(0) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 20d
+MAR <- 18c
+PC++
+IR <- 8a00
+------------------------------------------------------
+cycle: 66.DECODE(3), phase: 0, PC: 18e, SP: 0, MAR: 18c(8a00), MDR: 1 CR: 00001000
+IR: DECODING (8a00) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 66.DECODE(3), phase: 1, PC: 18e, SP: 0, MAR: 18c(8a00), MDR: 1 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0000
+------------------------------------------------------
+cycle: 66.READ(5), phase: 0, PC: 18e, SP: 0, MAR: 18c(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(525) OP1(525) 
+ALUS(0) cfsbs: 0 ALUout(525) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(20d) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 66.READ(5), phase: 1, PC: 18e, SP: 0, MAR: 18c(8a00), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(20d) func: out:20d
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20d
+------------------------------------------------------
+cycle: 66.EXECUTE(7), phase: 0, PC: 18e, SP: 0, MAR: 20d(ff80), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(128) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 66.EXECUTE(7), phase: 1, PC: 18e, SP: 0, MAR: 20d(80), MDR: 0 CR: 00001000
+IR: ldb s7 (8a00) - (1000101000000000), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:0
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0080
+REG1 <- 80
+MAR <- 18e
+PC++
+IR <- 8a05
+------------------------------------------------------
+cycle: 67.DECODE(3), phase: 0, PC: 190, SP: 0, MAR: 18e(8a05), MDR: 80 CR: 00001000
+IR: DECODING (8a05) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 67.DECODE(3), phase: 1, PC: 190, SP: 0, MAR: 18e(8a05), MDR: 80 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0001
+------------------------------------------------------
+cycle: 67.READ(5), phase: 0, PC: 190, SP: 0, MAR: 18e(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(525) OP0(1) OP1(525) 
+ALUS(0) cfsbs: 0 ALUout(526) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(20d) func: out:20e
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 67.READ(5), phase: 1, PC: 190, SP: 0, MAR: 18e(8a05), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(20d) func: out:20e
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20e
+------------------------------------------------------
+cycle: 67.EXECUTE(7), phase: 0, PC: 190, SP: 0, MAR: 20e(8181), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(129) 
+ALUS(0) cfsbs: 0 ALUout(1) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 67.EXECUTE(7), phase: 1, PC: 190, SP: 0, MAR: 20e(81), MDR: 1 CR: 00001000
+IR: ldb s7 (8a05) - (1000101000000101), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:0, tgt:5
+ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0081
+REG2 <- 81
+MAR <- 190
+PC++
+IR <- 9a51
+------------------------------------------------------
+cycle: 68.DECODE(3), phase: 0, PC: 192, SP: 0, MAR: 190(9a51), MDR: 81 CR: 00001000
+IR: DECODING (9a51) Micro(13): 000100001001100010100000000010000111000000000000
+REGR0S(ARG1) REGR1S(ARG0) REGWS(TGT) OP1S(REGR1) ALUS(OR) IRimm(20) ALUS(3) cfsbs: 0 REGR0(129) REGR1(128) OP0(129) OP1(128) MDRin(20) 
+ALUS(3) cfsbs: 0 ALUout(129) 
+ALUS(3) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(81) 1:REGR1(80) func: out:81
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 68.DECODE(3), phase: 1, PC: 192, SP: 0, MAR: 190(9a51), MDR: 81 CR: 00001000
+IR: or (9a51) - (1001101001010001), Micro(13): 000100001001100010100000000010000111000000000000
+ALUS(3) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG1, r1:ARG0, w:TGT
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(81) 1:REGR1(80) func: out:81
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 81
+MAR <- 192
+PC++
+IR <- 8a0a
+------------------------------------------------------
+cycle: 69.DECODE(3), phase: 0, PC: 194, SP: 0, MAR: 192(8a0a), MDR: 81 CR: 00001000
+IR: DECODING (8a0a) Micro(5): 001000000000000000000000000000000000000000000000
+MDR_LOAD IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 69.DECODE(3), phase: 1, PC: 194, SP: 0, MAR: 192(8a0a), MDR: 81 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(5): 001000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 69.READ(5), phase: 0, PC: 194, SP: 0, MAR: 192(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+MAR_LOAD REGR0S(BP) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(525) OP0(2) OP1(525) 
+ALUS(0) cfsbs: 0 ALUout(527) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(20d) func: out:20f
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 69.READ(5), phase: 1, PC: 194, SP: 0, MAR: 192(8a0a), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(69): 100000000101000000000000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:BP, r1:REG0, w:REG0
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(20d) func: out:20f
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 20f
+------------------------------------------------------
+cycle: 69.EXECUTE(7), phase: 0, PC: 194, SP: 0, MAR: 20f(8181), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+MDR_LOAD BE REGWS(TGT2) MDRS(RAMout) OP0S(MDRout) ALUS(0) cfsbs: 0 REGR0(0) OP1(0) MDRin(129) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 69.EXECUTE(7), phase: 1, PC: 194, SP: 0, MAR: 20f(81), MDR: 2 CR: 00001000
+IR: ldb s7 (8a0a) - (1000101000001010), Micro(133): 001100010000000010110100010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT2
+args: 0:0, 1:1, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0081
+REG3 <- 81
+MAR <- 194
+PC++
+IR <- 9e59
+------------------------------------------------------
+cycle: 70.DECODE(3), phase: 0, PC: 196, SP: 0, MAR: 194(9e59), MDR: 81 CR: 00001000
+IR: DECODING (9e59) Micro(15): 000100001000100110100000000010010011000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) IRimm(22) ALUout: 0000000110010100 SKIP ALUS(1) cfsbs: 0 REGR0(129) REGR1(129) OP0(129) OP1(129) MDRin(22) 
+ALUout: 0000000110010100 ALUS(1) cfsbs: 0 ALUout(0) 
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(81) 1:REGR1(81) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 70.DECODE(3), phase: 1, PC: 196, SP: 0, MAR: 194(9e59), MDR: 81 CR: 00001000
+IR: addskp.z (9e59) - (1001111001011001), Micro(15): 000100001000100110100000000010010011000000000000
+ALUout: 0000000000000000 ALUS(1) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(81) 1:REGR1(81) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC++ (SKIP)
+REG1 <- 0
+MAR <- 198
+PC++
+IR <- 2002
+------------------------------------------------------
+cycle: 71.DECODE(3), phase: 0, PC: 19a, SP: 0, MAR: 198(2002), MDR: 81 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 71.DECODE(3), phase: 1, PC: 19a, SP: 0, MAR: 198(2002), MDR: 81 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 71.EXECUTE(7), phase: 0, PC: 19a, SP: 0, MAR: 198(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) cfsbs: 0 REGR0(410) OP0(2) OP1(410) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(412) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(19a) func: out:19c
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 71.EXECUTE(7), phase: 1, PC: 19a, SP: 0, MAR: 198(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(19a) func: out:19c
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC <- 19c
+MAR <- 19c
+PC++
+IR <- a2
+------------------------------------------------------
+cycle: 72.DECODE(3), phase: 0, PC: 19e, SP: 0, MAR: 19c(a2), MDR: 2 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 72.DECODE(3), phase: 1, PC: 19e, SP: 0, MAR: 19c(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0014
+------------------------------------------------------
+cycle: 72.EXECUTE(7), phase: 0, PC: 19e, SP: 0, MAR: 19c(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) cfsbs: 0 MDRin(40) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 72.EXECUTE(7), phase: 1, PC: 19e, SP: 0, MAR: 19c(a2), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 14
+MAR <- 19e
+PC++
+IR <- 2c
+------------------------------------------------------
+cycle: 73.DECODE(3), phase: 0, PC: 1a0, SP: 0, MAR: 19e(2c), MDR: 14 CR: 00001000
+IR: DECODING (2c) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(5) ALUS(0) cfsbs: 0 REGR1(0) OP0(20) MDRin(5) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:5, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 73.DECODE(3), phase: 1, PC: 1a0, SP: 0, MAR: 19e(2c), MDR: 14 CR: 00001000
+IR: ldi (2c) - (0000000000101100), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:5, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0005
+------------------------------------------------------
+cycle: 73.EXECUTE(7), phase: 0, PC: 1a0, SP: 0, MAR: 19e(2c), MDR: 5 CR: 00001000
+IR: ldi (2c) - (0000000000101100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(11) ALUS(0) cfsbs: 0 MDRin(11) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:5, tgt:4
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 73.EXECUTE(7), phase: 1, PC: 1a0, SP: 0, MAR: 19e(2c), MDR: 5 CR: 00001000
+IR: ldi (2c) - (0000000000101100), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:5, tgt:4
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG4 <- 5
+MAR <- 1a0
+PC++
+IR <- b614
+------------------------------------------------------
+cycle: 74.DECODE(3), phase: 0, PC: 1a2, SP: 0, MAR: 1a0(b614), MDR: 5 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+IRimm(5) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(5) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 74.DECODE(3), phase: 1, PC: 1a2, SP: 0, MAR: 1a0(b614), MDR: 5 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 74.READ(5), phase: 0, PC: 1a2, SP: 0, MAR: 1a0(b614), MDR: 5 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(20) OP1(20) 
+ALUS(0) cfsbs: 0 ALUout(20) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 74.READ(5), phase: 1, PC: 1a2, SP: 0, MAR: 1a0(b614), MDR: 5 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 14
+------------------------------------------------------
+cycle: 74.EXECUTE(7), phase: 0, PC: 1a2, SP: 0, MAR: 14(400), MDR: 5 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(5) REGR1(0) OP0(5) OP1(0) MDRin(20) 
+ALUS(0) cfsbs: 0 ALUout(5) MDRin(5) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 74.EXECUTE(7), phase: 1, PC: 1a2, SP: 0, MAR: 14(4), MDR: 5 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0005
+RAM[14H] <- 5 (500)
+MAR <- 1a2
+PC++
+IR <- 9401
+------------------------------------------------------
+cycle: 75.DECODE(3), phase: 0, PC: 1a4, SP: 0, MAR: 1a2(9401), MDR: 5 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(0) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 75.DECODE(3), phase: 1, PC: 1a4, SP: 0, MAR: 1a2(9401), MDR: 5 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 0
+MAR <- 1a4
+PC++
+IR <- 9402
+------------------------------------------------------
+cycle: 76.DECODE(3), phase: 0, PC: 1a6, SP: 0, MAR: 1a4(9402), MDR: 5 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 76.DECODE(3), phase: 1, PC: 1a6, SP: 0, MAR: 1a4(9402), MDR: 5 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG2 <- 0
+MAR <- 1a6
+PC++
+IR <- 9403
+------------------------------------------------------
+cycle: 77.DECODE(3), phase: 0, PC: 1a8, SP: 0, MAR: 1a6(9403), MDR: 5 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 77.DECODE(3), phase: 1, PC: 1a8, SP: 0, MAR: 1a6(9403), MDR: 5 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 0
+MAR <- 1a8
+PC++
+IR <- 9405
+------------------------------------------------------
+cycle: 78.DECODE(3), phase: 0, PC: 1aa, SP: 0, MAR: 1a8(9405), MDR: 5 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) IRimm(1) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(1) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 78.DECODE(3), phase: 1, PC: 1aa, SP: 0, MAR: 1a8(9405), MDR: 5 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+BP <- 0
+MAR <- 1aa
+PC++
+IR <- 11
+------------------------------------------------------
+cycle: 79.DECODE(3), phase: 0, PC: 1ac, SP: 0, MAR: 1aa(11), MDR: 5 CR: 00001000
+IR: DECODING (11) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(2) ALUS(0) cfsbs: 0 REGR1(0) OP0(5) MDRin(2) 
+ALUS(0) cfsbs: 0 ALUout(5) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 79.DECODE(3), phase: 1, PC: 1ac, SP: 0, MAR: 1aa(11), MDR: 5 CR: 00001000
+IR: ldi (11) - (0000000000010001), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0002
+------------------------------------------------------
+cycle: 79.EXECUTE(7), phase: 0, PC: 1ac, SP: 0, MAR: 1aa(11), MDR: 2 CR: 00001000
+IR: ldi (11) - (0000000000010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(4) ALUS(0) cfsbs: 0 MDRin(4) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:2, tgt:1
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 79.EXECUTE(7), phase: 1, PC: 1ac, SP: 0, MAR: 1aa(11), MDR: 2 CR: 00001000
+IR: ldi (11) - (0000000000010001), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:2, tgt:1
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- 2
+MAR <- 1ac
+PC++
+IR <- a889
+------------------------------------------------------
+cycle: 80.DECODE(3), phase: 0, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: DECODING (a889) Micro(20): 000000000000000000000000000000000000000000000000
+IRimm(34) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(34) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 80.DECODE(3), phase: 1, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: ori (a889) - (1010100010001001), Micro(20): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 80.READ(5), phase: 0, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: ori (a889) - (1010100010001001), Micro(84): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 80.READ(5), phase: 1, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: ori (a889) - (1010100010001001), Micro(84): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 80.EXECUTE(7), phase: 0, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: ori (a889) - (1010100010001001), Micro(148): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 80.EXECUTE(7), phase: 1, PC: 1ae, SP: 0, MAR: 1ac(a889), MDR: 2 CR: 00001000
+IR: ori (a889) - (1010100010001001), Micro(148): 000000000000000000000000000000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MAR <- 1ae
+PC++
+IR <- 33
+------------------------------------------------------
+cycle: 81.DECODE(3), phase: 0, PC: 1b0, SP: 0, MAR: 1ae(33), MDR: 2 CR: 00001000
+IR: DECODING (33) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(6) ALUS(0) cfsbs: 0 REGR1(0) OP0(2) MDRin(6) 
+ALUS(0) cfsbs: 0 ALUout(2) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:6, tgt:3
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 81.DECODE(3), phase: 1, PC: 1b0, SP: 0, MAR: 1ae(33), MDR: 2 CR: 00001000
+IR: ldi (33) - (0000000000110011), Micro(0): 001000000000000000000000110000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:6, tgt:3
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0006
+------------------------------------------------------
+cycle: 81.EXECUTE(7), phase: 0, PC: 1b0, SP: 0, MAR: 1ae(33), MDR: 6 CR: 00001000
+IR: ldi (33) - (0000000000110011), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(12) ALUS(0) cfsbs: 0 MDRin(12) 
+ALUS(0) cfsbs: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:6, tgt:3
+ALU: 0:MDRout(6) 1:REGR0(0) func: out:6
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 81.EXECUTE(7), phase: 1, PC: 1b0, SP: 0, MAR: 1ae(33), MDR: 6 CR: 00001000
+IR: ldi (33) - (0000000000110011), Micro(128): 000100000000000010100000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:6, tgt:3
+ALU: 0:MDRout(6) 1:REGR0(0) func: out:6
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG3 <- 6
+MAR <- 1b0
+PC++
+IR <- 9e59
+------------------------------------------------------
+cycle: 82.DECODE(3), phase: 0, PC: 1b2, SP: 0, MAR: 1b0(9e59), MDR: 6 CR: 00001000
+IR: DECODING (9e59) Micro(15): 000100001000100110100000000010010011000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) IRimm(22) ALUout: 0000000110110000 SKIP ALUS(1) cfsbs: 0 REGR0(2) REGR1(6) OP0(2) OP1(6) MDRin(22) 
+ALUout: 0000000110110000 ALUS(1) cfsbs: 1 ALUout(65532) 
+ALUout: 1111111111111100 ALUS(1) cfsbs: 1 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(2) 1:REGR1(6) func: out:fffc
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 82.DECODE(3), phase: 1, PC: 1b2, SP: 0, MAR: 1b0(9e59), MDR: 6 CR: 00001000
+IR: addskp.z (9e59) - (1001111001011001), Micro(15): 000100001000100110100000000010010011000000000000
+ALUout: 1111111111111100 ALUS(1) cfsbs: 1 
+Stable after 1 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:1, 1:3, tgt:1
+ALU: 0:REGR0(2) 1:REGR1(6) func: out:fffc
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+REG1 <- fffc
+MAR <- 1b2
+PC++
+IR <- 2046
+------------------------------------------------------
+cycle: 83.DECODE(3), phase: 0, PC: 1b4, SP: 0, MAR: 1b2(2046), MDR: 6 CR: 00001000
+IR: DECODING (2046) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(70) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(70) 
+ALUS(0) cfsbs: 0 ALUout(0) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:0, tgt:6
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 83.DECODE(3), phase: 1, PC: 1b4, SP: 0, MAR: 1b2(2046), MDR: 6 CR: 00001000
+IR: br (2046) - (0010000001000110), Micro(1): 001000000000000000000001000000000000100000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:0, tgt:6
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+MDR <- 0046
+------------------------------------------------------
+cycle: 83.EXECUTE(7), phase: 0, PC: 1b4, SP: 0, MAR: 1b2(2046), MDR: 46 CR: 00001000
+IR: br (2046) - (0010000001000110), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(17) ALUS(0) cfsbs: 0 REGR0(436) OP0(70) OP1(436) MDRin(17) 
+ALUS(0) cfsbs: 0 ALUout(506) 
+ALUS(0) cfsbs: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:1, 1:0, tgt:6
+ALU: 0:MDRout(46) 1:REGR0(1b4) func: out:1fa
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+------------------------------------------------------
+cycle: 83.EXECUTE(7), phase: 1, PC: 1b4, SP: 0, MAR: 1b2(2046), MDR: 46 CR: 00001000
+IR: br (2046) - (0010000001000110), Micro(129): 000100000111000001110000010000000000000000000000
+ALUS(0) cfsbs: 0 
+Stable after 1 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:1, 1:0, tgt:6
+ALU: 0:MDRout(46) 1:REGR0(1b4) func: out:1fa
+STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
+PC <- 1fa
+MAR <- 1fa
 PC++
 IR <- c03
 ------------------------------------------------------
-cycle: 12.DECODE(3), phase: 0, PC: 130, SP: 0, MAR: 12e(c03), MDR: 1a CR: 00000000
+cycle: 84.DECODE(3), phase: 0, PC: 1fc, SP: 0, MAR: 1fa(c03), MDR: 46 CR: 00001000
 IR: DECODING (c03) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(384) ALUS(0) cfsbs: 0 REGR1(0) OP0(26) MDRin(384) 
-ALUS(0) cfsbs: 0 ALUout(26) 
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(384) ALUS(0) cfsbs: 0 REGR1(0) OP0(70) MDRin(384) 
+ALUS(0) cfsbs: 0 ALUout(70) 
 ALUS(0) cfsbs: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:0, 1:0, tgt:3
-ALU: 0:MDRout(1a) 1:REGR0(0) func: out:1a
+ALU: 0:MDRout(46) 1:REGR0(0) func: out:46
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 12.DECODE(3), phase: 1, PC: 130, SP: 0, MAR: 12e(c03), MDR: 1a CR: 00000000
+cycle: 84.DECODE(3), phase: 1, PC: 1fc, SP: 0, MAR: 1fa(c03), MDR: 46 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:0, 1:0, tgt:3
-ALU: 0:MDRout(1a) 1:REGR0(0) func: out:1a
+ALU: 0:MDRout(46) 1:REGR0(0) func: out:46
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 0180
 ------------------------------------------------------
-cycle: 12.EXECUTE(7), phase: 0, PC: 130, SP: 0, MAR: 12e(c03), MDR: 180 CR: 00000000
+cycle: 84.EXECUTE(7), phase: 0, PC: 1fc, SP: 0, MAR: 1fa(c03), MDR: 180 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(0) ALUS(0) cfsbs: 0 MDRin(0) 
 ALUS(0) cfsbs: 0 
@@ -607,7 +3528,7 @@ args: 0:0, 1:0, tgt:3
 ALU: 0:MDRout(180) 1:REGR0(0) func: out:180
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 12.EXECUTE(7), phase: 1, PC: 130, SP: 0, MAR: 12e(c03), MDR: 180 CR: 00000000
+cycle: 84.EXECUTE(7), phase: 1, PC: 1fc, SP: 0, MAR: 1fa(c03), MDR: 180 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -616,11 +3537,11 @@ args: 0:0, 1:0, tgt:3
 ALU: 0:MDRout(180) 1:REGR0(0) func: out:180
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 REG3 <- 180
-MAR <- 130
+MAR <- 1fc
 PC++
 IR <- bdfe
 ------------------------------------------------------
-cycle: 13.DECODE(3), phase: 0, PC: 132, SP: 0, MAR: 130(bdfe), MDR: 180 CR: 00000000
+cycle: 85.DECODE(3), phase: 0, PC: 1fe, SP: 0, MAR: 1fc(bdfe), MDR: 180 CR: 00001000
 IR: DECODING (bdfe) Micro(30): 001000000000000000000010000000000000100000000000
 MDR_LOAD IMMS(IMM7u) IRimm(127) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(127) 
 ALUS(0) cfsbs: 0 ALUout(0) 
@@ -631,7 +3552,7 @@ args: 0:7, 1:7, tgt:6
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 13.DECODE(3), phase: 1, PC: 132, SP: 0, MAR: 130(bdfe), MDR: 180 CR: 00000000
+cycle: 85.DECODE(3), phase: 1, PC: 1fe, SP: 0, MAR: 1fc(bdfe), MDR: 180 CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(30): 001000000000000000000010000000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -641,7 +3562,7 @@ ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 007f
 ------------------------------------------------------
-cycle: 13.EXECUTE(7), phase: 0, PC: 132, SP: 0, MAR: 130(bdfe), MDR: 7f CR: 00000000
+cycle: 85.EXECUTE(7), phase: 0, PC: 1fe, SP: 0, MAR: 1fc(bdfe), MDR: 7f CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(158): 000100000000101110110000010010001100000000000000
 REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) IRimm(65535) ALUS(6) cfsbs: 0 REGR1(384) OP0(127) OP1(384) MDRin(65535) 
 ALUS(6) cfsbs: 0 ALUout(65408) 
@@ -652,7 +3573,7 @@ args: 0:7, 1:7, tgt:6
 ALU: 0:MDRout(7f) 1:REGR1(180) func: out:ff80
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 13.EXECUTE(7), phase: 1, PC: 132, SP: 0, MAR: 130(bdfe), MDR: 7f CR: 00000000
+cycle: 85.EXECUTE(7), phase: 1, PC: 1fe, SP: 0, MAR: 1fc(bdfe), MDR: 7f CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(158): 000100000000101110110000010010001100000000000000
 ALUS(6) cfsbs: 0 
 Stable after 1 vcycles.
@@ -661,11 +3582,11 @@ args: 0:7, 1:7, tgt:6
 ALU: 0:MDRout(7f) 1:REGR1(180) func: out:ff80
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 REG3 <- ff80
-MAR <- 132
+MAR <- 1fe
 PC++
 IR <- 7fd
 ------------------------------------------------------
-cycle: 14.DECODE(3), phase: 0, PC: 134, SP: 0, MAR: 132(7fd), MDR: 7f CR: 00000000
+cycle: 86.DECODE(3), phase: 0, PC: 200, SP: 0, MAR: 1fe(7fd), MDR: 7f CR: 00001000
 IR: DECODING (7fd) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(255) ALUS(0) cfsbs: 0 REGR1(0) OP0(127) MDRin(255) 
 ALUS(0) cfsbs: 0 ALUout(127) 
@@ -676,7 +3597,7 @@ args: 0:7, 1:7, tgt:5
 ALU: 0:MDRout(7f) 1:REGR0(0) func: out:7f
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 14.DECODE(3), phase: 1, PC: 134, SP: 0, MAR: 132(7fd), MDR: 7f CR: 00000000
+cycle: 86.DECODE(3), phase: 1, PC: 200, SP: 0, MAR: 1fe(7fd), MDR: 7f CR: 00001000
 IR: ldi (7fd) - (0000011111111101), Micro(0): 001000000000000000000000110000000000100000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -686,7 +3607,7 @@ ALU: 0:MDRout(7f) 1:REGR0(0) func: out:7f
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 00ff
 ------------------------------------------------------
-cycle: 14.EXECUTE(7), phase: 0, PC: 134, SP: 0, MAR: 132(7fd), MDR: ff CR: 00000000
+cycle: 86.EXECUTE(7), phase: 0, PC: 200, SP: 0, MAR: 1fe(7fd), MDR: ff CR: 00001000
 IR: ldi (7fd) - (0000011111111101), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(65535) ALUS(0) cfsbs: 0 MDRin(65535) 
 ALUS(0) cfsbs: 0 
@@ -696,7 +3617,7 @@ args: 0:7, 1:7, tgt:5
 ALU: 0:MDRout(ff) 1:REGR0(0) func: out:ff
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 14.EXECUTE(7), phase: 1, PC: 134, SP: 0, MAR: 132(7fd), MDR: ff CR: 00000000
+cycle: 86.EXECUTE(7), phase: 1, PC: 200, SP: 0, MAR: 1fe(7fd), MDR: ff CR: 00001000
 IR: ldi (7fd) - (0000011111111101), Micro(128): 000100000000000010100000010000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -705,11 +3626,11 @@ args: 0:7, 1:7, tgt:5
 ALU: 0:MDRout(ff) 1:REGR0(0) func: out:ff
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 BP <- ff
-MAR <- 134
+MAR <- 200
 PC++
 IR <- b41d
 ------------------------------------------------------
-cycle: 15.DECODE(3), phase: 0, PC: 136, SP: 0, MAR: 134(b41d), MDR: ff CR: 00000000
+cycle: 87.DECODE(3), phase: 0, PC: 202, SP: 0, MAR: 200(b41d), MDR: ff CR: 00001000
 IR: DECODING (b41d) Micro(26): 000000000000000000000000000000000000000000000000
 IRimm(7) ALUS(0) cfsbs: 0 REGR1(0) OP0(0) MDRin(7) 
 ALUS(0) cfsbs: 0 ALUout(0) 
@@ -720,7 +3641,7 @@ args: 0:0, 1:3, tgt:5
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 15.DECODE(3), phase: 1, PC: 136, SP: 0, MAR: 134(b41d), MDR: ff CR: 00000000
+cycle: 87.DECODE(3), phase: 1, PC: 202, SP: 0, MAR: 200(b41d), MDR: ff CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(26): 000000000000000000000000000000000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -729,7 +3650,7 @@ args: 0:0, 1:3, tgt:5
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 15.READ(5), phase: 0, PC: 136, SP: 0, MAR: 134(b41d), MDR: ff CR: 00000000
+cycle: 87.READ(5), phase: 0, PC: 202, SP: 0, MAR: 200(b41d), MDR: ff CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(90): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR1(65408) OP1(65408) 
 ALUS(0) cfsbs: 0 ALUout(65408) 
@@ -740,7 +3661,7 @@ args: 0:0, 1:3, tgt:5
 ALU: 0:REGR0(0) 1:REGR1(ff80) func: out:ff80
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 15.READ(5), phase: 1, PC: 136, SP: 0, MAR: 134(b41d), MDR: ff CR: 00000000
+cycle: 87.READ(5), phase: 1, PC: 202, SP: 0, MAR: 200(b41d), MDR: ff CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(90): 100000001000100100000000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -750,7 +3671,7 @@ ALU: 0:REGR0(0) 1:REGR1(ff80) func: out:ff80
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MAR <- ff80
 ------------------------------------------------------
-cycle: 15.EXECUTE(7), phase: 0, PC: 136, SP: 0, MAR: ff80(0), MDR: ff CR: 00000000
+cycle: 87.EXECUTE(7), phase: 0, PC: 202, SP: 0, MAR: ff80(0), MDR: ff CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(154): 001010001010000000001000000010000000000000000000
 MDR_LOAD REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) cfsbs: 0 REGR0(255) REGR1(0) OP0(255) OP1(0) MDRin(65408) 
 ALUS(0) cfsbs: 0 ALUout(255) MDRin(255) 
@@ -761,7 +3682,7 @@ args: 0:0, 1:3, tgt:5
 ALU: 0:REGR0(ff) 1:REGR1(0) func: out:ff
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 ------------------------------------------------------
-cycle: 15.EXECUTE(7), phase: 1, PC: 136, SP: 0, MAR: ff80(0), MDR: ff CR: 00000000
+cycle: 87.EXECUTE(7), phase: 1, PC: 202, SP: 0, MAR: ff80(0), MDR: ff CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(154): 001010001010000000001000000010000000000000000000
 ALUS(0) cfsbs: 0 
 Stable after 1 vcycles.
@@ -771,7 +3692,7 @@ ALU: 0:REGR0(ff) 1:REGR1(0) func: out:ff
 STACK: 0 0 0 0 0 0 0 0 0 0 0 0 0 
 MDR <- 00ff
 RAM[ff80] <- ff
-MAR <- 136
+MAR <- 202
 PC++
 IR <- fe00
 HALT: encountered halt instruction.
@@ -785,9 +3706,9 @@ HALT: encountered halt instruction.
 0x05a: 00         0x00a: 00
 0x058: 00         0x00c: 00
 0x056: 00         0x00e: 00
-0x054: 00         0x010: 66
-0x052: 00         0x012: 02
-0x050: 00         0x014: 00
+0x054: 00         0x010: 6a
+0x052: 00         0x012: 01
+0x050: 00         0x014: 500
 0x04e: 00         0x016: 00
 0x04c: 00         0x018: 00
 0x04a: 00         0x01a: 00
@@ -805,15 +3726,15 @@ HALT: encountered halt instruction.
 0x032: 00         0x032: 00
 ----------------------------REGISTERS-----------------------
 R0: 0000
-R1: 0000
-R2: 0008
+R1: fffc
+R2: 0000
 R3: ff80
-R4: 0000
+R4: 0005
 R5: 00ff
 R6: 0000
-R7: 0138
-CR: 0000000000000000 (0)
+R7: 0204
+CR: 0000000000001000 (8)
 ----------------------------SYSREGS-----------------------
-MAR: 0136
+MAR: 0202
 MDR: 00ff
 IR: fe00

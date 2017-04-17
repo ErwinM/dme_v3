@@ -627,6 +627,8 @@ class Coder
           puts "Encode: base must be bp/r5"
           exit(1)
         end
+      when :pad3
+        code += "000"
       when :pad6
         code += "000000"
       when :pad9
@@ -759,8 +761,8 @@ end
 
 class ISA
   OPCODES= {
-    "ldi"   => 0,
-    "lda"   => 0,
+    "ldi"  => 0,
+    "lda"  => 0,
     "br"   => 1,
     "ldw"  => 4,
     "ldb"  => 5,
@@ -770,12 +772,14 @@ class ISA
     "mov" => 10,
     "sub" => 11,
     "and" => 12,
+    "or" => 13,
     "skip" => 14,
     "addskp.z" => 15,
     "addskp.nz" => 16,
     "addi" => 17,
     "subi" => 18,
     "andi" => 19,
+    "ori" => 20,
     "addskpi.z" => 22,
     "addskpi.nz" => 23,
     "ldw.b" => 24,
@@ -793,6 +797,10 @@ class ISA
     "brk" => 37,
     "lcr" => 38,
     "scr" => 39,
+    "wpte" => 40,
+    "lpte" => 41,
+    "wptb" => 42,
+    "lptb" => 43,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -813,12 +821,14 @@ class ISA
     "mov" => {:reg => 1, :xr0 => :x, :reg1 => 0},
     "sub" => {:reg =>1, :reg1 => 2, :reg2 => 0},
     "and" => {:reg =>1, :reg1 => 2, :reg2 => 0},
+    "or" => {:reg =>1, :reg1 => 2, :reg2 => 0},
     "skip" => {:reg => 0, :reg1 => 1, :cond => 2},
     "addskp.z" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addskp.nz" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "addi" => {:immir => 2, :reg =>1, :reg2 => 0},
     "andi" => {:immir => 2, :reg =>1, :reg2 => 0},
     "subi" => {:immir => 2, :reg =>1, :reg2 => 0},
+    "ori" => {:immir => 2, :reg =>1, :reg2 => 0},
     "addskpi.z" => {:immir => 2, :reg => 1, :reg1 => 0},
     "addskpi.nz" => {:immir => 2, :reg => 1, :reg1 => 0},
     "ldw.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
@@ -836,6 +846,10 @@ class ISA
     "brk" =>{:pad9 => :x},
     "lcr" => {:pad6 => :x, :reg => 0},
     "scr" => {:reg => 0, :pad6 => :x},
+    "wpte" => {:reg => 0, :reg1 => 1, :pad3 => :x},
+    "lpte" => {:reg => 1, :pad3 => :x, :reg1 => 0},
+    "wptb" => {:reg => 0, :pad6 => :x},
+    "lptb" => {:pad6 => :x, :reg => 0},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze
