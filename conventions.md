@@ -17,3 +17,7 @@ Paging
 ------
 the synthax is: wpte logic PAGE [max32] -> physical PAGE [max512]
 the physical page should be loaded into the high byte (shl 8), we shouldnt do this in hardware because we also want to set the low byte as status.
+
+todo:
+- error when page not present
+- error when trying to access system page from user mode

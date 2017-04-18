@@ -1,7 +1,7 @@
 ; lets test paging (lol)
 
-wpte r0, r0
 ldi r1, 1
+wpte r0, r1
 ld16 r2, 2
 shl r2, r2, 8
 wpte r1, r2
