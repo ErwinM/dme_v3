@@ -26,6 +26,7 @@ class Parser
       if parsed_instr.nil? then
         next
       end
+      parsed_instr[:line] = line
       #binding.pry
       if parsed_instr[:command] == ".code" then
         if $instr_nr != 0 then
@@ -34,7 +35,7 @@ class Parser
         if parsed_instr[:no_args] then next end
         # we need to relocate code and add a little trampoline to it at the start
         # load addr, branch to it
-        trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]]})
+        trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]], :line => line})
         trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
         #binding.pry
         noreloc = 0
@@ -61,7 +62,7 @@ class Parser
         # this will often be a symbol which we haven't resolved at this point
         # we take a conservative approach and insert 2 instructions to be adjusted after symbols
         # have been resolved
-        instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
+        instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true, :line => line}
         instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instructions = [instr_lo, instr_hi]
         #binding.pry
@@ -242,13 +243,13 @@ class Parser
 
     if instr[:args][1] <= 511 then
       # imm is small enough to load with ldi
-      return [{:command => "ldi", :args => instr[:args]}]
+      return [{:command => "ldi", :args => instr[:args], :line => instr[:line]}]
     else
       # imm requires two instructions to load: ldi followed by addhi
       lo = instr[:args][1] & 0x1ff
       hi = (instr[:args][1] & 0xfe00) >> 9
-      instr_lo = {:command => "ldi", :args => [instr[:args][0], lo] }
-      instr_hi = {:command => "addhi", :args => [instr[:args][0], hi]}
+      instr_lo = {:command => "ldi", :args => [instr[:args][0], lo], :line => instr[:line] }
+      instr_hi = {:command => "addhi", :args => [instr[:args][0], hi] }
       return [instr_lo, instr_hi]
     end
   end
@@ -481,6 +482,13 @@ class SymbolTable
     return false
   end
 
+  def self.findaddr(addr)
+    $symbols.each do |nr, symbol|
+      return symbol if symbol[:addr] == addr
+    end
+    return false
+  end
+
   def self.findindex(symbol)
     # clients.select{|key, hash| hash["client_id"] == "2180" }
     matches = $symbols.find{ |index, s| s[:name] == symbol[:name] }
@@ -680,7 +688,7 @@ end
 
 class Writer
 
-  def self.write(file, target)
+  def self.addhex()
     $instructions.each do |instr|
       next if instr[:byte2]
       code = instr[:code]
@@ -692,22 +700,33 @@ class Writer
 
       hex = (h0.to_i == 0) ? "00" : "%02x" % h0
       hex += (h1.to_i == 0) ? "00" : "%02x" % h1
-      instr[:encoding] = hex;
+      instr[:hex] = hex
+      instr[:h0] = h0
+      instr[:h1] = h1
+    end
+  end
+
+  def self.write(file, target)
+    # FIXME: this loop is called n times, could just store result in instr_hash
+    $instructions.each do |instr|
+      next if instr[:byte2]
 
       case target
       when :hex
-        Writer.hex(file, hex)
+        Writer.hex(file, instr[:hex])
       when :simple_hex
         if $code_ptr > 0 && instr[:addr] < 10 then
           next
         end
-        Writer.simplehex(file, hex)
+        Writer.simplehex(file, instr[:hex])
       when :ram
-        Writer.mif(file, (instr[:addr]/2), code)
+        Writer.mif(file, (instr[:addr]/2), instr[:code])
       when :sim
-        Writer.mif(file, instr[:addr], code)
+        Writer.mif(file, instr[:addr], instr[:code])
       when :bin
-        Writer.bin(file, h0, h1)
+        Writer.bin(file, instr[:h0], instr[:h1])
+      when :list
+        Writer.list(file, instr[:addr], instr[:hex], instr[:line])
       end
     end
   end
@@ -715,6 +734,15 @@ class Writer
   def self.bin(output, h0, h1)
     h = [(h0<<8)|h1]
     output.write(h.pack("n"))
+  end
+
+  def self.list(output, addr, hex, line)
+    # FIXME: this is a very expensive way to add labels to the listing(but safe)
+    if s=SymbolTable.findaddr(addr) then
+      output.write("     :          | #{s[:name]}:\n")
+    end
+    output.write("%04x" % addr)
+    output.write(" : #{hex}     |     #{line}\n")
   end
 
   def self.simplehex(output, hex)
@@ -928,8 +956,10 @@ out_bin = File.open("A.bin", "w+")
 sim_mif = File.open("A_sim.mif", "w+")
 ram_mif = File.open("A_ram.mif", "w+")
 simple_hex = File.open("A_simple.hex", "w+")
+listing = File.open("A.list", "w+")
 
 $instructions = []
+$list = []
 $mem_instructions =[]
 $labels = []
 $symbols = {}
@@ -969,15 +999,17 @@ SymbolTable.adjustla16(true)
 Writer.mifinit(sim_mif)
 Writer.mifinit(ram_mif)
 Coder.build()
+Writer.addhex()
 Writer.write(out_bin, :bin)
 Writer.write(ram_mif, :ram)
 Writer.write(sim_mif, :sim)
 Writer.write(simple_hex, :simple_hex)
+Writer.write(listing, :list)
 Writer.mifclose(ram_mif)
 Writer.mifclose(sim_mif)
 SymbolTable.dump()
 
-puts "\n------ Instruction tokens -----------\n"
-$instructions.each do |instr|
-  puts "0x#{(instr[:addr]).to_s(16)} => #{instr}\n"
-end
+#puts "\n------ Instruction tokens -----------\n"
+#$instructions.each do |instr|
+#  puts "0x#{(instr[:addr]).to_s(16)} => #{instr}\n"
+#end

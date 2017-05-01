@@ -11,12 +11,12 @@ INIT_TEST(d,0x02)
 INIT_MEM
 
 ; declare labels here
-SYM(next0, d_002)
-SYM(next1, d_002)
-SYM(next2, d_002)
-SYM(next3, d_002)
-SYM(next4, d_002)
-
+;SYM(next0, d_002)
+;SYM(next1, d_002)
+;SYM(next2, d_002)
+;SYM(next3, d_002)
+;SYM(next4, d_002)
+;
 ; Begin test here
 
 SUBTEST(1)

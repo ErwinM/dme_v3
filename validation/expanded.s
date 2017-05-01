@@ -1,8 +1,7 @@
 ;
-; group i, test 1
+; group s, test 1
 ;
-; and.8, andi.8
-;
+; skip.c - lt, lte
 
 
 
@@ -13,7 +12,7 @@
 runall_1:
 
 ldi r2, 0x11
-ldi r1, char @i
+ldi r1, char @s
 stb.b 0(r2), r1
 ldi r2, 0x13
 ldi r1, 0x01
@@ -22,29 +21,25 @@ stb.b 0(r2), r1
 
 ; declare symbols here
 
-    ; Declare data here.  Format is:
-    ;	op1
-    ;	op2
-    ;	expected a result
+		br hop_s_001
 
-data1_i_001:
-    defb    0xff
-    defb    0x01
-    defb    0x01
-data2_i_001:
-    defb    0x00
-    defb    0x00
-    defb    0x00
-data3_i_001:
-    defb    0xf0
-    defb    0x0f
-    defb    0x00
+; these are all negative
+d1_s_001:
+    defw    0xf000 ; -4k
+    defw    0xff00 ;
+    defw    0x8000 ; -32k
+; 3rd is negative
+d2_s_001:
+    defw    0x0000
+    defw    0x7000
+    defw    0x8400
+; last is negative
+d3_s_001:
+    defw    0x0f00
+    defw    0x1700
+    defw    0xf000
 
-data4_i_001:
-    defb    0x80
-    defb    0x81
-    defb    0x80
-
+hop_s_001:
 ; Begin test here
 
 ; subtest definition (tmacros)
@@ -56,20 +51,24 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data1_i_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		and			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+
+;   lt both pos
+		la16   	r1, d1_s_001
+		mov			r5, r1
+		ldw	r1, 6(bp)
+		ldw r2, 8(bp)
+		skip.lt r1, r2
 		br fail
-br next1_i_001
+br next0_s_001
 hlt
 
 
-next1_i_001:
+next0_s_001:
+		skip.lt r2, r1
+		br next1_s_001
+		br fail
+
+next1_s_001:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 2
@@ -79,20 +78,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data2_i_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		and			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   lt pos and neg
+		la16   	r1, d1_s_001
+		mov			r5, r1
+		ldw	r1, 2(bp) ; -256
+		ldi r2, 110
+		skip.lt r1, r2
 		br fail
-br next2_i_001
+br next2_s_001
 hlt
 
 
-next2_i_001:
+next2_s_001:
+		skip.lt r2, r1
+		br next3_s_001
+		br fail
+
+next3_s_001:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 3
@@ -102,21 +104,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data3_i_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		and			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   lt both neg
+		la16   	r1, d1_s_001
+		mov			r5, r1
+		ldw			r1, 4(bp) ; -32k
+		ldw			r2, 0(bp) ; -4096
+		skip.lt r1, r2
 		br fail
-br next3_i_001
+br next4_s_001
 hlt
 
 
+next4_s_001:
+		skip.lt r2, r1
+		br next5_s_001
+		br fail
 
-next3_i_001:
+next5_s_001:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 4
@@ -126,92 +130,40 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data4_i_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		and			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   lte
+		la16   	r1, d1_s_001
+		mov			r5, r1
+		ldw			r1, 4(bp) ; -32k
+		ldw			r2, 2(bp) ; -4096
+		skip.lte r1, r1
 		br fail
-br next4_i_001
+br next6_s_001
 hlt
 
 
-next4_i_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 5
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 0xf
-		andi		r1, r1, 4
-		ldi 		r3, 4
-		addskp.z r1, r1, r3
+next6_s_001:
+		skip.lte r2, r1
+		br next7_s_001
 		br fail
-br next5_i_001
-hlt
 
-
-next5_i_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 6
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 0x4
-		andi		r1, r1, 8
-		ldi 		r3, 0
-		addskp.z r1, r1, r3
-		br fail
-br next6_i_001
-hlt
-
-
-next6_i_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 7
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 2
-		andi		r1, r1, 2
-		ldi 		r3, 2
-		addskp.z r1, r1, r3
+next7_s_001:
+		skip.lte r1, r2
 br fail
 br runall_2
 hlt
 
-
 ;   Finally, when done branch to pass
 ;
-; group i, test 2
+; group s, test 2
 ;
-; and.16
-;
+; skip.c - gt, gte
 
 
 
 runall_2:
 
 ldi r2, 0x11
-ldi r1, char @i
+ldi r1, char @s
 stb.b 0(r2), r1
 ldi r2, 0x13
 ldi r1, 0x02
@@ -220,31 +172,25 @@ stb.b 0(r2), r1
 
 ; declare symbols here
 
+		br hop_s_002
 
-    ; Declare data here.  Format is:
-    ;	op1
-    ;	op2
-    ;	expected a result
-
-data1_i_002:
-    defw    0xff00
-    defw    0x0100
-    defw    0x0100
-data2_i_002:
+; these are all negative
+d1_s_002:
+    defw    0xf000 ; -4k
+    defw    0xff00 ;
+    defw    0x8000 ; -32k
+; 3rd is negative
+d2_s_002:
     defw    0x0000
-    defw    0x0000
-    defw    0x0000
-
-data3_i_002:
-    defw    0xf000
+    defw    0x7000
+    defw    0x8400
+; last is negative
+d3_s_002:
     defw    0x0f00
-    defw    0x0000
+    defw    0x1700
+    defw    0xf000
 
-data4_i_002:
-    defw    0x8000
-    defw    0x8100
-    defw    0x8000
-
+hop_s_002:
 ; Begin test here
 
 ; subtest definition (tmacros)
@@ -256,20 +202,24 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data1_i_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		and			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+
+;   gt both pos
+		la16   	r1, d1_s_002
+		mov			r5, r1
+		ldw	r1, 8(bp)
+		ldw r2, 6(bp)
+		skip.gt r1, r2
 		br fail
-br next1_i_002
+br next0_s_002
 hlt
 
 
-next1_i_002:
+next0_s_002:
+		skip.gt r2, r1
+		br next1_s_002
+		br fail
+
+next1_s_002:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 2
@@ -279,20 +229,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data2_i_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		and			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+;   gt pos and neg
+		la16   	r1, d1_s_002
+		mov			r5, r1
+		ldi r1, 110
+		ldw	r2, 2(bp) ; -256
+		skip.gt r1, r2
 		br fail
-br next2_i_002
+br next2_s_002
 hlt
 
 
-next2_i_002:
+next2_s_002:
+		skip.gt r2, r1
+		br next3_s_002
+		br fail
+
+next3_s_002:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 3
@@ -302,21 +255,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data3_i_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		and			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+;   gt both neg
+		la16   	r1, d1_s_002
+		mov			r5, r1
+		ldw			r1, 0(bp) ; -4096
+		ldw			r2, 4(bp) ; -32k
+		skip.gt r1, r2
 		br fail
-br next3_i_002
+br next4_s_002
 hlt
 
 
+next4_s_002:
+		skip.gt r2, r1
+		br next5_s_002
+		br fail
 
-next3_i_002:
+next5_s_002:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 4
@@ -326,102 +281,67 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data4_i_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		and			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+;   gte
+		la16   	r1, d1_s_002
+		mov			r5, r1
+		ldw			r1, 2(bp) ; -32k
+		ldw			r2, 4(bp) ; -4096
+		skip.gte r1, r1
 		br fail
-br next4_i_002
+br next6_s_002
 hlt
 
 
-next4_i_002:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 5
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ld16			r1, 0xffff
-		andi		r1, r1, 4
-		ldi 		r3, 4
-		addskp.z r1, r1, r3
+next6_s_002:
+		skip.gte r2, r1
+		br next7_s_002
 		br fail
-br next5_i_002
-hlt
 
-
-next5_i_002:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 6
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ld16		r1, 0x88
-		andi		r1, r1, 8
-		ldi 		r3, 8
-		addskp.z r1, r1, r3
+next7_s_002:
+		skip.gte r1, r2
 br fail
 br runall_3
 hlt
 
 ;   Finally, when done branch to pass
 ;
-; group j, test 1
+; group s, test 3
 ;
-; or.8, ori.8
-;
+; skip.c - ult, ulte
 
 
 
 runall_3:
 
 ldi r2, 0x11
-ldi r1, char @j
+ldi r1, char @s
 stb.b 0(r2), r1
 ldi r2, 0x13
-ldi r1, 0x01
+ldi r1, 0x03
 stb.b 0(r2), r1
 
 
 ; declare symbols here
 
-    ; Declare data here.  Format is:
-    ;	op1
-    ;	op2
-    ;	expected a result
+		br hop_s_003
 
-data1_j_001:
-    defb    0xff
-    defb    0x01
-    defb    0xff
+; these are all negative
+d1_s_003:
+    defw    0xf000 ; -4k
+    defw    0xff00 ;
+    defw    0x8000 ; -32k
+; 3rd is negative
+d2_s_003:
+    defw    0x0000
+    defw    0x7000
+    defw    0x8400
+; last is negative
+d3_s_003:
+    defw    0x0f00
+    defw    0x1700
+    defw    0xf000
 
-data2_j_001:
-    defb    0x00
-    defb    0x00
-    defb    0x00
-data3_j_001:
-    defb    0xf0
-    defb    0x0f
-    defb    0xff
-data4_j_001:
-    defb    0x80
-    defb    0x81
-    defb    0x81
-
+hop_s_003:
 ; Begin test here
 
 ; subtest definition (tmacros)
@@ -433,20 +353,24 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data1_j_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		or			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+
+;   ult both "pos"
+		la16   	r1, d1_s_003
+		mov			r5, r1
+		ldw	r1, 8(bp) ; 0x7000
+		ldw r2, 10(bp) ; 0x8400
+		skip.ult r1, r2
 		br fail
-br next1_j_001
+br next0_s_003
 hlt
 
 
-next1_j_001:
+next0_s_003:
+		skip.ult r2, r1
+		br next1_s_003
+		br fail
+
+next1_s_003:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 2
@@ -456,20 +380,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data2_j_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		or			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   ult pos and neg
+		la16   	r1, d1_s_003
+		mov			r5, r1
+		ldi r1, 110
+		ldw	r2, 2(bp) ; 65280
+		skip.ult r1, r2
 		br fail
-br next2_j_001
+br next2_s_003
 hlt
 
 
-next2_j_001:
+next2_s_003:
+		skip.ult r2, r1
+		br next3_s_003
+		br fail
+
+next3_s_003:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 3
@@ -479,21 +406,23 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data3_j_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		or			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   ult both 'neg'
+		la16   	r1, d1_s_003
+		mov			r5, r1
+		ldw			r1, 4(bp) ; 32k
+		ldw			r2, 0(bp) ; 61440
+		skip.ult r1, r2
 		br fail
-br next3_j_001
+br next4_s_003
 hlt
 
 
+next4_s_003:
+		skip.ult r2, r1
+		br next5_s_003
+		br fail
 
-next3_j_001:
+next5_s_003:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 4
@@ -503,124 +432,47 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data4_j_001
-		mov			bp, r1
-		ldb			r1, 0(bp)
-		ldb			r2, 1(bp)
-		or			r1, r1, r2
-		ldb			r3, 2(bp)
-		addskp.z r1, r1, r3
+;   ulte
+		la16   	r1, d1_s_003
+		mov			r5, r1
+		ldw			r1, 2(bp) ; 65k 0xff00
+		ldw			r2, 4(bp) ; 32k 0x8000
+		skip.ulte r1, r1
 		br fail
-br next4_j_001
+br next6_s_003
 hlt
 
 
-next4_j_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 5
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 0x2
-		ori		r1, r1, 4
-		ldi 		r3, 6
-		addskp.z r1, r1, r3
+next6_s_003:
+		skip.ulte r1, r2
+		br next7_s_003
 		br fail
-br next5_j_001
-hlt
 
-
-next5_j_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 6
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 6
-		ori		r1, r1, 2
-		ldi 		r3, 6
-		addskp.z r1, r1, r3
-		br fail
-br next6_j_001
-hlt
-
-
-next6_j_001:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 7
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 0
-		ori		r1, r1, 2
-		ldi 		r3, 2
-		addskp.z r1, r1, r3
+next7_s_003:
+		skip.ulte r2, r1
 br fail
 br runall_4
 hlt
 
-
 ;   Finally, when done branch to pass
 ;
-; group j, test 2
+; group s, test 4
 ;
-; or.16, ori.16
-;
+; skip.c - addskp(i).(n)z
 
 
 
 runall_4:
 
 ldi r2, 0x11
-ldi r1, char @j
+ldi r1, char @s
 stb.b 0(r2), r1
 ldi r2, 0x13
-ldi r1, 0x02
+ldi r1, 0x04
 stb.b 0(r2), r1
 
 
 ; declare symbols here
-
-    ; Declare data here.  Format is:
-    ;	op1
-    ;	op2
-    ;	expected a result
-
-data1_j_002:
-    defw    0xff00
-    defw    0x0100
-    defw    0xff00
-
-data2_j_002:
-    defw    0x0000
-    defw    0x0000
-    defw    0x0000
-
-data3_j_002:
-    defw    0xf000
-    defw    0x0f00
-    defw    0xff00
-
-data4_j_002:
-    defw    0x8000
-    defw    0x8100
-    defw    0x8100
 
 
 ; Begin test here
@@ -634,20 +486,22 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data1_j_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		or			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+
+;   addskp.z, addskp.nz - 0 result
+		ldi		r1, 0xaa
+		ldi 	r2, 0xbb
+		addskp.z r3, r1, r1
 		br fail
-br next1_j_002
+br next0_s_004
 hlt
 
 
-next1_j_002:
+next0_s_004:
+		addskp.nz r3, r1, r1
+		br next1_s_004
+		br fail
+
+next1_s_004:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 2
@@ -657,20 +511,22 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data2_j_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		or			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+
+;   addskp.z, addskp.nz - neg result
+		ldi		r1, 0xaa
+		ldi 	r2, 0xbb
+		addskp.z r3, r1, r2
+		br next2_s_004
 		br fail
-br next2_j_002
+
+next2_s_004:
+		addskp.nz r3, r1, r2
+		br fail
+br next3_s_004
 hlt
 
 
-next2_j_002:
+next3_s_004:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 3
@@ -680,21 +536,22 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data3_j_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		or			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+
+;   addskp.z, addskp.nz - pos result
+		ldi		r1, 0xaa
+		ldi 	r2, 0xbb
+		addskp.z r3, r2, r1
+		br next4_s_004
 		br fail
-br next3_j_002
+
+next4_s_004:
+		addskp.nz r3, r2, r1
+		br fail
+br next5_s_004
 hlt
 
 
-
-next3_j_002:
+next5_s_004:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 4
@@ -704,20 +561,21 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   ALU ops template (byte-sized ops)
-    la16   	r1, data4_j_002
-		mov			bp, r1
-		ldw			r1, 0(bp)
-		ldw			r2, 2(bp)
-		or			r1, r1, r2
-		ldw			r3, 4(bp)
-		addskp.z r1, r1, r3
+
+;   addskpi.z, addskpi.nz - zero result
+		ldi		r1, 2
+		addskpi.z r3, r1, 2
 		br fail
-br next4_j_002
+br next6_s_004
 hlt
 
 
-next4_j_002:
+next6_s_004:
+		addskpi.nz r3, r1, 2
+		br next7_s_004
+		br fail
+
+next7_s_004:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 5
@@ -727,17 +585,21 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   Immediate version
-    ldi			r1, 0x2
-		ori		r1, r1, 4
-		ldi 		r3, 6
-		addskp.z r1, r1, r3
+
+;   addskp.z, addskp.nz - neg result
+		ldi		r1, 2
+		addskpi.z r3, r1, 4
+		br next8_s_004
 		br fail
-br next5_j_002
+
+next8_s_004:
+		addskpi.nz r3, r1, 4
+		br fail
+br next9_s_004
 hlt
 
 
-next5_j_002:
+next9_s_004:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 6
@@ -747,31 +609,15 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   Immediate version
-    ld16	r1, 0xffff
-		ori		r1, r1, 2
-		ld16		r3, 0xffff
-		addskp.z r1, r1, r3
+
+;   addskp.z, addskp.nz - pos result
+		ldi		r1, 2
+		addskpi.z r3, r2, 1
+		br next1_s_0040
 		br fail
-br next6_j_002
-hlt
 
-
-next6_j_002:
-; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 7
-stb.b 0(r2), r4
-mov r1, r0
-mov r2, r0
-mov r3, r0
-mov r5, r0
-
-;   Immediate version
-    ldi			r1, 0
-		ori		r1, r1, 2
-		ldi 		r3, 2
-		addskp.z r1, r1, r3
+next1_s_0040:
+		addskpi.nz r3, r2, 1
 		br fail
 br pass
 hlt

@@ -18,6 +18,15 @@ Paging
 the synthax is: wpte logic PAGE [max32] -> physical PAGE [max512]
 the physical page should be loaded into the high byte (shl 8), we shouldnt do this in hardware because we also want to set the low byte as status.
 
+
 todo:
 - error when page not present
 - error when trying to access system page from user mode
+
+
+Memory map
+----------
+// 0x0000 - 0xff6f -> RAM
+// 0xff70 - 0xff7f -> Interrupt vector (16 instructions max, push fault_nr and branch_)
+// 0xff80 - 0xff8f -> 7SEG display (and other onboard i/o later (e.g. switches and buttons))
+// 0xff90 - 0xff9f -> UART 16450

@@ -31,11 +31,11 @@ _main:
 	push r1
 	br wr_string
 
-	;mov r3, r0
-	;addi r1, pc, 4
-	;push r1
-	;br wait_for_byte
-	;ldi pc, 0
+	mov r3, r0
+	addi r1, pc, 4
+	push r1
+	br wait_for_byte
+	ldi pc, 0
 
 
 _exit:

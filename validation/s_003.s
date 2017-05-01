@@ -49,8 +49,8 @@ SUBTEST(1)
 ;   ult both "pos"
 		la16   	r1, d1
 		mov			r5, r1
-		ldw	r1, 8(bp)
-		ldw r2, 10(bp)
+		ldw	r1, 8(bp) ; 0x7000
+		ldw r2, 10(bp) ; 0x8400
 		skip.ult r1, r2
 		PASS(next0)
 

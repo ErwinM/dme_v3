@@ -443,7 +443,7 @@ decodesigs() {
 				break;
     }
 		if(chkskip() == 1) { goto skip; }
-    update_csig(SKIP, LO);
+    update_csig(SKIP, ZZ);
     return;
 skip:
     if(loadneg) {
@@ -544,18 +544,20 @@ latch(enum phase clk_phase) {
 
   // RISING EDGE LATCHES
   if(clk_phase == clk_RE) {
-    if(csig[SKIP]==HI) {
-      regfile[PC] +=2;
-      printf("PC++ (SKIP)\n");
-    }
     if(csig[RAM_LOAD]==HI) {
       writeram();
     }
+		writeCR();
   }
 
   // FALLING EDGE LATCHES
   if(clk_phase == clk_FE) {
-    if(csig[REG_LOAD]==HI) {
+    //printf("SKIP: %d", csig[SKIP]);
+		if(csig[SKIP]==HI) {
+      regfile[PC] +=2;
+      printf("PC++ (SKIP)\n");
+    }
+		if(csig[REG_LOAD]==HI) {
       writeregfile();
     }
     if(csig[INCR_PC]==HI) {
@@ -588,7 +590,6 @@ latch(enum phase clk_phase) {
         skipcycle = 2 * nextstate;
       }
     }
-		writeCR();
   }
 }
 
@@ -654,40 +655,40 @@ chkskip(void){
 // LTEQ     7   1  1    0 (unsigned)
   char *aluout = dec2bin(bsig[ALUout], 16);
 	char *CR_tmp = dec2bin(regfile[FLAGS], 16);
-	printf("ALUout: %s ", aluout);
+	//printf("ALUout: %s ", aluout);
+	//printf("CR: %s ", CR_tmp);
+	//printf("COND: %d ", bussel[COND]);
   // if its 0
-  if(bsig[ALUout] == 0 && bussel[COND] == 3) { goto skip; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 0) { goto skip; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 5) { goto skip; }
+  if(bsig[ALUout] == 0 && bussel[COND] == 3) { return 1; }
+  if(bsig[ALUout] == 0 && bussel[COND] == 0) { return 1; }
+  if(bsig[ALUout] == 0 && bussel[COND] == 5) { return 1; }
   // if its neg - in HDL need to check most significant bit[0]
-  if(aluout[0] == '1' && bussel[COND] == 3) { goto skip; }
-  if(aluout[0] == '1' && bussel[COND] == 1) { goto skip; }
-  if(aluout[0] == '1' && bussel[COND] == 2) { goto skip; }
+  if(aluout[0] == '1' && bussel[COND] == 3) { return 1; }
+  if(aluout[0] == '1' && bussel[COND] == 1) { return 1; }
+  if(aluout[0] == '1' && bussel[COND] == 2) { return 1; }
   // if its pos - in HDL need to check most significant bit[0]
-  if(aluout[0] == '0' && bussel[COND] == 5) { goto skip; }
-  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { goto skip; }
-  if(aluout[0] == '0' && bussel[COND] == 4) { goto skip; }
+  if(aluout[0] == '0' && bussel[COND] == 5) { return 1; }
+  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { return 1; }
+  if(aluout[0] == '0' && bussel[COND] == 4) { return 1; }
   // unsigned conditions (NOT 100% sure this is how it should work...)
 	// now uses the carry/borrow flag
-  if(CR_tmp[15] == '1' && bussel[COND] == 6) { goto skip; }
-  if(CR_tmp[15] == '1' && bussel[COND] == 7) { goto skip; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 7) { goto skip; }
+  if(CR_tmp[14] == '1' && bussel[COND] == 6) { return 1; }
+  if(CR_tmp[14] == '1' && bussel[COND] == 7) { return 1; }
+  if(bsig[ALUout] == 0 && bussel[COND] == 7) { return 1; }
   return 0;
-skip:
-	return 1;
 }
 
 void
 writeCR() {
 	uint8_t CRin_tmp;
 	uint8_t oldCR;
-
 	if (regsel[REGWS] == FLAGS && csig[REG_LOAD] == HI) {
 		regfile[FLAGS] = bsig[ALUout];
 		printf("CR <- %x\n", regfile[FLAGS]);
 	} else if (clk.icycle == EXECUTE){ 		// via setCRY in verilog
+		//printf("TRIGGERIO: %d", carry_should_be_set);
 		oldCR = regfile[FLAGS] & 0xfffd;	// clear carry bit
-		regfile[FLAGS] = oldCR | carry_should_be_set;
+		regfile[FLAGS] = oldCR | (carry_should_be_set << 1);
 		// generate debugging info
 		if (oldCR != regfile[FLAGS]) {
 			printf("CR <- %x\n", regfile[FLAGS]);
