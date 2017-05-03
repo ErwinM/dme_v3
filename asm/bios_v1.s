@@ -93,9 +93,12 @@ check_tx_free:
 
 
 welcome:
-	defs "WE"
+	defb 0xff
+	defstr "WE"
 
 loading_msg:
 	defb 0xa
 	defb 0xd
-	defs "Waiting for program over serial..."
+	defstr "Waiting for program over serial..."
+result:
+	defs 20

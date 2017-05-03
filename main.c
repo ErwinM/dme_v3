@@ -24,7 +24,7 @@ uint64_t microinstr;
 
 enum signalstate csig[16] = {0};
 uint16_t bsig[20] = {0};
-uint16_t ram[8192] = {0};
+uint16_t ram[4096] = {0};
 uint16_t regfile[16] = {0};
 uint16_t sysreg[3] = {0};
 uint16_t regsel[3] = {0};
@@ -35,7 +35,7 @@ ushort bussel[10] = {0};
 ushort program[64] = {0};
 ushort data[64] = {0};
 
-int maxinstr = 1000;
+int maxinstr = 10000;
 int asm_dir = 0;
 int sigupd;
 char ALUopc[4];
@@ -94,8 +94,12 @@ int main(int argc,char *argv[])
       for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
         readram();
         hideconsole(clk.icycle, vflag);
-        printf("------------------------------------------------------\n");
-        printf("cycle: %d.%s(%d), phase: %d, PC: %x, SP: %x, MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(regfile[FLAGS], 8));
+				if (clk.icycle == FETCH) {
+					printf("=========================================================================\n");
+				} else {
+        	printf("-------------------------------------------------------------------------\n");
+				}
+        printf("cycle: %d.%s(%d).%d, PC: %x, SP: %x, BP: %x MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], regfile[BP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(regfile[FLAGS], 8));
 
         // signal generation phase
         sigupd=1;
@@ -120,11 +124,24 @@ int main(int argc,char *argv[])
         printf("regfile: r0:%s, r1:%s, w:%s\n", REGFILE_STR[regsel[REGR0S]], REGFILE_STR[regsel[REGR1S]],REGFILE_STR[regsel[REGWS]]);
         printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
         printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
-        printf("STACK: ");
+        printf("STACK:\n");
         int sdump;
-        for(sdump=100; sdump>74; sdump -=2) {
-          printf("%x ", readramdump(sdump));
+        for(sdump=0x1ffe; sdump>8160; sdump -=2) {
+					if (regfile[SP] == sdump) {
+          	printf("%04x*", sdump);
+					} else {
+						printf("%04x ", sdump);
+					}
         }
+				printf("\n");
+				for(sdump=0x1ffe; sdump>8160; sdump -=2) {
+          printf("%02x", readramdump(sdump));
+          printf("%02x ", readramdump(sdump+1));
+        }
+				// printf("\n");
+// 				for(sdump=0x1ffe; sdump>8160; sdump -=2) {
+//           printf("%04x ", ram[sdump>>1]);
+//         }
         printf("\n");
       	// Latch pass - single pass!
         restoreconsole();
@@ -149,11 +166,17 @@ halt:
 
 void dump() {
   // Dump lower part of RAM and regs
-  printf("-------RAM---------DATA--------\n");
+  printf("-------STACK-----------\n");
   int i;
-  for(i=100; i>48; i-=2){
-    printf("0x%03x: %02x         0x%03x: %02x\n", i, readramdump(i), (100-i), readramdump(100-i));
+  for(i=8190; i>8140; i-=2){
+    printf("0x%04x: %02x%02x\n", i, readramdump(i), readramdump(i+1));
   }
+  printf("-------DSECTION--------\n");
+  for(i=4096; i<4100; i+=2){
+		if (readramdump(i) || readramdump(i+1)) {
+    	printf("0x%04x: %02x%02x\n", i, readramdump(i), readramdump(i+1));
+		}
+	}
   printf("----------------------------REGISTERS-----------------------\n");
   for(i=0; i<8; i++){
     printf("R%d: %04x\n", i, regfile[i]);
@@ -599,7 +622,7 @@ ALU(void) {
 	int32_t fullresult;
 	char *fullresult_b;
 
-  printf("ALUS(%d) ", bussel[ALUS]);
+  //printf("ALUS(%d) ", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
     result = bsig[OP0] + bsig[OP1];
@@ -637,7 +660,7 @@ ALU(void) {
 		}
 	}
 
-	printf("cfsbs: %d ", carry_should_be_set);
+	//printf("cfsbs: %d ", carry_should_be_set);
 
   update_bsig(ALUout, &result);
 }
@@ -702,7 +725,7 @@ readram() {
 
   ramaddr = sysreg[MAR] >> 1;
 	if(csig[BE] == HI) {
-
+		//printf("RAM: %x: %x ", ramaddr, ram[ramaddr]);
 		if(sysreg[MAR] % 2) {
       // MAR is odd thus we need to return the low byte
       bsig[RAMout] = ram[ramaddr] & 0xff;
@@ -763,7 +786,16 @@ readramdump(int addr) {
   int ramaddr;
 
   ramaddr = addr >> 1;
-  return ram[ramaddr];
+	//   return ram[ramaddr];
+	if(addr % 2) {
+    // MAR is odd thus we need to return the low byte
+    return ram[ramaddr] & 0xff;
+  } else {
+		//printf("RAM 16b: %x, RAMout: %x", ram[ramaddr], (ram[ramaddr]>>8));
+    // MAR is even thus we need to return the high byte
+    return ram[ramaddr] >> 8;
+		//printf("ram: %x -> RAMout: %x", ram[ramaddr], bsig[RAMout]);
+  }
 }
 
 void update_csig(enum csig signame, enum signalstate state) {

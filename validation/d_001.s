@@ -28,6 +28,7 @@ MEM_0xAA_8:
 MEM_0xABCD_16:
 	defw 0xabcd
 
+
 ; Begin test here
 
 SUBTEST(1)
@@ -144,7 +145,19 @@ next8:
 		ldb			r3, r2(r3)
 		ldi			r1, 0xcd
 		addskp.z	r1, r1, r3
+    PASS(next9)
+
+next9:
+		SUBTEST(10)
+;   storing a word, loading a byte...
+
+    la16   	r1, MEM_0xABCD_16
+    ldi			r2, 0xee
+		stw			r0(r1), r2
+		ldb			r3, r0(r1)
+		addskp.z	r1, r2, r3
     PASS(pass)
+
 
 ;   Finally, when done branch to pass
 END_TEST

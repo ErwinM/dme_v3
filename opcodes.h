@@ -7,8 +7,8 @@ static const char
                       "ldb s7",     // 5
                       "stw s7",
                       "stb s7",
-                      "nocode",
-                      "nocode",
+                      "stw0 s7",
+                      "stb0 s7",
                       "add",        // 10
                       "sub",
                       "nocode",

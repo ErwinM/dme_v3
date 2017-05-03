@@ -20,8 +20,12 @@
 7, stb sw7(r5) src, decode, imms[imm7], mdr_load, mdrs[imm]
 7, stb sw7(r5) src, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
 7, stb sw7(r5) src, exec, mdrs[alu], regr0s[tgt2], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
-8,
-9,
+8, stw0 sw7(r5) r0, decode, imms[imm7], mdr_load, mdrs[imm]
+8, stw0 sw7(r5) r0, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+8, stw0 sw7(r5) r0, exec, mdrs[alu], regr0s[reg0], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+9, stb0 sw7(r5) r0, decode, imms[imm7], mdr_load, mdrs[imm]
+9, stb0 sw7(r5) r0, read, regr0s[REG5], op0s[mdr], op1s[regr0], mar_load
+9, stb0 sw7(r5) r0, exec, mdrs[alu], regr0s[reg0], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
 10, add op1 op2 res, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], regws[tgt], reg_load, skipstate[2]
 10, add op1 op2 res, read,
 10, add op1 op2 res, exec,

@@ -66,7 +66,7 @@ class Parser
         instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instructions = [instr_lo, instr_hi]
         #binding.pry
-      elsif parsed_instr[:command] == "defs" then
+      elsif parsed_instr[:command] == "defstr" then
         # expand the string into individual chars and add NULL
         instructions = []
         for i in 0..(parsed_instr[:string].length)
@@ -79,15 +79,36 @@ class Parser
           else
             instr[:args] = [parsed_instr[:string][i].ord]
           end
+          if i == 0 || i == 1 then
+            instr[:line] = line
+          end
           #binding.pry
           instructions << instr
         end
 
         #binding.pry
+      elsif parsed_instr[:command] == "defs" then
+        instructions = []
+        for i in 1..(parsed_instr[:bss] / 2)
+          instr ={}
+          instr[:command] = "defw"
+          instr[:mem] = true
+          instr[:bss] = true
+          instr[:args] = [0]
+          if i == 1 then
+            instr[:line] = line
+          end
+          instructions << instr
+        end
       else
+        if parsed_instr[:command] == "stw" && parsed_instr[:args][2] == "r0" then
+          parsed_instr[:command] = "stw0"
+        end
+        if parsed_instr[:command] == "stb" && parsed_instr[:args][2] == "r0" then
+          parsed_instr[:command] = "stb0"
+        end
         instructions = [parsed_instr]
       end
-
       appendinstr(instructions)
     end
   end
@@ -165,12 +186,15 @@ class Parser
       if instr[:command] == 'defb' then
          instr[:byte_enable] = true
       end
-      if instr[:command] == 'defs' then
-        if argstr.scan(/["]/).nil?
-          Error.mexit("ERROR: defs expects a quoted string.(#{argstr})")
+      if instr[:command] == 'defstr' then
+        if argstr.scan(/["]/).empty?
+          Error.mexit("ERROR: defs expects a quoted string or # of bytes. (#{argstr})")
         end
         instr[:string] = argstr[1..-2]
         #binding.pry
+      end
+      if instr[:command] == 'defs' then
+        instr[:bss] = argstr.to_i
       end
       return instr
     end
@@ -337,6 +361,19 @@ class SymbolTable
       ptr = $last_addr
     end
     i = 0
+    init_mem = []
+    bss_mem = []
+    #binding.pry
+    while(i <= $mem_instructions.length - 1) do
+      if $mem_instructions[i][:bss] then
+        bss_mem << $mem_instructions[i]
+      else
+        init_mem << $mem_instructions[i]
+      end
+      i +=1
+    end
+    $mem_instructions = init_mem + bss_mem
+    i = 0
     while(i <= $mem_instructions.length - 1) do
       instr = $mem_instructions[i]
       # for byte loads: check if next is also a byte then merge and skip one; other wise proceed as normal
@@ -434,7 +471,7 @@ class SymbolTable
       return instr[:addr] if instr[:instr_nr] == nr
       #puts "found: #{instr[:addr]}\n"
     end
-    binding.pry
+    SymbolTable.dump()
     puts "Error: cannot resolve ptr: #{nr}\n"
     exit
   end
@@ -500,6 +537,7 @@ class SymbolTable
     puts "- SYMBOL TABLE ----- (#{$symbols.length})"
     $symbols.each do |nr, symbol|
       if symbol[:addr].nil? then
+        binding.pry
         Error.mexit("Encountered undefined symbol: '#{symbol[:name]}'")
       end
       puts "#{nr} => #{symbol} (#{(symbol[:addr]).to_s(16)})\n"
@@ -635,6 +673,12 @@ class Coder
           puts "Encode: base must be bp/r5"
           exit(1)
         end
+      when :R0reg
+        if arg.upcase != "R0" then
+          puts "Encode: error on stw0/stb0; not R0!"
+          exit(1)
+        end
+        code += "00"
       when :pad3
         code += "000"
       when :pad6
@@ -796,6 +840,8 @@ class ISA
     "ldb"  => 5,
     "stw"  => 6,
     "stb"  => 7,
+    "stw0"  => 8,
+    "stb0"  => 9,
     "add" => 10,
     "mov" => 10,
     "sub" => 11,
@@ -845,6 +891,8 @@ class ISA
     "ldb" => {:imm7 => 1, :BPreg => 2, :tgt2 => 0},
     "stw" => {:imm7 => 0, :BPreg => 1, :tgt2 => 2},
     "stb" => {:imm7 => 0, :BPreg => 1, :tgt2 => 2},
+    "stw0" => {:imm7 => 0, :BPreg => 1, :R0reg => 2},
+    "stb0" => {:imm7 => 0, :BPreg => 1, :R0reg => 2},
     "add" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "mov" => {:reg => 1, :xr0 => :x, :reg1 => 0},
     "sub" => {:reg =>1, :reg1 => 2, :reg2 => 0},
@@ -919,8 +967,9 @@ class ISA
   MEMINSTR= {
     "defw" => 1,   # define word
     "defb" => 2,   # define byte
-    "defs" => 3    # define string
-  }
+    "defstr" => 3,    # define string
+    "defs" => 4    # reserve n bytes
+  }.freeze
 
   COND= {
    "eq" => 0,

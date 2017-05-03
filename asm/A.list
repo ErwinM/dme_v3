@@ -1,0 +1,48 @@
+0000 : 0001     |     ld16	r1, 0x2000
+0002 : bc40     |     
+0004 : 9446     |     mov	sp, r1
+0006 : a279     |     addi	r1, pc, 2
+0008 : 2026     |     br	_main
+000a : fe00     |     hlt
+     :          | _foo:
+000c : be01     |     push	r1
+000e : be05     |     push	bp
+0010 : 9585     |     mov	bp, sp
+0012 : 0034     |     ldi	r4, 6
+0014 : 97a6     |     sub	sp, sp, r4
+0016 : 0054     |     ld16	r4, 10
+0018 : 8deb     |     stw	-6(bp),r4
+001a : 91f0     |     stw	-4(bp),r0
+001c : 0064     |     ld16	r4, 12
+001e : 8dfb     |     stw	-2(bp),r4
+0020 : 8813     |     ldw	r4,4(bp)
+0022 : b813     |     shl	r4, r4, 1 ; [via index]
+0024 : 1fd3     |     la16	r3, -6
+0026 : 94eb     |     add	r3, r3, bp
+0028 : b119     |     ldw	r1,r4(r3)
+     :          | L1:
+002a : 9546     |     mov	sp, bp
+002c : c005     |     pop	bp
+002e : c007     |     pop	pc
+     :          | _main:
+0030 : be01     |     push	r1
+0032 : be05     |     push	bp
+0034 : 9585     |     mov	bp, sp
+0036 : 0014     |     ldi	r4, 2
+0038 : 97a6     |     sub	sp, sp, r4
+003a : 0014     |     ld16	r4, 2
+003c : 8dfb     |     stw	-2(bp),r4
+003e : 89fb     |     ldw	r4,-2(bp)
+0040 : be04     |     push	r4
+0042 : a279     |     addi	r1,pc,2
+0044 : 3fc6     |     br	_foo ; jaddr
+0046 : 0003     |     la16	r3,_result
+0048 : bc22     |     
+004a : b419     |     stw	r0(r3),r1
+004c : 9401     |     mov	r1,r0
+     :          | L4:
+004e : 9546     |     mov	sp, bp
+0050 : c005     |     pop	bp
+0052 : c007     |     pop	pc
+     :          | _result:
+1000 : 0005     |     defw 0x5
