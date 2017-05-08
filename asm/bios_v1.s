@@ -1,7 +1,6 @@
 ; bootloader version 0.1
 
 
-.code 0x1000
 ; setup stack
 	la16 r1, 0x1800
 	mov r6, r1
@@ -21,7 +20,6 @@ init_uart:
 	stw 3(bp), r1		; port + 3 set LCR - validate
 
 _main:
-	brk
 	la16 r4, welcome
 	addi r1, pc, 4	; setup return addr
 	push r1
@@ -31,6 +29,7 @@ _main:
 	push r1
 	br wr_string
 
+	brk
 	mov r3, r0
 	addi r1, pc, 4
 	push r1
@@ -94,7 +93,7 @@ check_tx_free:
 
 welcome:
 	defb 0xff
-	defstr "WE"
+	defstr "Welcome to DME Bootloader"
 
 loading_msg:
 	defb 0xa

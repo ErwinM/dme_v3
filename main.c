@@ -37,6 +37,7 @@ ushort data[64] = {0};
 
 int maxinstr = 10000;
 int asm_dir = 0;
+int os_dir = 0;
 int sigupd;
 char ALUopc[4];
 
@@ -229,7 +230,7 @@ decodesigs() {
   char tgt_b[3];
   char tgt2_b[2];
 
-  int loadpos, loadneg;
+  int loadpos, loadneg, RE_fetch;
 
   int skipcond = 0;
   int skiptype;
@@ -316,13 +317,15 @@ decodesigs() {
   int idx;
 
   //printf("icycle: %d", clk.icycle);
-  switch(clk.icycle) {
+  RE_fetch = 0;
+	switch(clk.icycle) {
   case FETCH:
-    //update_csig(INCR_PC, HI);
     idx = 2;
+		RE_fetch = 1;
     break;
   case FETCHM:
     idx = 2;
+		RE_fetch = 1;
     break;
   case DECODE:
   case DECODEM:
@@ -369,6 +372,7 @@ decodesigs() {
   if (micro_b[6] == '1' && loadneg) { update_csig(DECR_SP, HI);}
   if (micro_b[7] == '1') { update_csig(BE, HI);}
   if (micro_b[37] == '1' && loadneg) { update_csig(INCR_SP, HI);}
+  if (micro_b[44] == '1' || RE_fetch == 1) { update_csig(RE, HI);}
 
   // parse muxes
   char regr0s_b[4];
@@ -692,10 +696,10 @@ chkskip(void){
   // if its pos - in HDL need to check most significant bit[0]
   if(aluout[0] == '0' && bussel[COND] == 5) { return 1; }
   if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { return 1; }
-  if(aluout[0] == '0' && bussel[COND] == 4) { return 1; }
+  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 4) { return 1; }
   // unsigned conditions (NOT 100% sure this is how it should work...)
 	// now uses the carry/borrow flag
-  if(CR_tmp[14] == '1' && bussel[COND] == 6) { return 1; }
+  if(CR_tmp[14] == '1' && bsig[ALUout] != 0 && bussel[COND] == 6) { return 1; }
   if(CR_tmp[14] == '1' && bussel[COND] == 7) { return 1; }
   if(bsig[ALUout] == 0 && bussel[COND] == 7) { return 1; }
   return 0;
@@ -722,22 +726,30 @@ writeCR() {
 void
 readram() {
   int ramaddr;
+	uint16_t ramdata;
 
   ramaddr = sysreg[MAR] >> 1;
 	if(csig[BE] == HI) {
 		//printf("RAM: %x: %x ", ramaddr, ram[ramaddr]);
 		if(sysreg[MAR] % 2) {
       // MAR is odd thus we need to return the low byte
-      bsig[RAMout] = ram[ramaddr] & 0xff;
+      ramdata = ram[ramaddr] & 0xff;
     } else {
 			//printf("RAM 16b: %x, RAMout: %x", ram[ramaddr], (ram[ramaddr]>>8));
       // MAR is even thus we need to return the high byte
-      bsig[RAMout] = ram[ramaddr] >> 8;
+      ramdata = ram[ramaddr] >> 8;
 			//printf("ram: %x -> RAMout: %x", ram[ramaddr], bsig[RAMout]);
     }
   } else {
-    bsig[RAMout] = ram[ramaddr];
+    ramdata = ram[ramaddr];
   }
+	if (csig[RE] == HI) {
+		bsig[RAMout] = ramdata;
+		//printf("RAMout <- %x (%d)", ramdata, csig[RE]);
+	} else {
+		bsig[RAMout] = 0xfefe;
+		//printf("RAMout <- 0xfefe (%d)", csig[RE]);
+	}
 }
 
 void
@@ -939,6 +951,12 @@ loadbios(void)
       printf("FAILURE opening asm/A_sim.mif\n");
       exit(EXIT_FAILURE);
     }
+	} else if (os_dir == 1){
+    fp = fopen("../dme_os/A_sim.mif", "r");
+    if (fp == NULL) {
+      printf("FAILURE opening dme_os/A_sim.mif\n");
+      exit(EXIT_FAILURE);
+    }
 	} else {
     fp = fopen("validation/A_sim.mif", "r");
     if (fp == NULL) {
@@ -1024,9 +1042,12 @@ void restoreconsole(void) {
 int parseopts(int argc,char *argv[]) {
   opterr = 0;
   int c;
-  while ((c = getopt(argc, argv, "vaf:t:")) != -1) {
+  while ((c = getopt(argc, argv, "vaof:t:")) != -1) {
     printf("opt: %d\n", c);
     switch (c) {
+		case 'o':
+			os_dir = 1;
+			break;
 		case 'a':
 			asm_dir = 1;
 			break;

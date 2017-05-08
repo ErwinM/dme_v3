@@ -39,5 +39,12 @@ static const char
                       "brk",
                       "lcr",
                       "scr",
+                      "NG",						// 40
+                      "NG",
+                      "brk",
+                      "lcr",
+                      "scr",
+                      "shl",						// 45
+                      "shr",
                       "NG",
                   };

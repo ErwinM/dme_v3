@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-enum signalstate { ZZ, RE, HI, FE, LO };
+enum signalstate { ZZ, R_E, HI, F_E, LO };
 
 const short IRtable[8] = { 1,2,4,8,-8,-4,-2,-1 };
 
@@ -38,7 +38,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB", "AND", "OR" };
        X(SKIP   ) \
        X(BE   ) \
        X(DECR_SP) \
-       X(INCR_SP)
+       X(INCR_SP) \
+			 X(RE)
 
 #define REGFILE \
       X(REG0  ) \

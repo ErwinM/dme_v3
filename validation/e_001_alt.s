@@ -6,8 +6,6 @@
 
 include(tmacros.h)
 
-.code 0x100
-INIT_TEST(e,0x01)
 
 ; declare symbols here
 ;SYM(next0)
@@ -34,7 +32,7 @@ MEM_0xDDDD:
 
 ; Begin test here
 
-SUBTEST(1)
+
 
 ;   bp w/ s7 offset
 
@@ -49,7 +47,7 @@ SUBTEST(1)
 
 next0:
 
-SUBTEST(2)
+
 
 ;   bp w/ base, idx
 
@@ -65,7 +63,7 @@ SUBTEST(2)
 
 next1:
 
-SUBTEST(3)
+
 
 ;   bp w/ s7 offset
 ;		make sure byte enable is correctly preserving LOW byte
@@ -88,7 +86,7 @@ next2:
 
 
 next3:
-SUBTEST(4)
+
 
 ;   bp w/ s7 offset
 ;		make sure byte enable is correctly preserving HIGH byte
@@ -111,7 +109,7 @@ next4:
 
 next5:
 
-		SUBTEST(5)
+
 
 ;   bp w/ index base
 ;		make sure byte enable is correctly preserving LOW byte
@@ -135,7 +133,7 @@ next6:
 
 
 next7:
-SUBTEST(6)
+
 
 ;   bp w/ index base
 ;		make sure byte enable is correctly preserving HIGH byte

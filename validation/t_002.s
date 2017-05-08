@@ -1,4 +1,11 @@
-; Trap test (!)
+; Test trap mechanisms:
+; - wivec
+; - syscall
+; - push.u
+; - reti
+
+
+include(tmacros.h)
 
 ; setup trap vector
 la16 r1, irq_handler
@@ -13,7 +20,9 @@ ldi r5, 0x9a
 ldi r6, 0xbc
 
 syscall
-hlt
+ldi r2, 0x12
+addskp.z r1, r1, r2
+PASS(pass)
 
 
 irq_handler:
@@ -21,54 +30,54 @@ irq_handler:
 	mov sp, r2
 
 ; push registers from user space
-	push.u r1 ; sp -12
-	push.u r2 ; sp -10
-	push.u r3 ; sp -8
-	push.u r4 ; sp -6
-	push.u r5 ; sp -4
-	push.u r6 ; sp -2
+	push.u r1 ; sp 12
+	push.u r2 ; sp 10
+	push.u r3 ; sp 8
+	push.u r4 ; sp 6
+	push.u r5 ; sp 4
+	push.u r6 ; sp 2
 	push.u pc ; sp
 
-; check if the correct values have been pushed
-	;mov bp, sp
-	;ldw r1, 0(bp)
-	;ldi r2, 0xde
-	;addskp.z r1, r1, r2
-	;br fail
 
-	ldw r1, -2(bp)
+
+
+; check if the correct values have been pushed
+	mov bp, sp
+	ldw r1, 2(bp)
 	ldi r2, 0xbc
 	addskp.z r1, r1, r2
 	br fail
 
-	ldw r1, -4(bp)
+	ldw r1, 4(bp)
 	ldi r2, 0x9a
 	addskp.z r1, r1, r2
 	br fail
 
-	ldw r1, -6(bp)
+	ldw r1, 6(bp)
 	ldi r2, 0x78
 	addskp.z r1, r1, r2
 	br fail
 
-	ldw r1, -8(bp)
+	ldw r1, 8(bp)
 	ldi r2, 0x56
 	addskp.z r1, r1, r2
 	br fail
 
-	ldw r1, -10(bp)
+	ldw r1, 10(bp)
 	ldi r2, 0x34
 	addskp.z r1, r1, r2
 	br fail
 
-	ldw r1, -12(bp)
+	ldw r1, 12(bp)
 	ldi r2, 0x12
 	addskp.z r1, r1, r2
 	br fail
 
-	ldi r5, 0xaa
-	hlt
+	ld16 r1, 0xdead
+	; return and check if original register values are preserved
+	brk
+	reti
 
-fail:
-	ldi r5, 0xff
-	hlt
+
+; Finally, when done branch to pass
+	END_TEST

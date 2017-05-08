@@ -48,7 +48,7 @@ class Parser
   end
 
   def Parser.checkword(word)
-    if !(["wpte", "wptb", "brk", "ureg", "reti", "syscall", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
+    if !(["re", "wpte", "wptb", "brk", "ureg", "reti", "syscall", "incr_sp", "skipstate","alu", "mar_load", "ir_load", "mdr_load", "reg_load", "ram_load", "incr_pc", "decr_sp", "be", "mdrs", "regr0s", "regr1s", "regws", "imms", "op0s", "op1s", "skipc"]).include?(word.strip.downcase) then
       puts "ERROR: unknown signal: >>#{word}<<\n"
       exit
     end
@@ -206,9 +206,10 @@ class Coder
         instr["BRK"] ?  microcode += "1" : microcode +="0"
         instr["WPTB"] ?  microcode += "1" : microcode +="0"
         instr["WPTE"] ?  microcode += "1" : microcode +="0"
+        instr["RE"] ?  microcode += "1" : microcode +="0"
 
 
-        microcode +="0000" # PADDING
+        microcode +="000" # PADDING
 
         if microcode.length != 48
           puts "Invalid microword length (#{microcode.length})\n"

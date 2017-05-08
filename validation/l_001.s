@@ -9,10 +9,10 @@ include(tmacros.h)
 INIT_TEST(l,0x01)
 
 ; declare symbols here
-SYM(next0)
-SYM(next1)
-SYM(next2)
-SYM(next3)
+;SYM(next0)
+;SYM(next1)
+;SYM(next2)
+;SYM(next3)
 
 ; Begin test here
 

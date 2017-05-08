@@ -101,10 +101,11 @@ class Parser
           instructions << instr
         end
       else
-        if parsed_instr[:command] == "stw" && parsed_instr[:args][2] == "r0" then
+        # if its a stw/b s7(bp), r0 instr
+        if parsed_instr[:command] == "stw" && parsed_instr[:args][1].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
           parsed_instr[:command] = "stw0"
         end
-        if parsed_instr[:command] == "stb" && parsed_instr[:args][2] == "r0" then
+        if parsed_instr[:command] == "stb" && parsed_instr[:args][1].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
           parsed_instr[:command] = "stb0"
         end
         instructions = [parsed_instr]
@@ -698,7 +699,7 @@ class Coder
   end
 
   def self.bitsfromint(int, bitnr, sext)
-    binding.pry if int == false
+    #binding.pry #if int == false
     if sext then
       # MSB reserved for sign
       # 13bits -> 12 bits signed -> max 0xfff
@@ -860,14 +861,13 @@ class ISA
     "ldb.b" => 25,
     "stw.b" => 26,
     "stb.b" => 27,
-    "shl" => 28,
-    "shr" => 29,
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
     "br.r" => 33,
     "syscall" => 34,
     "reti" => 35,
+    "push.u" => 36,
     "brk" => 37,
     "lcr" => 38,
     "scr" => 39,
@@ -875,6 +875,9 @@ class ISA
     "lpte" => 41,
     "wptb" => 42,
     "lptb" => 43,
+    "wivec" => 44,
+    "shl" => 45,
+    "shr" => 46,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -911,14 +914,13 @@ class ISA
     "ldb.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "stw.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
     "stb.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
-    "shl" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
-    "shr" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
     "addhi" => {:imm7u => 1, :tgt2 => 0},
     "push" => {:pad6 => :x, :reg => 0},
     "pop" => {:pad6 => :x, :reg => 0},
     "br.r" => {:pad6 => :x, :reg => 0},
     "syscall" =>{:pad9 => :x},
     "reti" =>{:pad9 => :x},
+    "push.u" => {:pad6 => :x, :reg => 0},
     "brk" =>{:pad9 => :x},
     "lcr" => {:pad6 => :x, :reg => 0},
     "scr" => {:reg => 0, :pad6 => :x},
@@ -926,6 +928,9 @@ class ISA
     "lpte" => {:reg => 1, :pad3 => :x, :reg1 => 0},
     "wptb" => {:reg => 0, :pad6 => :x},
     "lptb" => {:pad6 => :x, :reg => 0},
+    "wivec" => {:pad6 => :x, :reg => 0},
+    "shl" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
+    "shr" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze
