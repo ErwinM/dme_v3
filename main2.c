@@ -5,28 +5,28 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "defs.h"
-#include "arch.h"
+#include "defs2.h"
+#include "arch2.h"
 #include "opcodes.h"
 #include "types.h"
 
-
-struct {
-  int instr;
-  enum icycle icycle;
-  enum phase phase;
-} clk;
-
+// state machine
+enum phase clk;
+enum state state;
 int vcycle;     //virtual cycle to allow signals to settle
+int tick;
+
+int irq_r;
+int fault_r;
 
 uint64_t micro[256];
 uint64_t microinstr;
 
-enum signalstate csig[16] = {0};
+enum signalstate csig[20] = {0};
 uint16_t bsig[20] = {0};
 uint16_t ram[4096] = {0};
 uint16_t regfile[16] = {0};
-uint16_t sysreg[3] = {0};
+uint16_t sysreg[6] = {0};
 uint16_t regsel[3] = {0};
 ushort bussel[10] = {0};
 
@@ -59,13 +59,14 @@ ushort arg1;
 ushort arg2;
 ushort imms;
 ushort nextstate;
-ushort skipcycle;
+ushort skipstate;
 ushort carry_should_be_set;
+ushort cond_chk;
+ushort incr_pc;
 
 ushort ALUresult;
 ushort tgt;
 ushort tgt2;
-ushort breakp;
 ushort carry_reset;
 
 ushort regr0s_temp;
@@ -83,96 +84,135 @@ int main(int argc,char *argv[])
   init();
   stdoutBackupFd = dup(1);
 
-  // Main execution loop
-  while(clk.instr <= maxinstr) {
-		skipcycle = 0;
-    for(clk.icycle = FETCH; clk.icycle <= EXECUTEM; clk.icycle++) {
-			if(skipcycle > 0) {
-        skipcycle--;
-        continue;
-      }
-      clearsig();
-      for(clk.phase=clk_RE; clk.phase<= clk_FE; clk.phase++){
-        readram();
-        hideconsole(clk.icycle, vflag);
-				if (clk.icycle == FETCH) {
-					printf("=========================================================================\n");
-				} else {
-        	printf("-------------------------------------------------------------------------\n");
-				}
-        printf("cycle: %d.%s(%d).%d, PC: %x, SP: %x, BP: %x MAR: %x(%x), MDR: %x CR: %s\n", clk.instr, ICYCLE_STR[clk.icycle],  clk.icycle, clk.phase, regfile[PC], regfile[SP], regfile[BP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(regfile[FLAGS], 8));
+	// Main execution loop
+  while(tick <= maxinstr) {
+		// Simulator routines
+		for(clk = 0; clk <= 1; clk++) {
 
-        // signal generation phase
-        sigupd=1;
-        vcycle=0;
-        while(sigupd==1) {
-          if(vcycle > 15) {
-            printf("ERROR: signal does not stabilize!\n");
-            exit(1);
-          }
-          sigupd = 0;
-          vcycle++;
-          // if(clk.icycle == FETCH) {
-//             fetchsigs();
-//           } else {
-          decodesigs();
-
-          ALU();
-          resolvemux();
-          printf("\n");
-        }
-        printf("Stable after %d vcycles.\n", vcycle);
-        printf("regfile: r0:%s, r1:%s, w:%s\n", REGFILE_STR[regsel[REGR0S]], REGFILE_STR[regsel[REGR1S]],REGFILE_STR[regsel[REGWS]]);
-        printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
-        printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
-        printf("STACK:\n");
-        int sdump;
-        for(sdump=0x1ffe; sdump>8160; sdump -=2) {
-					if (regfile[SP] == sdump) {
-          	printf("%04x*", sdump);
-					} else {
-						printf("%04x ", sdump);
-					}
-        }
-				printf("\n");
-				for(sdump=0x1ffe; sdump>8160; sdump -=2) {
-          printf("%02x", readramdump(sdump));
-          printf("%02x ", readramdump(sdump+1));
-        }
-				// printf("\n");
-// 				for(sdump=0x1ffe; sdump>8160; sdump -=2) {
-//           printf("%04x ", ram[sdump>>1]);
-//         }
-        printf("\n");
-      	// Latch pass - single pass!
-        restoreconsole();
-	      latch(clk.phase);
-	      if(sysreg[IR] == 0xfe00) {
+			clearsig();
+			// FSM
+			if (clk == NEGEDGE){
+				if (instr == 0xfe00) {
 	        printf("HALT: encountered halt instruction.\n\n");
 	        goto halt;
+				} else if (state == BREAK) {
+					printf("\nBREAK encountered. Press ENTER to continue\n");
+					getchar();
+					state = 0;
+				} else if (fault_r == 1) {
+					state = 0;
+				} else {
+					state = fsm_function();
+				}
+			}
+
+			// Console output
+			hideconsole(state, vflag);
+
+			printf("-------------------------------------------------------------------------\n");
+			printf("Tick: %d.%s(%d).%d, PC: %x, SP: %x, BP: %x MAR: %x(%x), MDR: %x CR: %s\n", tick, STATE_STR[state],  state, clk, regfile[PC], regfile[SP], regfile[BP], sysreg[MAR], bsig[RAMout], sysreg[MDR], dec2bin(regfile[FLAGS], 8));
+
+	    // signal generation phase
+	    sigupd=1;
+	    vcycle=0;
+	    while(sigupd==1) {
+	      if(vcycle > 15) {
+	        printf("ERROR: signal does not stabilize!\n");
+	        exit(1);
 	      }
-      }
-			if (clk.icycle == EXECUTEM && breakp == 1) {
-				printf("\nBREAK encountered. Press ENTER to continue\n");
-				getchar();
-				breakp = 0;
+	      sigupd = 0;
+	      vcycle++;
+	      decodesigs();
+	      ALU();
+	      CPUsigs();
+	      printf("\n");
+	    }
+	    printf("Stable after %d vcycles.\n", vcycle);
+	    printf("regfile: r0:%s, r1:%s, w:%s\n", REGFILE_STR[regsel[REGR0S]], REGFILE_STR[regsel[REGR1S]],REGFILE_STR[regsel[REGWS]]);
+	    printf("args: 0:%x, 1:%x, tgt:%x\n", arg0, arg1, tgt);
+	    printf("ALU: 0:%s(%x) 1:%s(%x) func:%s out:%x\n", BSIG_STR[bussel[OP0S]], bsig[OP0], BSIG_STR[bussel[OP1S]], bsig[OP1], ALUopc, bsig[ALUout]);
+	    printf("STACK:\n");
+	    int sdump;
+	    for(sdump=0x1ffe; sdump>8160; sdump -=2) {
+				if (regfile[SP] == sdump) {
+	      	printf("%04x*", sdump);
+				} else {
+					printf("%04x ", sdump);
+				}
+	    }
+			printf("\n");
+			for(sdump=0x1ffe; sdump>8160; sdump -=2) {
+	      printf("%02x", readramdump(sdump));
+	      printf("%02x ", readramdump(sdump+1));
+	    }
+			printf("\n");
+	  	// Latch pass - single pass!
+	    restoreconsole();
+	    latch();
+	    if(sysreg[IR] == 0xfe00) {
+	      printf("HALT: encountered halt instruction.\n\n");
+	      goto halt;
+	    }
+			if (clk == NEGEDGE) {
+				tick++;
 			}
 		}
-    clk.instr++;
-  }
+	} // end main execution loop
 halt:
   dump();
   exit(1);
 }
 
+int
+fsm_function() {
+	switch(state){
+		case FETCH:
+			return FETCHM;
+			break;
+		case FETCHM:
+			return DECODE;
+			break;
+		case DECODE:
+			return DECODEM;
+			break;
+		case DECODEM:
+			if(skipstate == 0) {
+				return READ;
+			} else if (skipstate == 1) {
+				return EXEC;
+			} else if (skipstate == 2) {
+				return FETCH;
+			}
+			break;
+		case READ:
+			return READM;
+			break;
+		case READM:
+			return EXEC;
+			break;
+		case EXEC:
+			return EXECM;
+			break;
+		case EXECM:
+			if (csig[BREEK] == 1){
+				return BREAK;
+			} else if (irq_r == 1) {
+				return 0;
+			} else {
+				return FETCH;
+			}
+			break;
+		case BREAK:
+			return BREAK;
+			break;
+	}
+	return FETCH;
+}
+
 void dump() {
   // Dump lower part of RAM and regs
-  printf("-------STACK-----------\n");
   int i;
-  for(i=8190; i>8140; i-=2){
-    printf("0x%04x: %02x%02x\n", i, readramdump(i), readramdump(i+1));
-  }
-  printf("-------DSECTION--------\n");
+	printf("-------DSECTION--------\n");
   for(i=4096; i<4100; i+=2){
 		if (readramdump(i) || readramdump(i+1)) {
     	printf("0x%04x: %02x%02x\n", i, readramdump(i), readramdump(i+1));
@@ -191,6 +231,11 @@ void dump() {
 
 void
 init(void) {
+	state = 1;
+	irq_r = 0;
+	fault_r = 0;
+	clk = 0;
+	tick = 0;
 
   bsig[PC] = 0;
 	regfile[FLAGS] = 8; // IRQ enabled (irqs not currently in simulator!)
@@ -201,23 +246,19 @@ init(void) {
   // load program from bios.hex
   loadbios();
 
-
   printf("Init done..\n");
 }
 
 void
 decodesigs() {
-
   char *instr_b;
   char codetype_b;
   char opcodeshort_b[2];
-  char opcode_b[6];
+  char opcodelong_b[6];
   char *micro_b;
   char *micro_b64;
 
   char opc2_b[3];
-  //char opc3_b[2];
-  //char opc4_b[3];
   char imm7u_b[7];
   char imm7_b[7];
   char imm10_b[10];
@@ -229,24 +270,23 @@ decodesigs() {
   char arg2_b[3];
   char tgt_b[3];
   char tgt2_b[2];
-
   int loadpos, loadneg, RE_fetch;
-
   int skipcond = 0;
   int skiptype;
 
-  // parse instruction
-  instr_b = dec2bin(sysreg[IR], 16);
-
-  if(sysreg[IR] == 0 && clk.icycle != FETCH && clk.icycle !=FETCHM ) {
+	// check if instruction present
+  if(sysreg[IR] == 0 && state != FETCH && state !=FETCHM ) {
     printf("\nHALT: no instruction in IR\n");
     dump();
     exit(1);
   }
 
+  // parse instruction
+  instr_b = dec2bin(sysreg[IR], 16);
+
   if (vcycle==1) {
     //printf("IR: %x ", sysreg[IR]);
-    if (clk.icycle < 3 || (clk.icycle == 3 && clk.phase == 0)) {
+    if (state < 3 || (state == 3 && clk == 0)) {
       printf("IR: DECODING (%x) ", sysreg[IR]);
     } else {
       printf("IR: %s (%x) - ", OPCODES_STRING[opcode], sysreg[IR]);
@@ -254,14 +294,11 @@ decodesigs() {
     }
   }
 
-
   codetype_b = instr_b[0];
-  //printf("i/r: %c", ir_b);
   codetype = codetype_b - '0';
 
-
   memcpy(opcodeshort_b, instr_b+1, 2);
-  memcpy(opcode_b, instr_b+1, 6);
+  memcpy(opcodelong_b, instr_b+1, 6);
 
   // parse arguments - immediates
   memcpy(imm7u_b, instr_b+7, 7);
@@ -289,7 +326,6 @@ decodesigs() {
   // parse arguments - operands
   memcpy(arg0_b, instr_b+7, 3);
   arg0 = bin3_to_dec(arg0_b);
-  immIR = IRtable[arg0];
 
   memcpy(arg1_b, instr_b+10, 3);
   arg1 = bin3_to_dec(arg1_b);
@@ -306,19 +342,19 @@ decodesigs() {
   tgt2 = bin2dec(tgt2_b, 2) + 1;
   //printf("tgt2: %s(%d)", tgt2_b,tgt2);
 
-  // is this a micro op (first bit)?
   if(!codetype) {
     opcode = bin2dec(opcodeshort_b, 2);
   } else {
-    opcode = bin2dec(opcode_b, 6);
+    opcode = bin2dec(opcodelong_b, 6);
   }
   // Micro op code
   // calculate microcode idx
   int idx;
 
-  //printf("icycle: %d", clk.icycle);
+  // main always* loop
   RE_fetch = 0;
-	switch(clk.icycle) {
+	idx = 3;
+	switch(state) {
   case FETCH:
     idx = 2;
 		RE_fetch = 1;
@@ -335,17 +371,15 @@ decodesigs() {
   case READM:
     idx = 64 + opcode;
     break;
-  case EXECUTE:
-  case EXECUTEM:
+  case EXEC:
+  case EXECM:
     idx = 128 + opcode;
     break;
   }
 
   // fetch microcode str
   microinstr = micro[idx];
-
   micro_b = (char*)malloc(40+1);
-
   micro_b64 = dec2bin(microinstr, 64);
   memcpy(micro_b, &micro_b64[0], 48);
   micro_b[48] = '\0';
@@ -353,16 +387,19 @@ decodesigs() {
   if (vcycle==1) {
     printf("Micro(%d): %s\n", idx, micro_b);
   }
+
   // adjustments to deal with RAM latency
-  if (clk.icycle % 2) {// odd
+  if (state % 2) {// odd
     loadpos = 1;
     loadneg = 0;
   } else {
     loadpos = 0;
     loadneg = 1;
   }
-  //printf("icycle: %d loadneg: %d", clk.icycle, loadneg);
-  // generate signals
+
+  //printf("icycle: %d loadneg: %d", state, loadneg);
+
+	// generate signals
   if (micro_b[0] == '1' && loadpos) { update_csig(MAR_LOAD, HI);}
   if (micro_b[1] == '1' && loadneg) { update_csig(IR_LOAD, HI);}
   if (micro_b[2] == '1' && loadpos) { update_csig(MDR_LOAD, HI);}
@@ -370,9 +407,13 @@ decodesigs() {
   if (micro_b[4] == '1' && loadneg) { update_csig(RAM_LOAD, HI);}
   if (micro_b[5] == '1' && loadneg) { update_csig(INCR_PC, HI);}
   if (micro_b[6] == '1' && loadneg) { update_csig(DECR_SP, HI);}
-  if (micro_b[7] == '1') { update_csig(BE, HI);}
   if (micro_b[37] == '1' && loadneg) { update_csig(INCR_SP, HI);}
+
+	if (micro_b[7] == '1') { update_csig(BE, HI);}
+	if (micro_b[42] == '1') { update_csig(WPTB, HI);}
+	if (micro_b[43] == '1') { update_csig(WPTE, HI);}
   if (micro_b[44] == '1' || RE_fetch == 1) { update_csig(RE, HI);}
+	if (micro_b[31] == '1') { update_csig(COND_CHK, HI);}
 
   // parse muxes
   char regr0s_b[4];
@@ -384,7 +425,8 @@ decodesigs() {
   char op1s_b[2];
   char skipc_b[2];
   char ALUfunc_b[3];
-  char nextstate_b[2];
+  char skipstate_b[2];
+	int immir;
 
   memcpy(regr0s_b, micro_b+8, 4);
   update_regsel(REGR0S, bin2dec(regr0s_b, 4));
@@ -414,83 +456,14 @@ decodesigs() {
   memcpy(ALUfunc_b, micro_b+32, 3);
   update_bussel(ALUS, bin2dec(ALUfunc_b, 3));
 
-  nextstate = -1;
-  memcpy(nextstate_b, micro_b+35, 2);
-  nextstate = bin2dec(nextstate_b, 2);
+  skipstate = -1;
+  memcpy(skipstate_b, micro_b+35, 2);
+  skipstate = bin2dec(skipstate_b, 2);
   //printf(" next: %d", nextstate);
 
 	// break
-	if (micro_b[41] == '1') {
-		printf("BRK ");
-		breakp = 1;
-	}
+	if (micro_b[41] == '1') { csig[BREEK] = 1; }
 
-
-  // IRimm MUX - which bits from IR should feed IRimm
-  //printf("bussel-imms: %d", bussel[imms]);
-  switch(bussel[IMMS]) {
-  case 0:
-    update_bsig(IRimm, &imm7);
-    break;
-  case 1:
-    update_bsig(IRimm, &imm10);
-    //printf("Irimm value: %d", imm10);
-    break;
-  case 2:
-    update_bsig(IRimm, &imm13);
-    //printf("Irimm value: %d", imm10);
-    break;
-  case 3:
-    update_bsig(IRimm, &immIR);
-    //printf("Irimm value: %d", imm10);
-    break;
-  case 4:
-    update_bsig(IRimm, &imm7u);
-    //printf("Irimm value: %d", irmm);
-    break;
-  case 5:
-    update_bsig(IRimm, &imm4);
-    //printf("Irimm value: %d", irmm);
-    break;
-  }
-
-  // parse the branch conditions
-  if(micro_b[31]=='1') {
-    // skip condition to check
-    memcpy(skipc_b, micro_b+29, 2);
-    skiptype = bin2dec(skipc_b,2);
-    switch(skiptype){
-      case 0:
-			case 1:
-        // ALU == zero
-				update_bussel(COND,skiptype);
-        break;
-      case 2:
-				update_bussel(COND, tgt);
-				break;
-    }
-		if(chkskip() == 1) { goto skip; }
-    update_csig(SKIP, ZZ);
-    return;
-skip:
-    if(loadneg) {
-      update_csig(SKIP, HI);
-    }
-  }
-  free(micro_b);
-}
-
-void
-resolvemux(void) {
-  // Connect the muxed busses
-  // and some simulator monkey patching :(
-
-  readram();
-
-  //printf("arg0: %d ", arg0);
-  //printf("arg1: %d ", arg1);
-
-  // grab selector from instruction
   switch(regsel[REGR0S]) {
     case ARG0:
       regr0s_temp = arg0;
@@ -550,8 +523,61 @@ resolvemux(void) {
       regws_temp = regsel[REGWS];
   }
 
-	//printf("REG0 contents: %x ", regfile[0]);
+	immIR = IRtable[arg0];
 
+  // IRimm MUX - which bits from IR should feed IRimm
+  //printf("bussel-imms: %d", bussel[imms]);
+  switch(bussel[IMMS]) {
+  case 0:
+    update_bsig(IRimm, &imm7);
+    break;
+  case 1:
+    update_bsig(IRimm, &imm10);
+    //printf("Irimm value: %d", imm10);
+    break;
+  case 2:
+    update_bsig(IRimm, &imm13);
+    //printf("Irimm value: %d", imm10);
+    break;
+  case 3:
+    update_bsig(IRimm, &immIR);
+    //printf("Irimm value: %d", imm10);
+    break;
+  case 4:
+    update_bsig(IRimm, &imm7u);
+    //printf("Irimm value: %d", irmm);
+    break;
+  case 5:
+    update_bsig(IRimm, &imm4);
+    //printf("Irimm value: %d", irmm);
+    break;
+  }
+
+  // skip condition to check
+  memcpy(skipc_b, micro_b+29, 2);
+  skiptype = bin2dec(skipc_b,2);
+  switch(skiptype){
+    case 0:
+		case 1:
+      // ALU == zero
+			update_bussel(COND,skiptype);
+      break;
+    case 2:
+			update_bussel(COND, tgt);
+			break;
+  }
+
+  free(micro_b);
+}
+
+void
+CPUsigs(void) {
+  // Connect the muxed busses
+  // and some simulator monkey patching :(
+  readram();
+  //printf("arg0: %d ", arg0);
+  //printf("arg1: %d ", arg1);
+	//printf("REG0 contents: %x ", regfile[0]);
 
   update_bsig(REGR0, &regfile[regr0s_temp]);
   update_bsig(REGR1, &regfile[regr1s_temp]);
@@ -564,13 +590,69 @@ resolvemux(void) {
   update_bsig(MDRin, &bsig[bussel[MDRS]+3]); // translate to keep handling of busses on simulator simple
   //printf("MDRin being updated: bsig[%d]", bussel[MDRS]+3);
   update_bsig(MDRout, &sysreg[MDR]);  // programming crutch: MDRout == MDR
+
+// condS  cond  0  neg  pos
+// SLTEQ    3   1  1    0
+// EQ       0   1  0    0
+// SGTEQ    5   1  0    1
+// NEQ      1   0  1    1
+// SLT      2   0  1    0
+// SGT      4   0  0    1
+// LT       6   0  1    0 (unsigned)
+// LTEQ     7   1  1    0 (unsigned)
+  char *aluout = dec2bin(bsig[ALUout], 16);
+	char *CR_tmp = dec2bin(regfile[FLAGS], 16);
+	int skip_condition;
+
+	if (csig[COND_CHK] == HI ) {
+		//printf("ALUout: %s ", aluout);
+		//printf("CR: %s ", CR_tmp);
+		//printf("COND: %d ", bussel[COND]);
+	  // if its 0
+	  if(bsig[ALUout] == 0 && bussel[COND] == 3) { update_csig(SKIP, HI); }
+	  if(bsig[ALUout] == 0 && bussel[COND] == 0) { update_csig(SKIP, HI); }
+	  if(bsig[ALUout] == 0 && bussel[COND] == 5) { update_csig(SKIP, HI); }
+	  // if its neg - in HDL need to check most significant bit[0]
+	  if(aluout[0] == '1' && bussel[COND] == 3) { update_csig(SKIP, HI); }
+	  if(aluout[0] == '1' && bussel[COND] == 1) { update_csig(SKIP, HI); }
+	  if(aluout[0] == '1' && bussel[COND] == 2) { update_csig(SKIP, HI); }
+	  // if its pos - in HDL need to check most significant bit[0]
+	  if(aluout[0] == '0' && bussel[COND] == 5) { update_csig(SKIP, HI); }
+	  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { update_csig(SKIP, HI); }
+	  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 4) { update_csig(SKIP, HI); }
+	  // unsigned conditions (NOT 100% sure this is how it should work...)
+		// now uses the carry/borrow flag
+	  if(CR_tmp[14] == '1' && bsig[ALUout] != 0 && bussel[COND] == 6) { update_csig(SKIP, HI); }
+	  if(CR_tmp[14] == '1' && bussel[COND] == 7) { update_csig(SKIP, HI); }
+	  if(bsig[ALUout] == 0 && bussel[COND] == 7) { update_csig(SKIP, HI); }
+	}
+
+	int loadpos, loadneg;
+  // adjustments to deal with RAM latency
+  if (state % 2) {// odd
+    loadpos = 1;
+    loadneg = 0;
+  } else {
+    loadpos = 0;
+    loadneg = 1;
+  }
+
+	printf("loadneg: %d ", loadneg);
+
+	// increment PC mux - mirroring verilog
+	if (csig[SKIP] == HI || csig[INCR_PC] == HI) {
+		if (loadneg == 1) {
+					printf("INCR PC! ");
+			update_csig(INCR_PC_OUT, HI);
+		}
+	}
 }
 
 void
-latch(enum phase clk_phase) {
+latch() {
 
   // RISING EDGE LATCHES
-  if(clk_phase == clk_RE) {
+  if(clk == POSEDGE) {
     if(csig[RAM_LOAD]==HI) {
       writeram();
     }
@@ -578,16 +660,12 @@ latch(enum phase clk_phase) {
   }
 
   // FALLING EDGE LATCHES
-  if(clk_phase == clk_FE) {
+  if(clk == NEGEDGE) {
     //printf("SKIP: %d", csig[SKIP]);
-		if(csig[SKIP]==HI) {
-      regfile[PC] +=2;
-      printf("PC++ (SKIP)\n");
-    }
 		if(csig[REG_LOAD]==HI) {
       writeregfile();
     }
-    if(csig[INCR_PC]==HI) {
+    if(csig[INCR_PC_OUT]==HI) {
       regfile[PC]+=2; // PC acts as counter
       printf("PC++\n");
     }
@@ -612,13 +690,9 @@ latch(enum phase clk_phase) {
       printf("MDR <- %04x\n", sysreg[MDR]);
       bsig[MDRout] = sysreg[MDR]; // programming crutch
     }
-    if(clk.icycle == DECODEM ) { // never going to skip from anything else than decode
-      if(nextstate > 0) {
-        skipcycle = 2 * nextstate;
-      }
-    }
   }
 }
+
 
 void
 ALU(void) {
@@ -669,42 +743,6 @@ ALU(void) {
   update_bsig(ALUout, &result);
 }
 
-int
-chkskip(void){
-// condS  cond  0  neg  pos
-// SLTEQ    3   1  1    0
-// EQ       0   1  0    0
-// SGTEQ    5   1  0    1
-// NEQ      1   0  1    1
-// SLT      2   0  1    0
-// SGT      4   0  0    1
-// LT       6   0  1    0 (unsigned)
-// LTEQ     7   1  1    0 (unsigned)
-  char *aluout = dec2bin(bsig[ALUout], 16);
-	char *CR_tmp = dec2bin(regfile[FLAGS], 16);
-	//printf("ALUout: %s ", aluout);
-	//printf("CR: %s ", CR_tmp);
-	//printf("COND: %d ", bussel[COND]);
-  // if its 0
-  if(bsig[ALUout] == 0 && bussel[COND] == 3) { return 1; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 0) { return 1; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 5) { return 1; }
-  // if its neg - in HDL need to check most significant bit[0]
-  if(aluout[0] == '1' && bussel[COND] == 3) { return 1; }
-  if(aluout[0] == '1' && bussel[COND] == 1) { return 1; }
-  if(aluout[0] == '1' && bussel[COND] == 2) { return 1; }
-  // if its pos - in HDL need to check most significant bit[0]
-  if(aluout[0] == '0' && bussel[COND] == 5) { return 1; }
-  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 1) { return 1; }
-  if(aluout[0] == '0' && bsig[ALUout] != 0 && bussel[COND] == 4) { return 1; }
-  // unsigned conditions (NOT 100% sure this is how it should work...)
-	// now uses the carry/borrow flag
-  if(CR_tmp[14] == '1' && bsig[ALUout] != 0 && bussel[COND] == 6) { return 1; }
-  if(CR_tmp[14] == '1' && bussel[COND] == 7) { return 1; }
-  if(bsig[ALUout] == 0 && bussel[COND] == 7) { return 1; }
-  return 0;
-}
-
 void
 writeCR() {
 	uint8_t CRin_tmp;
@@ -712,7 +750,7 @@ writeCR() {
 	if (regsel[REGWS] == FLAGS && csig[REG_LOAD] == HI) {
 		regfile[FLAGS] = bsig[ALUout];
 		printf("CR <- %x\n", regfile[FLAGS]);
-	} else if (clk.icycle == EXECUTE){ 		// via setCRY in verilog
+	} else if (state == EXEC){ 		// via setCRY in verilog
 		//printf("TRIGGERIO: %d", carry_should_be_set);
 		oldCR = regfile[FLAGS] & 0xfffd;	// clear carry bit
 		regfile[FLAGS] = oldCR | (carry_should_be_set << 1);

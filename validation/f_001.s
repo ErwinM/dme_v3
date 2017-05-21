@@ -16,7 +16,7 @@ INIT_TEST(f,0x01)
 ;SYM(next2)
 
 ; setup stack pointer
-		ld16 	r1, 0x1000
+		ld16 	r1, 0x2000
 		mov 	r6, r1
 
 
@@ -29,7 +29,7 @@ SUBTEST(1)
     ld16    r1,0x1234
     push    r1
 		; track sp change
-		ld16   	r3, 0xffe
+		ld16   	r3, 0x1ffe
 		addskp.z r2, sp, r3
 		PASS(next0)
 
@@ -47,7 +47,7 @@ next1:
 		addskp.z	r3, r2, r1
     PASS(next2)
 next2:
-		ld16 r3, 0x1000
+		ld16 r3, 0x2000
 		addskp.z r3, r3, sp
 		PASS(pass)
 

@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "types.h"
-#include "arch.h"
+#include "arch2.h"
 char *dec2bin(uint64_t n, int sz);
 void loadmicrocode(void);
 void loadbios(void);
@@ -24,15 +24,13 @@ void update_bsig(int signame, ushort *value);
 void update_bussel(enum bussel, ushort value);
 void update_regsel(enum regsel signame, ushort value);
 void dosignals(void);
-void latch(enum phase);
+void latch();
 void writeregfile(void);
 void ALU();
 void clearsig(void);
 void fetchsigs(void);
-void decoder(void);
-void readsigs(void);
-void execsigs(void);
-void resolvemux(void);
+void decodesigs(void);
+void CPUsigs(void);
 int chkskip(void);
 void dump(void);
 void hideconsole(int ic, int vflag);
@@ -40,3 +38,4 @@ void restoreconsole(void);
 int parseopts(int argc,char *argv[]);
 void writeCR();
 void setCR(int bit, int value);
+int fsm_function();
