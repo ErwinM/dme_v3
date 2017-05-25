@@ -659,7 +659,7 @@ class Coder
         end
         code += "%03b" % ISA::IRIMM[arg.to_i]
       when :reg, :reg1, :reg2
-        #binding.pry if instr[:instr_nr] == 68
+        #binding.pry if instr[:instr_nr] == 131
         code += "%03b" % ISA::REGS[arg]
       when :tgt2
         #binding.pry
@@ -670,7 +670,7 @@ class Coder
       when :xr0
         code += "000"
       when :BPreg
-        if arg.upcase != "BP" && arg.upcase != "R5" then
+        if arg.upcase != "BP" then
           puts "Encode: base must be bp/r5"
           exit(1)
         end
@@ -861,6 +861,7 @@ class ISA
     "ldb.b" => 25,
     "stw.b" => 26,
     "stb.b" => 27,
+    "sext" => 28,
     "addhi" => 30,
     "push" => 31,
     "pop" => 32,
@@ -914,6 +915,7 @@ class ISA
     "ldb.b" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "stw.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
     "stb.b" => {:reg => 0, :reg1 => 1, :reg2 => 2},
+    "sext" => {:reg => 0, :pad3 => :x, :reg1 => 1},
     "addhi" => {:imm7u => 1, :tgt2 => 0},
     "push" => {:pad6 => :x, :reg => 0},
     "pop" => {:pad6 => :x, :reg => 0},

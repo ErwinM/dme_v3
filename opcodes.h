@@ -27,8 +27,8 @@ static const char
                       "ldb.b",       // 25
                       "stw.b",
                       "stb.b",
-                      "shl",
-                      "shr",
+                      "sext",
+                      "nocode",
                       "addhi",        // 30
                       "push",
                       "pop",

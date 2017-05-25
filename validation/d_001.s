@@ -150,10 +150,13 @@ next8:
 next9:
 		SUBTEST(10)
 ;   storing a word, loading a byte...
+; 	storing a byte with a word instruction stores the byte
+;   in the low byte -> essentially 1 address higher
 
     la16   	r1, MEM_0xABCD_16
     ldi			r2, 0xee
 		stw			r0(r1), r2
+		addi		r1, r1, 1
 		ldb			r3, r0(r1)
 		addskp.z	r1, r2, r3
     PASS(pass)

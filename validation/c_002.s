@@ -23,19 +23,19 @@ include(tmacros.h)
 INIT_TEST(c,0x02)
 
 ; declare labels here
-SYM(next0, c_002)
-SYM(next1, c_002)
-SYM(next2, c_002)
-SYM(next3, c_002)
-SYM(next4, c_002)
-SYM(next5, c_002)
-SYM(next6, c_002)
-SYM(next7, c_002)
-SYM(next8, c_002)
-SYM(next9, c_002)
-SYM(next10, c_002)
-SYM(next11, c_002)
-
+;SYM(next0, c_002)
+;SYM(next1, c_002)
+;SYM(next2, c_002)
+;SYM(next3, c_002)
+;SYM(next4, c_002)
+;SYM(next5, c_002)
+;SYM(next6, c_002)
+;SYM(next7, c_002)
+;SYM(next8, c_002)
+;SYM(next9, c_002)
+;SYM(next10, c_002)
+;SYM(next11, c_002)
+;
 ; Begin test here
 
 SUBTEST(1)

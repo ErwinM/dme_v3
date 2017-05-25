@@ -159,9 +159,9 @@ next7:
 
     la16    	r5, 0x100
     ld16   		r1,0xbabe
-    stw   		0(r5),r1
+    stw   		0(bp),r1
 		ld16			r3, 0xbabe
-    ldw	   	  r2,0(r5)
+    ldw	   	  r2,0(bp)
 		addskp.z	r3, r2, r3
 		br 				fail
 		br 				next8
@@ -173,13 +173,13 @@ next8:
 
     la16    	r5, 0x100
     ld16   		r1,0xcc
-    stb	  		1(r5),r1
-    stb	  		2(r5),r1
+    stb	  		1(bp),r1
+    stb	  		2(bp),r1
 		ld16			r3, 0xcc
-    ldb	  	  r2,1(r5)
+    ldb	  	  r2,1(bp)
 		addskp.z	r2, r3, r2
 		br				fail
-    ldb	  	  r2,2(r5)
+    ldb	  	  r2,2(bp)
 		addskp.z	r3, r2, r3
 		br 				fail
 		br 				success

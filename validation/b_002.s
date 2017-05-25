@@ -10,8 +10,8 @@ INIT_TEST(a, 0x2)
 
 SUBTEST(1)
 
-SYM(next1, b_002)
-SYM(next2, b_002)
+;SYM(next1, b_002)
+;SYM(next2, b_002)
 
 ;   Mostly tested already in group_a, but go ahead and do some more
 

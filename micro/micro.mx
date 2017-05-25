@@ -78,7 +78,9 @@
 27, stb.b idx(base) src, decode,
 27, stb.b idx(base) src, read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
 27, stb.b idx(base) src, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, be
-28,
+28, sext reg reg, decode, regr0s[arg0], op0s[regr0], op1s[regr1], regws[tgt], reg_load, sext, skipstate[2]
+28, sext reg reg, read,
+28, sext reg reg, exec,
 29,
 30, addhi imm7 reg, decode, imms[imm7u], mdrs[imm], mdr_load, skipstate[1]
 30, addhi imm7 reg, read,

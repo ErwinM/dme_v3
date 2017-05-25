@@ -1,189 +1,452 @@
-0000 : 008a     |     ldi r2, 0x11
-0002 : 0321     |     ldi r1, char @d
-0004 : b611     |     stb.b 0(r2), r1
-0006 : 009a     |     ldi r2, 0x13
-0008 : 0009     |     ldi r1, 0x01
-000a : b611     |     stb.b 0(r2), r1
-000c : 00a2     |     ldi r2, 0x14
-000e : 000c     |     ldi r4, 1
-0010 : b614     |     stb.b 0(r2), r4
-0012 : 9401     |     mov r1, r0
-0014 : 9402     |     mov r2, r0
-0016 : 9403     |     mov r3, r0
-0018 : 9405     |     mov r5, r0
-001a : 0ae1     |     la16   		r1, MEM_0xAA_8
-001c : 01e2     |     ldi				r2, 60
-001e : 9655     |     sub				bp, r1, r2
-0020 : 8af2     |     ldb				r3, 60(bp)
-0022 : 0551     |     ldi				r1, 0xaa
-0024 : 9e59     |     addskp.z	r1, r1, r3
-0026 : 212a     |     br fail
-0028 : 2002     |     br next0
-002a : fe00     |     hlt
-     :          | next0:
-002c : 00a2     |     ldi r2, 0x14
-002e : 0014     |     ldi r4, 2
-0030 : b614     |     stb.b 0(r2), r4
-0032 : 9401     |     mov r1, r0
-0034 : 9402     |     mov r2, r0
-0036 : 9403     |     mov r3, r0
-0038 : 9405     |     mov r5, r0
-003a : 0ae1     |     la16   		r1, MEM_0xAA_8
-003c : 01e2     |     ldi				r2, 60
-003e : 9455     |     add				bp, r1, r2
-0040 : 8b12     |     ldb				r3, -60(bp)
-0042 : 0551     |     ldi				r1, 0xaa
-0044 : 9e59     |     addskp.z	r1, r1, r3
-0046 : 210a     |     br fail
-0048 : 2002     |     br next1
-004a : fe00     |     hlt
-     :          | next1:
-004c : 00a2     |     ldi r2, 0x14
-004e : 001c     |     ldi r4, 3
-0050 : b614     |     stb.b 0(r2), r4
-0052 : 9401     |     mov r1, r0
-0054 : 9402     |     mov r2, r0
-0056 : 9403     |     mov r3, r0
-0058 : 9405     |     mov r5, r0
-005a : 0ae1     |     la16   	r1, MEM_0xAA_8
-005c : 0fa2     |     ld16		r2, 500
-005e : 9653     |     sub			r3,	r1, r2
-0060 : b29b     |     ldb			r3, r2(r3)
-0062 : 0551     |     ldi			r1, 0xaa
-0064 : 9e59     |     addskp.z	r1, r1, r3
-0066 : 20ea     |     br fail
-0068 : 2002     |     br next3
-006a : fe00     |     hlt
-     :          | next3:
-006c : 00a2     |     ldi r2, 0x14
-006e : 0024     |     ldi r4, 4
-0070 : b614     |     stb.b 0(r2), r4
-0072 : 9401     |     mov r1, r0
-0074 : 9402     |     mov r2, r0
-0076 : 9403     |     mov r3, r0
-0078 : 9405     |     mov r5, r0
-007a : 0ae1     |     la16   	r1, MEM_0xAA_8
-007c : 1062     |     ld16		r2, -500
-007e : 9653     |     sub			r3,	r1, r2
-0080 : b29b     |     ldb			r3, r2(r3)
-0082 : 0551     |     ldi			r1, 0xaa
-0084 : 9e59     |     addskp.z	r1, r1, r3
-0086 : 20ca     |     br fail
-0088 : 2002     |     br next4
-008a : fe00     |     hlt
-     :          | next4:
-008c : 00a2     |     ldi r2, 0x14
-008e : 002c     |     ldi r4, 5
-0090 : b614     |     stb.b 0(r2), r4
-0092 : 9401     |     mov r1, r0
-0094 : 9402     |     mov r2, r0
-0096 : 9403     |     mov r3, r0
-0098 : 9405     |     mov r5, r0
-009a : 0ae1     |     la16   	r1, MEM_0xAA_8
-009c : b20b     |     ldb			r3, 0(r1)
-009e : 0551     |     ldi			r1, 0xaa
-00a0 : 9e59     |     addskp.z	r1, r1, r3
-00a2 : 20ae     |     br fail
-00a4 : 2002     |     br next5
-00a6 : fe00     |     hlt
-     :          | next5:
-00a8 : 00a2     |     ldi r2, 0x14
-00aa : 0034     |     ldi r4, 6
-00ac : b614     |     stb.b 0(r2), r4
-00ae : 9401     |     mov r1, r0
-00b0 : 9402     |     mov r2, r0
-00b2 : 9403     |     mov r3, r0
-00b4 : 9405     |     mov r5, r0
-00b6 : 0af1     |     la16   		r1, MEM_0xABCD_16
-00b8 : 01e2     |     ldi				r2, 60
-00ba : 9655     |     sub				bp, r1, r2
-00bc : 8af2     |     ldb				r3, 60(bp)
-00be : 0559     |     ldi				r1, 0xab
-00c0 : 9e59     |     addskp.z	r1, r1, r3
-00c2 : 208e     |     br fail
-00c4 : 2002     |     br next6
-00c6 : fe00     |     hlt
-     :          | next6:
-00c8 : 00a2     |     ldi r2, 0x14
-00ca : 003c     |     ldi r4, 7
-00cc : b614     |     stb.b 0(r2), r4
-00ce : 9401     |     mov r1, r0
-00d0 : 9402     |     mov r2, r0
-00d2 : 9403     |     mov r3, r0
-00d4 : 9405     |     mov r5, r0
-00d6 : 0af1     |     la16   		r1, MEM_0xABCD_16
-00d8 : 01e2     |     ldi				r2, 60
-00da : 9655     |     sub				bp, r1, r2
-00dc : 8af6     |     ldb				r3, 61(bp)
-00de : 0669     |     ldi				r1, 0xcd
-00e0 : 9e59     |     addskp.z	r1, r1, r3
-00e2 : 206e     |     br fail
-00e4 : 2002     |     br next7
-00e6 : fe00     |     hlt
-     :          | next7:
-00e8 : 00a2     |     ldi r2, 0x14
-00ea : 0044     |     ldi r4, 8
-00ec : b614     |     stb.b 0(r2), r4
-00ee : 9401     |     mov r1, r0
-00f0 : 9402     |     mov r2, r0
-00f2 : 9403     |     mov r3, r0
-00f4 : 9405     |     mov r5, r0
-00f6 : 0af1     |     la16   	r1, MEM_0xABCD_16
-00f8 : 1062     |     ld16		r2, -500
-00fa : 9653     |     sub			r3,	r1, r2
-00fc : b29b     |     ldb			r3, r2(r3)
-00fe : 0559     |     ldi			r1, 0xab
-0100 : 9e59     |     addskp.z	r1, r1, r3
-0102 : 204e     |     br fail
-0104 : 2002     |     br next8
-0106 : fe00     |     hlt
-     :          | next8:
-0108 : 00a2     |     ldi r2, 0x14
-010a : 004c     |     ldi r4, 9
-010c : b614     |     stb.b 0(r2), r4
-010e : 9401     |     mov r1, r0
-0110 : 9402     |     mov r2, r0
-0112 : 9403     |     mov r3, r0
-0114 : 9405     |     mov r5, r0
-0116 : 0af1     |     la16   	r1, MEM_0xABCD_16
-0118 : 0fa2     |     ld16		r2, 500
-011a : 9653     |     sub			r3,	r1, r2
-011c : a212     |     addi		r2, r2, 1
-011e : b29b     |     ldb			r3, r2(r3)
-0120 : 0669     |     ldi			r1, 0xcd
-0122 : 9e59     |     addskp.z	r1, r1, r3
-0124 : 202c     |     br fail
-0126 : 2002     |     br next9
-0128 : fe00     |     hlt
-     :          | next9:
-012a : 00a2     |     ldi r2, 0x14
-012c : 0054     |     ldi r4, 10
-012e : b614     |     stb.b 0(r2), r4
-0130 : 9401     |     mov r1, r0
-0132 : 9402     |     mov r2, r0
-0134 : 9403     |     mov r3, r0
-0136 : 9405     |     mov r5, r0
-0138 : 0af1     |     la16   	r1, MEM_0xABCD_16
-013a : 0772     |     ldi			r2, 0xee
-013c : b40a     |     stw			r0(r1), r2
-013e : b20b     |     ldb			r3, r0(r1)
-0140 : 9e99     |     addskp.z	r1, r2, r3
-0142 : 200e     |     br fail
-0144 : 2002     |     br pass
-0146 : fe00     |     hlt
+0000 : 0801     |     .code 0x100
+0002 : 20fc     |     
+     :          | runall_1:
+0100 : 008a     |     ldi r2, 0x11
+0102 : 0399     |     ldi r1, char @s
+0104 : b611     |     stb.b 0(r2), r1
+0106 : 009a     |     ldi r2, 0x13
+0108 : 0009     |     ldi r1, 0x01
+010a : b611     |     stb.b 0(r2), r1
+010c : 2000     |     br hop_s_001
+     :          | hop_s_001:
+010e : 00a2     |     ldi r2, 0x14
+0110 : 000c     |     ldi r4, 1
+0112 : b614     |     stb.b 0(r2), r4
+0114 : 9401     |     mov r1, r0
+0116 : 9402     |     mov r2, r0
+0118 : 9403     |     mov r3, r0
+011a : 9405     |     mov r5, r0
+011c : 0f21     |     la16   	r1, d1_s_001
+011e : bc04     |     
+0120 : 9445     |     mov			r5, r1
+0122 : 8818     |     ldw	r1, 6(bp)
+0124 : 8821     |     ldw r2, 8(bp)
+0126 : 9c52     |     skip.lt r1, r2
+0128 : 22b0     |     br fail
+012a : 2002     |     br next0_s_001
+012c : fe00     |     hlt
+     :          | next0_s_001:
+012e : 9c8a     |     skip.lt r2, r1
+0130 : 2002     |     br next1_s_001
+0132 : 22a6     |     br fail
+     :          | next1_s_001:
+0134 : 00a2     |     ldi r2, 0x14
+0136 : 0014     |     ldi r4, 2
+0138 : b614     |     stb.b 0(r2), r4
+013a : 9401     |     mov r1, r0
+013c : 9402     |     mov r2, r0
+013e : 9403     |     mov r3, r0
+0140 : 9405     |     mov r5, r0
+0142 : 0f21     |     la16   	r1, d1_s_001
+0144 : bc04     |     
+0146 : 9445     |     mov			r5, r1
+0148 : 8808     |     ldw	r1, 2(bp) ; -256
+014a : 0372     |     ldi r2, 110
+014c : 9c52     |     skip.lt r1, r2
+014e : 228a     |     br fail
+0150 : 2002     |     br next2_s_001
+0152 : fe00     |     hlt
+     :          | next2_s_001:
+0154 : 9c8a     |     skip.lt r2, r1
+0156 : 2002     |     br next3_s_001
+0158 : 2280     |     br fail
+     :          | next3_s_001:
+015a : 00a2     |     ldi r2, 0x14
+015c : 001c     |     ldi r4, 3
+015e : b614     |     stb.b 0(r2), r4
+0160 : 9401     |     mov r1, r0
+0162 : 9402     |     mov r2, r0
+0164 : 9403     |     mov r3, r0
+0166 : 9405     |     mov r5, r0
+0168 : 0f21     |     la16   	r1, d1_s_001
+016a : bc04     |     
+016c : 9445     |     mov			r5, r1
+016e : 8810     |     ldw			r1, 4(bp) ; -32k
+0170 : 8801     |     ldw			r2, 0(bp) ; -4096
+0172 : 9c52     |     skip.lt r1, r2
+0174 : 2264     |     br fail
+0176 : 2002     |     br next4_s_001
+0178 : fe00     |     hlt
+     :          | next4_s_001:
+017a : 9c8a     |     skip.lt r2, r1
+017c : 2002     |     br next5_s_001
+017e : 225a     |     br fail
+     :          | next5_s_001:
+0180 : 00a2     |     ldi r2, 0x14
+0182 : 0024     |     ldi r4, 4
+0184 : b614     |     stb.b 0(r2), r4
+0186 : 9401     |     mov r1, r0
+0188 : 9402     |     mov r2, r0
+018a : 9403     |     mov r3, r0
+018c : 9405     |     mov r5, r0
+018e : 0f21     |     la16   	r1, d1_s_001
+0190 : bc04     |     
+0192 : 9445     |     mov			r5, r1
+0194 : 8810     |     ldw			r1, 4(bp) ; -32k
+0196 : 8809     |     ldw			r2, 2(bp) ; -4096
+0198 : 9c4b     |     skip.lte r1, r1
+019a : 223e     |     br fail
+019c : 2002     |     br next6_s_001
+019e : fe00     |     hlt
+     :          | next6_s_001:
+01a0 : 9c8b     |     skip.lte r2, r1
+01a2 : 2002     |     br next7_s_001
+01a4 : 2234     |     br fail
+     :          | next7_s_001:
+01a6 : 9c53     |     skip.lte r1, r2
+01a8 : 2230     |     br fail
+01aa : 2002     |     br runall_2
+01ac : fe00     |     hlt
+     :          | runall_2:
+01ae : 008a     |     ldi r2, 0x11
+01b0 : 0399     |     ldi r1, char @s
+01b2 : b611     |     stb.b 0(r2), r1
+01b4 : 009a     |     ldi r2, 0x13
+01b6 : 0011     |     ldi r1, 0x02
+01b8 : b611     |     stb.b 0(r2), r1
+01ba : 2000     |     br hop_s_002
+     :          | hop_s_002:
+01bc : 00a2     |     ldi r2, 0x14
+01be : 000c     |     ldi r4, 1
+01c0 : b614     |     stb.b 0(r2), r4
+01c2 : 9401     |     mov r1, r0
+01c4 : 9402     |     mov r2, r0
+01c6 : 9403     |     mov r3, r0
+01c8 : 9405     |     mov r5, r0
+01ca : 0fb1     |     la16   	r1, d1_s_002
+01cc : bc04     |     
+01ce : 9445     |     mov			r5, r1
+01d0 : 8820     |     ldw	r1, 8(bp)
+01d2 : 8819     |     ldw r2, 6(bp)
+01d4 : 9c54     |     skip.gt r1, r2
+01d6 : 2202     |     br fail
+01d8 : 2002     |     br next0_s_002
+01da : fe00     |     hlt
+     :          | next0_s_002:
+01dc : 9c8c     |     skip.gt r2, r1
+01de : 2002     |     br next1_s_002
+01e0 : 21f8     |     br fail
+     :          | next1_s_002:
+01e2 : 00a2     |     ldi r2, 0x14
+01e4 : 0014     |     ldi r4, 2
+01e6 : b614     |     stb.b 0(r2), r4
+01e8 : 9401     |     mov r1, r0
+01ea : 9402     |     mov r2, r0
+01ec : 9403     |     mov r3, r0
+01ee : 9405     |     mov r5, r0
+01f0 : 0fb1     |     la16   	r1, d1_s_002
+01f2 : bc04     |     
+01f4 : 9445     |     mov			r5, r1
+01f6 : 0371     |     ldi r1, 110
+01f8 : 8809     |     ldw	r2, 2(bp) ; -256
+01fa : 9c54     |     skip.gt r1, r2
+01fc : 21dc     |     br fail
+01fe : 2002     |     br next2_s_002
+0200 : fe00     |     hlt
+     :          | next2_s_002:
+0202 : 9c8c     |     skip.gt r2, r1
+0204 : 2002     |     br next3_s_002
+0206 : 21d2     |     br fail
+     :          | next3_s_002:
+0208 : 00a2     |     ldi r2, 0x14
+020a : 001c     |     ldi r4, 3
+020c : b614     |     stb.b 0(r2), r4
+020e : 9401     |     mov r1, r0
+0210 : 9402     |     mov r2, r0
+0212 : 9403     |     mov r3, r0
+0214 : 9405     |     mov r5, r0
+0216 : 0fb1     |     la16   	r1, d1_s_002
+0218 : bc04     |     
+021a : 9445     |     mov			r5, r1
+021c : 8800     |     ldw			r1, 0(bp) ; -4096
+021e : 8811     |     ldw			r2, 4(bp) ; -32k
+0220 : 9c54     |     skip.gt r1, r2
+0222 : 21b6     |     br fail
+0224 : 2002     |     br next4_s_002
+0226 : fe00     |     hlt
+     :          | next4_s_002:
+0228 : 9c8c     |     skip.gt r2, r1
+022a : 2002     |     br next5_s_002
+022c : 21ac     |     br fail
+     :          | next5_s_002:
+022e : 00a2     |     ldi r2, 0x14
+0230 : 0024     |     ldi r4, 4
+0232 : b614     |     stb.b 0(r2), r4
+0234 : 9401     |     mov r1, r0
+0236 : 9402     |     mov r2, r0
+0238 : 9403     |     mov r3, r0
+023a : 9405     |     mov r5, r0
+023c : 0fb1     |     la16   	r1, d1_s_002
+023e : bc04     |     
+0240 : 9445     |     mov			r5, r1
+0242 : 8808     |     ldw			r1, 2(bp) ; -32k
+0244 : 8811     |     ldw			r2, 4(bp) ; -4096
+0246 : 9c4d     |     skip.gte r1, r1
+0248 : 2190     |     br fail
+024a : 2002     |     br next6_s_002
+024c : fe00     |     hlt
+     :          | next6_s_002:
+024e : 9c8d     |     skip.gte r2, r1
+0250 : 2002     |     br next7_s_002
+0252 : 2186     |     br fail
+     :          | next7_s_002:
+0254 : 9c55     |     skip.gte r1, r2
+0256 : 2182     |     br fail
+0258 : 2002     |     br runall_3
+025a : fe00     |     hlt
+     :          | runall_3:
+025c : 008a     |     ldi r2, 0x11
+025e : 0399     |     ldi r1, char @s
+0260 : b611     |     stb.b 0(r2), r1
+0262 : 009a     |     ldi r2, 0x13
+0264 : 0019     |     ldi r1, 0x03
+0266 : b611     |     stb.b 0(r2), r1
+0268 : 2000     |     br hop_s_003
+     :          | hop_s_003:
+026a : 00a2     |     ldi r2, 0x14
+026c : 000c     |     ldi r4, 1
+026e : b614     |     stb.b 0(r2), r4
+0270 : 9401     |     mov r1, r0
+0272 : 9402     |     mov r2, r0
+0274 : 9403     |     mov r3, r0
+0276 : 9405     |     mov r5, r0
+0278 : 0041     |     la16   	r1, d1_s_003
+027a : bc08     |     
+027c : 9445     |     mov			r5, r1
+027e : 8820     |     ldw	r1, 8(bp) ; 0x7000
+0280 : 8829     |     ldw r2, 10(bp) ; 0x8400
+0282 : 9c56     |     skip.ult r1, r2
+0284 : 2154     |     br fail
+0286 : 2002     |     br next0_s_003
+0288 : fe00     |     hlt
+     :          | next0_s_003:
+028a : 9c8e     |     skip.ult r2, r1
+028c : 2002     |     br next1_s_003
+028e : 214a     |     br fail
+     :          | next1_s_003:
+0290 : 00a2     |     ldi r2, 0x14
+0292 : 0014     |     ldi r4, 2
+0294 : b614     |     stb.b 0(r2), r4
+0296 : 9401     |     mov r1, r0
+0298 : 9402     |     mov r2, r0
+029a : 9403     |     mov r3, r0
+029c : 9405     |     mov r5, r0
+029e : 0041     |     la16   	r1, d1_s_003
+02a0 : bc08     |     
+02a2 : 9445     |     mov			r5, r1
+02a4 : 0371     |     ldi r1, 110
+02a6 : 8809     |     ldw	r2, 2(bp) ; 65280
+02a8 : 9c56     |     skip.ult r1, r2
+02aa : 212e     |     br fail
+02ac : 2002     |     br next2_s_003
+02ae : fe00     |     hlt
+     :          | next2_s_003:
+02b0 : 9c8e     |     skip.ult r2, r1
+02b2 : 2002     |     br next3_s_003
+02b4 : 2124     |     br fail
+     :          | next3_s_003:
+02b6 : 00a2     |     ldi r2, 0x14
+02b8 : 001c     |     ldi r4, 3
+02ba : b614     |     stb.b 0(r2), r4
+02bc : 9401     |     mov r1, r0
+02be : 9402     |     mov r2, r0
+02c0 : 9403     |     mov r3, r0
+02c2 : 9405     |     mov r5, r0
+02c4 : 0041     |     la16   	r1, d1_s_003
+02c6 : bc08     |     
+02c8 : 9445     |     mov			r5, r1
+02ca : 8810     |     ldw			r1, 4(bp) ; 32k
+02cc : 8801     |     ldw			r2, 0(bp) ; 61440
+02ce : 9c56     |     skip.ult r1, r2
+02d0 : 2108     |     br fail
+02d2 : 2002     |     br next4_s_003
+02d4 : fe00     |     hlt
+     :          | next4_s_003:
+02d6 : 9c8e     |     skip.ult r2, r1
+02d8 : 2002     |     br next5_s_003
+02da : 20fe     |     br fail
+     :          | next5_s_003:
+02dc : 00a2     |     ldi r2, 0x14
+02de : 0024     |     ldi r4, 4
+02e0 : b614     |     stb.b 0(r2), r4
+02e2 : 9401     |     mov r1, r0
+02e4 : 9402     |     mov r2, r0
+02e6 : 9403     |     mov r3, r0
+02e8 : 9405     |     mov r5, r0
+02ea : 0041     |     la16   	r1, d1_s_003
+02ec : bc08     |     
+02ee : 9445     |     mov			r5, r1
+02f0 : 8808     |     ldw			r1, 2(bp) ; 65k 0xff00
+02f2 : 8811     |     ldw			r2, 4(bp) ; 32k 0x8000
+02f4 : 9c4f     |     skip.ulte r1, r1
+02f6 : 20e2     |     br fail
+02f8 : 2002     |     br next6_s_003
+02fa : fe00     |     hlt
+     :          | next6_s_003:
+02fc : 9c57     |     skip.ulte r1, r2
+02fe : 2002     |     br next7_s_003
+0300 : 20d8     |     br fail
+     :          | next7_s_003:
+0302 : 9c8f     |     skip.ulte r2, r1
+0304 : 20d4     |     br fail
+0306 : 2002     |     br runall_4
+0308 : fe00     |     hlt
+     :          | runall_4:
+030a : 008a     |     ldi r2, 0x11
+030c : 0399     |     ldi r1, char @s
+030e : b611     |     stb.b 0(r2), r1
+0310 : 009a     |     ldi r2, 0x13
+0312 : 0021     |     ldi r1, 0x04
+0314 : b611     |     stb.b 0(r2), r1
+0316 : 00a2     |     ldi r2, 0x14
+0318 : 000c     |     ldi r4, 1
+031a : b614     |     stb.b 0(r2), r4
+031c : 9401     |     mov r1, r0
+031e : 9402     |     mov r2, r0
+0320 : 9403     |     mov r3, r0
+0322 : 9405     |     mov r5, r0
+0324 : 0551     |     ldi		r1, 0xaa
+0326 : 05da     |     ldi 	r2, 0xbb
+0328 : 9e4b     |     addskp.z r3, r1, r1
+032a : 20ae     |     br fail
+032c : 2002     |     br next0_s_004
+032e : fe00     |     hlt
+     :          | next0_s_004:
+0330 : a04b     |     addskp.nz r3, r1, r1
+0332 : 2002     |     br next1_s_004
+0334 : 20a4     |     br fail
+     :          | next1_s_004:
+0336 : 00a2     |     ldi r2, 0x14
+0338 : 0014     |     ldi r4, 2
+033a : b614     |     stb.b 0(r2), r4
+033c : 9401     |     mov r1, r0
+033e : 9402     |     mov r2, r0
+0340 : 9403     |     mov r3, r0
+0342 : 9405     |     mov r5, r0
+0344 : 0551     |     ldi		r1, 0xaa
+0346 : 05da     |     ldi 	r2, 0xbb
+0348 : 9e53     |     addskp.z r3, r1, r2
+034a : 2002     |     br next2_s_004
+034c : 208c     |     br fail
+     :          | next2_s_004:
+034e : a053     |     addskp.nz r3, r1, r2
+0350 : 2088     |     br fail
+0352 : 2002     |     br next3_s_004
+0354 : fe00     |     hlt
+     :          | next3_s_004:
+0356 : 00a2     |     ldi r2, 0x14
+0358 : 001c     |     ldi r4, 3
+035a : b614     |     stb.b 0(r2), r4
+035c : 9401     |     mov r1, r0
+035e : 9402     |     mov r2, r0
+0360 : 9403     |     mov r3, r0
+0362 : 9405     |     mov r5, r0
+0364 : 0551     |     ldi		r1, 0xaa
+0366 : 05da     |     ldi 	r2, 0xbb
+0368 : 9e8b     |     addskp.z r3, r2, r1
+036a : 2002     |     br next4_s_004
+036c : 206c     |     br fail
+     :          | next4_s_004:
+036e : a08b     |     addskp.nz r3, r2, r1
+0370 : 2068     |     br fail
+0372 : 2002     |     br next5_s_004
+0374 : fe00     |     hlt
+     :          | next5_s_004:
+0376 : 00a2     |     ldi r2, 0x14
+0378 : 0024     |     ldi r4, 4
+037a : b614     |     stb.b 0(r2), r4
+037c : 9401     |     mov r1, r0
+037e : 9402     |     mov r2, r0
+0380 : 9403     |     mov r3, r0
+0382 : 9405     |     mov r5, r0
+0384 : 0011     |     ldi		r1, 2
+0386 : ac4b     |     addskpi.z r3, r1, 2
+0388 : 2050     |     br fail
+038a : 2002     |     br next6_s_004
+038c : fe00     |     hlt
+     :          | next6_s_004:
+038e : ae4b     |     addskpi.nz r3, r1, 2
+0390 : 2002     |     br next7_s_004
+0392 : 2046     |     br fail
+     :          | next7_s_004:
+0394 : 00a2     |     ldi r2, 0x14
+0396 : 002c     |     ldi r4, 5
+0398 : b614     |     stb.b 0(r2), r4
+039a : 9401     |     mov r1, r0
+039c : 9402     |     mov r2, r0
+039e : 9403     |     mov r3, r0
+03a0 : 9405     |     mov r5, r0
+03a2 : 0011     |     ldi		r1, 2
+03a4 : ac8b     |     addskpi.z r3, r1, 4
+03a6 : 2002     |     br next8_s_004
+03a8 : 2030     |     br fail
+     :          | next8_s_004:
+03aa : ae8b     |     addskpi.nz r3, r1, 4
+03ac : 202c     |     br fail
+03ae : 2002     |     br next9_s_004
+03b0 : fe00     |     hlt
+     :          | next9_s_004:
+03b2 : 00a2     |     ldi r2, 0x14
+03b4 : 0034     |     ldi r4, 6
+03b6 : b614     |     stb.b 0(r2), r4
+03b8 : 9401     |     mov r1, r0
+03ba : 9402     |     mov r2, r0
+03bc : 9403     |     mov r3, r0
+03be : 9405     |     mov r5, r0
+03c0 : 0011     |     ldi		r1, 2
+03c2 : ac13     |     addskpi.z r3, r2, 1
+03c4 : 2002     |     br next1_s_0040
+03c6 : 2012     |     br fail
+     :          | next1_s_0040:
+03c8 : ae13     |     addskpi.nz r3, r2, 1
+03ca : 200e     |     br fail
+03cc : 2002     |     br pass
+03ce : fe00     |     hlt
      :          | pass:
-0148 : 0c03     |     ld16 r3, 0xff80
-014a : bdfe     |     
-014c : 0555     |     ldi r5, 0xAA
-014e : b41d     |     stw 0(r3), r5
-0150 : fe00     |     hlt
+03d0 : 0c03     |     ld16 r3, 0xff80
+03d2 : bdfe     |     
+03d4 : 0555     |     ldi r5, 0xAA
+03d6 : b41d     |     stw 0(r3), r5
+03d8 : fe00     |     hlt
      :          | fail:
-0152 : 0c03     |     ld16 r3, 0xff80
-0154 : bdfe     |     
-0156 : 07fd     |     ldi r5, 0xFF
-0158 : b41d     |     stw 0(r3), r5
-015a : fe00     |     hlt
-     :          | MEM_0xAA_8:
-015c : aaff     |     defw 0xaaff
-     :          | MEM_0xABCD_16:
-015e : abcd     |     defw 0xabcd
+03da : 0c03     |     ld16 r3, 0xff80
+03dc : bdfe     |     
+03de : 07fd     |     ldi r5, 0xFF
+03e0 : b41d     |     stw 0(r3), r5
+03e2 : fe00     |     hlt
+     :          | d1_s_001:
+03e4 : f000     |     defw    0xf000 ; -4k
+03e6 : ff00     |     defw    0xff00 ;
+03e8 : 8000     |     defw    0x8000 ; -32k
+     :          | d2_s_001:
+03ea : 0000     |     defw    0x0000
+03ec : 7000     |     defw    0x7000
+03ee : 8400     |     defw    0x8400
+     :          | d3_s_001:
+03f0 : 0f00     |     defw    0x0f00
+03f2 : 1700     |     defw    0x1700
+03f4 : f000     |     defw    0xf000
+     :          | d1_s_002:
+03f6 : f000     |     defw    0xf000 ; -4k
+03f8 : ff00     |     defw    0xff00 ;
+03fa : 8000     |     defw    0x8000 ; -32k
+     :          | d2_s_002:
+03fc : 0000     |     defw    0x0000
+03fe : 7000     |     defw    0x7000
+0400 : 8400     |     defw    0x8400
+     :          | d3_s_002:
+0402 : 0f00     |     defw    0x0f00
+0404 : 1700     |     defw    0x1700
+0406 : f000     |     defw    0xf000
+     :          | d1_s_003:
+0408 : f000     |     defw    0xf000 ; -4k
+040a : ff00     |     defw    0xff00 ;
+040c : 8000     |     defw    0x8000 ; -32k
+     :          | d2_s_003:
+040e : 0000     |     defw    0x0000
+0410 : 7000     |     defw    0x7000
+0412 : 8400     |     defw    0x8400
+     :          | d3_s_003:
+0414 : 0f00     |     defw    0x0f00
+0416 : 1700     |     defw    0x1700
+0418 : f000     |     defw    0xf000

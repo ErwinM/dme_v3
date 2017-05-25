@@ -413,6 +413,7 @@ decodesigs() {
 	if (micro_b[42] == '1') { update_csig(WPTB, HI);}
 	if (micro_b[43] == '1') { update_csig(WPTE, HI);}
   if (micro_b[44] == '1' || RE_fetch == 1) { update_csig(RE, HI);}
+  if (micro_b[45] == '1') { update_csig(SEXT, HI);}
 	if (micro_b[31] == '1') { update_csig(COND_CHK, HI);}
 
   // parse muxes
@@ -699,12 +700,18 @@ ALU(void) {
   ushort result;
 	int32_t fullresult;
 	char *fullresult_b;
+	int8_t signed_x;
 
   //printf("ALUS(%d) ", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
-    result = bsig[OP0] + bsig[OP1];
-    fullresult = bsig[OP0] + bsig[OP1];
+		if (csig[SEXT] == HI) {
+			signed_x = (int8_t)bsig[OP0];
+			result = (uint16_t)signed_x;
+		} else {
+    	result = bsig[OP0] + bsig[OP1];
+    	fullresult = bsig[OP0] + bsig[OP1];
+		}
     break;
   case 1:
     result = bsig[OP0] - bsig[OP1];

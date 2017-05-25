@@ -45,7 +45,8 @@ static const char *ALUFUNC_STR[] = { "ADD", "SUB", "AND", "OR" };
 			 X(WPTE) \
 			 X(BREEK) \
 			 X(COND_CHK) \
-			 X(INCR_PC_OUT)
+			 X(INCR_PC_OUT) \
+			 X(SEXT)
 
 #define REGFILE \
       X(REG0  ) \

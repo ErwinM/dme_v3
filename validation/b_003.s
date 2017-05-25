@@ -9,11 +9,11 @@ include(tmacros.h)
 INIT_TEST(b,0x03)
 
 ; declare symbols here
-    SYM(next0, b_003)
-    SYM(next1, b_003)
-    SYM(next2, b_003)
-    SYM(next3, b_003)
-    SYM(next4, b_003)
+;SYM(next0, b_003)
+;SYM(next1, b_003)
+;SYM(next2, b_003)
+;SYM(next3, b_003)
+;SYM(next4, b_003)
 
 SUBTEST(1)
 
