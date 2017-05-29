@@ -102,10 +102,10 @@ class Parser
         end
       else
         # if its a stw/b s7(bp), r0 instr
-        if parsed_instr[:command] == "stw" && parsed_instr[:args][1].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
+        if parsed_instr[:command] == "stw" && parsed_instr[:args][0].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
           parsed_instr[:command] = "stw0"
         end
-        if parsed_instr[:command] == "stb" && parsed_instr[:args][1].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
+        if parsed_instr[:command] == "stb" && parsed_instr[:args][0].is_a?(Integer) && parsed_instr[:args][2] == "r0" then
           parsed_instr[:command] = "stb0"
         end
         instructions = [parsed_instr]

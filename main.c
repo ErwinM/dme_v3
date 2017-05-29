@@ -882,7 +882,7 @@ loadmicrocode(void)
     FILE * fp;
     char * line = NULL;
     size_t len = 0;
-    ssize_t read;
+    printd_t read;
     uint64_t microcode;
     int i = 0;
     char * pch;
@@ -940,7 +940,7 @@ loadbios(void)
   FILE * fp;
   char * line = NULL;
   size_t len = 0;
-  ssize_t read;
+  printd_t read;
 	uint16_t addr;
 	uint16_t opcode;
 	char opcode_b[16]; //including ;

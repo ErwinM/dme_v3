@@ -41,9 +41,9 @@ static const char
                       "scr",
                       "NG",						// 40
                       "NG",
-                      "brk",
-                      "lcr",
-                      "scr",
+                      "wptb",
+                      "lptb",
+                      "wivec",
                       "shl",						// 45
                       "shr",
                       "NG",
