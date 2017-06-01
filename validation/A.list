@@ -1,66 +1,103 @@
-0000 : 0801     |     .code 0x100
-0002 : 20fc     |     
-0100 : 008a     |     ldi r2, 0x11
-0102 : 0331     |     ldi r1, char @f
-0104 : b611     |     stb.b 0(r2), r1
-0106 : 009a     |     ldi r2, 0x13
-0108 : 0009     |     ldi r1, 0x01
-010a : b611     |     stb.b 0(r2), r1
-010c : 0001     |     ld16 	r1, 0x2000
-010e : bc40     |     
-0110 : 9446     |     mov 	r6, r1
-0112 : 00a2     |     ldi r2, 0x14
-0114 : 000c     |     ldi r4, 1
-0116 : b614     |     stb.b 0(r2), r4
-0118 : 9401     |     mov r1, r0
-011a : 9402     |     mov r2, r0
-011c : 9403     |     mov r3, r0
-011e : 9405     |     mov r5, r0
-0120 : 01a1     |     ld16    r1,0x1234
-0122 : bc24     |     
-0124 : be01     |     push    r1
-0126 : 0ff3     |     ld16   	r3, 0x1ffe
-0128 : bc3e     |     
-012a : 9f9a     |     addskp.z r2, sp, r3
-012c : 203e     |     br fail
-012e : 2002     |     br next0
-0130 : fe00     |     hlt
+0000 : 008a     |     ldi r2, 0x11
+0002 : 0361     |     ldi r1, char @l
+0004 : b611     |     stb.b 0(r2), r1
+0006 : 009a     |     ldi r2, 0x13
+0008 : 0009     |     ldi r1, 0x01
+000a : b611     |     stb.b 0(r2), r1
+000c : 00a2     |     ldi r2, 0x14
+000e : 000c     |     ldi r4, 1
+0010 : b614     |     stb.b 0(r2), r4
+0012 : 9401     |     mov r1, r0
+0014 : 9402     |     mov r2, r0
+0016 : 9403     |     mov r3, r0
+0018 : 9405     |     mov r5, r0
+001a : 0aa9     |     ld16   	r1,0x5555
+001c : bca8     |     
+001e : da26     |     shl			r3, r1, 1
+0020 : 0552     |     ld16		r2, 0xaaaa
+0022 : bd55     |     
+0024 : 9ed2     |     addskp.z r2, r3, r2
+0026 : 208c     |     br fail
+0028 : 2002     |     br next0
+002a : fe00     |     hlt
      :          | next0:
-0132 : 9582     |     mov 		r2, sp
-0134 : b013     |     ldw			r3, 0(r2)
-0136 : 9ecb     |     addskp.z r3, r3, r1
-0138 : 2032     |     br fail
-013a : 2010     |     br next1
-013c : fe00     |     hlt
-013e : 00a2     |     ldi r2, 0x14
-0140 : 0014     |     ldi r4, 2
-0142 : b614     |     stb.b 0(r2), r4
-0144 : 9401     |     mov r1, r0
-0146 : 9402     |     mov r2, r0
-0148 : 9403     |     mov r3, r0
-014a : 9405     |     mov r5, r0
+002c : dc2e     |     shr			r3, r3, 1
+002e : 9eca     |     addskp.z r2, r3, r1
+0030 : 2082     |     br fail
+0032 : 2002     |     br next1
+0034 : fe00     |     hlt
      :          | next1:
-014c : c002     |     pop	    r2
-014e : 9e8b     |     addskp.z	r3, r2, r1
-0150 : 201a     |     br fail
-0152 : 2002     |     br next2
-0154 : fe00     |     hlt
+0036 : 00a2     |     ldi r2, 0x14
+0038 : 0014     |     ldi r4, 2
+003a : b614     |     stb.b 0(r2), r4
+003c : 9401     |     mov r1, r0
+003e : 9402     |     mov r2, r0
+0040 : 9403     |     mov r3, r0
+0042 : 9405     |     mov r5, r0
+0044 : 0ff9     |     ld16    r1,0xffff
+0046 : bdfc     |     
+0048 : dde4     |     shr			r1, r1, 15
+004a : ac09     |     addskpi.z r1, r1, 1
+004c : 2066     |     br fail
+004e : 2002     |     br next2
+0050 : fe00     |     hlt
      :          | next2:
-0156 : 0003     |     ld16 r3, 0x2000
-0158 : bc42     |     
-015a : 9ef3     |     addskp.z r3, r3, sp
-015c : 200e     |     br fail
-015e : 2002     |     br pass
-0160 : fe00     |     hlt
+0052 : 0009     |     ldi 		r1, 1
+0054 : da64     |     shl			r1, r1, 3
+0056 : acc9     |     addskpi.z r1, r1, 8
+0058 : 205a     |     br fail
+005a : 2002     |     br next3
+005c : fe00     |     hlt
+     :          | next3:
+005e : 00a2     |     ldi r2, 0x14
+0060 : 001c     |     ldi r4, 3
+0062 : b614     |     stb.b 0(r2), r4
+0064 : 9401     |     mov r1, r0
+0066 : 9402     |     mov r2, r0
+0068 : 9403     |     mov r3, r0
+006a : 9405     |     mov r5, r0
+006c : 02a9     |     ld16   	r1,0x55
+006e : db04     |     shl			r1, r1, 8
+0070 : 0802     |     ld16 		r2, 0x5500
+0072 : bca9     |     
+0074 : 9e52     |     addskp.z	r2, r1, r2
+0076 : 203c     |     br fail
+0078 : 2002     |     br next4
+007a : fe00     |     hlt
+     :          | next4:
+007c : 00a2     |     ldi r2, 0x14
+007e : 0024     |     ldi r4, 4
+0080 : b614     |     stb.b 0(r2), r4
+0082 : 9401     |     mov r1, r0
+0084 : 9402     |     mov r2, r0
+0086 : 9403     |     mov r3, r0
+0088 : 9405     |     mov r5, r0
+008a : 0aa9     |     ld16   	r1,0x5555
+008c : bca8     |     
+008e : 000e     |     ldi			r6, 1
+0090 : de73     |     shl.r			r3, r1, r6
+0092 : 0552     |     ld16		r2, 0xaaaa
+0094 : bd55     |     
+0096 : 9ed2     |     addskp.z r2, r3, r2
+0098 : 201a     |     br fail
+009a : 2002     |     br next5
+009c : fe00     |     hlt
+     :          | next5:
+009e : 000e     |     ldi 		r6, 1
+00a0 : e0f3     |     shr.r		r3, r3, r6
+00a2 : 9eca     |     addskp.z r2, r3, r1
+00a4 : 200e     |     br fail
+00a6 : 2002     |     br pass
+00a8 : fe00     |     hlt
      :          | pass:
-0162 : 0c03     |     ld16 r3, 0xff80
-0164 : bdfe     |     
-0166 : 0555     |     ldi r5, 0xAA
-0168 : b41d     |     stw 0(r3), r5
-016a : fe00     |     hlt
+00aa : 0c03     |     ld16 r3, 0xff80
+00ac : bdfe     |     
+00ae : 0555     |     ldi r5, 0xAA
+00b0 : b41d     |     stw 0(r3), r5
+00b2 : fe00     |     hlt
      :          | fail:
-016c : 0c03     |     ld16 r3, 0xff80
-016e : bdfe     |     
-0170 : 07fd     |     ldi r5, 0xFF
-0172 : b41d     |     stw 0(r3), r5
-0174 : fe00     |     hlt
+00b4 : 0c03     |     ld16 r3, 0xff80
+00b6 : bdfe     |     
+00b8 : 07fd     |     ldi r5, 0xFF
+00ba : b41d     |     stw 0(r3), r5
+00bc : fe00     |     hlt

@@ -648,8 +648,7 @@ class Coder
         if arg == 0 then
           Error.mexit("shift amount cannot equal zero")
         end
-        # sub 1 from immediate because shifting zero is nonsense and we need to be able to get to 16 in 4 bits
-        code += bitsfromint((arg - 1), 4, false)
+        code += bitsfromint(arg, 4, false)
       when :imm7u
         code += bitsfromint(arg, 7, false)
       when :immir
@@ -879,6 +878,8 @@ class ISA
     "wivec" => 44,
     "shl" => 45,
     "shr" => 46,
+    "shl.r" => 47,
+    "shr.r" => 48,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -933,6 +934,8 @@ class ISA
     "wivec" => {:pad6 => :x, :reg => 0},
     "shl" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
     "shr" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
+    "shl.r" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "shr.r" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze

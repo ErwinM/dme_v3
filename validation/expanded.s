@@ -1,18 +1,16 @@
 ;
-; group f, test 1
+; group l, test 1
 ;
-; push/pop
+; shl, shr, shl.r, shr.r
 ;
 
 
 
 
-
-.code 0x100
 
 
 ldi r2, 0x11
-ldi r1, char @f
+ldi r1, char @l
 stb.b 0(r2), r1
 ldi r2, 0x13
 ldi r1, 0x01
@@ -23,14 +21,9 @@ stb.b 0(r2), r1
 ;SYM(next0)
 ;SYM(next1)
 ;SYM(next2)
-
-; setup stack pointer
-		ld16 	r1, 0x2000
-		mov 	r6, r1
-
+;SYM(next3)
 
 ; Begin test here
-
 
 ; subtest definition (tmacros)
 ldi r2, 0x14
@@ -41,28 +34,25 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-; Push/pop
 
-    ld16    r1,0x1234
-    push    r1
-		; track sp change
-		ld16   	r3, 0x1ffe
-		addskp.z r2, sp, r3
-		br fail
+;   shl, shr
+    ld16   	r1,0x5555
+    shl			r3, r1, 1
+    ld16		r2, 0xaaaa
+		addskp.z r2, r3, r2
+    br fail
 br next0
 hlt
 
-
 next0:
-		; value is in the right spot
-		mov 		r2, sp
-		ldw			r3, 0(r2)
-    addskp.z r3, r3, r1
-    br fail
+		shr			r3, r3, 1
+		addskp.z r2, r3, r1
+		br fail
 br next1
 hlt
 
 
+next1:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 2
@@ -72,20 +62,73 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-next1:
-		pop	    r2
-		; pop produces the right value
-		addskp.z	r3, r2, r1
+;   shl, shr 16 bits
+    ld16    r1,0xffff
+    shr			r1, r1, 15
+    addskpi.z r1, r1, 1
     br fail
 br next2
 hlt
 
 next2:
-		ld16 r3, 0x2000
-		addskp.z r3, r3, sp
+;		shifting 0 src
+		ldi 		r1, 1
+    shl			r1, r1, 3
+		addskpi.z r1, r1, 8
+		br fail
+br next3
+hlt
+
+
+next3:
+; subtest definition (tmacros)
+ldi r2, 0x14
+ldi r4, 3
+stb.b 0(r2), r4
+mov r1, r0
+mov r2, r0
+mov r3, r0
+mov r5, r0
+
+;   shl - shifting in 0
+    ld16   	r1,0x55
+    shl			r1, r1, 8
+		ld16 		r2, 0x5500
+		addskp.z	r2, r1, r2
+		br fail
+br next4
+hlt
+
+
+next4:
+; subtest definition (tmacros)
+ldi r2, 0x14
+ldi r4, 4
+stb.b 0(r2), r4
+mov r1, r0
+mov r2, r0
+mov r3, r0
+mov r5, r0
+
+; shl.r, shr,r
+    ld16   	r1,0x5555
+		ldi			r6, 1
+    shl.r			r3, r1, r6
+    ld16		r2, 0xaaaa
+		addskp.z r2, r3, r2
+    br fail
+br next5
+hlt
+
+next5:
+		ldi 		r6, 1
+		shr.r		r3, r3, r6
+		addskp.z r2, r3, r1
 		br fail
 br pass
 hlt
+
+
 
 
 ;   Finally, when done branch to pass

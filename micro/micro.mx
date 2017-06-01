@@ -133,3 +133,9 @@
 46, shr imm4 src tgt2, decode, imms[IMM4], mdr_load, MDRS[imm]
 46, shr imm4 src tgt2, read,
 46, shr imm4 src tgt2, exec, op1s[mdr], regr0s[arg2], op0s[regr0], ALU[shr], regws[tgt2], reg_load
+47, shl.r reg reg tgt, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], ALU[shl], regws[tgt], reg_load, skipstate[2]
+47, shl.r reg reg tgt, read,
+47, shl.r reg reg tgt, exec,
+48, shr.r reg reg tgt, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], ALU[shr], regws[tgt], reg_load, skipstate[2]
+48, shr.r reg reg tgt, read,
+48, shr.r reg reg tgt, exec,

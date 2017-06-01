@@ -56,7 +56,7 @@ main(int argc,char *argv[]) {
 		traps();
 		ir = readram(readreg(PC), 0, 0);
 		incr_pc();
-		printd("\n%x : ", readreg(PC));
+		printd("\n%x : ", (readreg(PC)-2));
 		decode(ir, &cinstr);
 		justsetcarry = 0;
 
@@ -264,7 +264,7 @@ main(int argc,char *argv[]) {
 			ivec = readreg(cinstr.tgt);
 			break;
 		case 45: // shl cnt, tgt2
-			imm = ((cinstr.full & 0x1e0) >> 5)+1;
+			imm = ((cinstr.full & 0x1e0) >> 5);
 			arg2 = (cinstr.full & 0x1c) >> 2;
 			printd("imm: %d", imm);
 			writereg(cinstr.tgt2, (readreg(arg2) << imm));
@@ -272,12 +272,20 @@ main(int argc,char *argv[]) {
 			printd("R%d <- %x ", cinstr.tgt2, readreg(cinstr.tgt2));
 			break;
 		case 46: // shr cnt, tgt2
-			imm = ((cinstr.full & 0x1e0) >> 5)+1;
+			imm = ((cinstr.full & 0x1e0) >> 5);
 			arg2 = (cinstr.full & 0x1c) >> 2;
 			writereg(cinstr.tgt2, (readreg(arg2) >> imm));
 			printd("R%d <- %x ", cinstr.tgt2, readreg(cinstr.tgt2));
 			break;
-		case 47: // pop.u tgt
+		case 47: // shl.r src, cnt, tgt
+			writereg(cinstr.tgt, (readreg(cinstr.arg0) << readreg(cinstr.arg1)));
+			printd("R%d <- %x ", cinstr.tgt, readreg(cinstr.tgt));
+			break;
+		case 48: // shr.r src, cnt, tgt
+			writereg(cinstr.tgt, (readreg(cinstr.arg0) >> readreg(cinstr.arg1)));
+			printd("R%d <- %x ", cinstr.tgt, readreg(cinstr.tgt));
+			break;
+		case 50: // pop.u tgt
 			uregfile[cinstr.tgt] = readram(readreg(SP), 0, 0);
 			writereg(SP, (readreg(SP)+2));
 			break;
@@ -610,6 +618,12 @@ again:
 			}
 		  d += 16;
 		}
+	} else if (strcmp(token[0], "ss1") == 0) {
+		sflag = 1;
+		return;
+	} else if (strcmp(token[0], "ss0") == 0) {
+		sflag = 0;
+		return;
 	} else if (strcmp(token[0], "c") == 0) {
 		return;
 	} else if (strcmp(token[0], "tab") == 0 ) {
@@ -713,7 +727,7 @@ loadbios(void)
     //printf ("Splitting string \"%s\" into tokens:\n",str);
     colon = strchr(line, ':');
 		if (!colon) {
-			printf("Found colon - skip: %x\n", (int)colon);
+			//printd("Found colon - skip: %x\n", (int)colon);
 			continue;
 		}
 			//}

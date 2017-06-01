@@ -1,53 +1,23 @@
-0000 : 00a1     |     la16 r1, irq_handler
-0002 : d801     |     wivec r1
-0004 : 0091     |     ldi r1, 0x12
-0006 : 01a2     |     ldi r2, 0x34
-0008 : 02b3     |     ldi r3, 0x56
-000a : 03c4     |     ldi r4, 0x78
-000c : 04d5     |     ldi r5, 0x9a
-000e : 05e6     |     ldi r6, 0xbc
-0010 : c400     |     syscall
-0012 : fe00     |     hlt
-     :          | irq_handler:
-0014 : 0002     |     la16 r2, 0x1000
-0016 : bc21     |     
-0018 : 9486     |     mov sp, r2
-001a : c801     |     push.u r1 ; sp +12
-001c : c802     |     push.u r2 ; sp +10
-001e : c803     |     push.u r3 ; sp +8
-0020 : c804     |     push.u r4 ; sp +6
-0022 : c805     |     push.u r5 ; sp +4
-0024 : c806     |     push.u r6 ; sp +2
-0026 : c807     |     push.u pc ; sp
-0028 : ca00     |     brk
-002a : 9585     |     mov bp, sp
-002c : 8808     |     ldw r1, 2(bp)
-002e : ca00     |     brk
-0030 : 05e2     |     ldi r2, 0xbc
-0032 : 9e51     |     addskp.z r1, r1, r2
-0034 : 202c     |     br fail
-0036 : 8810     |     ldw r1, 4(bp)
-0038 : 04d2     |     ldi r2, 0x9a
-003a : 9e51     |     addskp.z r1, r1, r2
-003c : 2024     |     br fail
-003e : 8818     |     ldw r1, 6(bp)
-0040 : 03c2     |     ldi r2, 0x78
-0042 : 9e51     |     addskp.z r1, r1, r2
-0044 : 201c     |     br fail
-0046 : 8820     |     ldw r1, 8(bp)
-0048 : 02b2     |     ldi r2, 0x56
-004a : 9e51     |     addskp.z r1, r1, r2
-004c : 2014     |     br fail
-004e : 8828     |     ldw r1, 10(bp)
-0050 : 01a2     |     ldi r2, 0x34
-0052 : 9e51     |     addskp.z r1, r1, r2
-0054 : 200c     |     br fail
-0056 : 8830     |     ldw r1, 12(bp)
-0058 : 0092     |     ldi r2, 0x12
-005a : 9e51     |     addskp.z r1, r1, r2
-005c : 2004     |     br fail
-005e : 0555     |     ldi r5, 0xaa
-0060 : fe00     |     hlt
-     :          | fail:
-0062 : 07fd     |     ldi r5, 0xff
-0064 : fe00     |     hlt
+0000 : 1fe9     |     ldi r1, -3
+0002 : 1ff2     |     la16 r2, -2
+0004 : 9404     |     mov r4, r0
+0006 : 9c54     |     skip.gt r1, r2
+0008 : 2006     |     br L2
+000a : 9443     |     mov r3, r1
+000c : 9481     |     mov r1, r2
+000e : 94c2     |     mov r2, r3
+     :          | L2:
+0010 : 000b     |     ldi r3, 1
+0012 : 9c5c     |     skip.gt r1, r3
+0014 : 200c     |     br L3
+0016 : a60b     |     andi r3, r1, 1
+0018 : ae1b     |     addskpi.nz r3, r3, 1
+001a : 9514     |     add r4, r4, r2
+001c : dc04     |     shr r1, r1, 1
+001e : da09     |     shl r2, r2, 1
+0020 : 3fee     |     br L2
+     :          | L3:
+0022 : a60b     |     andi r3, r1, 1
+0024 : ae1b     |     addskpi.nz r3, r3, 1
+0026 : 9514     |     add r4, r4, r2
+0028 : fe00     |     hlt

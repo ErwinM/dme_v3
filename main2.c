@@ -702,7 +702,7 @@ ALU(void) {
 	char *fullresult_b;
 	int8_t signed_x;
 
-  //printf("ALUS(%d) ", bussel[ALUS]);
+  printf("ALUS(%d) ", bussel[ALUS]);
   switch(bussel[ALUS]) {
   case 0:
 		if (csig[SEXT] == HI) {
@@ -724,10 +724,10 @@ ALU(void) {
 		result = bsig[OP0] | bsig[OP1];
     break;
 	case 4:
-		result = bsig[OP0] << (bsig[OP1] + 1);
+		result = bsig[OP0] << bsig[OP1];
     break;
 	case 5:
-		result = bsig[OP0] >> (bsig[OP1] + 1);
+		result = bsig[OP0] >> bsig[OP1];
     break;
 	case 6:
 		result = (bsig[OP0] << 9) | (bsig[OP1] & 0x1ff);
@@ -827,9 +827,8 @@ void
 writeregfile(void) {
   //printf("writeregfile: regws_temp: %d", regws_temp);
   if(regws_temp == REG0) {
-    printf("\nwriteregfile: error trying to write to REG0!!\n");
-    dump();
-    exit(1);
+    printf("\nwriteregfile: WARNING writing to REG0 (NULL)!\n");
+		return;
   }
   regfile[regws_temp] = bsig[ALUout];
   printf("%s <- %x\n", REGFILE_STR[regws_temp], bsig[ALUout]);
