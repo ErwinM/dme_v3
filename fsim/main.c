@@ -165,18 +165,22 @@ main(int argc,char *argv[]) {
 
 			break;
 		case 15: // addskp.z op1,op2,res
-			writereg(cinstr.tgt, (readreg(cinstr.arg0) - readreg(cinstr.arg1)));
+			writereg(cinstr.tgt, (readreg(cinstr.arg0) + readreg(cinstr.arg1)));
 			if(readreg(cinstr.tgt) == 0)
 				incr_pc();
 			break;
 		case 16: // addskp.nz op1,op2,res
-			writereg(cinstr.tgt, (readreg(cinstr.arg0) - readreg(cinstr.arg1)));
+			writereg(cinstr.tgt, (readreg(cinstr.arg0) + readreg(cinstr.arg1)));
 			if(readreg(cinstr.tgt) != 0)
 				incr_pc();
 			break;
-		case 17: // add imm,op2,res
+		case 17: // addi imm,op2,res
 			simm = IRtable[cinstr.arg0];
 			writereg(cinstr.tgt, (simm + readreg(cinstr.arg1)));
+			break;
+		case 18: // subi imm, op2, tgt
+		  simm = IRtable[cinstr.arg0];
+			writereg(cinstr.tgt, (readreg(cinstr.arg1) - simm));
 			break;
 		case 19: // add imm,op2,res
 			simm = IRtable[cinstr.arg0];
@@ -188,21 +192,22 @@ main(int argc,char *argv[]) {
 			break;
 		case 22: //addskp.zimm imm,op2,res
 			simm = IRtable[cinstr.arg0];
-			writereg(cinstr.tgt, (simm - readreg(cinstr.arg1)));
-			printd("arg0: %x, arg1: %x, tgt: %x", simm, readreg(cinstr.arg1), readreg(cinstr.tgt));
+			writereg(cinstr.tgt, (simm + readreg(cinstr.arg1)));
+			printd("arg0: %x, arg1: %x, tgt: %x", simm, readreg(cinstr.arg1), (simm + readreg(cinstr.arg1)));
 			if(readreg(cinstr.tgt) == 0)
 				incr_pc();
 			break;
 		case 23: //addskp.nzimm imm,op2,res
 			simm = IRtable[cinstr.arg0];
-			writereg(cinstr.tgt, (simm - readreg(cinstr.arg1)));
+			writereg(cinstr.tgt, (simm + readreg(cinstr.arg1)));
 			printd("arg0: %x, arg1: %x, tgt: %x", simm, readreg(cinstr.arg1), readreg(cinstr.tgt));
 			if(readreg(cinstr.tgt) != 0)
 				incr_pc();
 			break;
-		case 24: //addskp.nzimm imm,op2,res
+		case 24: // ldwb idx, base, tgt
 			addr = readreg(cinstr.arg0) + readreg(cinstr.arg1);
 			writereg(cinstr.tgt, readram(addr, 0, 0));
+			printd("r%d <- %x\n", cinstr.tgt, readreg(cinstr.tgt));
 			break;
 		case 25: // ldbb idx, base, tgt
 			addr = readreg(cinstr.arg0) + readreg(cinstr.arg1);
@@ -227,6 +232,7 @@ main(int argc,char *argv[]) {
 			break;
 		case 32: // pop tgt
 			writereg(cinstr.tgt, readram(readreg(SP), 0, 0));
+			printd("%x -> r%d", readreg(cinstr.tgt), cinstr.tgt);
 			writereg(SP, (readreg(SP)+2));
 			break;
 		case 33: // br.r tgt
@@ -296,7 +302,7 @@ main(int argc,char *argv[]) {
 			einde();
 			break;
 		default:
-			printf("\nEncountered unknown opcode: %d (%s)\n", cinstr.opcode, OPCODES_STRING[cinstr.opcode]);
+			printf("\nEncountered (%x) unknown opcode: %d (%s)\n", cinstr.full, cinstr.opcode, OPCODES_STRING[cinstr.opcode]);
 			getinput();
 			einde();
 			break;
@@ -524,7 +530,7 @@ uint32_t pageaddr(ushort laddr){
 		ptetmp = (((pte & 0xff00) <<3) | (laddr & 0x7ff));
 		//printd("return: %x ", ptetmp);
 		if ((pte & 0x1)==0) {
-			printf("FAULT: page not present (%x)\n", laddr);
+			printf("FAULT: page not present (%x). Instr at addr: %x\n", laddr, readreg(PC));
 			getinput();
 		}
 		if ((readcr() & 0x1)==0 && (pte & 0x2)){
@@ -693,7 +699,7 @@ loadbios(void)
   char * line = NULL;
   size_t len = 0;
   ssize_t read;
-	uint16_t addr;
+	uint16_t addr, a;
 	uint16_t opcode;
 	char opcode_b[16]; //including ;
   char * pch, * colon;
@@ -719,7 +725,7 @@ loadbios(void)
     	printf("Opening: validation/A_sim.mif");
     }
 	}
-
+		a = 0;
   while ((read = getline(&line, &len, fp)) != -1) {
     //printf("Retrieved line of length %zu :\n", read);
     //printf("%s", line);
@@ -744,14 +750,14 @@ loadbios(void)
       switch(c){
         case 1:
 					// address
-					addr = (int)strtol(pch, NULL, 16);
+				  addr = (int)strtol(pch, NULL, 16);
           //printf("%llx\n", microcode);
           break;
         case 2:
 				  // colon ignore
         case 3:
 					// opcode in binary + ;
-				memcpy(opcode_b, pch, 16); // cut off ;
+					memcpy(opcode_b, pch, 16); // cut off ;
 					opcode = bin2dec(opcode_b, 16);
           break;
       }
@@ -759,8 +765,9 @@ loadbios(void)
       pch = strtok (NULL, " ");
     }
 
-    ram[(addr >> 1)] = opcode;
-		printd("%x: %x\n", addr, ram[(addr >> 1)]);
+    ram[a] = opcode;
+		printd("%x: %x\n", a, ram[a]);
+		a += 1;
 	}
   fclose(fp);
   if (line)

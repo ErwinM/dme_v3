@@ -35,15 +35,15 @@ class Parser
         if parsed_instr[:no_args] then next end
         # we need to relocate code and add a little trampoline to it at the start
         # load addr, branch to it
-        trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]], :line => line})
-        trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
-        #binding.pry
-        noreloc = 0
-        trampoline.each do |tr|
-          tr[:no_reloc] = noreloc
-          noreloc +=2
-        end
-        appendinstr(trampoline)
+#         trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]], :line => line})
+#         trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
+#         #binding.pry
+#         noreloc = 0
+#         trampoline.each do |tr|
+#           tr[:no_reloc] = noreloc
+#           noreloc +=2
+#         end
+#         appendinstr(trampoline)
         $code_ptr = parsed_instr[:args][0]
         next
       end
@@ -117,24 +117,34 @@ class Parser
   def self.appendinstr(instructions)
     instructions.each do |instr|
       valid_instr?(instr)
-      puts "adding: #{instr} - #{$instr_nr}\n"
+      puts "adding: #{instr} - #{$instr_nr} (#{$double_label_guard})\n"
       if instr[:mem] then
         instr[:instr_nr] = $instr_nr
         $instr_nr += 1
         $mem_instructions << instr
+        $double_label_guard = 0
         next
       end
       if instr[:label] then
-        instr[:ptr] = $instr_nr+1
+        if $double_label_guard > 0 then
+          if $double_label_guard > 1 then
+            Error.mexit("Encountered more than two sequential labels")
+          end
+          prev_label = find_label($instr_nr - 1)
+          prev_label[:ptr] += 1
+        end
+        instr[:ptr] = $instr_nr + 1
         instr[:instr_nr] = $instr_nr
         $instr_nr += 1
         $labels << instr
+        $double_label_guard += 1
         next
       end
       instr[:addr] = $instr_addr
       instr[:instr_nr] = $instr_nr
       $instr_nr += 1
       $instructions << instr
+      $double_label_guard = 0
     end
   end
 
@@ -152,6 +162,14 @@ class Parser
       end
     end
     return
+  end
+
+  def self.find_label(nr)
+    $labels.each do |label|
+      if label[:instr_nr] == nr then
+        return label
+      end
+    end
   end
 
   def self.parseline(line)
@@ -639,6 +657,9 @@ class Coder
         else
           loc = arg - (instr[:addr] + 2)
         end
+        if loc > 4095 || loc < -4095 then
+          Error.mexit("BR: br max offset is 4095. Instruction at #{instr[:addr]} is trying to br #{loc}")
+        end
         #binding.pry
         puts "BR: calculated offset #{loc}\n"
         code += bitsfromint(loc, 13, true)
@@ -1028,6 +1049,7 @@ $code_ptr = 0
 $data_ptr = 0
 $last_addr = 0
 $hex_addr = 0
+$double_label_guard = 0
 
 
 # problem is i have 1 uncertain instruction: addhi which might not be needed:
