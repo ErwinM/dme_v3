@@ -1,23 +1,119 @@
-0000 : 1fe9     |     ldi r1, -3
-0002 : 1ff2     |     la16 r2, -2
-0004 : 9404     |     mov r4, r0
-0006 : 9c54     |     skip.gt r1, r2
-0008 : 2006     |     br L2
-000a : 9443     |     mov r3, r1
-000c : 9481     |     mov r1, r2
-000e : 94c2     |     mov r2, r3
-     :          | L2:
-0010 : 000b     |     ldi r3, 1
-0012 : 9c5c     |     skip.gt r1, r3
-0014 : 200c     |     br L3
-0016 : a60b     |     andi r3, r1, 1
-0018 : ae1b     |     addskpi.nz r3, r3, 1
-001a : 9514     |     add r4, r4, r2
-001c : dc04     |     shr r1, r1, 1
-001e : da09     |     shl r2, r2, 1
-0020 : 3fee     |     br L2
-     :          | L3:
-0022 : a60b     |     andi r3, r1, 1
-0024 : ae1b     |     addskpi.nz r3, r3, 1
-0026 : 9514     |     add r4, r4, r2
-0028 : fe00     |     hlt
+0000 : 0001     |     la16 r1, 0x1800
+0002 : bc30     |     
+0004 : 9446     |     mov r6, r1
+     :          | init_uart:
+0006 : 0c81     |     la16 r1, 0xff90
+0008 : bdfc     |     
+000a : 9445     |     mov r5, r1
+000c : 9401     |     mov r1, r0
+000e : 8c04     |     stw 1(bp), r1   ; port + 1 0x00 - disable all interrupts
+0010 : 0401     |     ldi r1, 0x80
+0012 : 8c0c     |     stw 3(bp), r1   ; port + 3 0x80 enable dlab
+0014 : 0101     |     ldi r1, 32
+0016 : 8c00     |     stw 0(bp), r1		; port + 0 set divisor to 1 LSB
+0018 : 0001     |     ldi r1, 0
+001a : 8c04     |     stw 1(bp), r1		; port + 1 set divisor to 1 MSB
+001c : 0019     |     ldi r1, 3
+001e : 8c0c     |     stw 3(bp), r1		; port + 3 set LCR - validate
+     :          | _main:
+0020 : 0424     |     la16 r4, welcome
+0022 : a2b9     |     addi r1, pc, 4	; setup return addr
+0024 : be01     |     push r1
+0026 : 2032     |     br wr_string
+0028 : 04fc     |     la16 r4, loading_msg
+002a : a2b9     |     addi r1, pc, 4	; setup return addr
+002c : be01     |     push r1
+002e : 202a     |     br wr_string
+0030 : ca00     |     brk
+0032 : 9403     |     mov r3, r0
+0034 : a2b9     |     addi r1, pc, 4
+0036 : be01     |     push r1
+0038 : 200c     |     br wait_for_byte
+003a : 0007     |     ldi pc, 0
+     :          | _exit:
+003c : 0c01     |     la16 r1, 0xff80
+003e : bdfc     |     
+0040 : 0552     |     ldi r2, 0xaa
+0042 : b40a     |     stw 0(r1), r2
+0044 : fe00     |     hlt
+     :          | wait_for_byte:
+0046 : 8a14     |     ldb r1, 5(bp)		; read LSR
+0048 : a60a     |     andi r2, r1, 1	; check for bit 0: Data Ready
+004a : add2     |     addskpi.z r2, r2, -1
+004c : 3ff8     |     br wait_for_byte
+004e : b22c     |     ldb r4, 0(r5)		; get the byte
+0050 : b61c     |     stb.b 0(r3), r4 ; store read byte
+0052 : a21b     |     addi r3, r3, 1
+0054 : 3ff0     |     br wait_for_byte
+     :          | _exit_wait_for_byte:
+0056 : c001     |     pop r1
+0058 : c201     |     br.r r1
+     :          | wr_string:
+005a : 9403     |     mov r3, r0
+     :          | wr_string_loop:
+005c : a2b9     |     addi r1, pc, 4
+005e : be01     |     push r1
+0060 : 2010     |     br check_tx_free
+0062 : b2e2     |     ldb r2, r3(r4)				; load the char
+0064 : 9c81     |     skip.ne r2, r0 			; check for null terminator
+0066 : 2006     |     br wr_string_return
+0068 : b62a     |     stb 0(r5), r2					; write the char
+006a : a21b     |     addi r3, r3, 1
+006c : 3fee     |     br wr_string_loop
+     :          | wr_string_return:
+006e : c001     |     pop r1
+0070 : c201     |     br.r r1
+     :          | check_tx_free:
+0072 : 8814     |     ldw r1, 5(bp)
+0074 : 0302     |     ldi r2, 0x60
+0076 : 9851     |     and r1, r1, r2
+0078 : 9c88     |     skip.eq r2, r1
+007a : 3ff6     |     br check_tx_free
+007c : c001     |     pop r1
+007e : c201     |     br.r r1
+0080 : 07fd     |     ldi r5, 0xff
+0082 : fe00     |     hlt
+     :          | welcome:
+0084 : ff57     |     defb 0xff
+0086 : 656c     |     defstr "Welcome to DME Bootloader"
+0088 : 636f     |     
+008a : 6d65     |     
+008c : 2074     |     
+008e : 6f20     |     
+0090 : 444d     |     
+0092 : 4520     |     
+0094 : 426f     |     
+0096 : 6f74     |     
+0098 : 6c6f     |     
+009a : 6164     |     
+009c : 6572     |     
+009e : 000a     |     
+00a0 : 0d57     |     defb 0xd
+00a2 : 6169     |     defstr "Waiting for program over serial..."
+00a4 : 7469     |     
+00a6 : 6e67     |     
+00a8 : 2066     |     
+00aa : 6f72     |     
+00ac : 2070     |     
+00ae : 726f     |     
+00b0 : 6772     |     
+00b2 : 616d     |     
+00b4 : 206f     |     
+00b6 : 7665     |     
+00b8 : 7220     |     
+00ba : 7365     |     
+00bc : 7269     |     
+00be : 616c     |     
+00c0 : 2e2e     |     
+00c2 : 2e00     |     
+     :          | result:
+00c4 : 0000     |     defs 20
+00c6 : 0000     |     
+00c8 : 0000     |     
+00ca : 0000     |     
+00cc : 0000     |     
+00ce : 0000     |     
+00d0 : 0000     |     
+00d2 : 0000     |     
+00d4 : 0000     |     
+00d6 : 0000     |     

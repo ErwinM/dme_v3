@@ -15,8 +15,10 @@ probably be in a reg already..
 Paging
 ------
 the syntax is: wpte logic PAGE [max32] -> physical PAGE [max256]
-the physical page should be loaded into the high byte (shl 8), we shouldnt do this in hardware because we also want to set the low byte as status.
+the physical page should be loaded into the high byte (shl 8), we should not do this in hardware because we also want to set the low byte as status.
 wptb is always a multiple of 32 (0, 32, 64, 96).
+
+		note: should writing page take into account ptb? if not, then its not max32
 
 PTE
 ---

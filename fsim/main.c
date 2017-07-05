@@ -40,6 +40,7 @@ main(int argc,char *argv[]) {
 
 	ucr = 0x8;
 	scr = 0x1;
+	ptb =0xdead;
 
 	parseopts(argc, argv);
   //init();

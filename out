@@ -55,64 +55,64 @@ STACK:
 REG2 <- 11
 MAR <- 2
 PC++
-IR <- 361
+IR <- 399
 -------------------------------------------------------------------------
-Tick: 7.DECODE(3).1, PC: 4, SP: 0, BP: 0 MAR: 2(361), MDR: 11 CR: 00001000
-IR: ldi (361) - (0000001101100001), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(108) ALUS(0) REGR1(0) OP0(17) MDRin(108) loadneg: 0 
+Tick: 7.DECODE(3).1, PC: 4, SP: 0, BP: 0 MAR: 2(399), MDR: 11 CR: 00001000
+IR: ldi (399) - (0000001110011001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(115) ALUS(0) REGR1(0) OP0(17) MDRin(115) loadneg: 0 
 ALUS(0) ALUout(17) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:4, tgt:1
+args: 0:6, 1:3, tgt:1
 ALU: 0:MDRout(11) 1:REGR0(0) func: out:11
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 006c
+MDR <- 0073
 -------------------------------------------------------------------------
-Tick: 8.DECODE(3).0, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 6c CR: 00001000
-IR: DECODING (361) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(108) loadneg: 0 
-ALUS(0) ALUout(108) loadneg: 0 
+Tick: 8.DECODE(3).0, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 73 CR: 00001000
+IR: DECODING (399) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(115) loadneg: 0 
+ALUS(0) ALUout(115) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:4, tgt:1
-ALU: 0:MDRout(6c) 1:REGR0(0) func: out:6c
+args: 0:6, 1:3, tgt:1
+ALU: 0:MDRout(73) 1:REGR0(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 9.EXEC(7).1, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 6c CR: 00001000
-IR: ldi (361) - (0000001101100001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(65496) ALUS(0) MDRin(65496) loadneg: 0 
+Tick: 9.EXEC(7).1, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 73 CR: 00001000
+IR: ldi (399) - (0000001110011001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65510) ALUS(0) MDRin(65510) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:5, 1:4, tgt:1
-ALU: 0:MDRout(6c) 1:REGR0(0) func: out:6c
+args: 0:6, 1:3, tgt:1
+ALU: 0:MDRout(73) 1:REGR0(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 10.EXEC(7).0, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 6c CR: 00001000
-IR: ldi (361) - (0000001101100001), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 10.EXEC(7).0, PC: 4, SP: 0, BP: 0 MAR: 2(fefe), MDR: 73 CR: 00001000
+IR: ldi (399) - (0000001110011001), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:5, 1:4, tgt:1
-ALU: 0:MDRout(6c) 1:REGR0(0) func: out:6c
+args: 0:6, 1:3, tgt:1
+ALU: 0:MDRout(73) 1:REGR0(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 6c
+REG1 <- 73
 MAR <- 4
 PC++
 IR <- b611
 -------------------------------------------------------------------------
-Tick: 13.DECODE(3).1, PC: 6, SP: 0, BP: 0 MAR: 4(b611), MDR: 6c CR: 00001000
+Tick: 13.DECODE(3).1, PC: 6, SP: 0, BP: 0 MAR: 4(b611), MDR: 73 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -125,7 +125,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 14.DECODE(3).0, PC: 6, SP: 0, BP: 0 MAR: 4(fefe), MDR: 6c CR: 00001000
+Tick: 14.DECODE(3).0, PC: 6, SP: 0, BP: 0 MAR: 4(fefe), MDR: 73 CR: 00001000
 IR: DECODING (b611) Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
@@ -136,7 +136,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 15.READ(5).1, PC: 6, SP: 0, BP: 0 MAR: 4(fefe), MDR: 6c CR: 00001000
+Tick: 15.READ(5).1, PC: 6, SP: 0, BP: 0 MAR: 4(fefe), MDR: 73 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(17) OP1(17) loadneg: 0 
 ALUS(0) ALUout(17) loadneg: 0 
@@ -150,7 +150,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MAR <- 11
 -------------------------------------------------------------------------
-Tick: 16.READ(5).0, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 6c CR: 00001000
+Tick: 16.READ(5).0, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 73 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -162,45 +162,45 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 17.EXEC(7).1, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 6c CR: 00001000
+Tick: 17.EXEC(7).1, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 73 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
-MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(108) REGR1(0) OP0(108) OP1(0) MDRin(17) loadneg: 0 
-ALUS(0) ALUout(108) MDRin(108) loadneg: 0 
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(115) REGR1(0) OP0(115) OP1(0) MDRin(17) loadneg: 0 
+ALUS(0) ALUout(115) MDRin(115) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(6c) 1:REGR1(0) func: out:6c
+ALU: 0:REGR0(73) 1:REGR1(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 006c
+MDR <- 0073
 -------------------------------------------------------------------------
-Tick: 18.EXEC(7).0, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 6c CR: 00001000
+Tick: 18.EXEC(7).0, PC: 6, SP: 0, BP: 0 MAR: 11(fefe), MDR: 73 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
 MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(6c) 1:REGR1(0) func: out:6c
+ALU: 0:REGR0(73) 1:REGR1(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-RAM[10L] <- 6c (b66c)
+RAM[10L] <- 73 (b673)
 MAR <- 6
 PC++
 IR <- 9a
 -------------------------------------------------------------------------
-Tick: 21.DECODE(3).1, PC: 8, SP: 0, BP: 0 MAR: 6(9a), MDR: 6c CR: 00001000
+Tick: 21.DECODE(3).1, PC: 8, SP: 0, BP: 0 MAR: 6(9a), MDR: 73 CR: 00001000
 IR: ldi (9a) - (0000000010011010), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(19) ALUS(0) REGR1(0) OP0(108) MDRin(19) loadneg: 0 
-ALUS(0) ALUout(108) loadneg: 0 
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(19) ALUS(0) REGR1(0) OP0(115) MDRin(19) loadneg: 0 
+ALUS(0) ALUout(115) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:2, 1:3, tgt:2
-ALU: 0:MDRout(6c) 1:REGR0(0) func: out:6c
+ALU: 0:MDRout(73) 1:REGR0(0) func: out:73
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
@@ -245,64 +245,64 @@ STACK:
 REG2 <- 13
 MAR <- 8
 PC++
-IR <- 9
+IR <- 29
 -------------------------------------------------------------------------
-Tick: 27.DECODE(3).1, PC: a, SP: 0, BP: 0 MAR: 8(9), MDR: 13 CR: 00001000
-IR: ldi (9) - (0000000000001001), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(1) ALUS(0) REGR1(0) OP0(19) MDRin(1) loadneg: 0 
+Tick: 27.DECODE(3).1, PC: a, SP: 0, BP: 0 MAR: 8(29), MDR: 13 CR: 00001000
+IR: ldi (29) - (0000000000101001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(5) ALUS(0) REGR1(0) OP0(19) MDRin(5) loadneg: 0 
 ALUS(0) ALUout(19) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:1, tgt:1
+args: 0:0, 1:5, tgt:1
 ALU: 0:MDRout(13) 1:REGR0(0) func: out:13
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
+MDR <- 0005
 -------------------------------------------------------------------------
-Tick: 28.DECODE(3).0, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 1 CR: 00001000
-IR: DECODING (9) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(1) loadneg: 0 
-ALUS(0) ALUout(1) loadneg: 0 
+Tick: 28.DECODE(3).0, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 5 CR: 00001000
+IR: DECODING (29) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(5) loadneg: 0 
+ALUS(0) ALUout(5) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:1, tgt:1
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+args: 0:0, 1:5, tgt:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 29.EXEC(7).1, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 1 CR: 00001000
-IR: ldi (9) - (0000000000001001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(2) ALUS(0) MDRin(2) loadneg: 0 
+Tick: 29.EXEC(7).1, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 5 CR: 00001000
+IR: ldi (29) - (0000000000101001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(10) ALUS(0) MDRin(10) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:0, 1:1, tgt:1
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+args: 0:0, 1:5, tgt:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 30.EXEC(7).0, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 1 CR: 00001000
-IR: ldi (9) - (0000000000001001), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 30.EXEC(7).0, PC: a, SP: 0, BP: 0 MAR: 8(fefe), MDR: 5 CR: 00001000
+IR: ldi (29) - (0000000000101001), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:0, 1:1, tgt:1
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+args: 0:0, 1:5, tgt:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 1
+REG1 <- 5
 MAR <- a
 PC++
 IR <- b611
 -------------------------------------------------------------------------
-Tick: 33.DECODE(3).1, PC: c, SP: 0, BP: 0 MAR: a(b611), MDR: 1 CR: 00001000
+Tick: 33.DECODE(3).1, PC: c, SP: 0, BP: 0 MAR: a(b611), MDR: 5 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -315,7 +315,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 34.DECODE(3).0, PC: c, SP: 0, BP: 0 MAR: a(fefe), MDR: 1 CR: 00001000
+Tick: 34.DECODE(3).0, PC: c, SP: 0, BP: 0 MAR: a(fefe), MDR: 5 CR: 00001000
 IR: DECODING (b611) Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
@@ -326,7 +326,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 35.READ(5).1, PC: c, SP: 0, BP: 0 MAR: a(fefe), MDR: 1 CR: 00001000
+Tick: 35.READ(5).1, PC: c, SP: 0, BP: 0 MAR: a(fefe), MDR: 5 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(19) OP1(19) loadneg: 0 
 ALUS(0) ALUout(19) loadneg: 0 
@@ -340,7 +340,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MAR <- 13
 -------------------------------------------------------------------------
-Tick: 36.READ(5).0, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 1 CR: 00001000
+Tick: 36.READ(5).0, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 5 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -352,45 +352,45 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 37.EXEC(7).1, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 1 CR: 00001000
+Tick: 37.EXEC(7).1, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 5 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
-MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(1) REGR1(0) OP0(1) OP1(0) MDRin(19) loadneg: 0 
-ALUS(0) ALUout(1) MDRin(1) loadneg: 0 
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(5) REGR1(0) OP0(5) OP1(0) MDRin(19) loadneg: 0 
+ALUS(0) ALUout(5) MDRin(5) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
+MDR <- 0005
 -------------------------------------------------------------------------
-Tick: 38.EXEC(7).0, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 1 CR: 00001000
+Tick: 38.EXEC(7).0, PC: c, SP: 0, BP: 0 MAR: 13(fefe), MDR: 5 CR: 00001000
 IR: stb.b (b611) - (1011011000010001), Micro(155): 001010011010000000001000000010000000000000000000
 MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:2, tgt:1
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-RAM[12L] <- 1 (9401)
+RAM[12L] <- 5 (9405)
 MAR <- c
 PC++
 IR <- a2
 -------------------------------------------------------------------------
-Tick: 41.DECODE(3).1, PC: e, SP: 0, BP: 0 MAR: c(a2), MDR: 1 CR: 00001000
+Tick: 41.DECODE(3).1, PC: e, SP: 0, BP: 0 MAR: c(a2), MDR: 5 CR: 00001000
 IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) REGR1(0) OP0(1) MDRin(20) loadneg: 0 
-ALUS(0) ALUout(1) loadneg: 0 
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) REGR1(0) OP0(5) MDRin(20) loadneg: 0 
+ALUS(0) ALUout(5) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:2, 1:4, tgt:2
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+ALU: 0:MDRout(5) 1:REGR0(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
@@ -490,117 +490,118 @@ STACK:
 REG4 <- 1
 MAR <- 10
 PC++
-IR <- b66c
+IR <- b673
 -------------------------------------------------------------------------
-Tick: 53.DECODE(3).1, PC: 12, SP: 0, BP: 0 MAR: 10(b66c), MDR: 1 CR: 00001000
-IR: stb.b (b66c) - (1011011001101100), Micro(27): 000000000000000000000000000000000000000000000000
+Tick: 53.DECODE(3).1, PC: 12, SP: 0, BP: 0 MAR: 10(b673), MDR: 1 CR: 00001000
+IR: stb.b (b673) - (1011011001110011), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:5, tgt:4
+args: 0:1, 1:6, tgt:3
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
 Tick: 54.DECODE(3).0, PC: 12, SP: 0, BP: 0 MAR: 10(fefe), MDR: 1 CR: 00001000
-IR: DECODING (b66c) Micro(27): 000000000000000000000000000000000000000000000000
+IR: DECODING (b673) Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:5, tgt:4
+args: 0:1, 1:6, tgt:3
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
 Tick: 55.READ(5).1, PC: 12, SP: 0, BP: 0 MAR: 10(fefe), MDR: 1 CR: 00001000
-IR: stb.b (b66c) - (1011011001101100), Micro(91): 100000001000100100000000000010000000000000000000
-MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR0(1) OP0(1) loadneg: 0 
-ALUS(0) ALUout(1) loadneg: 0 
+IR: stb.b (b673) - (1011011001110011), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR0(5) OP0(5) loadneg: 0 
+ALUS(0) ALUout(5) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:ARG0, r1:ARG1, w:REG0
-args: 0:1, 1:5, tgt:4
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+args: 0:1, 1:6, tgt:3
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MAR <- 1
+MAR <- 5
 -------------------------------------------------------------------------
-Tick: 56.READ(5).0, PC: 12, SP: 0, BP: 0 MAR: 1(fefe), MDR: 1 CR: 00001000
-IR: stb.b (b66c) - (1011011001101100), Micro(91): 100000001000100100000000000010000000000000000000
+Tick: 56.READ(5).0, PC: 12, SP: 0, BP: 0 MAR: 5(fefe), MDR: 1 CR: 00001000
+IR: stb.b (b673) - (1011011001110011), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:ARG0, r1:ARG1, w:REG0
-args: 0:1, 1:5, tgt:4
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+args: 0:1, 1:6, tgt:3
+ALU: 0:REGR0(5) 1:REGR1(0) func: out:5
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 57.EXEC(7).1, PC: 12, SP: 0, BP: 0 MAR: 1(fefe), MDR: 1 CR: 00001000
-IR: stb.b (b66c) - (1011011001101100), Micro(155): 001010011010000000001000000010000000000000000000
-MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) MDRin(1) loadneg: 0 
+Tick: 57.EXEC(7).1, PC: 12, SP: 0, BP: 0 MAR: 5(fefe), MDR: 1 CR: 00001000
+IR: stb.b (b673) - (1011011001110011), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(0) OP0(0) MDRin(5) loadneg: 0 
+ALUS(0) ALUout(0) MDRin(0) loadneg: 0 
 ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
+Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
-args: 0:1, 1:5, tgt:4
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+args: 0:1, 1:6, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
+MDR <- 0000
 -------------------------------------------------------------------------
-Tick: 58.EXEC(7).0, PC: 12, SP: 0, BP: 0 MAR: 1(fefe), MDR: 1 CR: 00001000
-IR: stb.b (b66c) - (1011011001101100), Micro(155): 001010011010000000001000000010000000000000000000
+Tick: 58.EXEC(7).0, PC: 12, SP: 0, BP: 0 MAR: 5(fefe), MDR: 0 CR: 00001000
+IR: stb.b (b673) - (1011011001110011), Micro(155): 001010011010000000001000000010000000000000000000
 MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
-args: 0:1, 1:5, tgt:4
-ALU: 0:REGR0(1) 1:REGR1(0) func: out:1
+args: 0:1, 1:6, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-RAM[0L] <- 1 (1)
+RAM[4L] <- 0 (b600)
 MAR <- 12
 PC++
-IR <- 9401
+IR <- 9405
 -------------------------------------------------------------------------
-Tick: 61.DECODE(3).1, PC: 14, SP: 0, BP: 0 MAR: 12(9401), MDR: 1 CR: 00001000
-IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+Tick: 61.DECODE(3).1, PC: 14, SP: 0, BP: 0 MAR: 12(9405), MDR: 0 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:0, 1:0, tgt:1
+args: 0:0, 1:0, tgt:5
 ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 62.DECODE(3).0, PC: 14, SP: 0, BP: 0 MAR: 12(fefe), MDR: 1 CR: 00001000
-IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+Tick: 62.DECODE(3).0, PC: 14, SP: 0, BP: 0 MAR: 12(fefe), MDR: 0 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:0, 1:0, tgt:1
+args: 0:0, 1:0, tgt:5
 ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 0
+BP <- 0
 MAR <- 14
 PC++
 IR <- 9402
 -------------------------------------------------------------------------
-Tick: 65.DECODE(3).1, PC: 16, SP: 0, BP: 0 MAR: 14(9402), MDR: 1 CR: 00001000
+Tick: 65.DECODE(3).1, PC: 16, SP: 0, BP: 0 MAR: 14(9402), MDR: 0 CR: 00001000
 IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -613,7 +614,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 66.DECODE(3).0, PC: 16, SP: 0, BP: 0 MAR: 14(fefe), MDR: 1 CR: 00001000
+Tick: 66.DECODE(3).0, PC: 16, SP: 0, BP: 0 MAR: 14(fefe), MDR: 0 CR: 00001000
 IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -629,7 +630,7 @@ MAR <- 16
 PC++
 IR <- 9403
 -------------------------------------------------------------------------
-Tick: 69.DECODE(3).1, PC: 18, SP: 0, BP: 0 MAR: 16(9403), MDR: 1 CR: 00001000
+Tick: 69.DECODE(3).1, PC: 18, SP: 0, BP: 0 MAR: 16(9403), MDR: 0 CR: 00001000
 IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -642,7 +643,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 70.DECODE(3).0, PC: 18, SP: 0, BP: 0 MAR: 16(fefe), MDR: 1 CR: 00001000
+Tick: 70.DECODE(3).0, PC: 18, SP: 0, BP: 0 MAR: 16(fefe), MDR: 0 CR: 00001000
 IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -658,7 +659,7 @@ MAR <- 18
 PC++
 IR <- 9405
 -------------------------------------------------------------------------
-Tick: 73.DECODE(3).1, PC: 1a, SP: 0, BP: 0 MAR: 18(9405), MDR: 1 CR: 00001000
+Tick: 73.DECODE(3).1, PC: 1a, SP: 0, BP: 0 MAR: 18(9405), MDR: 0 CR: 00001000
 IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -671,7 +672,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 74.DECODE(3).0, PC: 1a, SP: 0, BP: 0 MAR: 18(fefe), MDR: 1 CR: 00001000
+Tick: 74.DECODE(3).0, PC: 1a, SP: 0, BP: 0 MAR: 18(fefe), MDR: 0 CR: 00001000
 IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -685,500 +686,116 @@ STACK:
 BP <- 0
 MAR <- 1a
 PC++
-IR <- aa9
+IR <- 551
 -------------------------------------------------------------------------
-Tick: 77.DECODE(3).1, PC: 1c, SP: 0, BP: 0 MAR: 1a(aa9), MDR: 1 CR: 00001000
-IR: ldi (aa9) - (0000101010101001), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(341) ALUS(0) REGR1(0) OP0(1) MDRin(341) loadneg: 0 
-ALUS(0) ALUout(1) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:2, 1:5, tgt:1
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0155
--------------------------------------------------------------------------
-Tick: 78.DECODE(3).0, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: 155 CR: 00001000
-IR: DECODING (aa9) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(341) loadneg: 0 
-ALUS(0) ALUout(341) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:2, 1:5, tgt:1
-ALU: 0:MDRout(155) 1:REGR0(0) func: out:155
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 79.EXEC(7).1, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: 155 CR: 00001000
-IR: ldi (aa9) - (0000101010101001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(42) ALUS(0) MDRin(42) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:2, 1:5, tgt:1
-ALU: 0:MDRout(155) 1:REGR0(0) func: out:155
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 80.EXEC(7).0, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: 155 CR: 00001000
-IR: ldi (aa9) - (0000101010101001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:2, 1:5, tgt:1
-ALU: 0:MDRout(155) 1:REGR0(0) func: out:155
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 155
-MAR <- 1c
-PC++
-IR <- bca8
--------------------------------------------------------------------------
-Tick: 83.DECODE(3).1, PC: 1e, SP: 0, BP: 0 MAR: 1c(bca8), MDR: 155 CR: 00001000
-IR: addhi (bca8) - (1011110010101000), Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+Tick: 77.DECODE(3).1, PC: 1c, SP: 0, BP: 0 MAR: 1a(551), MDR: 0 CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(0) MDRin(170) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:2, 1:5, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 002a
--------------------------------------------------------------------------
-Tick: 84.DECODE(3).0, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: 2a CR: 00001000
-IR: DECODING (bca8) Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:2, 1:5, tgt:0
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 85.EXEC(7).1, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: 2a CR: 00001000
-IR: addhi (bca8) - (1011110010101000), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) REGR1(341) OP0(42) OP1(341) loadneg: 0 
-ALUS(6) ALUout(21845) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:2, 1:5, tgt:0
-ALU: 0:MDRout(2a) 1:REGR1(155) func: out:5555
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 86.EXEC(7).0, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: 2a CR: 00001000
-IR: addhi (bca8) - (1011110010101000), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:2, 1:5, tgt:0
-ALU: 0:MDRout(2a) 1:REGR1(155) func: out:5555
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 5555
-MAR <- 1e
-PC++
-IR <- da26
--------------------------------------------------------------------------
-Tick: 89.DECODE(3).1, PC: 20, SP: 0, BP: 0 MAR: 1e(da26), MDR: 2a CR: 00001000
-IR: shl (da26) - (1101101000100110), Micro(45): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) IRimm(1) ALUS(0) REGR1(0) OP0(0) MDRin(1) loadneg: 0 
-ALUS(0) ALUout(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
--------------------------------------------------------------------------
-Tick: 90.DECODE(3).0, PC: 20, SP: 0, BP: 0 MAR: 1e(fefe), MDR: 1 CR: 00001000
-IR: DECODING (da26) Micro(45): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 91.READ(5).1, PC: 20, SP: 0, BP: 0 MAR: 1e(fefe), MDR: 1 CR: 00001000
-IR: shl (da26) - (1101101000100110), Micro(109): 000000000000000000000000000000000000000000000000
-IRimm(9) ALUS(0) MDRin(9) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 92.READ(5).0, PC: 20, SP: 0, BP: 0 MAR: 1e(fefe), MDR: 1 CR: 00001000
-IR: shl (da26) - (1101101000100110), Micro(109): 000000000000000000000000000000000000000000000000
-ALUS(0) loadneg: 0 
-Stable after 1 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 93.EXEC(7).1, PC: 20, SP: 0, BP: 0 MAR: 1e(fefe), MDR: 1 CR: 00001000
-IR: shl (da26) - (1101101000100110), Micro(173): 000100001100000010110000000100001000000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(EQ) ALUS(4) REGR0(21845) OP0(21845) OP1(1) loadneg: 0 
-ALUS(4) ALUout(43690) loadneg: 0 
-ALUS(4) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(5555) 1:MDRout(1) func: out:aaaa
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 94.EXEC(7).0, PC: 20, SP: 0, BP: 0 MAR: 1e(fefe), MDR: 1 CR: 00001000
-IR: shl (da26) - (1101101000100110), Micro(173): 000100001100000010110000000100001000000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(EQ) ALUS(4) loadneg: 0 
-ALUS(4) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:0, 1:4, tgt:6
-ALU: 0:REGR0(5555) 1:MDRout(1) func: out:aaaa
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG3 <- aaaa
-MAR <- 20
-PC++
-IR <- 552
--------------------------------------------------------------------------
-Tick: 97.DECODE(3).1, PC: 22, SP: 0, BP: 0 MAR: 20(552), MDR: 1 CR: 00001000
-IR: ldi (552) - (0000010101010010), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(1) MDRin(170) loadneg: 0 
-ALUS(0) ALUout(1) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:2, tgt:2
-ALU: 0:MDRout(1) 1:REGR0(0) func: out:1
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 00aa
 -------------------------------------------------------------------------
-Tick: 98.DECODE(3).0, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: aa CR: 00001000
-IR: DECODING (552) Micro(0): 001000000000000000000000110000000000100000000000
+Tick: 78.DECODE(3).0, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: aa CR: 00001000
+IR: DECODING (551) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(170) loadneg: 0 
 ALUS(0) ALUout(170) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:2, tgt:2
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 99.EXEC(7).1, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: aa CR: 00001000
-IR: ldi (552) - (0000010101010010), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 79.EXEC(7).1, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(65492) ALUS(0) MDRin(65492) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:5, 1:2, tgt:2
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 100.EXEC(7).0, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: aa CR: 00001000
-IR: ldi (552) - (0000010101010010), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 80.EXEC(7).0, PC: 1c, SP: 0, BP: 0 MAR: 1a(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:5, 1:2, tgt:2
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG2 <- aa
-MAR <- 22
+REG1 <- aa
+MAR <- 1c
 PC++
-IR <- bd55
+IR <- 9c48
 -------------------------------------------------------------------------
-Tick: 103.DECODE(3).1, PC: 24, SP: 0, BP: 0 MAR: 22(bd55), MDR: aa CR: 00001000
-IR: addhi (bd55) - (1011110101010101), Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) IRimm(85) ALUS(0) REGR1(0) OP0(0) MDRin(85) loadneg: 0 
+Tick: 83.DECODE(3).1, PC: 1e, SP: 0, BP: 0 MAR: 1c(9c48), MDR: aa CR: 00001000
+IR: skip.c (9c48) - (1001110001001000), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:2, tgt:5
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0055
--------------------------------------------------------------------------
-Tick: 104.DECODE(3).0, PC: 24, SP: 0, BP: 0 MAR: 22(fefe), MDR: 55 CR: 00001000
-IR: DECODING (bd55) Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:5, 1:2, tgt:5
+args: 0:1, 1:1, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 105.EXEC(7).1, PC: 24, SP: 0, BP: 0 MAR: 22(fefe), MDR: 55 CR: 00001000
-IR: addhi (bd55) - (1011110101010101), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) IRimm(65493) ALUS(6) REGR1(170) OP0(85) OP1(170) MDRin(65493) loadneg: 0 
-ALUS(6) ALUout(43690) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:5, 1:2, tgt:5
-ALU: 0:MDRout(55) 1:REGR1(aa) func: out:aaaa
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 106.EXEC(7).0, PC: 24, SP: 0, BP: 0 MAR: 22(fefe), MDR: 55 CR: 00001000
-IR: addhi (bd55) - (1011110101010101), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:5, 1:2, tgt:5
-ALU: 0:MDRout(55) 1:REGR1(aa) func: out:aaaa
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG2 <- aaaa
-MAR <- 24
-PC++
-IR <- 9ed2
--------------------------------------------------------------------------
-Tick: 109.DECODE(3).1, PC: 26, SP: 0, BP: 0 MAR: 24(9ed2), MDR: 55 CR: 00001000
-IR: addskp.z (9ed2) - (1001111011010010), Micro(15): 000100001000100110100000000010010011000000000000
-COND_CHK REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) ALUS(1) REGR0(43690) REGR1(43690) OP0(43690) OP1(43690) loadneg: 0 
-ALUS(1) ALUout(0) SKIP loadneg: 0 
-ALUS(1) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:3, 1:2, tgt:2
-ALU: 0:REGR0(aaaa) 1:REGR1(aaaa) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 110.DECODE(3).0, PC: 26, SP: 0, BP: 0 MAR: 24(fefe), MDR: 55 CR: 00001000
-IR: DECODING (9ed2) Micro(15): 000100001000100110100000000010010011000000000000
-COND_CHK REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
-ALUS(1) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:3, 1:2, tgt:2
-ALU: 0:REGR0(aaaa) 1:REGR1(aaaa) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG2 <- 0
-PC++
-MAR <- 28
-PC++
-IR <- 2002
--------------------------------------------------------------------------
-Tick: 113.DECODE(3).1, PC: 2a, SP: 0, BP: 0 MAR: 28(2002), MDR: 55 CR: 00001000
-IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
-MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
-ALUS(0) ALUout(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:2
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0002
--------------------------------------------------------------------------
-Tick: 114.DECODE(3).0, PC: 2a, SP: 0, BP: 0 MAR: 28(fefe), MDR: 2 CR: 00001000
-IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
-MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:0, tgt:2
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 115.EXEC(7).1, PC: 2a, SP: 0, BP: 0 MAR: 28(fefe), MDR: 2 CR: 00001000
-IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(42) OP0(2) OP1(42) MDRin(0) loadneg: 0 
-ALUS(0) ALUout(44) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:PC, r1:REG0, w:PC
-args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(2a) func: out:2c
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 116.EXEC(7).0, PC: 2a, SP: 0, BP: 0 MAR: 28(fefe), MDR: 2 CR: 00001000
-IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:PC, r1:REG0, w:PC
-args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(2a) func: out:2c
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-PC <- 2c
-MAR <- 2c
-PC++
-IR <- dc2e
--------------------------------------------------------------------------
-Tick: 119.DECODE(3).1, PC: 2e, SP: 0, BP: 0 MAR: 2c(dc2e), MDR: 2 CR: 00001000
-IR: shr (dc2e) - (1101110000101110), Micro(46): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) IRimm(1) ALUS(0) REGR1(0) OP0(0) MDRin(1) loadneg: 0 
-ALUS(0) ALUout(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:5, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
--------------------------------------------------------------------------
-Tick: 120.DECODE(3).0, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 1 CR: 00001000
-IR: DECODING (dc2e) Micro(46): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:5, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 121.READ(5).1, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 1 CR: 00001000
-IR: shr (dc2e) - (1101110000101110), Micro(110): 000000000000000000000000000000000000000000000000
-IRimm(11) ALUS(0) MDRin(11) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:5, tgt:6
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 122.READ(5).0, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 1 CR: 00001000
-IR: shr (dc2e) - (1101110000101110), Micro(110): 000000000000000000000000000000000000000000000000
+Tick: 84.DECODE(3).0, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: aa CR: 00001000
+IR: DECODING (9c48) Micro(14): 000000000000000000000000000000000000100000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:5, tgt:6
+args: 0:1, 1:1, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 123.EXEC(7).1, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 1 CR: 00001000
-IR: shr (dc2e) - (1101110000101110), Micro(174): 000100001100000010110000000100001010000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(NEQ) ALUS(5) REGR0(43690) OP0(43690) OP1(1) loadneg: 0 
-ALUS(5) ALUout(21845) loadneg: 0 
-ALUS(5) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:0, 1:5, tgt:6
-ALU: 0:REGR0(aaaa) 1:MDRout(1) func: out:5555
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 124.EXEC(7).0, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 1 CR: 00001000
-IR: shr (dc2e) - (1101110000101110), Micro(174): 000100001100000010110000000100001010000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(NEQ) ALUS(5) loadneg: 0 
-ALUS(5) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:0, 1:5, tgt:6
-ALU: 0:REGR0(aaaa) 1:MDRout(1) func: out:5555
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG3 <- 5555
-MAR <- 2e
-PC++
-IR <- 9eca
--------------------------------------------------------------------------
-Tick: 127.DECODE(3).1, PC: 30, SP: 0, BP: 0 MAR: 2e(9eca), MDR: 1 CR: 00001000
-IR: addskp.z (9eca) - (1001111011001010), Micro(15): 000100001000100110100000000010010011000000000000
-COND_CHK REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) ALUS(1) REGR0(21845) REGR1(21845) OP0(21845) OP1(21845) loadneg: 0 
-ALUS(1) ALUout(0) SKIP loadneg: 0 
-ALUS(1) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:2
-ALU: 0:REGR0(5555) 1:REGR1(5555) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 128.DECODE(3).0, PC: 30, SP: 0, BP: 0 MAR: 2e(fefe), MDR: 1 CR: 00001000
-IR: DECODING (9eca) Micro(15): 000100001000100110100000000010010011000000000000
-COND_CHK REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
+Tick: 85.EXEC(7).1, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c48) - (1001110001001000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) REGR0(170) REGR1(170) OP0(170) OP1(170) SKIP loadneg: 0 
 ALUS(1) loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:ARG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:2
-ALU: 0:REGR0(5555) 1:REGR1(5555) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:1, tgt:0
+ALU: 0:REGR0(aa) 1:REGR1(aa) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG2 <- 0
+-------------------------------------------------------------------------
+Tick: 86.EXEC(7).0, PC: 1e, SP: 0, BP: 0 MAR: 1c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c48) - (1001110001001000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:1, tgt:0
+ALU: 0:REGR0(aa) 1:REGR1(aa) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 PC++
-MAR <- 32
+MAR <- 20
 PC++
 IR <- 2002
 -------------------------------------------------------------------------
-Tick: 131.DECODE(3).1, PC: 34, SP: 0, BP: 0 MAR: 32(2002), MDR: 1 CR: 00001000
+Tick: 89.DECODE(3).1, PC: 22, SP: 0, BP: 0 MAR: 20(2002), MDR: aa CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1192,7 +809,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0002
 -------------------------------------------------------------------------
-Tick: 132.DECODE(3).0, PC: 34, SP: 0, BP: 0 MAR: 32(fefe), MDR: 2 CR: 00001000
+Tick: 90.DECODE(3).0, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: 2 CR: 00001000
 IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1204,36 +821,143 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 133.EXEC(7).1, PC: 34, SP: 0, BP: 0 MAR: 32(fefe), MDR: 2 CR: 00001000
+Tick: 91.EXEC(7).1, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: 2 CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(52) OP0(2) OP1(52) MDRin(0) loadneg: 0 
-ALUS(0) ALUout(54) loadneg: 0 
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(34) OP0(2) OP1(34) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(36) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
 args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(34) func: out:36
+ALU: 0:MDRout(2) 1:REGR0(22) func: out:24
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 134.EXEC(7).0, PC: 34, SP: 0, BP: 0 MAR: 32(fefe), MDR: 2 CR: 00001000
+Tick: 92.EXEC(7).0, PC: 22, SP: 0, BP: 0 MAR: 20(fefe), MDR: 2 CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
 REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
 args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(34) func: out:36
+ALU: 0:MDRout(2) 1:REGR0(22) func: out:24
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-PC <- 36
-MAR <- 36
+PC <- 24
+MAR <- 24
+PC++
+IR <- 9c40
+-------------------------------------------------------------------------
+Tick: 95.DECODE(3).1, PC: 26, SP: 0, BP: 0 MAR: 24(9c40), MDR: 2 CR: 00001000
+IR: skip.c (9c40) - (1001110001000000), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 96.DECODE(3).0, PC: 26, SP: 0, BP: 0 MAR: 24(fefe), MDR: 2 CR: 00001000
+IR: DECODING (9c40) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 97.EXEC(7).1, PC: 26, SP: 0, BP: 0 MAR: 24(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c40) - (1001110001000000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) REGR0(170) OP0(170) SKIP loadneg: 0 
+ALUS(1) ALUout(170) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:0, tgt:0
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 98.EXEC(7).0, PC: 26, SP: 0, BP: 0 MAR: 24(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c40) - (1001110001000000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:0, tgt:0
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MAR <- 26
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 101.DECODE(3).1, PC: 28, SP: 0, BP: 0 MAR: 26(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 102.DECODE(3).0, PC: 28, SP: 0, BP: 0 MAR: 26(fefe), MDR: 2 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 103.EXEC(7).1, PC: 28, SP: 0, BP: 0 MAR: 26(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(40) OP0(2) OP1(40) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(42) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(28) func: out:2a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 104.EXEC(7).0, PC: 28, SP: 0, BP: 0 MAR: 26(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(28) func: out:2a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC <- 2a
+MAR <- 2a
 PC++
 IR <- a2
 -------------------------------------------------------------------------
-Tick: 137.DECODE(3).1, PC: 38, SP: 0, BP: 0 MAR: 36(a2), MDR: 2 CR: 00001000
+Tick: 107.DECODE(3).1, PC: 2c, SP: 0, BP: 0 MAR: 2a(a2), MDR: 2 CR: 00001000
 IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) REGR1(0) OP0(2) MDRin(20) loadneg: 0 
 ALUS(0) ALUout(2) loadneg: 0 
@@ -1247,7 +971,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0014
 -------------------------------------------------------------------------
-Tick: 138.DECODE(3).0, PC: 38, SP: 0, BP: 0 MAR: 36(fefe), MDR: 14 CR: 00001000
+Tick: 108.DECODE(3).0, PC: 2c, SP: 0, BP: 0 MAR: 2a(fefe), MDR: 14 CR: 00001000
 IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(20) loadneg: 0 
 ALUS(0) ALUout(20) loadneg: 0 
@@ -1260,7 +984,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 139.EXEC(7).1, PC: 38, SP: 0, BP: 0 MAR: 36(fefe), MDR: 14 CR: 00001000
+Tick: 109.EXEC(7).1, PC: 2c, SP: 0, BP: 0 MAR: 2a(fefe), MDR: 14 CR: 00001000
 IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) MDRin(40) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1272,7 +996,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 140.EXEC(7).0, PC: 38, SP: 0, BP: 0 MAR: 36(fefe), MDR: 14 CR: 00001000
+Tick: 110.EXEC(7).0, PC: 2c, SP: 0, BP: 0 MAR: 2a(fefe), MDR: 14 CR: 00001000
 IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1284,11 +1008,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG2 <- 14
-MAR <- 38
+MAR <- 2c
 PC++
 IR <- 14
 -------------------------------------------------------------------------
-Tick: 143.DECODE(3).1, PC: 3a, SP: 0, BP: 0 MAR: 38(14), MDR: 14 CR: 00001000
+Tick: 113.DECODE(3).1, PC: 2e, SP: 0, BP: 0 MAR: 2c(14), MDR: 14 CR: 00001000
 IR: ldi (14) - (0000000000010100), Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(2) ALUS(0) REGR1(0) OP0(20) MDRin(2) loadneg: 0 
 ALUS(0) ALUout(20) loadneg: 0 
@@ -1302,7 +1026,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0002
 -------------------------------------------------------------------------
-Tick: 144.DECODE(3).0, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: 2 CR: 00001000
+Tick: 114.DECODE(3).0, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 2 CR: 00001000
 IR: DECODING (14) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(2) loadneg: 0 
 ALUS(0) ALUout(2) loadneg: 0 
@@ -1315,7 +1039,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 145.EXEC(7).1, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: 2 CR: 00001000
+Tick: 115.EXEC(7).1, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 2 CR: 00001000
 IR: ldi (14) - (0000000000010100), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(5) ALUS(0) MDRin(5) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1327,7 +1051,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 146.EXEC(7).0, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: 2 CR: 00001000
+Tick: 116.EXEC(7).0, PC: 2e, SP: 0, BP: 0 MAR: 2c(fefe), MDR: 2 CR: 00001000
 IR: ldi (14) - (0000000000010100), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1339,11 +1063,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG4 <- 2
-MAR <- 3a
+MAR <- 2e
 PC++
 IR <- b614
 -------------------------------------------------------------------------
-Tick: 149.DECODE(3).1, PC: 3c, SP: 0, BP: 0 MAR: 3a(b614), MDR: 2 CR: 00001000
+Tick: 119.DECODE(3).1, PC: 30, SP: 0, BP: 0 MAR: 2e(b614), MDR: 2 CR: 00001000
 IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1356,7 +1080,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 150.DECODE(3).0, PC: 3c, SP: 0, BP: 0 MAR: 3a(fefe), MDR: 2 CR: 00001000
+Tick: 120.DECODE(3).0, PC: 30, SP: 0, BP: 0 MAR: 2e(fefe), MDR: 2 CR: 00001000
 IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
@@ -1367,7 +1091,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 151.READ(5).1, PC: 3c, SP: 0, BP: 0 MAR: 3a(fefe), MDR: 2 CR: 00001000
+Tick: 121.READ(5).1, PC: 30, SP: 0, BP: 0 MAR: 2e(fefe), MDR: 2 CR: 00001000
 IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(20) OP1(20) loadneg: 0 
 ALUS(0) ALUout(20) loadneg: 0 
@@ -1381,7 +1105,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MAR <- 14
 -------------------------------------------------------------------------
-Tick: 152.READ(5).0, PC: 3c, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
+Tick: 122.READ(5).0, PC: 30, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
 IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1393,7 +1117,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 153.EXEC(7).1, PC: 3c, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
+Tick: 123.EXEC(7).1, PC: 30, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
 IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
 MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 9402, RAMout: 94REGR0(2) REGR1(0) OP0(2) OP1(0) MDRin(20) loadneg: 0 
 ALUS(0) ALUout(2) RAM 16b: 9402, RAMout: 94MDRin(2) loadneg: 0 
@@ -1407,7 +1131,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0002
 -------------------------------------------------------------------------
-Tick: 154.EXEC(7).0, PC: 3c, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
+Tick: 124.EXEC(7).0, PC: 30, SP: 0, BP: 0 MAR: 14(fefe), MDR: 2 CR: 00001000
 IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
 MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 9402, RAMout: 94loadneg: 0 
 ALUS(0) RAM 16b: 9402, RAMout: 94loadneg: 0 
@@ -1419,11 +1143,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 RAM[14H] <- 2 (202)
-MAR <- 3c
+MAR <- 30
 PC++
 IR <- 9401
 -------------------------------------------------------------------------
-Tick: 157.DECODE(3).1, PC: 3e, SP: 0, BP: 0 MAR: 3c(9401), MDR: 2 CR: 00001000
+Tick: 127.DECODE(3).1, PC: 32, SP: 0, BP: 0 MAR: 30(9401), MDR: 2 CR: 00001000
 IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1436,7 +1160,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 158.DECODE(3).0, PC: 3e, SP: 0, BP: 0 MAR: 3c(fefe), MDR: 2 CR: 00001000
+Tick: 128.DECODE(3).0, PC: 32, SP: 0, BP: 0 MAR: 30(fefe), MDR: 2 CR: 00001000
 IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1448,11 +1172,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG1 <- 0
-MAR <- 3e
+MAR <- 32
 PC++
 IR <- 9402
 -------------------------------------------------------------------------
-Tick: 161.DECODE(3).1, PC: 40, SP: 0, BP: 0 MAR: 3e(9402), MDR: 2 CR: 00001000
+Tick: 131.DECODE(3).1, PC: 34, SP: 0, BP: 0 MAR: 32(9402), MDR: 2 CR: 00001000
 IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1465,7 +1189,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 162.DECODE(3).0, PC: 40, SP: 0, BP: 0 MAR: 3e(fefe), MDR: 2 CR: 00001000
+Tick: 132.DECODE(3).0, PC: 34, SP: 0, BP: 0 MAR: 32(fefe), MDR: 2 CR: 00001000
 IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1477,11 +1201,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG2 <- 0
-MAR <- 40
+MAR <- 34
 PC++
 IR <- 9403
 -------------------------------------------------------------------------
-Tick: 165.DECODE(3).1, PC: 42, SP: 0, BP: 0 MAR: 40(9403), MDR: 2 CR: 00001000
+Tick: 135.DECODE(3).1, PC: 36, SP: 0, BP: 0 MAR: 34(9403), MDR: 2 CR: 00001000
 IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1494,7 +1218,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 166.DECODE(3).0, PC: 42, SP: 0, BP: 0 MAR: 40(fefe), MDR: 2 CR: 00001000
+Tick: 136.DECODE(3).0, PC: 36, SP: 0, BP: 0 MAR: 34(fefe), MDR: 2 CR: 00001000
 IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1506,11 +1230,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG3 <- 0
-MAR <- 42
+MAR <- 36
 PC++
 IR <- 9405
 -------------------------------------------------------------------------
-Tick: 169.DECODE(3).1, PC: 44, SP: 0, BP: 0 MAR: 42(9405), MDR: 2 CR: 00001000
+Tick: 139.DECODE(3).1, PC: 38, SP: 0, BP: 0 MAR: 36(9405), MDR: 2 CR: 00001000
 IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1523,7 +1247,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 170.DECODE(3).0, PC: 44, SP: 0, BP: 0 MAR: 42(fefe), MDR: 2 CR: 00001000
+Tick: 140.DECODE(3).0, PC: 38, SP: 0, BP: 0 MAR: 36(fefe), MDR: 2 CR: 00001000
 IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
 REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1535,254 +1259,147 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 BP <- 0
-MAR <- 44
+MAR <- 38
 PC++
-IR <- ff9
+IR <- 551
 -------------------------------------------------------------------------
-Tick: 173.DECODE(3).1, PC: 46, SP: 0, BP: 0 MAR: 44(ff9), MDR: 2 CR: 00001000
-IR: ldi (ff9) - (0000111111111001), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(511) ALUS(0) REGR1(0) OP0(2) MDRin(511) loadneg: 0 
+Tick: 143.DECODE(3).1, PC: 3a, SP: 0, BP: 0 MAR: 38(551), MDR: 2 CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(2) MDRin(170) loadneg: 0 
 ALUS(0) ALUout(2) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:1
+args: 0:5, 1:2, tgt:1
 ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 01ff
+MDR <- 00aa
 -------------------------------------------------------------------------
-Tick: 174.DECODE(3).0, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 1ff CR: 00001000
-IR: DECODING (ff9) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(511) loadneg: 0 
-ALUS(0) ALUout(511) loadneg: 0 
+Tick: 144.DECODE(3).0, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: aa CR: 00001000
+IR: DECODING (551) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(170) loadneg: 0 
+ALUS(0) ALUout(170) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:1
-ALU: 0:MDRout(1ff) 1:REGR0(0) func: out:1ff
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 175.EXEC(7).1, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 1ff CR: 00001000
-IR: ldi (ff9) - (0000111111111001), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(65534) ALUS(0) MDRin(65534) loadneg: 0 
+Tick: 145.EXEC(7).1, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65492) ALUS(0) MDRin(65492) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:7, 1:7, tgt:1
-ALU: 0:MDRout(1ff) 1:REGR0(0) func: out:1ff
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 176.EXEC(7).0, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 1ff CR: 00001000
-IR: ldi (ff9) - (0000111111111001), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 146.EXEC(7).0, PC: 3a, SP: 0, BP: 0 MAR: 38(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:7, 1:7, tgt:1
-ALU: 0:MDRout(1ff) 1:REGR0(0) func: out:1ff
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 1ff
-MAR <- 46
+REG1 <- aa
+MAR <- 3a
 PC++
-IR <- bdfc
+IR <- 9402
 -------------------------------------------------------------------------
-Tick: 179.DECODE(3).1, PC: 48, SP: 0, BP: 0 MAR: 46(bdfc), MDR: 1ff CR: 00001000
-IR: addhi (bdfc) - (1011110111111100), Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) IRimm(127) ALUS(0) REGR1(0) OP0(0) MDRin(127) loadneg: 0 
+Tick: 149.DECODE(3).1, PC: 3c, SP: 0, BP: 0 MAR: 3a(9402), MDR: aa CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 150.DECODE(3).0, PC: 3c, SP: 0, BP: 0 MAR: 3a(fefe), MDR: aa CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 0
+MAR <- 3c
+PC++
+IR <- 9c80
+-------------------------------------------------------------------------
+Tick: 153.DECODE(3).1, PC: 3e, SP: 0, BP: 0 MAR: 3c(9c80), MDR: aa CR: 00001000
+IR: skip.c (9c80) - (1001110010000000), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:4
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 007f
--------------------------------------------------------------------------
-Tick: 180.DECODE(3).0, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 7f CR: 00001000
-IR: DECODING (bdfc) Micro(30): 001000000000000000000010000000000000100000000000
-MDR_LOAD IMMS(IMM7u) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:4
+args: 0:2, 1:0, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 181.EXEC(7).1, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 7f CR: 00001000
-IR: addhi (bdfc) - (1011110111111100), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) IRimm(65535) ALUS(6) REGR1(511) OP0(127) OP1(511) MDRin(65535) loadneg: 0 
-ALUS(6) ALUout(65535) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:7, 1:7, tgt:4
-ALU: 0:MDRout(7f) 1:REGR1(1ff) func: out:ffff
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 182.EXEC(7).0, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 7f CR: 00001000
-IR: addhi (bdfc) - (1011110111111100), Micro(158): 000100000000101110110000010010001100000000000000
-REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) loadneg: 0 
-ALUS(6) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:TGT2, w:TGT2
-args: 0:7, 1:7, tgt:4
-ALU: 0:MDRout(7f) 1:REGR1(1ff) func: out:ffff
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- ffff
-MAR <- 48
-PC++
-IR <- dde4
--------------------------------------------------------------------------
-Tick: 185.DECODE(3).1, PC: 4a, SP: 0, BP: 0 MAR: 48(dde4), MDR: 7f CR: 00001000
-IR: shr (dde4) - (1101110111100100), Micro(46): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) IRimm(15) ALUS(0) REGR1(0) OP0(0) MDRin(15) loadneg: 0 
-ALUS(0) ALUout(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 000f
--------------------------------------------------------------------------
-Tick: 186.DECODE(3).0, PC: 4a, SP: 0, BP: 0 MAR: 48(fefe), MDR: f CR: 00001000
-IR: DECODING (dde4) Micro(46): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 187.READ(5).1, PC: 4a, SP: 0, BP: 0 MAR: 48(fefe), MDR: f CR: 00001000
-IR: shr (dde4) - (1101110111100100), Micro(110): 000000000000000000000000000000000000000000000000
-IRimm(65529) ALUS(0) MDRin(65529) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 188.READ(5).0, PC: 4a, SP: 0, BP: 0 MAR: 48(fefe), MDR: f CR: 00001000
-IR: shr (dde4) - (1101110111100100), Micro(110): 000000000000000000000000000000000000000000000000
+Tick: 154.DECODE(3).0, PC: 3e, SP: 0, BP: 0 MAR: 3c(fefe), MDR: aa CR: 00001000
+IR: DECODING (9c80) Micro(14): 000000000000000000000000000000000000100000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:4, tgt:4
+args: 0:2, 1:0, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 189.EXEC(7).1, PC: 4a, SP: 0, BP: 0 MAR: 48(fefe), MDR: f CR: 00001000
-IR: shr (dde4) - (1101110111100100), Micro(174): 000100001100000010110000000100001010000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(NEQ) ALUS(5) REGR0(65535) OP0(65535) OP1(15) loadneg: 0 
-ALUS(5) ALUout(1) loadneg: 0 
-ALUS(5) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:7, 1:4, tgt:4
-ALU: 0:REGR0(ffff) 1:MDRout(f) func: out:1
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 190.EXEC(7).0, PC: 4a, SP: 0, BP: 0 MAR: 48(fefe), MDR: f CR: 00001000
-IR: shr (dde4) - (1101110111100100), Micro(174): 000100001100000010110000000100001010000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(NEQ) ALUS(5) loadneg: 0 
-ALUS(5) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:7, 1:4, tgt:4
-ALU: 0:REGR0(ffff) 1:MDRout(f) func: out:1
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 1
-MAR <- 4a
-PC++
-IR <- ac09
--------------------------------------------------------------------------
-Tick: 193.DECODE(3).1, PC: 4c, SP: 0, BP: 0 MAR: 4a(ac09), MDR: f CR: 00001000
-IR: addskpi.z (ac09) - (1010110000001001), Micro(22): 001000000000000000000001100000000000100000000000
-MDR_LOAD IMMS(IMMIR) IRimm(1) ALUS(0) REGR1(0) OP0(0) MDRin(1) loadneg: 0 
-ALUS(0) ALUout(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:1, tgt:1
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0001
--------------------------------------------------------------------------
-Tick: 194.DECODE(3).0, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 1 CR: 00001000
-IR: DECODING (ac09) Micro(22): 001000000000000000000001100000000000100000000000
-MDR_LOAD IMMS(IMMIR) ALUS(0) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:0, 1:1, tgt:1
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 195.EXEC(7).1, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 1 CR: 00001000
-IR: addskpi.z (ac09) - (1010110000001001), Micro(150): 000100000000100110100000010010010010000000000000
-COND_CHK REGR1S(ARG1) REGWS(TGT) OP0S(MDRout) OP1S(REGR1) ALUS(SUB) IRimm(2) ALUS(1) REGR1(1) OP0(1) OP1(1) MDRin(2) SKIP loadneg: 0 
+Tick: 155.EXEC(7).1, PC: 3e, SP: 0, BP: 0 MAR: 3c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c80) - (1001110010000000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
 ALUS(1) loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:0, 1:1, tgt:1
-ALU: 0:MDRout(1) 1:REGR1(1) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 196.EXEC(7).0, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 1 CR: 00001000
-IR: addskpi.z (ac09) - (1010110000001001), Micro(150): 000100000000100110100000010010010010000000000000
-COND_CHK REGR1S(ARG1) REGWS(TGT) OP0S(MDRout) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
+Tick: 156.EXEC(7).0, PC: 3e, SP: 0, BP: 0 MAR: 3c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c80) - (1001110010000000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) SKIP loadneg: 0 
 ALUS(1) loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:0, 1:1, tgt:1
-ALU: 0:MDRout(1) 1:REGR1(1) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:0, tgt:0
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 0
 PC++
-MAR <- 4e
+MAR <- 40
 PC++
 IR <- 2002
 -------------------------------------------------------------------------
-Tick: 199.DECODE(3).1, PC: 50, SP: 0, BP: 0 MAR: 4e(2002), MDR: 1 CR: 00001000
+Tick: 159.DECODE(3).1, PC: 42, SP: 0, BP: 0 MAR: 40(2002), MDR: aa CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -1796,7 +1413,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0002
 -------------------------------------------------------------------------
-Tick: 200.DECODE(3).0, PC: 50, SP: 0, BP: 0 MAR: 4e(fefe), MDR: 2 CR: 00001000
+Tick: 160.DECODE(3).0, PC: 42, SP: 0, BP: 0 MAR: 40(fefe), MDR: 2 CR: 00001000
 IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -1808,237 +1425,1392 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 201.EXEC(7).1, PC: 50, SP: 0, BP: 0 MAR: 4e(fefe), MDR: 2 CR: 00001000
+Tick: 161.EXEC(7).1, PC: 42, SP: 0, BP: 0 MAR: 40(fefe), MDR: 2 CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(80) OP0(2) OP1(80) MDRin(0) loadneg: 0 
-ALUS(0) ALUout(82) loadneg: 0 
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(66) OP0(2) OP1(66) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(68) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
 args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(50) func: out:52
+ALU: 0:MDRout(2) 1:REGR0(42) func: out:44
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 202.EXEC(7).0, PC: 50, SP: 0, BP: 0 MAR: 4e(fefe), MDR: 2 CR: 00001000
+Tick: 162.EXEC(7).0, PC: 42, SP: 0, BP: 0 MAR: 40(fefe), MDR: 2 CR: 00001000
 IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
 REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
 args: 0:0, 1:0, tgt:2
-ALU: 0:MDRout(2) 1:REGR0(50) func: out:52
+ALU: 0:MDRout(2) 1:REGR0(42) func: out:44
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-PC <- 52
-MAR <- 52
+PC <- 44
+MAR <- 44
 PC++
-IR <- da64
+IR <- 9c88
 -------------------------------------------------------------------------
-Tick: 205.DECODE(3).1, PC: 54, SP: 0, BP: 0 MAR: 52(da64), MDR: 2 CR: 00001000
-IR: shl (da64) - (1101101001100100), Micro(45): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) IRimm(3) ALUS(0) REGR1(0) OP0(0) MDRin(3) loadneg: 0 
+Tick: 165.DECODE(3).1, PC: 46, SP: 0, BP: 0 MAR: 44(9c88), MDR: 2 CR: 00001000
+IR: skip.c (9c88) - (1001110010001000), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:4, tgt:4
+args: 0:2, 1:1, tgt:0
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 166.DECODE(3).0, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 2 CR: 00001000
+IR: DECODING (9c88) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:0
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 167.EXEC(7).1, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c88) - (1001110010001000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) REGR1(170) OP1(170) SKIP loadneg: 0 
+ALUS(1) ALUout(65366) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:1, tgt:0
+ALU: 0:REGR0(0) 1:REGR1(aa) func: out:ff56
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 168.EXEC(7).0, PC: 46, SP: 0, BP: 0 MAR: 44(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c88) - (1001110010001000), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) ALUS(1) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:1, tgt:0
+ALU: 0:REGR0(0) 1:REGR1(aa) func: out:ff56
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+CR <- a
+MAR <- 46
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 171.DECODE(3).1, PC: 48, SP: 0, BP: 0 MAR: 46(2002), MDR: 2 CR: 00001010
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 172.DECODE(3).0, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 2 CR: 00001010
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 173.EXEC(7).1, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 2 CR: 00001010
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(72) OP0(2) OP1(72) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(74) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(48) func: out:4a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 174.EXEC(7).0, PC: 48, SP: 0, BP: 0 MAR: 46(fefe), MDR: 2 CR: 00001010
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(48) func: out:4a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC <- 4a
+MAR <- 4a
+PC++
+IR <- a2
+-------------------------------------------------------------------------
+Tick: 177.DECODE(3).1, PC: 4c, SP: 0, BP: 0 MAR: 4a(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) REGR1(0) OP0(2) MDRin(20) loadneg: 0 
+ALUS(0) ALUout(2) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0014
+-------------------------------------------------------------------------
+Tick: 178.DECODE(3).0, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 14 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(20) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 179.EXEC(7).1, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) MDRin(40) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 180.EXEC(7).0, PC: 4c, SP: 0, BP: 0 MAR: 4a(fefe), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 14
+MAR <- 4c
+PC++
+IR <- 1c
+-------------------------------------------------------------------------
+Tick: 183.DECODE(3).1, PC: 4e, SP: 0, BP: 0 MAR: 4c(1c), MDR: 14 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(3) ALUS(0) REGR1(0) OP0(20) MDRin(3) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0003
 -------------------------------------------------------------------------
-Tick: 206.DECODE(3).0, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
-IR: DECODING (da64) Micro(45): 001000000000000000000010100000000000000000000000
-MDR_LOAD IMMS(IMM4) ALUS(0) loadneg: 0 
+Tick: 184.DECODE(3).0, PC: 4e, SP: 0, BP: 0 MAR: 4c(fefe), MDR: 3 CR: 00001000
+IR: DECODING (1c) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(3) loadneg: 0 
+ALUS(0) ALUout(3) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 185.EXEC(7).1, PC: 4e, SP: 0, BP: 0 MAR: 4c(fefe), MDR: 3 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(7) ALUS(0) MDRin(7) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 186.EXEC(7).0, PC: 4e, SP: 0, BP: 0 MAR: 4c(fefe), MDR: 3 CR: 00001000
+IR: ldi (1c) - (0000000000011100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:3, tgt:4
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG4 <- 3
+MAR <- 4e
+PC++
+IR <- b614
+-------------------------------------------------------------------------
+Tick: 189.DECODE(3).1, PC: 50, SP: 0, BP: 0 MAR: 4e(b614), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:4, tgt:4
+args: 0:0, 1:2, tgt:4
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 207.READ(5).1, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
-IR: shl (da64) - (1101101001100100), Micro(109): 000000000000000000000000000000000000000000000000
-IRimm(25) ALUS(0) MDRin(25) loadneg: 0 
-ALUS(0) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 208.READ(5).0, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
-IR: shl (da64) - (1101101001100100), Micro(109): 000000000000000000000000000000000000000000000000
+Tick: 190.DECODE(3).0, PC: 50, SP: 0, BP: 0 MAR: 4e(fefe), MDR: 3 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:4, tgt:4
+args: 0:0, 1:2, tgt:4
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 209.EXEC(7).1, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
-IR: shl (da64) - (1101101001100100), Micro(173): 000100001100000010110000000100001000000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(EQ) ALUS(4) OP1(3) loadneg: 0 
-ALUS(4) loadneg: 0 
+Tick: 191.READ(5).1, PC: 50, SP: 0, BP: 0 MAR: 4e(fefe), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(20) OP1(20) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MAR <- 14
+-------------------------------------------------------------------------
+Tick: 192.READ(5).0, PC: 50, SP: 0, BP: 0 MAR: 14(fefe), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:1, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:MDRout(3) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 210.EXEC(7).0, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
-IR: shl (da64) - (1101101001100100), Micro(173): 000100001100000010110000000100001000000000000000
-REGR0S(ARG2) REGWS(TGT2) OP1S(MDRout) ALUS(EQ) ALUS(4) loadneg: 0 
-ALUS(4) loadneg: 0 
+Tick: 193.EXEC(7).1, PC: 50, SP: 0, BP: 0 MAR: 14(fefe), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 202, RAMout: 2REGR0(3) REGR1(0) OP0(3) OP1(0) MDRin(20) loadneg: 0 
+ALUS(0) ALUout(3) RAM 16b: 202, RAMout: 2MDRin(3) loadneg: 0 
+ALUS(0) RAM 16b: 202, RAMout: 2loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(3) 1:REGR1(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0003
+-------------------------------------------------------------------------
+Tick: 194.EXEC(7).0, PC: 50, SP: 0, BP: 0 MAR: 14(fefe), MDR: 3 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 202, RAMout: 2loadneg: 0 
+ALUS(0) RAM 16b: 202, RAMout: 2loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:ARG2, r1:REG0, w:TGT2
-args: 0:1, 1:4, tgt:4
-ALU: 0:REGR0(0) 1:MDRout(3) func: out:0
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(3) 1:REGR1(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+RAM[14H] <- 3 (302)
+MAR <- 50
+PC++
+IR <- 9401
+-------------------------------------------------------------------------
+Tick: 197.DECODE(3).1, PC: 52, SP: 0, BP: 0 MAR: 50(9401), MDR: 3 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 198.DECODE(3).0, PC: 52, SP: 0, BP: 0 MAR: 50(fefe), MDR: 3 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG1 <- 0
+MAR <- 52
+PC++
+IR <- 9402
+-------------------------------------------------------------------------
+Tick: 201.DECODE(3).1, PC: 54, SP: 0, BP: 0 MAR: 52(9402), MDR: 3 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 202.DECODE(3).0, PC: 54, SP: 0, BP: 0 MAR: 52(fefe), MDR: 3 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 0
 MAR <- 54
 PC++
-IR <- acc9
+IR <- 9403
 -------------------------------------------------------------------------
-Tick: 213.DECODE(3).1, PC: 56, SP: 0, BP: 0 MAR: 54(acc9), MDR: 3 CR: 00001000
-IR: addskpi.z (acc9) - (1010110011001001), Micro(22): 001000000000000000000001100000000000100000000000
-MDR_LOAD IMMS(IMMIR) IRimm(8) ALUS(0) REGR1(0) OP0(0) MDRin(8) loadneg: 0 
+Tick: 205.DECODE(3).1, PC: 56, SP: 0, BP: 0 MAR: 54(9403), MDR: 3 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:3, 1:1, tgt:1
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 0008
 -------------------------------------------------------------------------
-Tick: 214.DECODE(3).0, PC: 56, SP: 0, BP: 0 MAR: 54(fefe), MDR: 8 CR: 00001000
-IR: DECODING (acc9) Micro(22): 001000000000000000000001100000000000100000000000
-MDR_LOAD IMMS(IMMIR) ALUS(0) loadneg: 0 
+Tick: 206.DECODE(3).0, PC: 56, SP: 0, BP: 0 MAR: 54(fefe), MDR: 3 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
-regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:3, 1:1, tgt:1
-ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 215.EXEC(7).1, PC: 56, SP: 0, BP: 0 MAR: 54(fefe), MDR: 8 CR: 00001000
-IR: addskpi.z (acc9) - (1010110011001001), Micro(150): 000100000000100110100000010010010010000000000000
-COND_CHK REGR1S(ARG1) REGWS(TGT) OP0S(MDRout) OP1S(REGR1) ALUS(SUB) IRimm(50) ALUS(1) OP0(8) MDRin(50) SKIP loadneg: 0 
-ALUS(1) ALUout(8) loadneg: 0 
-ALUS(1) loadneg: 0 
-Stable after 3 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:1
-ALU: 0:MDRout(8) 1:REGR1(0) func: out:8
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
--------------------------------------------------------------------------
-Tick: 216.EXEC(7).0, PC: 56, SP: 0, BP: 0 MAR: 54(fefe), MDR: 8 CR: 00001000
-IR: addskpi.z (acc9) - (1010110011001001), Micro(150): 000100000000100110100000010010010010000000000000
-COND_CHK REGR1S(ARG1) REGWS(TGT) OP0S(MDRout) OP1S(REGR1) ALUS(SUB) ALUS(1) loadneg: 0 
-ALUS(1) loadneg: 0 
-Stable after 2 vcycles.
-regfile: r0:REG0, r1:ARG1, w:TGT
-args: 0:3, 1:1, tgt:1
-ALU: 0:MDRout(8) 1:REGR1(0) func: out:8
-STACK:
-1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-REG1 <- 8
+REG3 <- 0
 MAR <- 56
 PC++
-IR <- 205a
+IR <- 9405
 -------------------------------------------------------------------------
-Tick: 219.DECODE(3).1, PC: 58, SP: 0, BP: 0 MAR: 56(205a), MDR: 8 CR: 00001000
-IR: br (205a) - (0010000001011010), Micro(1): 001000000000000000000001000000000000100000000000
-MDR_LOAD IMMS(IMM13) IRimm(90) ALUS(0) REGR1(0) OP0(0) MDRin(90) loadneg: 0 
+Tick: 209.DECODE(3).1, PC: 58, SP: 0, BP: 0 MAR: 56(9405), MDR: 3 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 210.DECODE(3).0, PC: 58, SP: 0, BP: 0 MAR: 56(fefe), MDR: 3 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+BP <- 0
+MAR <- 58
+PC++
+IR <- 551
+-------------------------------------------------------------------------
+Tick: 213.DECODE(3).1, PC: 5a, SP: 0, BP: 0 MAR: 58(551), MDR: 3 CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(3) MDRin(170) loadneg: 0 
+ALUS(0) ALUout(3) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(3) 1:REGR0(0) func: out:3
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 00aa
+-------------------------------------------------------------------------
+Tick: 214.DECODE(3).0, PC: 5a, SP: 0, BP: 0 MAR: 58(fefe), MDR: aa CR: 00001000
+IR: DECODING (551) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(170) loadneg: 0 
+ALUS(0) ALUout(170) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 215.EXEC(7).1, PC: 5a, SP: 0, BP: 0 MAR: 58(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65492) ALUS(0) MDRin(65492) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 216.EXEC(7).0, PC: 5a, SP: 0, BP: 0 MAR: 58(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG1 <- aa
+MAR <- 5a
+PC++
+IR <- 5da
+-------------------------------------------------------------------------
+Tick: 219.DECODE(3).1, PC: 5c, SP: 0, BP: 0 MAR: 5a(5da), MDR: aa CR: 00001000
+IR: ldi (5da) - (0000010111011010), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(187) ALUS(0) REGR1(0) OP0(170) MDRin(187) loadneg: 0 
+ALUS(0) ALUout(170) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:7, 1:3, tgt:2
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 00bb
+-------------------------------------------------------------------------
+Tick: 220.DECODE(3).0, PC: 5c, SP: 0, BP: 0 MAR: 5a(fefe), MDR: bb CR: 00001000
+IR: DECODING (5da) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(187) loadneg: 0 
+ALUS(0) ALUout(187) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:7, 1:3, tgt:2
+ALU: 0:MDRout(bb) 1:REGR0(0) func: out:bb
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 221.EXEC(7).1, PC: 5c, SP: 0, BP: 0 MAR: 5a(fefe), MDR: bb CR: 00001000
+IR: ldi (5da) - (0000010111011010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65526) ALUS(0) MDRin(65526) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:7, 1:3, tgt:2
+ALU: 0:MDRout(bb) 1:REGR0(0) func: out:bb
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 222.EXEC(7).0, PC: 5c, SP: 0, BP: 0 MAR: 5a(fefe), MDR: bb CR: 00001000
+IR: ldi (5da) - (0000010111011010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:7, 1:3, tgt:2
+ALU: 0:MDRout(bb) 1:REGR0(0) func: out:bb
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- bb
+MAR <- 5c
+PC++
+IR <- 9c89
+-------------------------------------------------------------------------
+Tick: 225.DECODE(3).1, PC: 5e, SP: 0, BP: 0 MAR: 5c(9c89), MDR: bb CR: 00001000
+IR: skip.c (9c89) - (1001110010001001), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:3, tgt:2
+args: 0:2, 1:1, tgt:1
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 005a
 -------------------------------------------------------------------------
-Tick: 220.DECODE(3).0, PC: 58, SP: 0, BP: 0 MAR: 56(fefe), MDR: 5a CR: 00001000
-IR: DECODING (205a) Micro(1): 001000000000000000000001000000000000100000000000
+Tick: 226.DECODE(3).0, PC: 5e, SP: 0, BP: 0 MAR: 5c(fefe), MDR: bb CR: 00001000
+IR: DECODING (9c89) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 227.EXEC(7).1, PC: 5e, SP: 0, BP: 0 MAR: 5c(fefe), MDR: bb CR: 00001000
+IR: skip.c (9c89) - (1001110010001001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) REGR0(187) REGR1(170) OP0(187) OP1(170) loadneg: 0 
+ALUS(1) ALUout(17) SKIP loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(bb) 1:REGR1(aa) func: out:11
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 228.EXEC(7).0, PC: 5e, SP: 0, BP: 0 MAR: 5c(fefe), MDR: bb CR: 00001000
+IR: skip.c (9c89) - (1001110010001001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) SKIP loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:1, tgt:1
+ALU: 0:REGR0(bb) 1:REGR1(aa) func: out:11
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC++
+MAR <- 60
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 231.DECODE(3).1, PC: 62, SP: 0, BP: 0 MAR: 60(2002), MDR: bb CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 232.DECODE(3).0, PC: 62, SP: 0, BP: 0 MAR: 60(fefe), MDR: 2 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
 MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:1, 1:3, tgt:2
+args: 0:0, 1:0, tgt:2
 ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 221.EXEC(7).1, PC: 58, SP: 0, BP: 0 MAR: 56(fefe), MDR: 5a CR: 00001000
-IR: br (205a) - (0010000001011010), Micro(129): 000100000111000001110000010000000000000000000000
-REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(22) ALUS(0) REGR0(88) OP0(90) OP1(88) MDRin(22) loadneg: 0 
-ALUS(0) ALUout(178) loadneg: 0 
+Tick: 233.EXEC(7).1, PC: 62, SP: 0, BP: 0 MAR: 60(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(98) OP0(2) OP1(98) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(100) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
-args: 0:1, 1:3, tgt:2
-ALU: 0:MDRout(5a) 1:REGR0(58) func: out:b2
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(62) func: out:64
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 222.EXEC(7).0, PC: 58, SP: 0, BP: 0 MAR: 56(fefe), MDR: 5a CR: 00001000
-IR: br (205a) - (0010000001011010), Micro(129): 000100000111000001110000010000000000000000000000
+Tick: 234.EXEC(7).0, PC: 62, SP: 0, BP: 0 MAR: 60(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
 REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:PC, r1:REG0, w:PC
-args: 0:1, 1:3, tgt:2
-ALU: 0:MDRout(5a) 1:REGR0(58) func: out:b2
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(62) func: out:64
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-PC <- b2
-MAR <- b2
+PC <- 64
+MAR <- 64
+PC++
+IR <- 9c49
+-------------------------------------------------------------------------
+Tick: 237.DECODE(3).1, PC: 66, SP: 0, BP: 0 MAR: 64(9c49), MDR: 2 CR: 00001000
+IR: skip.c (9c49) - (1001110001001001), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 238.DECODE(3).0, PC: 66, SP: 0, BP: 0 MAR: 64(fefe), MDR: 2 CR: 00001000
+IR: DECODING (9c49) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:1, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 239.EXEC(7).1, PC: 66, SP: 0, BP: 0 MAR: 64(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c49) - (1001110001001001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) REGR0(170) REGR1(170) OP0(170) OP1(170) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:1, tgt:1
+ALU: 0:REGR0(aa) 1:REGR1(aa) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 240.EXEC(7).0, PC: 66, SP: 0, BP: 0 MAR: 64(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c49) - (1001110001001001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:1, tgt:1
+ALU: 0:REGR0(aa) 1:REGR1(aa) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MAR <- 66
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 243.DECODE(3).1, PC: 68, SP: 0, BP: 0 MAR: 66(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 244.DECODE(3).0, PC: 68, SP: 0, BP: 0 MAR: 66(fefe), MDR: 2 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 245.EXEC(7).1, PC: 68, SP: 0, BP: 0 MAR: 66(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(104) OP0(2) OP1(104) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(106) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(68) func: out:6a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 246.EXEC(7).0, PC: 68, SP: 0, BP: 0 MAR: 66(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(68) func: out:6a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC <- 6a
+MAR <- 6a
+PC++
+IR <- a2
+-------------------------------------------------------------------------
+Tick: 249.DECODE(3).1, PC: 6c, SP: 0, BP: 0 MAR: 6a(a2), MDR: 2 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(20) ALUS(0) REGR1(0) OP0(2) MDRin(20) loadneg: 0 
+ALUS(0) ALUout(2) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0014
+-------------------------------------------------------------------------
+Tick: 250.DECODE(3).0, PC: 6c, SP: 0, BP: 0 MAR: 6a(fefe), MDR: 14 CR: 00001000
+IR: DECODING (a2) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(20) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 251.EXEC(7).1, PC: 6c, SP: 0, BP: 0 MAR: 6a(fefe), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(40) ALUS(0) MDRin(40) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 252.EXEC(7).0, PC: 6c, SP: 0, BP: 0 MAR: 6a(fefe), MDR: 14 CR: 00001000
+IR: ldi (a2) - (0000000010100010), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:2, 1:4, tgt:2
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 14
+MAR <- 6c
+PC++
+IR <- 24
+-------------------------------------------------------------------------
+Tick: 255.DECODE(3).1, PC: 6e, SP: 0, BP: 0 MAR: 6c(24), MDR: 14 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(4) ALUS(0) REGR1(0) OP0(20) MDRin(4) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(14) 1:REGR0(0) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0004
+-------------------------------------------------------------------------
+Tick: 256.DECODE(3).0, PC: 6e, SP: 0, BP: 0 MAR: 6c(fefe), MDR: 4 CR: 00001000
+IR: DECODING (24) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(4) loadneg: 0 
+ALUS(0) ALUout(4) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 257.EXEC(7).1, PC: 6e, SP: 0, BP: 0 MAR: 6c(fefe), MDR: 4 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(9) ALUS(0) MDRin(9) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 258.EXEC(7).0, PC: 6e, SP: 0, BP: 0 MAR: 6c(fefe), MDR: 4 CR: 00001000
+IR: ldi (24) - (0000000000100100), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:0, 1:4, tgt:4
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG4 <- 4
+MAR <- 6e
+PC++
+IR <- b614
+-------------------------------------------------------------------------
+Tick: 261.DECODE(3).1, PC: 70, SP: 0, BP: 0 MAR: 6e(b614), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 262.DECODE(3).0, PC: 70, SP: 0, BP: 0 MAR: 6e(fefe), MDR: 4 CR: 00001000
+IR: DECODING (b614) Micro(27): 000000000000000000000000000000000000000000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 263.READ(5).1, PC: 70, SP: 0, BP: 0 MAR: 6e(fefe), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(20) OP1(20) loadneg: 0 
+ALUS(0) ALUout(20) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MAR <- 14
+-------------------------------------------------------------------------
+Tick: 264.READ(5).0, PC: 70, SP: 0, BP: 0 MAR: 14(fefe), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(91): 100000001000100100000000000010000000000000000000
+MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(0) 1:REGR1(14) func: out:14
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 265.EXEC(7).1, PC: 70, SP: 0, BP: 0 MAR: 14(fefe), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 302, RAMout: 3REGR0(4) REGR1(0) OP0(4) OP1(0) MDRin(20) loadneg: 0 
+ALUS(0) ALUout(4) RAM 16b: 302, RAMout: 3MDRin(4) loadneg: 0 
+ALUS(0) RAM 16b: 302, RAMout: 3loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(4) 1:REGR1(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0004
+-------------------------------------------------------------------------
+Tick: 266.EXEC(7).0, PC: 70, SP: 0, BP: 0 MAR: 14(fefe), MDR: 4 CR: 00001000
+IR: stb.b (b614) - (1011011000010100), Micro(155): 001010011010000000001000000010000000000000000000
+MDR_LOAD BE REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) RAM 16b: 302, RAMout: 3loadneg: 0 
+ALUS(0) RAM 16b: 302, RAMout: 3loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:TGT, r1:REG0, w:REG0
+args: 0:0, 1:2, tgt:4
+ALU: 0:REGR0(4) 1:REGR1(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+RAM[14H] <- 4 (402)
+MAR <- 70
+PC++
+IR <- 9401
+-------------------------------------------------------------------------
+Tick: 269.DECODE(3).1, PC: 72, SP: 0, BP: 0 MAR: 70(9401), MDR: 4 CR: 00001000
+IR: add (9401) - (1001010000000001), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 270.DECODE(3).0, PC: 72, SP: 0, BP: 0 MAR: 70(fefe), MDR: 4 CR: 00001000
+IR: DECODING (9401) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG1 <- 0
+MAR <- 72
+PC++
+IR <- 9402
+-------------------------------------------------------------------------
+Tick: 273.DECODE(3).1, PC: 74, SP: 0, BP: 0 MAR: 72(9402), MDR: 4 CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 274.DECODE(3).0, PC: 74, SP: 0, BP: 0 MAR: 72(fefe), MDR: 4 CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 0
+MAR <- 74
+PC++
+IR <- 9403
+-------------------------------------------------------------------------
+Tick: 277.DECODE(3).1, PC: 76, SP: 0, BP: 0 MAR: 74(9403), MDR: 4 CR: 00001000
+IR: add (9403) - (1001010000000011), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 278.DECODE(3).0, PC: 76, SP: 0, BP: 0 MAR: 74(fefe), MDR: 4 CR: 00001000
+IR: DECODING (9403) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:3
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG3 <- 0
+MAR <- 76
+PC++
+IR <- 9405
+-------------------------------------------------------------------------
+Tick: 281.DECODE(3).1, PC: 78, SP: 0, BP: 0 MAR: 76(9405), MDR: 4 CR: 00001000
+IR: add (9405) - (1001010000000101), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 282.DECODE(3).0, PC: 78, SP: 0, BP: 0 MAR: 76(fefe), MDR: 4 CR: 00001000
+IR: DECODING (9405) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:5
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+BP <- 0
+MAR <- 78
+PC++
+IR <- 551
+-------------------------------------------------------------------------
+Tick: 285.DECODE(3).1, PC: 7a, SP: 0, BP: 0 MAR: 78(551), MDR: 4 CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(4) MDRin(170) loadneg: 0 
+ALUS(0) ALUout(4) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(4) 1:REGR0(0) func: out:4
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 00aa
+-------------------------------------------------------------------------
+Tick: 286.DECODE(3).0, PC: 7a, SP: 0, BP: 0 MAR: 78(fefe), MDR: aa CR: 00001000
+IR: DECODING (551) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(170) loadneg: 0 
+ALUS(0) ALUout(170) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 287.EXEC(7).1, PC: 7a, SP: 0, BP: 0 MAR: 78(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65492) ALUS(0) MDRin(65492) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 288.EXEC(7).0, PC: 7a, SP: 0, BP: 0 MAR: 78(fefe), MDR: aa CR: 00001000
+IR: ldi (551) - (0000010101010001), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:TGT
+args: 0:5, 1:2, tgt:1
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG1 <- aa
+MAR <- 7a
+PC++
+IR <- 9402
+-------------------------------------------------------------------------
+Tick: 291.DECODE(3).1, PC: 7c, SP: 0, BP: 0 MAR: 7a(9402), MDR: aa CR: 00001000
+IR: add (9402) - (1001010000000010), Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 292.DECODE(3).0, PC: 7c, SP: 0, BP: 0 MAR: 7a(fefe), MDR: aa CR: 00001000
+IR: DECODING (9402) Micro(10): 000100001000100110100000000010000001000000000000
+REGR0S(ARG0) REGR1S(ARG1) REGWS(TGT) OP1S(REGR1) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:TGT
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+REG2 <- 0
+MAR <- 7c
+PC++
+IR <- 9c51
+-------------------------------------------------------------------------
+Tick: 295.DECODE(3).1, PC: 7e, SP: 0, BP: 0 MAR: 7c(9c51), MDR: aa CR: 00001000
+IR: skip.c (9c51) - (1001110001010001), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 296.DECODE(3).0, PC: 7e, SP: 0, BP: 0 MAR: 7c(fefe), MDR: aa CR: 00001000
+IR: DECODING (9c51) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 297.EXEC(7).1, PC: 7e, SP: 0, BP: 0 MAR: 7c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c51) - (1001110001010001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) REGR0(170) OP0(170) loadneg: 0 
+ALUS(1) ALUout(170) SKIP loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 298.EXEC(7).0, PC: 7e, SP: 0, BP: 0 MAR: 7c(fefe), MDR: aa CR: 00001000
+IR: skip.c (9c51) - (1001110001010001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) SKIP loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:1, 1:2, tgt:1
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC++
+MAR <- 80
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 301.DECODE(3).1, PC: 82, SP: 0, BP: 0 MAR: 80(2002), MDR: aa CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 302.DECODE(3).0, PC: 82, SP: 0, BP: 0 MAR: 80(fefe), MDR: 2 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 303.EXEC(7).1, PC: 82, SP: 0, BP: 0 MAR: 80(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(130) OP0(2) OP1(130) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(132) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(82) func: out:84
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 304.EXEC(7).0, PC: 82, SP: 0, BP: 0 MAR: 80(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(82) func: out:84
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC <- 84
+MAR <- 84
+PC++
+IR <- 9c91
+-------------------------------------------------------------------------
+Tick: 307.DECODE(3).1, PC: 86, SP: 0, BP: 0 MAR: 84(9c91), MDR: 2 CR: 00001000
+IR: skip.c (9c91) - (1001110010010001), Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) REGR1(0) OP0(0) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 308.DECODE(3).0, PC: 86, SP: 0, BP: 0 MAR: 84(fefe), MDR: 2 CR: 00001000
+IR: DECODING (9c91) Micro(14): 000000000000000000000000000000000000100000000000
+ALUS(0) loadneg: 0 
+Stable after 1 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:2, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 309.EXEC(7).1, PC: 86, SP: 0, BP: 0 MAR: 84(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c91) - (1001110010010001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 310.EXEC(7).0, PC: 86, SP: 0, BP: 0 MAR: 84(fefe), MDR: 2 CR: 00001000
+IR: skip.c (9c91) - (1001110010010001), Micro(142): 000000001000100100000000000011010010000000000000
+COND_CHK REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(SUB) COND(NEQ) ALUS(1) loadneg: 0 
+ALUS(1) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:ARG0, r1:ARG1, w:REG0
+args: 0:2, 1:2, tgt:1
+ALU: 0:REGR0(0) 1:REGR1(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MAR <- 86
+PC++
+IR <- 2002
+-------------------------------------------------------------------------
+Tick: 313.DECODE(3).1, PC: 88, SP: 0, BP: 0 MAR: 86(2002), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) IRimm(2) ALUS(0) REGR1(0) OP0(0) MDRin(2) loadneg: 0 
+ALUS(0) ALUout(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+MDR <- 0002
+-------------------------------------------------------------------------
+Tick: 314.DECODE(3).0, PC: 88, SP: 0, BP: 0 MAR: 86(fefe), MDR: 2 CR: 00001000
+IR: DECODING (2002) Micro(1): 001000000000000000000001000000000000100000000000
+MDR_LOAD IMMS(IMM13) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:REG0, r1:REG0, w:REG0
+args: 0:0, 1:0, tgt:2
+ALU: 0:REGR0(0) 1:REGR0(0) func: out:0
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 315.EXEC(7).1, PC: 88, SP: 0, BP: 0 MAR: 86(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) IRimm(0) ALUS(0) REGR0(136) OP0(2) OP1(136) MDRin(0) loadneg: 0 
+ALUS(0) ALUout(138) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 3 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(88) func: out:8a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+-------------------------------------------------------------------------
+Tick: 316.EXEC(7).0, PC: 88, SP: 0, BP: 0 MAR: 86(fefe), MDR: 2 CR: 00001000
+IR: br (2002) - (0010000000000010), Micro(129): 000100000111000001110000010000000000000000000000
+REGR0S(PC) REGWS(PC) OP0S(MDRout) ALUS(0) loadneg: 0 
+ALUS(0) loadneg: 0 
+Stable after 2 vcycles.
+regfile: r0:PC, r1:REG0, w:PC
+args: 0:0, 1:0, tgt:2
+ALU: 0:MDRout(2) 1:REGR0(88) func: out:8a
+STACK:
+1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
+PC <- 8a
+MAR <- 8a
 PC++
 IR <- c03
 -------------------------------------------------------------------------
-Tick: 225.DECODE(3).1, PC: b4, SP: 0, BP: 0 MAR: b2(c03), MDR: 5a CR: 00001000
+Tick: 319.DECODE(3).1, PC: 8c, SP: 0, BP: 0 MAR: 8a(c03), MDR: 2 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(384) ALUS(0) REGR1(0) OP0(90) MDRin(384) loadneg: 0 
-ALUS(0) ALUout(90) loadneg: 0 
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(384) ALUS(0) REGR1(0) OP0(2) MDRin(384) loadneg: 0 
+ALUS(0) ALUout(2) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
 args: 0:0, 1:0, tgt:3
-ALU: 0:MDRout(5a) 1:REGR0(0) func: out:5a
+ALU: 0:MDRout(2) 1:REGR0(0) func: out:2
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 0180
 -------------------------------------------------------------------------
-Tick: 226.DECODE(3).0, PC: b4, SP: 0, BP: 0 MAR: b2(fefe), MDR: 180 CR: 00001000
+Tick: 320.DECODE(3).0, PC: 8c, SP: 0, BP: 0 MAR: 8a(fefe), MDR: 180 CR: 00001000
 IR: DECODING (c03) Micro(0): 001000000000000000000000110000000000100000000000
 MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(384) loadneg: 0 
 ALUS(0) ALUout(384) loadneg: 0 
@@ -2051,7 +2823,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 227.EXEC(7).1, PC: b4, SP: 0, BP: 0 MAR: b2(fefe), MDR: 180 CR: 00001000
+Tick: 321.EXEC(7).1, PC: 8c, SP: 0, BP: 0 MAR: 8a(fefe), MDR: 180 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) IRimm(0) ALUS(0) MDRin(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -2063,7 +2835,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 228.EXEC(7).0, PC: b4, SP: 0, BP: 0 MAR: b2(fefe), MDR: 180 CR: 00001000
+Tick: 322.EXEC(7).0, PC: 8c, SP: 0, BP: 0 MAR: 8a(fefe), MDR: 180 CR: 00001000
 IR: ldi (c03) - (0000110000000011), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -2075,11 +2847,11 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG3 <- 180
-MAR <- b4
+MAR <- 8c
 PC++
 IR <- bdfe
 -------------------------------------------------------------------------
-Tick: 231.DECODE(3).1, PC: b6, SP: 0, BP: 0 MAR: b4(bdfe), MDR: 180 CR: 00001000
+Tick: 325.DECODE(3).1, PC: 8e, SP: 0, BP: 0 MAR: 8c(bdfe), MDR: 180 CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(30): 001000000000000000000010000000000000100000000000
 MDR_LOAD IMMS(IMM7u) IRimm(127) ALUS(0) REGR1(0) OP0(0) MDRin(127) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -2093,7 +2865,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MDR <- 007f
 -------------------------------------------------------------------------
-Tick: 232.DECODE(3).0, PC: b6, SP: 0, BP: 0 MAR: b4(fefe), MDR: 7f CR: 00001000
+Tick: 326.DECODE(3).0, PC: 8e, SP: 0, BP: 0 MAR: 8c(fefe), MDR: 7f CR: 00001000
 IR: DECODING (bdfe) Micro(30): 001000000000000000000010000000000000100000000000
 MDR_LOAD IMMS(IMM7u) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -2105,7 +2877,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 233.EXEC(7).1, PC: b6, SP: 0, BP: 0 MAR: b4(fefe), MDR: 7f CR: 00001000
+Tick: 327.EXEC(7).1, PC: 8e, SP: 0, BP: 0 MAR: 8c(fefe), MDR: 7f CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(158): 000100000000101110110000010010001100000000000000
 REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) IRimm(65535) ALUS(6) REGR1(384) OP0(127) OP1(384) MDRin(65535) loadneg: 0 
 ALUS(6) ALUout(65408) loadneg: 0 
@@ -2118,7 +2890,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 234.EXEC(7).0, PC: b6, SP: 0, BP: 0 MAR: b4(fefe), MDR: 7f CR: 00001000
+Tick: 328.EXEC(7).0, PC: 8e, SP: 0, BP: 0 MAR: 8c(fefe), MDR: 7f CR: 00001000
 IR: addhi (bdfe) - (1011110111111110), Micro(158): 000100000000101110110000010010001100000000000000
 REGR1S(TGT2) REGWS(TGT2) OP0S(MDRout) OP1S(REGR1) ALUS(LT) ALUS(6) loadneg: 0 
 ALUS(6) loadneg: 0 
@@ -2130,66 +2902,66 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 REG3 <- ff80
-MAR <- b6
+MAR <- 8e
 PC++
-IR <- 7fd
+IR <- 555
 -------------------------------------------------------------------------
-Tick: 237.DECODE(3).1, PC: b8, SP: 0, BP: 0 MAR: b6(7fd), MDR: 7f CR: 00001000
-IR: ldi (7fd) - (0000011111111101), Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(255) ALUS(0) REGR1(0) OP0(127) MDRin(255) loadneg: 0 
+Tick: 331.DECODE(3).1, PC: 90, SP: 0, BP: 0 MAR: 8e(555), MDR: 7f CR: 00001000
+IR: ldi (555) - (0000010101010101), Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) IRimm(170) ALUS(0) REGR1(0) OP0(127) MDRin(170) loadneg: 0 
 ALUS(0) ALUout(127) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:5
+args: 0:5, 1:2, tgt:5
 ALU: 0:MDRout(7f) 1:REGR0(0) func: out:7f
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 00ff
+MDR <- 00aa
 -------------------------------------------------------------------------
-Tick: 238.DECODE(3).0, PC: b8, SP: 0, BP: 0 MAR: b6(fefe), MDR: ff CR: 00001000
-IR: DECODING (7fd) Micro(0): 001000000000000000000000110000000000100000000000
-MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(255) loadneg: 0 
-ALUS(0) ALUout(255) loadneg: 0 
+Tick: 332.DECODE(3).0, PC: 90, SP: 0, BP: 0 MAR: 8e(fefe), MDR: aa CR: 00001000
+IR: DECODING (555) Micro(0): 001000000000000000000000110000000000100000000000
+MDR_LOAD OP0S(MDRout) IMMS(IMM10) ALUS(0) OP0(170) loadneg: 0 
+ALUS(0) ALUout(170) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:REG0, r1:REG0, w:REG0
-args: 0:7, 1:7, tgt:5
-ALU: 0:MDRout(ff) 1:REGR0(0) func: out:ff
+args: 0:5, 1:2, tgt:5
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 239.EXEC(7).1, PC: b8, SP: 0, BP: 0 MAR: b6(fefe), MDR: ff CR: 00001000
-IR: ldi (7fd) - (0000011111111101), Micro(128): 000100000000000010100000010000000000000000000000
-REGWS(TGT) OP0S(MDRout) IRimm(65535) ALUS(0) MDRin(65535) loadneg: 0 
+Tick: 333.EXEC(7).1, PC: 90, SP: 0, BP: 0 MAR: 8e(fefe), MDR: aa CR: 00001000
+IR: ldi (555) - (0000010101010101), Micro(128): 000100000000000010100000010000000000000000000000
+REGWS(TGT) OP0S(MDRout) IRimm(65493) ALUS(0) MDRin(65493) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:7, 1:7, tgt:5
-ALU: 0:MDRout(ff) 1:REGR0(0) func: out:ff
+args: 0:5, 1:2, tgt:5
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 240.EXEC(7).0, PC: b8, SP: 0, BP: 0 MAR: b6(fefe), MDR: ff CR: 00001000
-IR: ldi (7fd) - (0000011111111101), Micro(128): 000100000000000010100000010000000000000000000000
+Tick: 334.EXEC(7).0, PC: 90, SP: 0, BP: 0 MAR: 8e(fefe), MDR: aa CR: 00001000
+IR: ldi (555) - (0000010101010101), Micro(128): 000100000000000010100000010000000000000000000000
 REGWS(TGT) OP0S(MDRout) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:REG0, r1:REG0, w:TGT
-args: 0:7, 1:7, tgt:5
-ALU: 0:MDRout(ff) 1:REGR0(0) func: out:ff
+args: 0:5, 1:2, tgt:5
+ALU: 0:MDRout(aa) 1:REGR0(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-BP <- ff
-MAR <- b8
+BP <- aa
+MAR <- 90
 PC++
 IR <- b41d
 -------------------------------------------------------------------------
-Tick: 243.DECODE(3).1, PC: ba, SP: 0, BP: ff MAR: b8(b41d), MDR: ff CR: 00001000
+Tick: 337.DECODE(3).1, PC: 92, SP: 0, BP: aa MAR: 90(b41d), MDR: aa CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(26): 000000000000000000000000000000000000000000000000
 ALUS(0) REGR1(0) OP0(0) loadneg: 0 
 ALUS(0) ALUout(0) loadneg: 0 
@@ -2202,7 +2974,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 244.DECODE(3).0, PC: ba, SP: 0, BP: ff MAR: b8(fefe), MDR: ff CR: 00001000
+Tick: 338.DECODE(3).0, PC: 92, SP: 0, BP: aa MAR: 90(fefe), MDR: aa CR: 00001000
 IR: DECODING (b41d) Micro(26): 000000000000000000000000000000000000000000000000
 ALUS(0) loadneg: 0 
 Stable after 1 vcycles.
@@ -2213,7 +2985,7 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 245.READ(5).1, PC: ba, SP: 0, BP: ff MAR: b8(fefe), MDR: ff CR: 00001000
+Tick: 339.READ(5).1, PC: 92, SP: 0, BP: aa MAR: 90(fefe), MDR: aa CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(90): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) REGR1(65408) OP1(65408) loadneg: 0 
 ALUS(0) ALUout(65408) loadneg: 0 
@@ -2227,7 +2999,7 @@ STACK:
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 MAR <- ff80
 -------------------------------------------------------------------------
-Tick: 246.READ(5).0, PC: ba, SP: 0, BP: ff MAR: ff80(fefe), MDR: ff CR: 00001000
+Tick: 340.READ(5).0, PC: 92, SP: 0, BP: aa MAR: ff80(fefe), MDR: aa CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(90): 100000001000100100000000000010000000000000000000
 MAR_LOAD REGR0S(ARG0) REGR1S(ARG1) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
@@ -2239,33 +3011,33 @@ STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
 -------------------------------------------------------------------------
-Tick: 247.EXEC(7).1, PC: ba, SP: 0, BP: ff MAR: ff80(fefe), MDR: ff CR: 00001000
+Tick: 341.EXEC(7).1, PC: 92, SP: 0, BP: aa MAR: ff80(fefe), MDR: aa CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(154): 001010001010000000001000000010000000000000000000
-MDR_LOAD REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(255) REGR1(0) OP0(255) OP1(0) MDRin(65408) loadneg: 0 
-ALUS(0) ALUout(255) MDRin(255) loadneg: 0 
+MDR_LOAD REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) REGR0(170) REGR1(0) OP0(170) OP1(0) MDRin(65408) loadneg: 0 
+ALUS(0) ALUout(170) MDRin(170) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 3 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:3, tgt:5
-ALU: 0:REGR0(ff) 1:REGR1(0) func: out:ff
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-MDR <- 00ff
+MDR <- 00aa
 -------------------------------------------------------------------------
-Tick: 248.EXEC(7).0, PC: ba, SP: 0, BP: ff MAR: ff80(fefe), MDR: ff CR: 00001000
+Tick: 342.EXEC(7).0, PC: 92, SP: 0, BP: aa MAR: ff80(fefe), MDR: aa CR: 00001000
 IR: stw.b (b41d) - (1011010000011101), Micro(154): 001010001010000000001000000010000000000000000000
 MDR_LOAD REGR0S(TGT) MDRS(ALUout) OP1S(REGR1) ALUS(0) loadneg: 0 
 ALUS(0) loadneg: 0 
 Stable after 2 vcycles.
 regfile: r0:TGT, r1:REG0, w:REG0
 args: 0:0, 1:3, tgt:5
-ALU: 0:REGR0(ff) 1:REGR1(0) func: out:ff
+ALU: 0:REGR0(aa) 1:REGR1(0) func: out:aa
 STACK:
 1ffe 1ffc 1ffa 1ff8 1ff6 1ff4 1ff2 1ff0 1fee 1fec 1fea 1fe8 1fe6 1fe4 1fe2 
 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 
-RAM[ff80] <- ff
-MAR <- ba
+RAM[ff80] <- aa
+MAR <- 92
 PC++
 IR <- fe00
 HALT: encountered halt instruction.
@@ -2273,15 +3045,15 @@ HALT: encountered halt instruction.
 -------DSECTION--------
 ----------------------------REGISTERS-----------------------
 R0: 0000
-R1: 0008
+R1: 00aa
 R2: 0000
 R3: ff80
-R4: 0002
-R5: 00ff
+R4: 0004
+R5: 00aa
 R6: 0000
-R7: 00bc
+R7: 0094
 CR: 0000000000001000 (8)
 ----------------------------SYSREGS-----------------------
-MAR: 00ba
-MDR: 00ff
+MAR: 0092
+MDR: 00aa
 IR: fe00

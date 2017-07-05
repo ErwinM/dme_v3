@@ -48,7 +48,7 @@ _exit:
 wait_for_byte:
 	ldb r1, 5(bp)		; read LSR
 	andi r2, r1, 1	; check for bit 0: Data Ready
-	addskpi.z r2, r2, 1
+	addskpi.z r2, r2, -1
 	br wait_for_byte
 	ldb r4, 0(r5)		; get the byte
 	stb.b 0(r3), r4 ; store read byte
@@ -69,7 +69,7 @@ wr_string_loop:
 	br check_tx_free
 
 	ldb r2, r3(r4)				; load the char
-	addskp.nz r1, r2, r0 	; check for null terminator
+	skip.ne r2, r0 			; check for null terminator
 	br wr_string_return
 	stb 0(r5), r2					; write the char
 	addi r3, r3, 1
@@ -83,7 +83,7 @@ check_tx_free:
 	ldw r1, 5(bp)
 	ldi r2, 0x60
 	and r1, r1, r2
-	addskp.z r2, r2, r1
+	skip.eq r2, r1
 	br check_tx_free
 	pop r1
 	br.r r1

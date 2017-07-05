@@ -312,12 +312,15 @@ class SymbolTable
       new_args = []
       idx = 0
       instr[:args].each do |arg|
-        #if instr[:command] == "ldi" then binding.pry end
         # id calculations
         if arg.is_a?(String) && ( arg.include?("+") || arg.include?("-")) then
+          if !(["lda", "addhi"].include?(instr[:command])) then
+            Error.mexit("Encountered arithmetic expression outside LA16 instruction.\n")
+          end
           arg, calc = arg.split(/(?=[+|-])\s*/)
           new_args << arg
           instr[:calc] = calc
+          instr[:calc_argnr] = idx
           #binding.pry
         else
           new_args << arg
@@ -444,6 +447,13 @@ class SymbolTable
           arg = SymbolTable.resolvesym(arg)
           puts "Resolved: (#{argr} into #{SymbolTable.resolvesym(argr)}\n"
           #binding.pry
+        end
+
+        # evaluate calculation
+        if resolve && instr[:calc] then
+          argstr = arg.to_s+instr[:calc]
+          arg = eval(argstr)
+          binding.pry
         end
 
         adjarg = parsela16(instr[:command], arg)
@@ -634,14 +644,7 @@ class Coder
         argr = arg
         arg = SymbolTable.resolvesym(arg)
         puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
-
-        # we are assuming that the calc belongs to the (single) symbol FIXME
-        if instr[:calc] then
-          argstr = arg.to_s+instr[:calc]
-          arg = eval(argstr)
-        end
       end
-
       case template
       when :imm16
         code += bitsfromint(arg, 16, false)
@@ -785,9 +788,9 @@ class Writer
         end
         Writer.simplehex(file, instr[:hex])
       when :ram
-        Writer.mif(file, (instr[:addr]/2), instr[:code])
+        Writer.mif(file, (instr[:addr]/2), instr[:code], target)
       when :sim
-        Writer.mif(file, instr[:addr], instr[:code])
+        Writer.mif(file, instr[:addr], instr[:code], target)
       when :bin
         Writer.bin(file, instr[:h0], instr[:h1])
       when :list
@@ -830,6 +833,7 @@ class Writer
   end
 
   def self.mifinit(output)
+    $mif_addr = 0
     output.write("DEPTH = 8192;\n")
     output.write("WIDTH = 16;\n")
     output.write("ADDRESS_RADIX = HEX;\n")
@@ -839,11 +843,17 @@ class Writer
     output.write("\n")
   end
 
-  def self.mif(output, addr, code)
-    output.write("%04x" % addr)
+  def self.mif(output, addr, code, target)
+    #output.write("%04x" % addr)
+    output.write("%04x" % $mif_addr)
     output.write(" : ")
     output.write(code)
     output.write(";\n")
+    if target == :ram then
+      $mif_addr +=1
+    else
+      $mif_addr +=2
+    end
   end
 
   def self.mifclose(output)
@@ -1077,12 +1087,14 @@ SymbolTable.resolveptrs()
 SymbolTable.adjustla16(true)
 
 
-Writer.mifinit(sim_mif)
-Writer.mifinit(ram_mif)
+
+
 Coder.build()
 Writer.addhex()
 Writer.write(out_bin, :bin)
+Writer.mifinit(ram_mif)
 Writer.write(ram_mif, :ram)
+Writer.mifinit(sim_mif)
 Writer.write(sim_mif, :sim)
 Writer.write(simple_hex, :simple_hex)
 Writer.write(listing, :list)

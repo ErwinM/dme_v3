@@ -9,6 +9,7 @@ ori r2, r2, 1
 ori r2, r2, 2
 wpte r1, r2
 lpte r4, r1
+wptb r0
 
 ; turn on paging
 lcr r1

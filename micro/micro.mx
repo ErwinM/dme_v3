@@ -41,10 +41,10 @@
 14, skip.c r1 r2, decode, skipstate[1]
 14, skip.c r1 r2, read,
 14, skip.c r1 r2, exec, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[cond], ALU[sub]
-15, addskp.z r1 r2 r3, decode, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub], regws[tgt], reg_load, skipstate[2]
+15, addskp.z r1 r2 r3, decode, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[zr], ALU[add], regws[tgt], reg_load, skipstate[2]
 15, addskp.z r1 r2 r3, read,
 15, addskp.z r1 r2 r3, exec,
-16, addskp.nz r1 r2 r3, decode, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub], regws[tgt], reg_load, skipstate[2]
+16, addskp.nz r1 r2 r3, decode, op0s[regr0], regr0s[arg0], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[add], regws[tgt], reg_load, skipstate[2]
 16, addskp.nz r1 r2 r3, read,
 16, addskp.nz r1 r2 r3, exec,
 17, addi IRimm r1 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
@@ -62,10 +62,10 @@
 21,
 22, addskpi.z imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 22, addskpi.z imm op2 res, read,
-22, addskpi.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[sub], regws[tgt], reg_load
+22, addskpi.z imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[zr], ALU[add], regws[tgt], reg_load
 23, addskpi.nz imm op2 res, decode, imms[IMMIR], mdr_load, MDRS[imm], skipstate[1]
 23, addskpi.nz imm op2 res, read,
-23, addskpi.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[sub], regws[tgt], reg_load
+23, addskpi.nz imm op2 res, exec, op0s[mdr], regr1s[arg1], op1s[regr1], skipc[nzr], ALU[add], regws[tgt], reg_load
 24, ldw.b tgt (idx base), decode,
 24, ldw.b tgt (idx base), read, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], mar_load
 24, ldw.b tgt (idx base), exec, regr0s[reg0], op1s[regr0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, re

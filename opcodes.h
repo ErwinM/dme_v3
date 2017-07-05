@@ -11,7 +11,7 @@ static const char
                       "stb0 s7",
                       "add",        // 10
                       "sub",
-                      "nocode",
+                      "and",
                       "or",
                       "skip.c",
                       "addskp.z",     // 15

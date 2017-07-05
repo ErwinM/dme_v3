@@ -1,8 +1,9 @@
 ;
-; group l, test 1
+; group s, test 5
 ;
-; shl, shr, shl.r, shr.r
-;
+; skip.c - eq/ne
+
+
 
 
 
@@ -10,10 +11,10 @@
 
 
 ldi r2, 0x11
-ldi r1, char @l
+ldi r1, char @s
 stb.b 0(r2), r1
 ldi r2, 0x13
-ldi r1, 0x01
+ldi r1, 0x05
 stb.b 0(r2), r1
 
 
@@ -22,6 +23,10 @@ stb.b 0(r2), r1
 ;SYM(next1)
 ;SYM(next2)
 ;SYM(next3)
+;SYM(next4)
+;SYM(next5)
+;SYM(next6)
+
 
 ; Begin test here
 
@@ -35,22 +40,18 @@ mov r3, r0
 mov r5, r0
 
 
-;   shl, shr
-    ld16   	r1,0x5555
-    shl			r3, r1, 1
-    ld16		r2, 0xaaaa
-		addskp.z r2, r3, r2
-    br fail
+;   skip.eq
+		ldi		r1, 0xaa
+		skip.eq r1, r0
+		br fail
 br next0
 hlt
 
-next0:
-		shr			r3, r3, 1
-		addskp.z r2, r3, r1
-		br fail
-br next1
-hlt
 
+next0:
+		skip.eq r1, r0
+		br next1
+		br fail
 
 next1:
 ; subtest definition (tmacros)
@@ -62,23 +63,20 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   shl, shr 16 bits
-    ld16    r1,0xffff
-    shr			r1, r1, 15
-    addskpi.z r1, r1, 1
-    br fail
+
+;   skip.eq with 0
+		ldi r1, 0xaa
+		mov	r2, r0
+		skip.eq r2, r0
+		br fail
 br next2
 hlt
 
-next2:
-;		shifting 0 src
-		ldi 		r1, 1
-    shl			r1, r1, 3
-		addskpi.z r1, r1, 8
-		br fail
-br next3
-hlt
 
+next2:
+		skip.eq r2, r1
+		br next3
+		br fail
 
 next3:
 ; subtest definition (tmacros)
@@ -90,17 +88,22 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-;   shl - shifting in 0
-    ld16   	r1,0x55
-    shl			r1, r1, 8
-		ld16 		r2, 0x5500
-		addskp.z	r2, r1, r2
+
+;   skip.ne
+		ldi		r1, 0xaa
+		ldi 	r2, 0xbb
+		skip.ne r2, r1
 		br fail
 br next4
 hlt
 
 
 next4:
+		skip.ne r1, r1
+		br next5
+		br fail
+
+next5:
 ; subtest definition (tmacros)
 ldi r2, 0x14
 ldi r4, 4
@@ -110,26 +113,20 @@ mov r2, r0
 mov r3, r0
 mov r5, r0
 
-; shl.r, shr,r
-    ld16   	r1,0x5555
-		ldi			r6, 1
-    shl.r			r3, r1, r6
-    ld16		r2, 0xaaaa
-		addskp.z r2, r3, r2
-    br fail
-br next5
-hlt
 
-next5:
-		ldi 		r6, 1
-		shr.r		r3, r3, r6
-		addskp.z r2, r3, r1
+;   skip.ne with 0
+		ldi 	r1, 0xaa
+		mov		r2, r0
+		skip.ne r1, r2
 		br fail
-br pass
+br next6
 hlt
 
 
-
+next6:
+		skip.ne r2, r2
+		br pass
+		br fail
 
 ;   Finally, when done branch to pass
     pass:
