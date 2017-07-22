@@ -33,18 +33,34 @@ static const char
                       "push",
                       "pop",
                       "br.r",
-                      "NG",
-                      "NG",						// 35
-                      "NG",
+                      "syscall",
+                      "reti",						// 35
+                      "push.u",
                       "brk",
                       "lcr",
                       "scr",
-                      "NG",						// 40
-                      "NG",
+                      "wpte",						// 40
+                      "lpte",
                       "wptb",
                       "lptb",
                       "wivec",
                       "shl",						// 45
                       "shr",
-                      "NG",
+                      "shl.r",
+                      "shr.r",
+                      "pop.u",
+                      "lcr.u",					// 50
+                      "wcr.u",
+                      "nocode",
+                      "nocode",
+                      "nocode",
+                      "nocode",					// 55
+                      "nocode",
+                      "nocode",
+                      "nocode",
+                      "nocode",
+                      "nocode",					//60
+                      "nocode",
+                      "nocode",
+                      "hlt"
                   };

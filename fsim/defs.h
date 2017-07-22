@@ -23,8 +23,8 @@ int readuart(uint32_t addr);
 uint16_t readreg(int reg);
 void writereg(int reg, uint16_t value);
 void incr_pc();
-void writecr(uint16_t value);
-uint16_t readcr();
+void writecr(uint16_t value, int ureg);
+uint16_t readcr(int ureg);
 uint32_t pageaddr(ushort laddr);
 ushort getpte(ushort laddr);
 
@@ -37,4 +37,8 @@ void printd(const char *fmt, ...);
 int einde();
 static int getLine (char *prmpt, char *buff, size_t sz);
 void getinput();
+
+void writesd(uint8_t addr, uint16_t value);
+void bread(int bn);
+uint16_t readsd(uint8_t addr);
 

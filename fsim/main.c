@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include  <signal.h>
+#include <fcntl.h>
 
 #include "../arch2.h"
 #include "../types.h"
@@ -30,12 +31,18 @@ int sflag;
 int tick;
 int tx_delay;
 
+// file system simulation
+int fsfd;
+char rfifo[512];
+uint rfifo_p;
+uint sddata;
+
 int
 main(int argc,char *argv[]) {
 	ushort ir;
 	uint16_t imm, addr, arg2, result;
 	int16_t simm, sresult;
-	int32_t result32;
+	uint32_t result32;
 	int justsetcarry;
 
 	ucr = 0x8;
@@ -45,11 +52,19 @@ main(int argc,char *argv[]) {
 	parseopts(argc, argv);
   //init();
 	loadbios();
+
+	// open File System image
+  fsfd = open("../../dme_os/mkfs/fs.img", O_RDWR);
+  if(fsfd < 0){
+    perror("fs.img");
+    exit(1);
+  }
+
 	signal(SIGINT, INThandler);
 	ir = -1;
 	tick = 0;
 	printf("\n\n");
-	while(readreg(PC) < 0x2000 && ir != 0 ) {
+	while(readreg(PC) < 0x4000 && ir != 0 ) {
 		tick++;
 		pauze = 1;
 		if (sflag)
@@ -57,7 +72,8 @@ main(int argc,char *argv[]) {
 		traps();
 		ir = readram(readreg(PC), 0, 0);
 		incr_pc();
-		printd("\n%x : ", (readreg(PC)-2));
+
+		printd("\n%x : ", readreg(PC)-2);
 		decode(ir, &cinstr);
 		justsetcarry = 0;
 
@@ -78,7 +94,7 @@ main(int argc,char *argv[]) {
 			simm = (int16_t)((cinstr.full & 0x1fc) << 7) >> 9;
 			addr = readreg(BP) + simm;
 			writereg(cinstr.tgt2, readram(addr, 0, 0));
-			printd("r%d <- %x ", cinstr.tgt2, readreg(cinstr.tgt2));
+			printd("r%d <- %x(%x) ", cinstr.tgt2, readreg(cinstr.tgt2), addr);
 			break;
 		case 5: // ldb sb7(r5),tgt
 			simm = (int16_t)((cinstr.full & 0x1fc) << 7) >> 9;
@@ -109,8 +125,8 @@ main(int argc,char *argv[]) {
 			writereg(cinstr.tgt, (readreg(cinstr.arg0) + readreg(cinstr.arg1)));
 			printd("%x + %x = %x", readreg(cinstr.arg0), readreg(cinstr.arg1), readreg(cinstr.tgt));
 			result32 = readreg(cinstr.arg0) + readreg(cinstr.arg1);
-			if (readreg(cinstr.tgt) != result32) {
-				writecr(readcr() | 0x2);
+			if (result32 > 0xffff) {
+				writecr((readcr(0) | 0x2),0);
 				printd("set carry ");
 				justsetcarry = 1;
 			}
@@ -118,8 +134,8 @@ main(int argc,char *argv[]) {
 		case 11: // sub op1,op2,res
 			writereg(cinstr.tgt, (readreg(cinstr.arg0) - readreg(cinstr.arg1)));
 			result32 = readreg(cinstr.arg0) - readreg(cinstr.arg1);
-			if (readreg(cinstr.tgt) != result32) {
-				writecr(readcr() | 0x2);
+			if (result32 > 0xffff) {
+				writecr((readcr(0) | 0x2),0);
 				printd("set carry ");
 				justsetcarry = 1;
 			}
@@ -143,8 +159,15 @@ main(int argc,char *argv[]) {
 			result = readreg(cinstr.arg0) - readreg(cinstr.arg1);
 			result32 = readreg(cinstr.arg0) - readreg(cinstr.arg1);
 			printd("%x - %x = r16: %x, 32: %x, s16: %x", readreg(cinstr.arg0), readreg(cinstr.arg1), result, result32, sresult);
+			/* OLD
 			if (result != result32) {
 				writecr(readcr() | 0x2);
+				printd("set carry ");
+				justsetcarry = 1;
+			}
+			*/
+			if ((unsigned)readreg(cinstr.arg1) > (unsigned)readreg(cinstr.arg0)) {
+				writecr((readcr(0) | 0x2),0);
 				printd("set carry ");
 				justsetcarry = 1;
 			}
@@ -152,14 +175,14 @@ main(int argc,char *argv[]) {
 			else if (result == 0 && cinstr.tgt == 0) { incr_pc(); }
 			else if (result == 0 && cinstr.tgt == 5) { incr_pc(); }
 			else if (result > 0x7fff && cinstr.tgt == 3) { incr_pc(); }
-			else if (result > 0x7fff && cinstr.tgt == 1) { incr_pc(); }
+			else if (result > 0x7fff && result != 0 && cinstr.tgt == 1) { incr_pc(); }
 			else if (result > 0x7fff && cinstr.tgt == 2) { incr_pc(); }
 			else if (result < 0x8000 && cinstr.tgt == 5) { incr_pc(); }
-			else if (result < 0x8000 && cinstr.tgt == 1) { incr_pc(); }
+			else if (result < 0x8000 && result != 0 && cinstr.tgt == 1) { incr_pc(); }
 			else if (result < 0x8000 && cinstr.tgt == 4) { incr_pc(); }
 
-			else if ((readcr() & 0x2) && cinstr.tgt == 6 && result != 0) { incr_pc();}
-			else if ((readcr() & 0x2) && cinstr.tgt == 7) { incr_pc();}
+			else if ((readcr(0) & 0x2) && cinstr.tgt == 6 && result != 0) { incr_pc();}
+			else if ((readcr(0) & 0x2) && cinstr.tgt == 7) { incr_pc();}
 			else if (result == 0 && cinstr.tgt == 7) { incr_pc(); }
 
 			//if (result > 0 && cinstr.tgt == 4) { regfile[PC] += 2; }
@@ -183,11 +206,11 @@ main(int argc,char *argv[]) {
 		  simm = IRtable[cinstr.arg0];
 			writereg(cinstr.tgt, (readreg(cinstr.arg1) - simm));
 			break;
-		case 19: // add imm,op2,res
+		case 19: // and imm,op2,res
 			simm = IRtable[cinstr.arg0];
 			writereg(cinstr.tgt, (simm & readreg(cinstr.arg1)));
 			break;
-		case 20: // add imm,op2,res
+		case 20: // or imm,op2,res
 			simm = IRtable[cinstr.arg0];
 			writereg(cinstr.tgt, (simm | readreg(cinstr.arg1)));
 			break;
@@ -230,10 +253,11 @@ main(int argc,char *argv[]) {
 		case 31: // push src
 			writereg(SP, (readreg(SP)-2));
 			writeram(readreg(SP), readreg(cinstr.tgt), 0);
+			printd("RAM[%x]<- R%d(%x) \n", readreg(SP), cinstr.tgt, readreg(cinstr.tgt));
 			break;
 		case 32: // pop tgt
 			writereg(cinstr.tgt, readram(readreg(SP), 0, 0));
-			printd("%x -> r%d", readreg(cinstr.tgt), cinstr.tgt);
+			printd("R%d <- %x ", cinstr.tgt, readreg(cinstr.tgt));
 			writereg(SP, (readreg(SP)+2));
 			break;
 		case 33: // br.r tgt
@@ -242,6 +266,9 @@ main(int argc,char *argv[]) {
 			break;
 		case 34: // syscall tgt
 			trapnr = trapnr | 0x10;
+			break;
+		case 35: // reti
+			bank = 0;
 			break;
 		case 36: // push.u
 			writereg(SP, (readreg(SP)-2));
@@ -252,14 +279,14 @@ main(int argc,char *argv[]) {
 			getinput();
 			break;
 		case 38: // lcr reg
-			writereg(cinstr.tgt, readcr());
+			writereg(cinstr.tgt, readcr(0));
 			break;
 		case 39: // scr reg
-			writecr(readreg(cinstr.arg0));
+			writecr(readreg(cinstr.arg0),0);
 			break;
 		case 40: // wpte
 			pagetable[readreg(cinstr.arg0)] = readreg(cinstr.arg1);
-			printd("%d -> %d", readreg(cinstr.arg0), readreg(cinstr.arg1));
+			printd("%d -> %d ", readreg(cinstr.arg0), readreg(cinstr.arg1));
 			break;
 		case 41: // lpte
 			writereg(cinstr.tgt, pagetable[cinstr.arg0]);
@@ -292,9 +319,18 @@ main(int argc,char *argv[]) {
 			writereg(cinstr.tgt, (readreg(cinstr.arg0) >> readreg(cinstr.arg1)));
 			printd("R%d <- %x ", cinstr.tgt, readreg(cinstr.tgt));
 			break;
-		case 50: // pop.u tgt
+		case 49: // pop.u tgt
 			uregfile[cinstr.tgt] = readram(readreg(SP), 0, 0);
 			writereg(SP, (readreg(SP)+2));
+			printd("R%d <- %x ", cinstr.tgt, uregfile[cinstr.tgt]);
+			break;
+		case 50: // lcr.u reg
+			printd("R%d <- %x ", cinstr.tgt, readcr(1));
+			writereg(cinstr.tgt, readcr(1));
+			break;
+		case 51: // wcr.u reg
+			writecr(readreg(cinstr.arg0), 1);
+			printd("CR <- %x ", readcr(1));
 			break;
 		case 63:
 			printf("\nHALT instruction at %x\n", (readreg(PC)-2));
@@ -311,7 +347,7 @@ main(int argc,char *argv[]) {
 		if (!justsetcarry) {
 			// carry flag needs to survive one instr cycle
 			// then be reset
-			writecr(readcr() & 0xfffd);
+			writecr((readcr(0) & 0xfffd),0);
 		}
 	}
 	getinput();
@@ -338,10 +374,10 @@ void dumpregs(){
 
 void dumpcr() {
 	printf("CR: ");
-	if (readcr() & 0x8) { printf("IR ");} else {printf("ir ");};
-	if (readcr() & 0x4) { printf("PE ");} else {printf("pe ");};
-	if (readcr() & 0x2) { printf("CR ");} else {printf("cr ");};
-	if (readcr() & 0x1) { printf("SM ");} else {printf("um ");};
+	if (readcr(0) & 0x8) { printf("IR ");} else {printf("ir ");};
+	if (readcr(0) & 0x4) { printf("PE ");} else {printf("pe ");};
+	if (readcr(0) & 0x2) { printf("CR ");} else {printf("cr ");};
+	if (readcr(0) & 0x1) { printf("SM ");} else {printf("um ");};
 	printf("\n");
 }
 
@@ -370,7 +406,7 @@ void decode(ushort ir, struct instr_t *p) {
 
 uint16_t readreg(int reg) {
 	if (bank) {
-		//printd("reg: %x(%d)", sregfile[reg], reg);
+		//printd("reg: %d", reg);
 		return sregfile[reg];
 	} else {
 		return uregfile[reg];
@@ -398,6 +434,13 @@ readram(ushort addr, int be, int bypasspag) {
   int ramaddr;
 	int paddr;
 	uint16_t ramdata;
+	if(addr >= 0xffa0){
+		return readsd(addr);
+	}
+
+	if(addr >= 0xff90) {
+		return readuart(addr);
+	}
 
 	paddr = pageaddr(addr);
 
@@ -405,10 +448,6 @@ readram(ushort addr, int be, int bypasspag) {
 		ramaddr = addr >> 1;
 	} else {
 		ramaddr = paddr >> 1;
-	}
-
-	if(paddr >= 0xff90) {
-		return readuart(paddr);
 	}
 
 	if(be) {
@@ -433,12 +472,17 @@ void
 writeram(ushort addr, ushort value, int be) {
   uint32_t paddr, ramaddr, MDRlowb, tmp;
 
-  paddr = pageaddr(addr);
-	if (paddr == 0xff90) {
+	if (addr == 0xff90) {
 		printf("%c", (value & 0xff));
 		return;
 	}
-
+	if (addr >= 0xffa0) {
+		writesd((addr&0xff), value);
+	}
+	if (addr > 0xff90) {
+		return;
+	}
+	paddr = pageaddr(addr);
   ramaddr = paddr >> 1;
 
 	if(be) {
@@ -460,11 +504,50 @@ writeram(ushort addr, ushort value, int be) {
   }
 }
 
+void writesd(uint8_t addr, uint16_t value) {
+	if(addr == 0xa6) {
+		sddata = value;
+		printd("SDDATA <- %x", value);
+	}
+	if(addr == 0xa2 && value ==0x8851) {
+		// read sector in data
+		bread(sddata);
+	}
+}
+
+uint16_t readsd(uint8_t addr) {
+	if(addr == 0xa2) {
+		// reading R1 response
+		return 0;
+	}
+	if(addr == 0xa8) {
+		return rfifo[rfifo_p];
+	}
+	if(addr == 0xaa) {
+		rfifo_p += 2;
+		return rfifo[rfifo_p-1];
+	}
+}
+
+void bread(int bn) {
+  printd("Attempting to read SD at: %x\n", bn*512);
+	if(lseek(fsfd, bn * 512, 0) != bn * 512){
+    perror("lseek");
+    exit(1);
+  }
+
+  if(read(fsfd, &rfifo, 512) != 512){
+		perror("read");
+    exit(1);
+  }
+	rfifo_p = 0;
+}
+
 int readuart(uint32_t addr) {
 	// 0xff95 - LSR, tx is free if bit5 & 6 are 1
 	printd("readuart - addr: %x", addr);
 	if (addr == 0xff95) {
-		if (tick > (tx_delay + 100)) {
+		if (tick > (tx_delay + 1)) {
 			tx_delay = tick;
 			return 0x60;
 		} else {
@@ -474,15 +557,19 @@ int readuart(uint32_t addr) {
 	return 0xdead;
 }
 
-uint16_t readcr() {
-	if (bank)
+uint16_t readcr(int ureg) {
+	if (ureg)
+		return ucr;
+	else if (bank)
 		return scr;
 	else
 		return ucr;
 }
 
-void writecr(uint16_t value) {
-	if (bank)
+void writecr(uint16_t value, int ureg) {
+	if (ureg)
+		ucr = value;
+	else if (bank)
 		scr = value;
 	else
 		ucr = value;
@@ -492,8 +579,9 @@ void traps() {
 	// page faulting will be kept out of this for now
 	// only expecting syscall and timer so IRQs
 	// irqs will be raised by directly setting the bit in trapnr
-	if (trapnr > 0 && (readcr() & 0x8)) {
-		printd("Encountered TRAP: %x\n", trapnr);
+	if (trapnr > 0 && (readcr(0) & 0x8)) {
+		printd("TRAP RAISED: %x\n", trapnr);
+		sregfile[REG1] = trapnr;
 		if (trapnr & 0x10) {
 			// syscall
 			trapnr = trapnr & 0xffef;
@@ -504,14 +592,12 @@ void traps() {
 			printf("UNKOWN TRAP NR: %d", trapnr);
 			exit(1);
 		}
-		sregfile[REG1] = trapnr;
-		sregfile[REG2] = cinstr.tgt;
+		sregfile[2] = cinstr.tgt;
 		sregfile[PC] = ivec;
 		bank = 1;
 	}
 	return;
 }
-
 
 ushort getpte(ushort laddr) {
 	uint16_t ptidx;
@@ -524,7 +610,7 @@ uint32_t pageaddr(ushort laddr){
 	uint16_t pte;
 	uint16_t ptetmp;
 
-	if (readcr() & 0x4) {
+	if (readcr(0) & 0x4) {
 		// paging is on
 		pte = getpte(laddr);
 		//printd("pte: %x", pte);
@@ -534,7 +620,7 @@ uint32_t pageaddr(ushort laddr){
 			printf("FAULT: page not present (%x). Instr at addr: %x\n", laddr, readreg(PC));
 			getinput();
 		}
-		if ((readcr() & 0x1)==0 && (pte & 0x2)){
+		if ((readcr(0) & 0x1)==0 && (pte & 0x2)){
 			printf("FAULT: system page not accessible in use mode (%x)", laddr);
 			getinput();
 		}
@@ -543,6 +629,7 @@ uint32_t pageaddr(ushort laddr){
 		return laddr;
 	}
 }
+
 
 void INThandler(int sig)
 {
@@ -589,7 +676,7 @@ again:
 			d=0;
 			while (d < nr) {
 				printf("\n%04x: ", addr+d);
-				for (i=0; i<=16; i+=2) {
+				for (i=0; i<16; i+=2) {
 					printf("%04x  ", readram((addr+d+i), 0, 0));
 				}
 				d += 16;
@@ -621,7 +708,10 @@ again:
 		while (d < nr) {
 			printf("\n%04x: ", addr+d);
 			for (i=0; i<=16; i+=2) {
-				printf("%04x  ", readram((addr+d+i), 0, 0));
+				if(readreg(BP)==(addr+d+i))
+					printf("%04x< ", readram((addr+d+i), 0, 0));
+				else
+					printf("%04x  ", readram((addr+d+i), 0, 0));
 			}
 		  d += 16;
 		}
@@ -634,13 +724,13 @@ again:
 	} else if (strcmp(token[0], "c") == 0) {
 		return;
 	} else if (strcmp(token[0], "tab") == 0 ) {
-		if (readcr() & 0x4) {
+		if (readcr(0) & 0x4) {
 			printf("PTB: %x\n", ptb);
 			for(i=0;i<32;i++){
-				if(pagetable[i]){
-					//printf("pt: %x", pagetable[i]);
+				if(pagetable[ptb+i]){
+					//printf("pt: %x", pagetable[ptb+i]);
 					printf("[%x] 0x%04x -> [%x] 0x%04x\n", i, i*0x800,
-					((pagetable[i]&0xff00)>>8), ((pagetable[i]&0xff00)<<3));}
+					((pagetable[ptb+i]&0xff00)>>8), ((pagetable[ptb+i]&0xff00)<<3));}
 			}
 		} else {
 			printf("Paging not enabled!\n");

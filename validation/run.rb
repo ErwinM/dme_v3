@@ -29,6 +29,9 @@ in_files.each do |test_name|
 
   tf = File.open(test_name, "r")
 
+  label = "runall_#{testnr}:"
+  output.write("#{label}\n")
+
   tf.readlines.each do |line|
     handled = 0;
     # check for init_mem
@@ -52,12 +55,12 @@ in_files.each do |test_name|
       #binding.pry
     end
 
-    if line.strip[0..8] == "INIT_TEST" then
-      label = "runall_#{testnr}:"
-      output.write("#{label}\n")
-      output.write(line)
-      handled = 1
-    end
+    # if line.strip[0..10] == "TEST_START" then
+    #   label = "runall_#{testnr}:"
+    #   output.write("#{label}\n")
+    #   #output.write(line)
+    #   handled = 1
+    # end
 
     if line.strip == ".code 0x100" then
       if code_reloc == 0 then

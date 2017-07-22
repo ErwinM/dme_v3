@@ -12,7 +12,7 @@ init_uart:
 	stw 1(bp), r1   ; port + 1 0x00 - disable all interrupts
 	ldi r1, 0x80
 	stw 3(bp), r1   ; port + 3 0x80 enable dlab
-	ldi r1, 32
+	ldi r1, 52			; was 32 with 5.0mhz clock
 	stw 0(bp), r1		; port + 0 set divisor to 1 LSB
 	ldi r1, 0
 	stw 1(bp), r1		; port + 1 set divisor to 1 MSB

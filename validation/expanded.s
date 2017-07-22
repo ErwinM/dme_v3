@@ -7,17 +7,6 @@
 
 
 
-
-
-
-ldi r2, 0x11
-ldi r1, char @s
-stb.b 0(r2), r1
-ldi r2, 0x13
-ldi r1, 0x05
-stb.b 0(r2), r1
-
-
 ; declare symbols here
 ;SYM(next0)
 ;SYM(next1)
@@ -31,9 +20,6 @@ stb.b 0(r2), r1
 ; Begin test here
 
 ; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 1
-stb.b 0(r2), r4
 mov r1, r0
 mov r2, r0
 mov r3, r0
@@ -42,7 +28,7 @@ mov r5, r0
 
 ;   skip.eq
 		ldi		r1, 0xaa
-		skip.eq r1, r0
+		skip.eq r1, r1
 		br fail
 br next0
 hlt
@@ -55,9 +41,6 @@ next0:
 
 next1:
 ; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 2
-stb.b 0(r2), r4
 mov r1, r0
 mov r2, r0
 mov r3, r0
@@ -80,9 +63,6 @@ next2:
 
 next3:
 ; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 3
-stb.b 0(r2), r4
 mov r1, r0
 mov r2, r0
 mov r3, r0
@@ -105,9 +85,6 @@ next4:
 
 next5:
 ; subtest definition (tmacros)
-ldi r2, 0x14
-ldi r4, 4
-stb.b 0(r2), r4
 mov r1, r0
 mov r2, r0
 mov r3, r0
@@ -136,6 +113,8 @@ next6:
   hlt
 
 fail:
+	ldi r1, char @s
+	ldi r2, 0x5
 	ld16 r3, 0xff80
 	ldi r5, 0xFF
 	stw 0(r3), r5

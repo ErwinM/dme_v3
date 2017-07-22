@@ -9,20 +9,20 @@
 #include "arch.h"
 #include "types.h"
 
-uint micro[256];
 
 int main(void)
 {
-  uint64_t b1, b2, b3, micro;
+  uint32_t b1, b2, b3, result32;
+	int16_t sresult32;
 
-  b1=0xaaaa;
-  b2=0xbbbb;
+  b1=0x4;
+  b2=0x6;
   b3=0xff00;
 
-  micro = b1 << 32;
-  micro = micro | b2 << 16;
-  micro = micro | b3;
+	result32 = (b1&0xffff) -(b2&0xffff);
+	sresult32 = b1 -b2;
 
-  printf("Micro: %llx\n", micro);
+  printf("%x - %x = %x (%d)\n", b1, b2, result32, (result32 > 0xffff));
+  printf("%x - %x = %x (%d)\n", b1, b2, sresult32, (sresult32 > 0xffff));
 
 }

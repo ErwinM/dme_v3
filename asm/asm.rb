@@ -17,7 +17,7 @@ class Parser
   def self.parse(file)
     file.readlines.each do |line|
       line.strip!
-      if line.size == 0
+      if line.size == 0 || line[0] == '#' then
         puts "skip"
         # skip empty lines
         next
@@ -27,7 +27,7 @@ class Parser
         next
       end
       parsed_instr[:line] = line
-      #binding.pry
+      #binding.pry if $instr_nr > 584
       if parsed_instr[:command] == ".code" then
         if $instr_nr != 0 then
           Error.mexit("ERROR: .code needs to be the first declaration (is: #{$instr_nr})")
@@ -49,6 +49,7 @@ class Parser
       end
       if parsed_instr[:command] == ".data" then
         if $data_ptr != 0 then
+          binding.pry
           Error.mexit("ERROR: .data can only be declared once")
         end
         if parsed_instr[:no_args] then next end
@@ -128,6 +129,7 @@ class Parser
       if instr[:label] then
         if $double_label_guard > 0 then
           if $double_label_guard > 1 then
+            binding.pry
             Error.mexit("Encountered more than two sequential labels")
           end
           prev_label = find_label($instr_nr - 1)
@@ -179,16 +181,17 @@ class Parser
     #binding.pry
     if commands.nil? then return end
     if commands.length == 0 then return end
-    if commands[0] == '.' && commands[0..4] != '.code' && commands[0..4] != '.data' then return end
+    if commands[0] == '.' && commands[0..4] != '.code' && commands[0..4] != '.' then return end
+    command, argstr = commands.split(" ", 2)
     # is it a label?
-    if commands.include?(":") then
+    if command.include?(":") then
       # it is a label
       puts "Found label: #{commands.strip.chop}\n"
       instr[:label] = true;
       instr[:name] = commands.chop.strip
       return instr
     end
-    command, argstr = commands.split(" ", 2)
+
     instr[:command] = command.strip
     if ISA::MEMINSTR.include?(instr[:command])
       puts "Found mem instr: #{command}\n"
@@ -453,7 +456,7 @@ class SymbolTable
         if resolve && instr[:calc] then
           argstr = arg.to_s+instr[:calc]
           arg = eval(argstr)
-          binding.pry
+          #binding.pry
         end
 
         adjarg = parsela16(instr[:command], arg)
@@ -644,6 +647,7 @@ class Coder
         argr = arg
         arg = SymbolTable.resolvesym(arg)
         puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
+        #binding.pry
       end
       case template
       when :imm16
@@ -901,7 +905,7 @@ class ISA
     "push.u" => 36,
     "brk" => 37,
     "lcr" => 38,
-    "scr" => 39,
+    "wcr" => 39,
     "wpte" => 40,
     "lpte" => 41,
     "wptb" => 42,
@@ -911,6 +915,9 @@ class ISA
     "shr" => 46,
     "shl.r" => 47,
     "shr.r" => 48,
+    "pop.u" => 49,
+    "lcr.u" => 50,
+    "wcr.u" => 51,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -957,7 +964,7 @@ class ISA
     "push.u" => {:pad6 => :x, :reg => 0},
     "brk" =>{:pad9 => :x},
     "lcr" => {:pad6 => :x, :reg => 0},
-    "scr" => {:reg => 0, :pad6 => :x},
+    "wcr" => {:reg => 0, :pad6 => :x},
     "wpte" => {:reg => 0, :reg1 => 1, :pad3 => :x},
     "lpte" => {:reg => 1, :pad3 => :x, :reg1 => 0},
     "wptb" => {:reg => 0, :pad6 => :x},
@@ -967,6 +974,9 @@ class ISA
     "shr" => {:imm4 => 2, :reg => 1, :tgt2 => 0},
     "shl.r" => {:reg => 1, :reg1 => 2, :reg2 => 0},
     "shr.r" => {:reg => 1, :reg1 => 2, :reg2 => 0},
+    "pop.u" => {:pad6 => :x, :reg => 0},
+    "lcr.u" => {:pad6 => :x, :reg => 0},
+    "wcr.u" => {:reg => 0, :pad6 => :x},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze
@@ -1008,7 +1018,7 @@ class ISA
   MEMINSTR= {
     "defw" => 1,   # define word
     "defb" => 2,   # define byte
-    "defstr" => 3,    # define string
+    "defstr" => 3, # define string
     "defs" => 4    # reserve n bytes
   }.freeze
 

@@ -5,10 +5,6 @@
 
 include(tmacros.h)
 
-.code 0x100
-
-INIT_TEST(s,0x04)
-
 ; declare symbols here
 ;SYM(next0)
 ;SYM(next1)
@@ -107,4 +103,4 @@ next10:
 
 
 ;   Finally, when done branch to pass
-    END_TEST
+    END_TEST(s, 0x4)

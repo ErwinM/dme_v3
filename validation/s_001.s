@@ -5,10 +5,6 @@
 
 include(tmacros.h)
 
-.code 0x100
-
-INIT_TEST(s,0x01)
-
 ; declare symbols here
 ;SYM(hop)
 ;SYM(d1)
@@ -45,7 +41,6 @@ hop:
 ; Begin test here
 
 SUBTEST(1)
-
 ;   lt both pos
 		la16   	r1, d1
 		mov			r5, r1
@@ -109,4 +104,4 @@ next7:
 		PASS(pass)
 
 ;   Finally, when done branch to pass
-    END_TEST
+    END_TEST(s, 0x1)

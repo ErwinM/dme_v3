@@ -5,10 +5,7 @@
 
 include(tmacros.h)
 
-.code 0x100
-
 runall_1:
-INIT_TEST(s,0x01)
 
 ; declare symbols here
 
@@ -34,7 +31,6 @@ hop_s_001:
 ; Begin test here
 
 SUBTEST(1)
-
 ;   lt both pos
 		la16   	r1, d1_s_001
 		mov			r5, r1
@@ -97,6 +93,7 @@ next7_s_001:
 		skip.lte r1, r2
 PASS(runall_2)
 ;   Finally, when done branch to pass
+    END_TEST(s, 0x1)
 ;
 ; group s, test 2
 ;
@@ -105,7 +102,6 @@ PASS(runall_2)
 
 
 runall_2:
-INIT_TEST(s,0x02)
 
 ; declare symbols here
 
@@ -194,15 +190,14 @@ next7_s_002:
 		skip.gte r1, r2
 PASS(runall_3)
 ;   Finally, when done branch to pass
+    END_TEST(s, 0x2)
 ;
 ; group s, test 3
 ;
 ; skip.c - ult, ulte
 
 
-
 runall_3:
-INIT_TEST(s,0x03)
 
 ; declare symbols here
 
@@ -291,15 +286,14 @@ next7_s_003:
 		skip.ulte r2, r1
 PASS(runall_4)
 ;   Finally, when done branch to pass
+		END_TEST(s, 0x3)
 ;
 ; group s, test 4
 ;
 ; skip.c - addskp(i).(n)z
 
 
-
 runall_4:
-INIT_TEST(s,0x04)
 
 ; declare symbols here
 
@@ -384,8 +378,14 @@ SUBTEST(6)
 
 next1_s_0040:
 		addskpi.nz r3, r2, 1
-		PASS(pass)
+PASS(pass)
+
+;   Finally, when done branch to pass
+    END_TEST(s, 0x4)
+;
+; group s, test 5
+;
+; skip.c - eq/ne
 
 
 ;   Finally, when done branch to pass
-    END_TEST

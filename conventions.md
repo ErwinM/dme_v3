@@ -22,7 +22,9 @@ wptb is always a multiple of 32 (0, 32, 64, 96).
 
 PTE
 ---
-
+bit 0: page present
+bit 1: user / super
+bit 2: read / write - THIS IS NOT IMPLEMENTED YET!!
 
 
 todo:

@@ -1,23 +1,24 @@
 	la16 r4, 0xff90
 	mov r5, r4
 	mov r1, r0
-	stw r1, 1(r5)   ; port + 1 0x00 - disable all interrupts
+	stw 1(bp), r1   ; port + 1 0x00 - disable all interrupts
 	ldi r1, 0x80
-	stw r1, 3(r5)   ; port + 3 0x80 enable dlab
-	ldi r1, 32
-	stw r1, 0(r5)		; port + 0 set divisor to 1 LSB
+	stw 3(bp), r1   ; port + 3 0x80 enable dlab
+	ldi r1, 52
+	stw 0(bp),r1		; port + 0 set divisor to 1 LSB
 	ldi r1, 0
-	stw r1, 1(r5)		; port + 1 set divisor to 1 MSB
+	stw 1(bp), r1		; port + 1 set divisor to 1 MSB
 	ldi r1, 3
-	stw r1, 3(r5)		; port + 3 set LCR - validate
+	stw 3(bp), r1		; port + 3 set LCR - validate
+	brk
 	ldi r1, char 'e'
-	stw r1, 0(r5)		; offset of LSR
+	stw 0(r5),r1
 check_tx_free:
-	ldw r1, 5(r5)
+	ldw r1, 5(bp)   ; offset of LSR
 	ldi r2, 0x61
-	addskp.z r2, r2, r1
+	skip.eq r2, r1
 	br check_tx_free
 	ldi r1, char 'r'
-	stw r1, 0(r5)		; port set transport byte
+	stw r0(bp),r1		; port set transport byte
 	hlt
 	hlt
