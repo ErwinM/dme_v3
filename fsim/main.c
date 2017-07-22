@@ -13,7 +13,7 @@
 #include "../opcodes.h"
 #include "defs.h"
 
-uint16_t ram[8192] = {0};
+uint16_t ram[32768] = {0}; // 64kb
 uint16_t uregfile[16] = {0};
 uint16_t sregfile[16] = {0};
 uint16_t pagetable[512] = {0};
@@ -335,6 +335,7 @@ main(int argc,char *argv[]) {
 		case 63:
 			printf("\nHALT instruction at %x\n", (readreg(PC)-2));
 			printf("contents of R5: %x\n", readreg(BP));
+			printf("Simulation ran for %d ticks\n", tick);
 			getinput();
 			einde();
 			break;
@@ -521,11 +522,11 @@ uint16_t readsd(uint8_t addr) {
 		return 0;
 	}
 	if(addr == 0xa8) {
-		return rfifo[rfifo_p];
+		return ((rfifo[rfifo_p]<<8)|rfifo[rfifo_p+1]);
 	}
 	if(addr == 0xaa) {
-		rfifo_p += 2;
-		return rfifo[rfifo_p-1];
+		rfifo_p += 4;
+		return ((rfifo[(rfifo_p-2)]<<8)|rfifo[rfifo_p-1]);
 	}
 }
 
