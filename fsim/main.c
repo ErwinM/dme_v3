@@ -44,6 +44,8 @@ main(int argc,char *argv[]) {
 	int16_t simm, sresult;
 	uint32_t result32;
 	int justsetcarry;
+	int x,y;
+	uint16_t byte, mask;
 
 	ucr = 0x8;
 	scr = 0x1;
@@ -64,7 +66,7 @@ main(int argc,char *argv[]) {
 	ir = -1;
 	tick = 0;
 	printf("\n\n");
-	while(readreg(PC) < 0x4000 && ir != 0 ) {
+	while(readreg(PC) < 0xf800 && ir != 0 ) {
 		tick++;
 		pauze = 1;
 		if (sflag)
@@ -122,8 +124,10 @@ main(int argc,char *argv[]) {
 			writeram(addr, 0, 1);
 			break;
 		case 10: // add op1,op2,res
-			writereg(cinstr.tgt, (readreg(cinstr.arg0) + readreg(cinstr.arg1)));
-			printd("%x + %x = %x", readreg(cinstr.arg0), readreg(cinstr.arg1), readreg(cinstr.tgt));
+			x = readreg(cinstr.arg0);
+			y = readreg(cinstr.arg1);
+			writereg(cinstr.tgt, x+y);
+			printd("%x + %x = >>%x (%x)", x, y, readreg(cinstr.tgt), x+y);
 			result32 = readreg(cinstr.arg0) + readreg(cinstr.arg1);
 			if (result32 > 0xffff) {
 				writecr((readcr(0) | 0x2),0);
@@ -245,7 +249,15 @@ main(int argc,char *argv[]) {
 			addr = readreg(cinstr.arg0) + readreg(cinstr.arg1);
 			writeram(addr, readreg(cinstr.tgt), 1);
 			break;
-		case 30: // addih u7,tgt2
+		case 28: // sext reg, reg
+	  	byte = (0xFF & readreg(cinstr.arg0));
+	    mask = 0x80;
+	    if (mask & byte)
+	    	byte += 0xFF00;
+			writereg(cinstr.tgt, byte);
+			printd("sext: r%d <- R%d: %x", cinstr.tgt, cinstr.arg0, byte);
+			break;
+		case 30: // addhi u7,tgt2
 			imm = (cinstr.full & 0x1fc) << 7;
 			writereg(cinstr.tgt2, ((readreg(cinstr.tgt2) & 0x1ff) | imm));
 			printd("R%d <- %x", cinstr.tgt2, readreg(cinstr.tgt2));
@@ -351,6 +363,7 @@ main(int argc,char *argv[]) {
 			writecr((readcr(0) & 0xfffd),0);
 		}
 	}
+	printf("End of while-loop.\n");
 	getinput();
 }
 
@@ -415,6 +428,7 @@ uint16_t readreg(int reg) {
 }
 
 void writereg(int reg, uint16_t value) {
+	//printd("value: %x ", value);
 	if (bank) {
 		sregfile[reg] = value;
 	} else {
@@ -522,16 +536,18 @@ uint16_t readsd(uint8_t addr) {
 		return 0;
 	}
 	if(addr == 0xa8) {
-		return ((rfifo[rfifo_p]<<8)|rfifo[rfifo_p+1]);
+		//printf("high word: %x %x --", rfifo[rfifo_p], rfifo[rfifo_p+1]&0xff);
+		return (((rfifo[rfifo_p]&0xff)<<8)|(rfifo[rfifo_p+1]&0xff));
 	}
 	if(addr == 0xaa) {
 		rfifo_p += 4;
-		return ((rfifo[(rfifo_p-2)]<<8)|rfifo[rfifo_p-1]);
+		//printf("low word: %x %x \n", rfifo[rfifo_p-2], rfifo[rfifo_p-1]);
+		return (((rfifo[rfifo_p-2]&0xff)<<8)|(rfifo[rfifo_p-1]&0xff));
 	}
 }
 
 void bread(int bn) {
-  printd("Attempting to read SD at: %x\n", bn*512);
+  printf("Attempting to read SD at: %x\n", bn*512);
 	if(lseek(fsfd, bn * 512, 0) != bn * 512){
     perror("lseek");
     exit(1);

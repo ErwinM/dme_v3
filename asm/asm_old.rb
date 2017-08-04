@@ -32,7 +32,18 @@ class Parser
         if $instr_nr != 0 then
           Error.mexit("ERROR: .code needs to be the first declaration (is: #{$instr_nr})")
         end
-        next if parsed_instr[:no_args]
+        if parsed_instr[:no_args] then next end
+        # we need to relocate code and add a little trampoline to it at the start
+        # load addr, branch to it
+#         trampoline = parseld16({:args => ["r1", parsed_instr[:args][0]], :line => line})
+#         trampoline << {:command => "br", :args => [parsed_instr[:args][0]]}
+#         #binding.pry
+#         noreloc = 0
+#         trampoline.each do |tr|
+#           tr[:no_reloc] = noreloc
+#           noreloc +=2
+#         end
+#         appendinstr(trampoline)
         $code_ptr = parsed_instr[:args][0]
         next
       end
@@ -50,8 +61,10 @@ class Parser
         instructions = parseld16(parsed_instr)
       elsif parsed_instr[:command] == "la16" then
         # this will often be a symbol which we haven't resolved at this point
-        instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :line => line}
-        instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]]}
+        # we take a conservative approach and insert 2 instructions to be adjusted after symbols
+        # have been resolved
+        instr_lo = {:command => "lda", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true, :line => line}
+        instr_hi = {:command => "addhi", :args => [parsed_instr[:args][0], parsed_instr[:args][1]], :adjust => true}
         instructions = [instr_lo, instr_hi]
         #binding.pry
       elsif parsed_instr[:command] == "defstr" then
@@ -146,6 +159,7 @@ class Parser
     unless instr[:no_args]
       nr_of_args = ISA::ARGS[instr[:command]].values.select {|a| a != :x}.length
       if nr_of_args != instr[:args].length then
+        binding.pry
         Error.mexit("Argument error: #{instr[:command]}, #{ISA::ARGS[instr[:command]].length} got #{instr[:args].length}")
       end
     end
@@ -280,9 +294,8 @@ class Parser
       # imm requires two instructions to load: ldi followed by addhi
       lo = instr[:args][1] & 0x1ff
       hi = (instr[:args][1] & 0xfe00) >> 9
-      instr_lo = {:command => "ldi", :args => [instr[:args][0], lo], :line => instr[:line], :ld16 =>true }
-      instr_hi = {:command => "addhi", :args => [instr[:args][0], hi], :ld16 => true }
-      #binding.pry
+      instr_lo = {:command => "ldi", :args => [instr[:args][0], lo], :line => instr[:line] }
+      instr_hi = {:command => "addhi", :args => [instr[:args][0], hi] }
       return [instr_lo, instr_hi]
     end
   end
@@ -303,7 +316,6 @@ class SymbolTable
       idx = 0
       instr[:args].each do |arg|
         # id calculations
-        # need to be split from symbols to allow symbols to be ID and resolved
         if arg.is_a?(String) && ( arg.include?("+") || arg.include?("-")) then
           if !(["lda", "addhi"].include?(instr[:command])) then
             Error.mexit("Encountered arithmetic expression outside LA16 instruction.\n")
@@ -352,6 +364,9 @@ class SymbolTable
   def self.placeinstr()
     $last_addr = $code_ptr
     $instructions.each do |instr|
+      # if instr[:mem] then
+#         next
+#       end
       if instr[:no_reloc] then
         instr[:addr] = instr[:no_reloc]
       else
@@ -428,6 +443,60 @@ class SymbolTable
       end
     end
     dump()
+  end
+
+  def self.adjustla16(resolve)
+    to_delete = []
+    $instructions.each_with_index do |instr, idx|
+      if instr[:no_reloc] then next end
+      if ["lda", "addhi"].include?(instr[:command]) && instr[:adjust] then
+        arg = instr[:args][1]
+        if SymbolTable.issym?(arg) then
+          argr = arg
+          arg = SymbolTable.resolvesym(arg)
+          puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)} (#{instr[:instr_nr]})\n"
+        end
+
+        # evaluate calculation
+        if resolve && instr[:calc] then
+          argstr = arg.to_s+instr[:calc]
+          arg = eval(argstr)
+          #binding.pry
+        end
+        #binding.pry if instr[:instr_nr] == 2427
+        adjarg = parsela16(instr[:command], arg)
+        if adjarg == :nop then
+          $instructions.delete_at(idx)
+        end
+        if resolve then
+          instr[:args][1] = adjarg
+          #binding.pry
+        end
+      end
+    end
+  end
+
+  def self.parsela16(cmd, addr)
+    # la16 allows the compiler to load an arbitrary length (up to 16b) address in a reg
+    # here we check its length and see if we need 1 or 2 instructions
+    puts "parsela16: #{addr}\n"
+    if addr <= 511 then
+      if cmd == "lda" then
+        # addr is small enough to load with lda
+        return addr
+      else
+        # commmand == addhi which is not needed
+        return :nop
+      end
+    else
+      # addr requires two instructions to load
+      if cmd == "lda" then
+        #binding.pry
+        return (addr & 0x1ff)
+      else
+        return (addr & 0xfe00) >> 9
+      end
+    end
   end
 
   def self.find_instr_nr(nr)
@@ -574,32 +643,17 @@ class Coder
     #binding.pry
     ISA::ARGS[instr[:command]].each do |template, argnr|
       # get the right arg from argtemplate
+      #binding.pry
+      #template = argtemplate.keys[i]
       arg = instr[:args][argnr] unless argnr == :x
-
-      # resolve symbols to addresses
+      #i += 1
+      #binding.pry
       if SymbolTable.issym?(arg) then
         argr = arg
         arg = SymbolTable.resolvesym(arg)
         puts "Resolved: #{argr} into #{SymbolTable.resolvesym(argr)}\n"
         #binding.pry #if instr[:instr_nr] == 1827
       end
-
-      # evaluate calculations
-      if instr[:calc] && instr[:calc_argnr] == argnr then
-        argstr = arg.to_s+instr[:calc]
-        arg = eval(argstr)
-      end
-
-      # adjust la16 instructions (lda/addhi) to right values
-      if ["lda", "addhi"].include?(instr[:command]) && !instr[:ld16] && argnr == 1 then
-        # addr requires two instructions to load
-        if instr[:command] == "lda" then
-          arg = (arg & 0x1ff)
-        else
-          arg = (arg & 0xfe00) >> 9
-        end
-      end
-
       case template
       when :imm16
         code += bitsfromint(arg, 16, false)
@@ -1023,7 +1077,7 @@ out_bin = File.open("A.bin", "w+")
 sim_mif = File.open("A_sim.mif", "w+")
 ram_mif = File.open("A_ram.mif", "w+")
 simple_hex = File.open("A_simple.hex", "w+")
-listing = File.open("A.list", "w+")
+listing = File.open("A_old.list", "w+")
 
 $instructions = []
 $list = []
@@ -1039,12 +1093,31 @@ $hex_addr = 0
 $double_label_guard = 0
 
 
+# problem is i have 1 uncertain instruction: addhi which might not be needed:
+
+# we do this:
+# 1. resolve symbols -> first addresses
+# 2. process la16s and identify unneeded addhi's - we could stop at like 2x 0x3ff probably
+# 3. update addresses and resolve symbols again
+
+
+# ALSO: if we load .data above 0x3ff (1023) all constant loads need two instructions
+# this is only ~1000 instructions so it is safe to assume that all global loads will be 2 instructions
+# but branching will also be below, we could optimise this later
+
+
 #SymbolTable.loadpredefined()
 Parser.parse(input)
 SymbolTable.idsymbols()
 SymbolTable.placeinstr()
 SymbolTable.placemem()
 SymbolTable.resolveptrs()
+SymbolTable.adjustla16(false)
+SymbolTable.placeinstr()
+SymbolTable.resolveptrs()
+SymbolTable.adjustla16(true)
+
+
 
 
 Coder.build()
@@ -1059,7 +1132,6 @@ Writer.write(listing, :list)
 Writer.mifclose(ram_mif)
 Writer.mifclose(sim_mif)
 SymbolTable.dump()
-puts "Done!\n"
 
 #puts "\n------ Instruction tokens -----------\n"
 #$instructions.each do |instr|
