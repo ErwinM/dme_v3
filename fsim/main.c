@@ -18,6 +18,8 @@ uint16_t uregfile[16] = {0};
 uint16_t sregfile[16] = {0};
 uint16_t pagetable[512] = {0};
 uint16_t ucr, scr, ptb, ivec, trapnr;
+uint disk_irq;
+uint16_t uart_irq;
 
 short instr;
 struct instr_t cinstr;
@@ -50,6 +52,9 @@ main(int argc,char *argv[]) {
 	ucr = 0x8;
 	scr = 0x1;
 	ptb =0xdead;
+
+	disk_irq = 0;
+	uart_irq = 0;
 
 	parseopts(argc, argv);
   //init();
@@ -175,20 +180,19 @@ main(int argc,char *argv[]) {
 				printd("set carry ");
 				justsetcarry = 1;
 			}
-			if (result == 0 && cinstr.tgt == 3) { incr_pc(); }
-			else if (result == 0 && cinstr.tgt == 0) { incr_pc(); }
-			else if (result == 0 && cinstr.tgt == 5) { incr_pc(); }
-			else if (result > 0x7fff && cinstr.tgt == 3) { incr_pc(); }
-			else if (result > 0x7fff && result != 0 && cinstr.tgt == 1) { incr_pc(); }
-			else if (result > 0x7fff && cinstr.tgt == 2) { incr_pc(); }
-			else if (result < 0x8000 && cinstr.tgt == 5) { incr_pc(); }
-			else if (result < 0x8000 && result != 0 && cinstr.tgt == 1) { incr_pc(); }
-			else if (result < 0x8000 && cinstr.tgt == 4) { incr_pc(); }
-
-			else if ((readcr(0) & 0x2) && cinstr.tgt == 6 && result != 0) { incr_pc();}
-			else if ((readcr(0) & 0x2) && cinstr.tgt == 7) { incr_pc();}
-			else if (result == 0 && cinstr.tgt == 7) { incr_pc(); }
-
+			if (result == 0) {
+				 if ( cinstr.tgt == 3 || cinstr.tgt == 0 || cinstr.tgt == 5 || cinstr.tgt == 7) { incr_pc(); }
+			} else {
+				if (result > 0x7fff && cinstr.tgt == 3) { incr_pc(); }
+				if (result > 0x7fff && cinstr.tgt == 1) { incr_pc(); }
+				if (result > 0x7fff && cinstr.tgt == 2) { incr_pc(); }
+				if (result < 0x8000 && cinstr.tgt == 5) { incr_pc(); }
+				if (result < 0x8000 && cinstr.tgt == 1) { incr_pc(); }
+				if (result < 0x8000 && cinstr.tgt == 4) { incr_pc(); }
+				if ((readcr(0) & 0x2) && cinstr.tgt == 6) { incr_pc();}
+				if ((readcr(0) & 0x2) && cinstr.tgt == 7) { incr_pc();}
+				if (result == 0 && cinstr.tgt == 7) { incr_pc(); }
+			}
 			//if (result > 0 && cinstr.tgt == 4) { regfile[PC] += 2; }
 
 			break;
@@ -344,6 +348,9 @@ main(int argc,char *argv[]) {
 			writecr(readreg(cinstr.arg0), 1);
 			printd("CR <- %x ", readcr(1));
 			break;
+		case 52:
+			trapnr = 0;
+			break;
 		case 63:
 			printf("\nHALT instruction at %x\n", (readreg(PC)-2));
 			printf("contents of R5: %x\n", readreg(BP));
@@ -363,7 +370,7 @@ main(int argc,char *argv[]) {
 			writecr((readcr(0) & 0xfffd),0);
 		}
 	}
-	printf("End of while-loop.\n");
+	printf("End of while-loop (ticks: %d)\n", tick);
 	getinput();
 }
 
@@ -392,6 +399,7 @@ void dumpcr() {
 	if (readcr(0) & 0x4) { printf("PE ");} else {printf("pe ");};
 	if (readcr(0) & 0x2) { printf("CR ");} else {printf("cr ");};
 	if (readcr(0) & 0x1) { printf("SM ");} else {printf("um ");};
+	printf("(%x)", readcr(0));
 	printf("\n");
 }
 
@@ -487,6 +495,11 @@ void
 writeram(ushort addr, ushort value, int be) {
   uint32_t paddr, ramaddr, MDRlowb, tmp;
 
+	if(addr == 0xb05a){
+		printf("FSIM: written to 0xb05a!\n");
+		getinput();
+	}
+
 	if (addr == 0xff90) {
 		printf("%c", (value & 0xff));
 		return;
@@ -533,7 +546,12 @@ void writesd(uint8_t addr, uint16_t value) {
 uint16_t readsd(uint8_t addr) {
 	if(addr == 0xa2) {
 		// reading R1 response
-		return 0;
+		if(disk_irq > 1) {
+			//printf("readsd: disk_irq at %d", disk_irq);
+			return 0x4000;
+		} else {
+			return 0;
+		}
 	}
 	if(addr == 0xa8) {
 		//printf("high word: %x %x --", rfifo[rfifo_p], rfifo[rfifo_p+1]&0xff);
@@ -547,7 +565,12 @@ uint16_t readsd(uint8_t addr) {
 }
 
 void bread(int bn) {
-  printf("Attempting to read SD at: %x\n", bn*512);
+  if(disk_irq != 0) {
+		printf("FSIM: attempting to read while sd is busy!\n");
+		getinput();
+		exit(1);
+	}
+	printf("FSIM: Attempting to read SD at: %x\n", bn*512);
 	if(lseek(fsfd, bn * 512, 0) != bn * 512){
     perror("lseek");
     exit(1);
@@ -558,6 +581,7 @@ void bread(int bn) {
     exit(1);
   }
 	rfifo_p = 0;
+	disk_irq = 99999;
 }
 
 int readuart(uint32_t addr) {
@@ -571,7 +595,7 @@ int readuart(uint32_t addr) {
 			return 0x0;
 		}
 	}
-	return 0xdead;
+	return 0xcafe;
 }
 
 uint16_t readcr(int ureg) {
@@ -591,13 +615,27 @@ void writecr(uint16_t value, int ureg) {
 	else
 		ucr = value;
 }
+void diskirq() {
+	// if disk_irq == 0 there is no disk operation running
+	// if disk_irq == 1 the irq should be fired
+	if(disk_irq > 0) {
+		//printf(".");
+		if(disk_irq == 1) {
+			printf("fire disk irq!!");
+			trapnr |= 0x8;
+		}
+		disk_irq--;
+	}
+}
+
 
 void traps() {
 	// page faulting will be kept out of this for now
 	// only expecting syscall and timer so IRQs
 	// irqs will be raised by directly setting the bit in trapnr
+	diskirq();
 	if (trapnr > 0 && (readcr(0) & 0x8)) {
-		printd("TRAP RAISED: %x\n", trapnr);
+		printf("TRAP RAISED: %x\n", trapnr);
 		sregfile[REG1] = trapnr;
 		if (trapnr & 0x10) {
 			// syscall
@@ -605,6 +643,9 @@ void traps() {
 		} else if (trapnr & 0x20) {
 			// timer irq
 			trapnr = trapnr & 0xffdf;
+		} else if (trapnr & 0x8) {
+			// timer irq
+			trapnr = trapnr & 0xfff7;
 		} else {
 			printf("UNKOWN TRAP NR: %d", trapnr);
 			exit(1);

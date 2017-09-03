@@ -6,9 +6,6 @@
 
 include(tmacros.h)
 
-.code 0x100
-INIT_TEST(e,0x01)
-
 ; declare symbols here
 ;SYM(next0)
 ;SYM(next1)
@@ -44,7 +41,7 @@ SUBTEST(1)
     ldi	    r1, 0x80
     stb	    48(bp), r1
     ldb    	r2, 48(bp)
-    addskp.z r2, r1, r2
+    skip.eq r1, r2
     PASS(next0)
 
 next0:
@@ -59,7 +56,7 @@ SUBTEST(2)
 		ldi	    r1, 0x80
 		stb	    r2(bp), r1
 		ldb    	r3, r2(bp)
-		addskp.z r2, r1, r3
+		skip.eq r1, r3
 		PASS(next1)
 
 
@@ -73,17 +70,17 @@ SUBTEST(3)
 		la16   	r1, MEM_0xAAAA
 		ld16		r2, 32
 		add	    bp, r1, r2
-		ldi	    r1, 0x80
+		ldi	    r1, 0x88
 		stb	    -32(bp), r1
 		ldb    	r3, -32(bp)
-		addskp.z r2, r1, r3
+		skip.eq r1, r3
 		PASS(next2)
 
 		; check if the low byte is preserved
 next2:
 		ldb r3, -31(bp)
 		ldi r1, 0xaa
-		addskp.z r1, r1, r3
+		skip.eq r1, r3
 		PASS(next3)
 
 
@@ -99,14 +96,14 @@ SUBTEST(4)
 		ldi	    r1, 0x80
 		stb	    -31(bp), r1
 		ldb    	r3, -31(bp)
-		addskp.z r2, r1, r3
+		skip.eq r1, r3
 		PASS(next4)
 
 		; check if the high byte is preserved
 next4:
 		ldb r3, -32(bp)
 		ldi r1, 0xbb
-		addskp.z r1, r1, r3
+		skip.eq r1, r3
 		PASS(next5)
 
 next5:
@@ -122,7 +119,7 @@ next5:
 		ldi	    r1, 0x80
 		stb	    r2(bp), r1
 		ldb    	r3, r2(bp)
-		addskp.z r3, r1, r3
+		skip.eq r1, r3
 		PASS(next6)
 
 		; check if the low byte is preserved
@@ -130,7 +127,7 @@ next6:
 		addi	r2, r2, 1
 		ldb r3, r2(bp)
 		ldi r1, 0xcc
-		addskp.z r1, r1, r3
+		skip.eq r1, r3
 		PASS(next7)
 
 
@@ -143,18 +140,18 @@ SUBTEST(6)
 		la16   	r1, MEM_0xDDDD
 		ld16		r2, 0x200
 		sub	    bp, r1, r2
-		addi		r4, r2, 1
+		addi		r3, r2, 1
 		ldi	    r1, 0x80
-		stb	    r4(bp), r1
-		ldb    	r3, r4(bp)
-		addskp.z r3, r1, r3
+		stb	    r3(bp), r1
+		ldb    	r3, r3(bp)
+		skip.eq r1, r3
 		PASS(next8)
 
 		; check if the high byte is preserved
 next8:
 		ldb r3, r2(bp)
 		ldi r1, 0xdd
-		addskp.z r1, r1, r3
+		skip.eq r1, r3
 		PASS(pass)
 
 

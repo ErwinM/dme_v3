@@ -78,16 +78,14 @@ get_out_of_idle:
 
 la16 r1, 0x0700
 stw 6(bp), r1
-
-brk
-
 la16 r1, 0x0ff
 ldi r1, 1
 stw 6(bp), r1
 la16 r1, 0x8851
 stw 2(bp), r1
 addi sp, pc, 2
-br wait_while_busy
+mov r3, r0
+br count_while_busy
 ldw r1, 8(bp)
 ldw r2, 10(bp)
 ldw r3, 8(bp)
@@ -114,9 +112,6 @@ hlt
 ;
 
 
-
-
-
 wait_while_busy:
 	ldw r1, 2(bp)
 	la16 r2, 0x4000
@@ -124,3 +119,13 @@ wait_while_busy:
 	skip.eq r4, r2
 	br.r sp
 	br wait_while_busy
+
+
+count_while_busy:
+	addi r3, r3, 1
+	ldw r1, 2(bp)
+	la16 r2, 0x4000
+	and r4, r1, r2
+	skip.eq r4, r2
+	hlt
+	br count_while_busy

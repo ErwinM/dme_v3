@@ -238,7 +238,7 @@ init(void) {
 	tick = 0;
 
   bsig[PC] = 0;
-	regfile[FLAGS] = 8; // IRQ enabled (irqs not currently in simulator!)
+	regfile[FLAGS] = 1; // mode 1 (trap mode)
 
   // load microcode
   loadmicrocode();

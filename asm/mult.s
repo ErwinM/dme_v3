@@ -1,8 +1,6 @@
 
-
-
-	ldi r1, -3
-	la16 r2, -2
+	ld16 r1, 0x800
+	ldi r2, 0x1e
 	mov r4, r0
 
 ; if a > b
@@ -20,13 +18,13 @@ L2:
 	br L3
 ; check if r1 is even/odd
 	andi r3, r1, 1
-	addskpi.nz r3, r3, 1
+	addskpi.nz r3, r3, -1
 	add r4, r4, r2
 	shr r1, r1, 1
 	shl r2, r2, 1
 	br L2
 L3:
 	andi r3, r1, 1
-	addskpi.nz r3, r3, 1
+	addskpi.nz r3, r3, -1
 	add r4, r4, r2
 	hlt

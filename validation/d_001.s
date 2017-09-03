@@ -40,7 +40,7 @@ SUBTEST(1)
     sub				bp, r1, r2
 		ldb				r3, 60(bp)
    	ldi				r1, 0xaa
-		addskp.z	r1, r1, r3
+		skip.eq		r1, r3
     PASS(next0)
 
 next0:
@@ -53,7 +53,7 @@ next0:
     add				bp, r1, r2
 		ldb				r3, -60(bp)
    	ldi				r1, 0xaa
-		addskp.z	r1, r1, r3
+		skip.eq	  r1, r3
     PASS(next1)
 
 next1:
@@ -65,7 +65,7 @@ next1:
 		sub			r3,	r1, r2
 		ldb			r3, r2(r3)
 		ldi			r1, 0xaa
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next3)
 
 
@@ -78,7 +78,7 @@ next3:
 		sub			r3,	r1, r2
 		ldb			r3, r2(r3)
 		ldi			r1, 0xaa
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next4)
 
 next4:
@@ -88,7 +88,7 @@ next4:
     la16   	r1, MEM_0xAA_8
 		ldb			r3, 0(r1)
 		ldi			r1, 0xaa
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next5)
 
 
@@ -103,7 +103,7 @@ next5:
     sub				bp, r1, r2
 		ldb				r3, 60(bp)
    	ldi				r1, 0xab
-		addskp.z	r1, r1, r3
+		skip.eq   r1, r3
     PASS(next6)
 
 next6:
@@ -117,7 +117,7 @@ next6:
     sub				bp, r1, r2
 		ldb				r3, 61(bp)
    	ldi				r1, 0xcd
-		addskp.z	r1, r1, r3
+		skip.eq   r1, r3
     PASS(next7)
 
 next7:
@@ -130,7 +130,7 @@ next7:
 		sub			r3,	r1, r2
 		ldb			r3, r2(r3)
 		ldi			r1, 0xab
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next8)
 
 next8:
@@ -144,7 +144,7 @@ next8:
 		addi		r2, r2, 1
 		ldb			r3, r2(r3)
 		ldi			r1, 0xcd
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next9)
 
 next9:
@@ -158,7 +158,7 @@ next9:
 		stw			r0(r1), r2
 		addi		r1, r1, 1
 		ldb			r3, r0(r1)
-		addskp.z	r1, r2, r3
+		skip.eq r2, r3
     PASS(pass)
 
 

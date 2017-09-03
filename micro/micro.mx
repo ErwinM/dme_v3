@@ -88,9 +88,9 @@
 31, push reg, decode, decr_sp,
 31, push reg, read, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
 31, push reg, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
-32, pop reg, decode,
-32, pop reg, read, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
-32, pop reg, exec, regr1s[reg0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, incr_sp, re
+32, pop reg, decode, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
+32, pop reg, read, regr1s[reg0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, re
+32, pop reg, exec, incr_sp
 33, br.r reg, decode, regr0s[tgt], regr1s[reg0], regws[pc], op0s[regr0], op1s[regr1], reg_load, skipstate[2]
 33, br.r reg, read,
 33, br.r reg, exec,
@@ -102,16 +102,16 @@
 35, reti, exec,
 36, push.u reg, decode, decr_sp,
 36, push.u reg, read, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
-36, push.u reg, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load
+36, push.u reg, exec, mdrs[alu], regr0s[tgt], regr1s[reg0], op0s[regr0], op1s[regr1], mdr_load, ram_load, ureg
 37, brk, decode, brk
 37, brk, read,
 37, brk, exec, brk
 38, lcr tgt, decode, regr0s[cr], op0s[regr0], op1s[regr1], regws[tgt], reg_load, skipstate[2]
 38, lcr tgt, read
 38, lcr tgt, exec
-39, scr src, decode, regr0s[arg0], op0s[regr0], op1s[regr1], regws[cr], reg_load, skipstate[2]
-39, src sec, read
-39, src sec, exec
+39, wcr src, decode, regr0s[arg0], op0s[regr0], op1s[regr1], regws[cr], reg_load, skipstate[2]
+39, wrc sec, read
+39, wrc sec, exec
 40, wpte src tgt, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], wpte, skipstate[2]
 40, wpte src tgt, read,
 40, wpte src tgt, exec,
@@ -139,3 +139,12 @@
 48, shr.r reg reg tgt, decode, regr0s[arg0], regr1s[arg1], op0s[regr0], op1s[regr1], ALU[shr], regws[tgt], reg_load, skipstate[2]
 48, shr.r reg reg tgt, read,
 48, shr.r reg reg tgt, exec,
+49, pop.u reg, decode, regr0s[SP], op0s[regr0], op1s[regr1], mar_load
+49, pop.u reg, read, regr1s[reg0], op0s[mdr], regws[tgt], mdrs[ram], mdr_load, reg_load, re, ureg
+49, pop.u reg, exec, incr_sp
+50, lcr.u reg, decode, regr0s[cr], op0s[regr0], op1s[regr1], ureg, MDRS[alu], mdr_load, skipstate[1]
+50, lcr.u reg, read,
+50, lcr.u reg, exec, op0s[mdr], op1s[regr1], regws[tgt], reg_load
+51, wcr.u reg, decode, regr0s[arg0], op0s[regr0], op1s[regr1], MDRS[alu], mdr_load, skipstate[1]
+51, wcr.u reg, read,
+51, wcr.u reg, exec, op0s[mdr], op1s[regr1], regws[cr], reg_load, ureg

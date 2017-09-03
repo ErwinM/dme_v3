@@ -1,7 +1,7 @@
 # peasant mult algorithm
 
-a = 11
-b = 34128
+a = 0x800
+b = 0x1e
 
 if a > b then
   x = b
@@ -24,4 +24,4 @@ while (x > 1) do
 end
 unless (x % 2) == 0 then result += y end
 
-puts result
+puts result.to_s(16)

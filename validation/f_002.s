@@ -5,27 +5,44 @@
 
 include(tmacros.h)
 
-.code 0x100
-
-INIT_TEST(f,0x02)
-
 ; declare symbols here
 
 ;SYM(next1)
+;SYM(next2)
 
 ; load control register into R1
-; only IRQ should be enabled (value 8)
-brk
+; only mode 1 bit should be set (trap mode)
+
 	lcr r1
-	addskpi.z r2, r1, 8
+	ldi r2, 1
+	skip.eq r1, r2
 	PASS(next1)
 
 next1:
-; disable IRQ by loading a new value into CR
-	scr r0
+; enable IRQ (in reality this should not be done in trap mode)
+	ldi r2, 9
+	wcr r2
 	lcr r1
-	addskp.z r2, r1, r0
+	skip.eq r1, r2
+	PASS(next2)
+
+
+next2:
+; read the user space CR, its default value is 8
+; THIS WILL FAIL ON THE GATE LEVEL SIMULATOR!!
+; it does work in the iverlog simulation
+	lcr.u r1
+	ldi r2, 8
+	skip.eq r1, r2
+	PASS(next3)
+
+next3:
+; write a value to it
+	wcr.u r0
+	lcr.u r1
+	skip.eq r1, r0
 	PASS(pass)
+
 
 ;   Finally, when done branch to pass
   END_TEST

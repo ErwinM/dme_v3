@@ -14,7 +14,7 @@ wptb r0
 ; turn on paging
 lcr r1
 ori r1, r1, 4
-scr r1
+wcr r1
 
 ; address something high
 la16 r3, 0x810

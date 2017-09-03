@@ -6,10 +6,6 @@
 
 include(tmacros.h)
 
-.code 0x100
-
-INIT_TEST(f,0x01)
-
 ; declare symbols here
 ;SYM(next0)
 ;SYM(next1)
@@ -30,25 +26,25 @@ SUBTEST(1)
     push    r1
 		; track sp change
 		ld16   	r3, 0x1ffe
-		addskp.z r2, sp, r3
+		skip.eq sp, r3
 		PASS(next0)
 
 next0:
 		; value is in the right spot
 		mov 		r2, sp
 		ldw			r3, 0(r2)
-    addskp.z r3, r3, r1
+    skip.eq r3, r1
     PASS(next1)
 
 SUBTEST(2)
 next1:
 		pop	    r2
 		; pop produces the right value
-		addskp.z	r3, r2, r1
+		skip.eq	r2, r1
     PASS(next2)
 next2:
 		ld16 r3, 0x2000
-		addskp.z r3, r3, sp
+		skip.eq r3, sp
 		PASS(pass)
 
 ;   Finally, when done branch to pass

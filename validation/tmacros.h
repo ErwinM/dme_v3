@@ -60,6 +60,7 @@ w1:
 # set subtest and reinit regs
 define(SUBTEST,
 `; subtest definition (tmacros)
+ldi r4, $1
 mov r1, r0
 mov r2, r0
 mov r3, r0
@@ -75,14 +76,11 @@ define(END_TEST,
   hlt
 
 fail:
-	ldi r1, char @$1
-	ldi r2, $2
 	ld16 r3, 0xff80
 	ldi r5, 0xFF
 	stw 0(r3), r5
   hlt
 ')
-
 
 # set test/fail code that ends most tests
 define(PASS,

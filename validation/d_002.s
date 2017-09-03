@@ -28,7 +28,7 @@ SUBTEST(1)
     sub				bp, r1, r2
 		ldw				r3, 45(bp)
    	ld16			r1, 0x8000
-		addskp.z	r1, r1, r3
+		skip.eq	  r1, r3
     PASS(next0)
 
 next0:
@@ -41,7 +41,7 @@ next0:
     add				bp, r1, r2
 		ldw				r3, -45(bp)
    	ld16			r1, 0x8000
-		addskp.z	r1, r1, r3
+		skip.eq	  r1, r3
     PASS(next1)
 
 next1:
@@ -53,7 +53,7 @@ next1:
 		sub			r3,	r1, r2
 		ldw			r3, r2(r3)
 		ld16		r1, 0x7fff
-		addskp.z	r1, r1, r3
+		skip.eq	r1, r3
     PASS(next2)
 
 
@@ -66,7 +66,7 @@ next2:
 		sub			r3,	r1, r2
 		ldw			r3, r2(r3)
 		ld16		r1, 0x7fff
-		addskp.z	r1, r1, r3
+		skip.eq r1, r3
     PASS(next3)
 
 next3:
@@ -76,7 +76,7 @@ next3:
     la16   	r1, MEM0x7FFF_16
 		ldw			r3, 0(r1)
 		ld16			r1, 0x7fff
-		addskp.z	r1, r1, r3
+		skip.eq  r1, r3
     PASS(pass)
 
 ;   Finally, when done branch to pass

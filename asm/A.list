@@ -1,2 +1,25 @@
-0000 : 081a     |     ld16 r2, 0xf03
-0002 : bc1d     |     
+     :          | _mult:
+0000 : 0002     |     ld16 r2, 0x800 ; op1
+0002 : bc11     |     
+0004 : 00f3     |     ld16 r3, 0x1e    ; op2
+0006 : 9401     |     mov r1, r0     ; result reg
+0008 : 9c9c     |     skip.gt r2, r3
+000a : 2006     |     br multL2
+000c : 9484     |     mov r4, r2
+000e : 94c2     |     mov r2, r3
+0010 : 9503     |     mov r3, r4
+     :          | multL2:
+0012 : 000c     |     ldi r4, 1
+0014 : 9ca4     |     skip.gt r2, r4
+0016 : 200c     |     br multL3
+0018 : a614     |     andi r4, r2, 1
+001a : 9d00     |     skip.eq r4, r0
+001c : 9459     |     add r1, r1, r3
+001e : dc29     |     shr r2, r2, 1
+0020 : da2e     |     shl r3, r3, 1
+0022 : 3fee     |     br multL2
+     :          | multL3:
+0024 : a614     |     andi r4, r2, 1
+0026 : 9d00     |     skip.eq r4, r0
+0028 : 9459     |     add r1, r1, r3
+002a : fe00     |     hlt

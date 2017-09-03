@@ -115,12 +115,10 @@ class Parser
       end
       if instr[:label] then
         if $double_label_guard > 0 then
-          if $double_label_guard > 1 then
-            binding.pry
-            Error.mexit("Encountered more than two sequential labels")
+          for i in 1..$double_label_guard
+            prev_label = find_label($instr_nr - i)
+            prev_label[:ptr] += 1
           end
-          prev_label = find_label($instr_nr - 1)
-          prev_label[:ptr] += 1
         end
         instr[:ptr] = $instr_nr + 1
         instr[:instr_nr] = $instr_nr
@@ -416,7 +414,7 @@ class SymbolTable
         instr[:no_reloc] = instr[:addr]
       end
     end
-    #binding.pry
+    $last_mem_addr = ptr
   end
 
   def self.resolveptrs()
@@ -759,10 +757,13 @@ class Writer
   end
 
   def self.writeheader(output)
+    unless $last_mem_addr then
+      $last_mem_addr = $last_instr_addr
+    end
     header = []
     header << 0xbabe
-    header << $last_addr
-    header << 0           # entry point assumed to be 0, would need special identifier
+    header << $last_mem_addr
+    header << 0x6           # entry point: make special label to make flexible
     output.write(header.pack("nnn"))
   end
 
@@ -881,6 +882,7 @@ class ISA
     "pop.u" => 49,
     "lcr.u" => 50,
     "wcr.u" => 51,
+    "rsi" => 52,
     "defw" => :mem,
     "defb" => :mem,
     "hlt" => 63,
@@ -940,6 +942,7 @@ class ISA
     "pop.u" => {:pad6 => :x, :reg => 0},
     "lcr.u" => {:pad6 => :x, :reg => 0},
     "wcr.u" => {:reg => 0, :pad6 => :x},
+    "rsi" => {:pad9 => :x},
     "defw" => {:imm16 => 0},
     "defb" => {:imm16 => 0}
   }.freeze
@@ -1009,7 +1012,7 @@ end
 # main
 args = Hash[ ARGV.join(' ').scan(/--?([^=\s]+)(?:=(\S+))?/) ]
 file_name = args["f"]
-if args["h"] then
+if 0 then
   $header = true
 end
 
@@ -1035,6 +1038,7 @@ $symnr = 0
 $code_ptr = 0
 $data_ptr = 0
 $last_addr = 0
+$last_mem_addr = 0
 $hex_addr = 0
 $double_label_guard = 0
 

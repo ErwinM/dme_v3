@@ -38,7 +38,7 @@ static const char
                       "push.u",
                       "brk",
                       "lcr",
-                      "scr",
+                      "wcr",
                       "wpte",						// 40
                       "lpte",
                       "wptb",
